@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<head>
+    <title>Site Form</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <h1 th:text="${site.siteId == null ? 'Create Site' : 'Edit Site'}"></h1>
+        <form th:action="@{/site/save}" th:object="${site}" method="post">
+            <input type="hidden" th:field="*{companyId}" />
+            <div class="mb-3">
+                <label for="siteId" class="form-label">Site ID</label>
+                <input type="text" class="form-control" id="siteId" th:field="*{siteId}" th:readonly="${site.siteId != null}" required>
+            </div>
+            <div class="mb-3">
+                <label for="siteName" class="form-label">Site Name</label>
+                <input type="text" class="form-control" id="siteName" th:field="*{siteName}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a th:href="@{/site/list}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<head>
+    <title>Site List</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <h1>Site List</h1>
+        <a th:href="@{/site/form}" class="btn btn-primary mb-2">Add Site</a>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Site ID</th>
+                <th>Site Name</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="s : ${sites}">
+                <td th:text="${s.siteId}"></td>
+                <td th:text="${s.siteName}"></td>
+                <td>
+                    <a th:href="@{/site/form(companyId=${s.companyId},siteId=${s.siteId})}" class="btn btn-sm btn-warning">Edit</a>
+                    <form th:action="@{/site/delete/{companyId}/{siteId}(companyId=${s.companyId},siteId=${s.siteId})}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

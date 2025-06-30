@@ -1,0 +1,67 @@
+package com.cmms10.domain.dept.service;
+
+import com.cmms10.domain.dept.entity.Dept;
+import com.cmms10.domain.dept.repository.DeptRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+
+/**
+ * cmms10 - DeptService
+ * 부서 정보를 관리하는 서비스
+ * 
+ * @author cmms10
+ * @since 2024-03-19
+ */
+@Service
+@Transactional
+public class DeptService {
+
+    private final DeptRepository deptRepository;
+
+    public DeptService(DeptRepository deptRepository) {
+        this.deptRepository = deptRepository;
+    }
+
+    @Transactional(readOnly = true)
+    public java.util.List<Dept> getAllDepts() {
+        return deptRepository.findAll();
+    }
+
+    /**
+     * 회사 ID와 부서 ID로 부서 정보를 조회합니다.
+     * 
+     * @param companyId 회사 ID
+     * @param deptId 부서 ID
+     * @return 부서 정보
+     */
+    @Transactional(readOnly = true)
+    public Optional<Dept> getDeptById(String companyId, String deptId) {
+        return deptRepository.findByCompanyIdAndDeptIdAndDeleteMarkIsNull(companyId, deptId);
+    }
+
+    /**
+     * 부서 정보를 저장합니다.
+     * 
+     * @param dept 부서 정보
+     * @return 저장된 부서 정보
+     */
+    public Dept saveDept(Dept dept) {
+        return deptRepository.save(dept);
+    }
+
+    /**
+     * 부서 정보를 삭제합니다.
+     * 
+     * @param companyId 회사 ID
+     * @param deptId 부서 ID
+     */
+    public void deleteDept(String companyId, String deptId) {
+        deptRepository.findByCompanyIdAndDeptIdAndDeleteMarkIsNull(companyId, deptId)
+                .ifPresent(dept -> {
+                    dept.setDeleteMark("Y");
+                    deptRepository.save(dept);
+                });
+    }
+} 

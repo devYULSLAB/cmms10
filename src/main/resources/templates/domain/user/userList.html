@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<head>
+    <title>User List</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <h1>User List</h1>
+        <a th:href="@{/user/userForm}" class="btn btn-primary mb-2">Add User</a>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Dept ID</th>
+                <th>Role ID</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="u : ${users}">
+                <td th:text="${u.username}"></td>
+                <td th:text="${u.userFullName}"></td>
+                <td th:text="${u.phone}"></td>
+                <td th:text="${u.email}"></td>
+                <td th:text="${u.deptId}"></td>
+                <td th:text="${u.roleId}"></td>
+                <td>
+                    <a th:href="@{/user/userForm(companyId=${u.companyId},username=${u.username})}" class="btn btn-sm btn-warning">Edit</a>
+                    <form th:action="@{/user/userDelete/{companyId}/{username}(companyId=${u.companyId},username=${u.username})}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<head>
+    <title>Dept List</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <h1>Dept List</h1>
+        <a th:href="@{/dept/deptForm}" class="btn btn-primary mb-2">Add Dept</a>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Dept ID</th>
+                <th>Dept Name</th>
+                <th>Parent Dept ID</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="d : ${depts}">
+                <td th:text="${d.deptId}"></td>
+                <td th:text="${d.deptName}"></td>
+                <td th:text="${d.parentDeptId}"></td>
+                <td>
+                    <a th:href="@{/dept/deptForm(companyId=${d.companyId},deptId=${d.deptId})}" class="btn btn-sm btn-warning">Edit</a>
+                    <form th:action="@{/dept/deptDelete/{companyId}/{deptId}(companyId=${d.companyId},deptId=${d.deptId})}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

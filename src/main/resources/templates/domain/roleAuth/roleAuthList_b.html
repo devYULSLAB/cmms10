@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<head>
+    <title>Auths for Role: <span th:text="${roleId}">Role</span></title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <h1>Auths for Role: <span th:text="${roleId}"></span></h1>
+        <!-- Optional: Display Role Name if fetched: <p th:text="${role.roleName}"></p> -->
+
+        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${successMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${errorMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div class="mb-3">
+            <!-- Add New Auth 버튼 -->
+            <a th:href="@{/roleAuth/{roleId}/roleAuthEdit(roleId=${roleId})}" class="btn btn-primary">Add New Auth</a>
+            <!-- Link back to a general roles list if available -->
+            <!-- <a th:href="@{/admin/roles}" class="btn btn-secondary">Back to Roles List</a> -->
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                Assigned Auths
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Page ID</th>
+                            <th>Auth Granted</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="ra : ${roleAuths}"> <!-- Corrected to roleAuths -->
+                            <td th:text="${ra.pageId}"></td>
+                            <td th:text="${ra.authGranted}"></td>
+                            <td>
+                                <!-- 삭제 폼 -->
+                                <form th:action="@{/roleAuth/{roleId}/roleAuthDelete(roleId=${ra.roleId}, authGranted=${ra.authGranted})}" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to remove this Auth?');">
+                                    <button type="submit" class="btn btn-sm btn-danger">Remove Auth</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(roleAuths)}"> <!-- Corrected to roleAuths -->
+                            <td colspan="3" class="text-center">No Auths assigned to this role.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

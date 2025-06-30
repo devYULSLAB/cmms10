@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<head>
+    <title>Company Form</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <h1 th:text="${company.companyId == null ? 'Create Company' : 'Edit Company'}"></h1>
+        <form th:action="@{/company/save}" th:object="${company}" method="post">
+            <div class="mb-3">
+                <label for="companyId" class="form-label">Company ID</label>
+                <input type="text" class="form-control" id="companyId" th:field="*{companyId}" th:readonly="${company.companyId != null}" required>
+            </div>
+            <div class="mb-3">
+                <label for="companyName" class="form-label">Company Name</label>
+                <input type="text" class="form-control" id="companyName" th:field="*{companyName}" required>
+            </div>
+            <div class="mb-3">
+                <label for="note" class="form-label">Note</label>
+                <textarea class="form-control" id="note" th:field="*{note}"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a th:href="@{/company/list}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>

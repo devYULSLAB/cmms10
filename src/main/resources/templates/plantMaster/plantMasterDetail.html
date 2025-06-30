@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<head>
+    <title>Plant Master Detail</title>
+</head>
+<body class="bg-gray-100 p-6">
+<div layout:fragment="content">
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">설비 상세 정보</h2>
+
+        <!-- 기본 정보 섹션 -->
+        <div class="info-section border border-black p-4 rounded-md bg-white mb-6">
+            <h5 class="section-header-h5">기본 정보</h5>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm">
+                <div class="info-item"><span class="info-label">설비 ID:</span> <span class="info-value" th:text="${plantMaster.plantId}"></span></div>
+                <div class="info-item"><span class="info-label">설비명:</span> <span class="info-value" th:text="${plantMaster.plantName}"></span></div>
+                <div class="info-item"><span class="info-label">설비 타입:</span> <span class="info-value" th:text="${plantMaster.assetType}"></span></div>
+                <div class="info-item"><span class="info-label">사업장 ID:</span> <span class="info-value" th:text="${plantMaster.siteId}"></span></div>
+                <div class="info-item"><span class="info-label">기능 그룹 코드:</span> <span class="info-value" th:text="${plantMaster.funcId}"></span></div>
+                <div class="info-item"><span class="info-label">담당 부서:</span> <span class="info-value" th:text="${plantMaster.respDept}"></span></div>
+                <div class="info-item"><span class="info-label">자산 유형:</span> <span class="info-value" th:text="${plantMaster.assetType}"></span></div>
+                <div class="info-item"><span class="info-label">설치 일자:</span> <span class="info-value" th:text="${plantMaster.installDate}"></span></div>
+            </div>
+        </div>
+
+        <!-- 제조 및 자산 정보 섹션 -->
+        <div class="info-section border border-black p-4 rounded-md bg-white mb-6">
+            <h5 class="section-header-h5">제조 및 자산 정보</h5>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm">
+                <div class="info-item"><span class="info-label">제조사:</span> <span class="info-value" th:text="${plantMaster.manufacturer}"></span></div>
+                <div class="info-item"><span class="info-label">모델명:</span> <span class="info-value" th:text="${plantMaster.manufacturerModel}"></span></div>
+                <div class="info-item"><span class="info-label">시리얼 번호:</span> <span class="info-value" th:text="${plantMaster.manufacturerSN}"></span></div>
+                <div class="info-item"><span class="info-label">규격:</span> <span class="info-value" th:text="${plantMaster.manufacturerSpec}"></span></div>
+                <div class="info-item"><span class="info-label">취득 가액:</span> <span class="info-value" th:text="${#numbers.formatInteger(plantMaster.acquitionValue, 0, 'COMMA')}"></span></div>
+                <div class="info-item"><span class="info-label">감가상각 방법:</span> <span class="info-value" th:text="${plantMaster.depreMethod}"></span></div>
+                <div class="info-item"><span class="info-label">잔존 가액:</span> <span class="info-value" th:text="${#numbers.formatInteger(plantMaster.residualValue, 0, 'COMMA')}"></span></div>
+            </div>
+        </div>
+
+        <!-- 운영 및 기타 정보 섹션 -->
+        <div class="info-section border border-black p-4 rounded-md bg-white mb-6">
+            <h5 class="section-header-h5">운영 및 기타 정보</h5>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm">
+                <div class="info-item"><span class="info-label">설치 위치:</span> <span class="info-value" th:text="${plantMaster.plantLoc}"></span></div>
+                <div class="info-item"><span class="info-label">가동 상태:</span> <span class="info-value" th:text="${plantMaster.operStatus}"></span></div>
+                <div class="info-item"><span class="info-label">점검 필요 여부:</span> <span class="info-value" th:text="${plantMaster.inspectionYN}"></span></div>
+                <div class="info-item"><span class="info-label">PSM 대상 여부:</span> <span class="info-value" th:text="${plantMaster.psmYN}"></span></div>
+                <div class="info-item"><span class="info-label">Tag 부착 여부:</span> <span class="info-value" th:text="${plantMaster.tagYN}"></span></div>
+                <div class="info-item"><span class="info-label">최근 보전 일시:</span> <span class="info-value" th:text="${plantMaster.lastMaintDate}"></span></div>
+                <div class="info-item"><span class="info-label">다음 보전 예정 일시:</span> <span class="info-value" th:text="${plantMaster.nextMaintDate}"></span></div>
+                <div class="info-item"><span class="info-label">비고:</span> <span class="info-value" th:text="${plantMaster.note}"></span></div>
+            </div>
+        </div>
+
+        <!-- 첨부 파일 섹션 -->
+        <div class="info-section border border-black p-4 rounded-md bg-white mb-6">
+            <h5 class="section-header-h5">첨부 파일</h5>
+            <ul class="list-disc list-inside text-sm text-gray-700" th:if="${fileList != null}">
+                <li th:each="file : ${fileList}">
+                    <a th:href="@{/file/download/{fileId}(fileId=${file.fileId})}" th:text="${file.fileName}" class="text-blue-600 hover:underline"></a>
+                </li>
+            </ul>
+            <p class="text-sm text-gray-500 mt-2">파일 그룹 ID: <span th:text="${plantMaster.fileGroupId}"></span></p>
+        </div>
+
+        <!-- 관련 정보 섹션 -->
+        <div class="info-section border border-black p-4 rounded-md bg-white mb-6">
+            <h5 class="section-header-h5">관련 정보</h5>
+            <ul class="list-disc list-inside text-sm text-gray-700">
+                <li>
+                    <a th:href="@{/inspection/inspectionList(plantId=${plantMaster.plantId})}" class="text-blue-600 hover:underline">점검 이력 보기</a>
+                </li>
+                <li>
+                    <a th:href="@{/workorder/workorderList(plantId=${plantMaster.plantId})}" class="text-blue-600 hover:underline">작업 오더 이력 보기</a>
+                </li>
+                <li>
+                    <a th:href="@{/memo/memoList(targetType='PLANT',targetId=${plantMaster.plantId})}" class="text-blue-600 hover:underline">관련 메모 보기</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 하단 버튼 -->
+        <div class="mt-6 flex justify-end space-x-3">
+            <a th:href="@{/plantMaster/plantMasterList}" class="px-4 py-2 bg-gray-300 text-gray-800 font-semibold rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
+                목록으로
+            </a>
+            <a th:href="@{/plantMaster/plantMasterForm(plantId=${plantMaster.plantId})}" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                수정
+            </a>
+            <form th:action="@{/plantMaster/plantMasterDelete/{plantId}(plantId=${plantMaster.plantId})}" method="post" class="inline">
+                <button type="submit" class="px-4 py-2 bg-red-600 text-white font-semibold rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                        onclick="return confirm('정말 삭제하시겠습니까?');">
+                    삭제
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<head>
+    <title>Inspections</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="max-w-6xl mx-auto mt-8 space-y-6">
+        
+        <h2 class="text-2xl font-bold mb-4" th:text="#{inspection.list.header}">Inspection List</h2>
+        
+        <div>
+            <a th:href="@{/inspection/inspectionForm}" 
+               class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                <i class="fas fa-plus mr-2"></i>
+                <span th:text="#{inspection.button.add}">Add Inspection</span>
+            </a>
+        </div>
+
+        <div class="border rounded-lg shadow overflow-x-auto">
+            <table class="min-w-full text-sm text-left">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-2 border" th:text="#{inspection.list.column.id}">ID</th>
+                        <th class="px-4 py-2 border" th:text="#{inspection.list.column.name}">Name</th>
+                        <th class="px-4 py-2 border" th:text="#{inspection.list.column.plant}">Plant</th>
+                        <th class="px-4 py-2 border" th:text="#{inspection.list.column.jobType}">Job Type</th>
+                        <th class="px-4 py-2 border" th:text="#{inspection.list.column.actions}">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="insp : ${inspectionPage.content}" class="hover:bg-gray-50">
+                        <td class="px-4 py-2 border" th:text="${insp.inspectionId}"></td>
+                        <td class="px-4 py-2 border" th:text="${insp.inspectionName}"></td>
+                        <td class="px-4 py-2 border" th:text="${insp.plantId}"></td>
+                        <td class="px-4 py-2 border" th:text="${insp.jobType}"></td>
+                        <td class="px-4 py-2 border space-x-2">
+                            <a th:href="@{/inspection/inspectionDetail/{id}(id=${insp.inspectionId})}" 
+                               class="px-2 py-1 text-yellow-800 border border-yellow-500 rounded hover:bg-yellow-50 text-xs">
+                               <i class="fas fa-edit mr-1"></i><span th:text="#{inspection.button.edit}">Edit</span>
+                            </a>
+                            <a th:href="@{/inspection/print/{id}(id=${insp.inspectionId})}" 
+                               class="px-2 py-1 text-blue-800 border border-blue-500 rounded hover:bg-blue-50 text-xs">
+                               <i class="fas fa-print mr-1"></i><span th:text="#{inspection.button.print}">Print</span>
+                            </a>
+                            <form th:action="@{/inspection/inspectionDelete/{id}(id=${insp.inspectionId})}" method="post" 
+                                  th:onsubmit="return confirm(#{inspection.delete.confirm});" class="inline">
+                                <button type="submit" 
+                                        class="px-2 py-1 text-red-800 border border-red-500 rounded hover:bg-red-50 text-xs">
+                                    <i class="fas fa-trash mr-1"></i><span th:text="#{inspection.button.delete}">Delete</span>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${inspectionPage.empty}">
+                        <td colspan="5" class="text-center px-4 py-2 border" th:text="#{inspection.list.empty}">No inspections found.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div th:if="${inspectionPage.totalPages > 0}" class="flex justify-center mt-4 space-x-1">
+            <a th:href="@{/inspection/inspectionList(companyId=${companyId},siteId=${siteId},page=${inspectionPage.number - 1},size=${inspectionPage.size})}"
+               th:classappend="${inspectionPage.first ? 'pointer-events-none opacity-50' : ''}"
+               class="px-3 py-1 border rounded hover:bg-gray-100 text-sm">Previous</a>
+
+            <a th:each="i : ${#numbers.sequence(0, inspectionPage.totalPages - 1)}"
+               th:href="@{/inspection/inspectionList(companyId=${companyId},siteId=${siteId},page=${i},size=${inspectionPage.size})}"
+               th:text="${i + 1}"
+               th:classappend="${i == inspectionPage.number ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}"
+               class="px-3 py-1 border rounded text-sm"></a>
+
+            <a th:href="@{/inspection/inspectionList(companyId=${companyId},siteId=${siteId},page=${inspectionPage.number + 1},size=${inspectionPage.size})}"
+               th:classappend="${inspectionPage.last ? 'pointer-events-none opacity-50' : ''}"
+               class="px-3 py-1 border rounded hover:bg-gray-100 text-sm">Next</a>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

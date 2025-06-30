@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<head>
+    <title>Site Detail</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <h1>Site Detail</h1>
+        <div>
+            <label>ID:</label> <span th:text="${site.siteId}"></span>
+        </div>
+        <div>
+            <label>Name:</label> <span th:text="${site.siteName}"></span>
+        </div>
+        <a th:href="@{/site/list}" class="btn btn-secondary mt-3">Back</a>
+    </div>
+</div>
+</body>
+</html>

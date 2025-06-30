@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<head>
+    <title>Plant Master Form</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="max-w-5xl mx-auto p-4">
+
+        <h2 class="text-2xl font-bold mb-4" th:text="${plantMaster.plantId == null ? 'Create New Plant Master' : 'Edit Plant Master: ' + plantMaster.plantId}">Plant Master Form</h2>
+
+        <div th:if="${successMessage}" class="bg-green-100 text-green-800 px-4 py-2 mb-4 rounded">
+            <span th:text="${successMessage}"></span>
+        </div>
+        <div th:if="${errorMessage}" class="bg-red-100 text-red-800 px-4 py-2 mb-4 rounded">
+            <span th:text="${errorMessage}"></span>
+        </div>
+
+        <form th:action="@{/plantMaster/plantMasterSave}" th:object="${plantMaster}" method="post" class="space-y-6">
+            
+            <input type="hidden" th:field="*{companyId}" />
+            <input type="hidden" th:field="*{siteId}" />
+            <!-- Basic Information Section -->
+            <div class="form-section border rounded-lg p-4 shadow">                
+                <h5 class="text-lg font-semibold mb-4">Basic Information</h5>
+                <!-- 1st row -->
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-4">
+                        <label for="plantId" class="block text-sm font-medium">Plant ID</label>
+                        <input type="text" id="plantId" th:field="*{plantId}" class="mt-1 block w-full border-gray-300 rounded" readonly disabled />
+                    </div>
+                    <div class="col-span-8">
+                        <label for="plantName" class="block text-sm font-medium">Plant Name</label>
+                        <input type="text" id="plantName" th:field="*{plantName}" required
+                               class="mt-1 block w-full border border-gray-300 rounded" />
+                    </div>
+                </div>
+                <!-- 2nd row -->
+                <div class="grid grid-cols-12 gap-4 mt-4">
+                    <div class="col-span-6">
+                        <label for="plantLoc" class="block text-sm font-medium">Location</label>
+                        <input type="text" id="plantLoc" th:field="*{plantLoc}" class="mt-1 block w-full border border-gray-300 rounded" />
+                    </div>
+                    <div class="col-span-2">
+                        <label for="funcId" class="block text-sm font-medium">Functional Location ID</label>
+                        <input type="text" id="funcId" th:field="*{funcId}" class="mt-1 block w-full border border-gray-300 rounded" />
+                    </div>
+                    <div class="col-span-2">
+                        <label for="respDept" class="block text-sm font-medium">Responsible Dept</label>
+                        <input type="text" id="respDept" th:field="*{respDept}" class="mt-1 block w-full border border-gray-300 rounded" />
+                    </div>
+                    <div class="col-span-2">
+                        <label for="installDate" class="block text-sm font-medium">Installation Date</label>
+                        <input type="date" id="installDate" th:field="*{installDate}" class="mt-1 block w-full border border-gray-300 rounded" />
+                    </div>
+                </div>
+            </div>
+            <!-- Financial Information Section -->
+            <div class="border rounded-lg p-4 shadow">
+                <h5 class="text-lg font-semibold mb-4">Financial Information</h5>
+
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-3">
+                        <label for="assetType" class="block text-sm font-medium">Asset Type</label>
+                        <input type="text" id="assetType" th:field="*{assetType}" class="mt-1 block w-full border border-gray-300 rounded" />
+                    </div>
+                    <div class="col-span-3">
+                        <label for="depreMethod" class="block text-sm font-medium">Depreciation Method</label>
+                        <input type="text" id="depreMethod" th:field="*{depreMethod}" class="mt-1 block w-full border border-gray-300 rounded" />
+                    </div>
+                    <div class="col-span-3">
+                        <label for="acquitionValue" class="block text-sm font-medium">Acquisition Value</label>
+                        <input type="number" step="0.01" id="acquitionValue" th:field="*{acquitionValue}" class="mt-1 block w-full border border-gray-300 rounded" />
+                    </div>
+                    <div class="col-span-3">
+                        <label for="residualValue" class="block text-sm font-medium">Residual Value</label>
+                        <input type="number" step="0.01" id="residualValue" th:field="*{residualValue}" class="mt-1 block w-full border border-gray-300 rounded" />
+                    </div>
+                </div>
+            </div>
+            <!-- Manufacturer Information Section -->
+            <div class="border rounded-lg p-4 shadow">
+                <h5 class="text-lg font-semibold mb-4">Manufacturer Details</h5>
+
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-3">
+                        <label for="manufacturer" class="block text-sm font-medium">Manufacturer</label>
+                        <input type="text" id="manufacturer" th:field="*{manufacturer}" class="mt-1 block w-full border border-gray-300 rounded" />
+                    </div>
+                    <div class="col-span-3">
+                        <label for="manufacturerModel" class="block text-sm font-medium">Model</label>
+                        <input type="text" id="manufacturerModel" th:field="*{manufacturerModel}" class="mt-1 block w-full border border-gray-300 rounded" />
+                    </div>
+                    <div class="col-span-3">
+                        <label for="manufacturerSN" class="block text-sm font-medium">Serial Number</label>
+                        <input type="text" id="manufacturerSN" th:field="*{manufacturerSN}" class="mt-1 block w-full border border-gray-300 rounded" />
+                    </div>
+                    <div class="col-span-3">
+                        <label for="manufacturerSpec" class="block text-sm font-medium">Specification</label>
+                        <input type="text" id="manufacturerSpec" th:field="*{manufacturerSpec}" class="mt-1 block w-full border border-gray-300 rounded" />
+                    </div>
+                </div>
+            </div>
+            <!-- Operational Flags Information Section -->
+            <div class="border rounded-lg p-4 shadow">
+                <h5 class="text-lg font-semibold mb-4">Operational Flags</h5>
+
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium">Inspection Y/N</label>
+                        <div class="flex items-center space-x-2 mt-1">
+                            <input type="radio" th:field="*{inspectionYN}" id="inspectionY" value="Y" class="border-gray-300" />
+                            <label for="inspectionY">Yes</label>
+                            <input type="radio" th:field="*{inspectionYN}" id="inspectionN" value="N" class="ml-4 border-gray-300" />
+                            <label for="inspectionN">No</label>
+                        </div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium">Planned Maint. Y/N</label>
+                        <div class="flex items-center space-x-2 mt-1">
+                            <input type="radio" th:field="*{plannedMaintenanceYN}" id="plannedMY" value="Y" class="border-gray-300" />
+                            <label for="plannedMY">Yes</label>
+                            <input type="radio" th:field="*{plannedMaintenanceYN}" id="plannedMN" value="N" class="ml-4 border-gray-300" />
+                            <label for="plannedMN">No</label>
+                        </div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium">PSM Y/N</label>
+                        <div class="flex items-center space-x-2 mt-1">
+                            <input type="radio" th:field="*{psmYN}" id="psmY" value="Y" class="border-gray-300" />
+                            <label for="psmY">Yes</label>
+                            <input type="radio" th:field="*{psmYN}" id="psmN" value="N" class="ml-4 border-gray-300" />
+                            <label for="psmN">No</label>
+                        </div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium">Tag Y/N</label>
+                        <div class="flex items-center space-x-2 mt-1">
+                            <input type="radio" th:field="*{tagYN}" id="tagY" value="Y" class="border-gray-300" />
+                            <label for="tagY">Yes</label>
+                            <input type="radio" th:field="*{tagYN}" id="tagN" value="N" class="ml-4 border-gray-300" />
+                            <label for="tagN">No</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border rounded-lg p-4 shadow">
+                <h5 class="text-lg font-semibold mb-4">Notes & Files</h5>
+
+                <div class="mb-4">
+                    <label for="note" class="block text-sm font-medium">Note</label>
+                    <textarea id="note" th:field="*{note}" rows="3" class="mt-1 block w-full border border-gray-300 rounded"></textarea>
+                </div>
+                
+                <div>
+                    <label for="fileGroupId" class="block text-sm font-medium">File Group ID</label>
+                    <input type="text" id="fileGroupId" th:field="*{fileGroupId}" class="mt-1 block w-full border border-gray-300 rounded" />
+                </div>
+            </div>
+
+            <div class="flex space-x-4 mt-6">
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Save</button>
+                <a th:href="@{/plantMaster/plantMasterList}" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<head>
+    <title>Dept Form</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <h1 th:text="${dept.deptId == null ? 'Create Dept' : 'Edit Dept'}"></h1>
+        <form th:action="@{/dept/deptSave}" th:object="${dept}" method="post">
+            <input type="hidden" th:field="*{companyId}" />
+            <div class="mb-3">
+                <label for="deptId" class="form-label">Dept ID</label>
+                <input type="text" class="form-control" id="deptId" th:field="*{deptId}" th:readonly="${dept.deptId != null}" required>
+            </div>
+            <div class="mb-3">
+                <label for="deptName" class="form-label">Dept Name</label>
+                <input type="text" class="form-control" id="deptName" th:field="*{deptName}" required>
+            </div>
+            <div class="mb-3">
+                <label for="parentDeptId" class="form-label">Parent Dept ID</label>
+                <input type="text" class="form-control" id="parentDeptId" th:field="*{parentDeptId}">
+            </div>
+            <div class="mb-3">
+                <label for="siteId" class="form-label">Site ID</label>
+                <input type="text" class="form-control" id="siteId" th:field="*{siteId}">
+            </div>
+            <div class="mb-3">
+                <label for="note" class="form-label">Note</label>
+                <textarea class="form-control" id="note" th:field="*{note}" rows="2"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a th:href="@{/dept/deptList}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>

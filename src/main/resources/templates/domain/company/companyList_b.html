@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<head>
+    <title>Company List</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <h1>Company List</h1>
+        <a th:href="@{/company/form}" class="btn btn-primary mb-2">Add Company</a>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="c : ${companies}">
+                <td th:text="${c.companyId}"></td>
+                <td th:text="${c.companyName}"></td>
+                <td>
+                    <a th:href="@{/company/form(companyId=${c.companyId})}" class="btn btn-sm btn-warning">Edit</a>
+                    <form th:action="@{/company/delete/{id}(id=${c.companyId})}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

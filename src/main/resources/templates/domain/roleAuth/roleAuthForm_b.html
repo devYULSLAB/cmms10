@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<head>
+    <title>Add Auth to Role: <span th:text="${roleAuth != null ? roleAuth.roleId : 'New Role'}">Role</span></title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <h1>Add New Auth to Role: <span th:text="${roleAuth.roleId}"></span></h1>
+        
+        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <span th:text="${successMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span th:text="${errorMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                Auth Details
+            </div>
+            <div class="card-body">
+                <form th:action="@{/roleAuth/{roleId}/roleAuthSave(roleId=${roleAuth.roleId})}" th:object="${roleAuth}" method="post" class="needs-validation" novalidate>
+                    
+                    <div class="mb-3">
+                        <label for="roleIdDisplay" class="form-label">Role ID:</label>
+                        <input type="text" class="form-control" id="roleIdDisplay" th:field="*{roleId}" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="pageId" class="form-label">Page ID:</label>
+                        <input type="text" class="form-control" id="pageId" th:field="*{pageId}" placeholder="Enter Page ID (e.g., memo, plant)" required />
+                        <div class="form-text text-muted">Refers to the page or feature area (e.g., "memoList", "plantForm").</div>
+                        <!-- TODO: Consider replacing with a select dropdown populated from availablePages model attribute if dynamic -->
+                        <!-- 
+                        <select class="form-select" id="pageId" th:field="*{pageId}" required>
+                            <option value="">Select Page</option>
+                            <option th:each="page : ${availablePages}" th:value="${page}" th:text="${page}"></option>
+                        </select>
+                        -->
+                        <div class="invalid-feedback">Page ID is required.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="authGranted" class="form-label">Auth Granted:</label>
+                        <input type="text" class="form-control" id="authGranted" th:field="*{authGranted}" placeholder="Enter Auth (e.g., SAVE, VIEW, DELETE)" required />
+                        <div class="form-text text-muted">Specific Auth string (e.g., "SAVE", "VIEW_DETAIL", "DELETE_ITEM").</div>
+                        <!-- TODO: Consider replacing with a select dropdown populated from availableAuths model attribute if dynamic -->
+                        <!--
+                        <select class="form-select" id="authGranted" th:field="*{authGranted}" required>
+                            <option value="">Select Auth</option>
+                            <option th:each="auth : ${availableAuths}" th:value="${auth}" th:text="${auth}"></option>
+                        </select>
+                        -->
+                        <div class="invalid-feedback">Auth Granted is required.</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Save Auth</button>
+                    <a th:href="@{/roleAuth/{roleId}(roleId=${roleAuth.roleId})}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
