@@ -13,9 +13,10 @@
         
         <form th:action="@{/inspection/inspectionSave}" th:object="${inspection}" method="post" class="space-y-6">
             
-            <!-- Hidden fields -->
+            <!-- Hidden fields : session 값으로 처리함
             <input type="hidden" th:field="*{companyId}" />
             <input type="hidden" th:field="*{siteId}" />
+            -->
 
             <!-- Basic Info -->
             <div class="border rounded-lg shadow p-4 space-y-4">
@@ -23,7 +24,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
                         <label class="block text-sm font-medium mb-1">ID</label>
-                        <input type="text" th:field="*{inspectionId}" class="w-full border rounded px-2 py-1" readonly />
+                        <input type="text" th:field="*{inspectionId}" class="w-full border rounded px-2 py-1 bg-gray-100" readonly />
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Plant</label>
@@ -94,7 +95,7 @@
                 <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
                     <i class="fas fa-save"></i> Save Inspection
                 </button>
-                <a th:href="@{/inspection/inspectionList(companyId=${inspection.companyId},siteId=${inspection.siteId})}" 
+                <a th:href="@{/inspection/inspectionList}" 
                    class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
                    <i class="fas fa-times-circle"></i> Cancel
                 </a>

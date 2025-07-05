@@ -11,14 +11,6 @@
     <div class="max-w-5xl mx-auto p-4">
 
         <h2 class="text-2xl font-bold mb-4" th:text="${plantMaster.plantId == null ? 'Create New Plant Master' : 'Edit Plant Master: ' + plantMaster.plantId}">Plant Master Form</h2>
-
-        <div th:if="${successMessage}" class="bg-green-100 text-green-800 px-4 py-2 mb-4 rounded">
-            <span th:text="${successMessage}"></span>
-        </div>
-        <div th:if="${errorMessage}" class="bg-red-100 text-red-800 px-4 py-2 mb-4 rounded">
-            <span th:text="${errorMessage}"></span>
-        </div>
-
         <form th:action="@{/plantMaster/plantMasterSave}" th:object="${plantMaster}" method="post" class="space-y-6">
             
             <input type="hidden" th:field="*{companyId}" />
@@ -30,7 +22,7 @@
                 <div class="grid grid-cols-12 gap-4">
                     <div class="col-span-4">
                         <label for="plantId" class="block text-sm font-medium">Plant ID</label>
-                        <input type="text" id="plantId" th:field="*{plantId}" class="mt-1 block w-full border-gray-300 rounded" readonly disabled />
+                        <input type="text" id="plantId" th:field="*{plantId}" class="mt-1 block w-full border-gray-100 rounded" readonly />
                     </div>
                     <div class="col-span-8">
                         <label for="plantName" class="block text-sm font-medium">Plant Name</label>

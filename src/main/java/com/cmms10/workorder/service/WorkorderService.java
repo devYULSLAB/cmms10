@@ -32,8 +32,9 @@ public class WorkorderService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Workorder> getWorkorderByWorkorderId(String companyId, String orderId) {
-        return workorderRepository.findByCompanyIdAndOrderId(companyId, orderId);
+    public Workorder getWorkorderByWorkorderId(String companyId, String orderId) {
+        return workorderRepository.findByCompanyIdAndOrderId(companyId, orderId)
+                .orElseThrow(() -> new IllegalArgumentException("작업지시를 찾을 수 없습니다: " + orderId));
     }
 
     @Transactional(readOnly = true)
@@ -48,7 +49,7 @@ public class WorkorderService {
 
         if (isNewWorkorder) {
             String maxOrderId = workorderRepository.findMaxOrderIdByCompanyId(workorder.getCompanyId());
-            String newOrderId = (maxOrderId == null) ? "5000000000" : String.valueOf(Integer.parseInt(maxOrderId) + 1);
+            String newOrderId = (maxOrderId == null) ? "5000000000" : String.valueOf(Long.parseLong(maxOrderId) + 1);
 
             workorder.setOrderId(newOrderId);
             workorder.setCreateDate(now);

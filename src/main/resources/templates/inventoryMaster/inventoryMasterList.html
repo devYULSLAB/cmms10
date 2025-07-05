@@ -57,7 +57,7 @@
                     <td class="px-4 py-2 border" th:text="${item.assetType}"></td>
                     <td class="px-4 py-2 border" th:text="${item.siteId}"></td>
                     <td class="px-4 py-2 border flex flex-wrap gap-2">
-                        <a th:href="@{/inventoryMaster/inventoryMasterDetail/{inventoryId}(inventoryId=${item.inventoryId}, companyId=${item.companyId})}"
+                        <a th:href="@{/inventoryMaster/inventoryMasterForm/{inventoryId}(inventoryId=${item.inventoryId}, companyId=${item.companyId})}"
                            class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-xs">
                             Edit
                         </a>

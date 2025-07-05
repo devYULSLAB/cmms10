@@ -4,7 +4,6 @@ import com.cmms10.inspection.entity.Inspection;
 import com.cmms10.inspection.entity.InspectionItem;
 import com.cmms10.inspection.service.InspectionService;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 
 import java.util.List; // Added import
 import org.springframework.data.domain.Page;
@@ -13,9 +12,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 /**
  * cmms10 - InspectionController
@@ -34,21 +33,27 @@ public class InspectionController {
     /** 신규 폼 */
     @GetMapping("/inspectionForm")
     public String form(Model model, HttpSession session) {
-        String companyId = (String) session.getAttribute("companyId");
-        String siteId = (String) session.getAttribute("siteId");
-        String username = (String) session.getAttribute("username");
 
         Inspection inspection = new Inspection();
-        inspection.setCompanyId(companyId);
-        inspection.setSiteId(siteId);
-        inspection.setCreateBy(username);        
 
         List<InspectionItem> items = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            InspectionItem item = new InspectionItem();
-            item.setInspection(inspection);
-            items.add(item);
+            items.add(new InspectionItem());
         }
+        inspection.setItems(items);        
+
+        model.addAttribute("inspection", inspection);
+        return "inspection/inspectionForm";
+    }
+
+    /** 수정 폼 */
+    @GetMapping("/inspectionForm/{inspectionId}")
+    public String edit(@PathVariable String inspectionId, 
+                        Model model, 
+                        HttpSession session) {
+        String companyId = (String) session.getAttribute("companyId");
+        Inspection inspection = inspectionService.getInspectionByInspectionId(companyId, inspectionId);
+        List<InspectionItem> items = inspectionService.getInspectionItemByCompanyIdAndInspectionId(companyId, inspectionId);
         inspection.setItems(items);
 
         model.addAttribute("inspection", inspection);
@@ -57,11 +62,18 @@ public class InspectionController {
 
     /** 저장 */
     @PostMapping("/inspectionSave")
-    public String saveInspection(@Valid @ModelAttribute Inspection inspection,
-                                Model model,
-                                HttpSession session) {
+    public String saveInspection(@ModelAttribute Inspection inspection,
+                                HttpSession session,
+                                RedirectAttributes redirectAttributes) {
+        String companyId = (String) session.getAttribute("companyId");
+        String siteId = (String) session.getAttribute("siteId");
         String username = (String) session.getAttribute("username");
+
+        inspection.setCompanyId(companyId);
+        inspection.setSiteId(siteId);
+
         inspectionService.saveInspection(inspection, username);
+        redirectAttributes.addFlashAttribute("successMessage", "점검이 저장되었습니다.");
         return "redirect:/inspection/inspectionList";
     }
 
@@ -91,22 +103,16 @@ public class InspectionController {
         return "inspection/inspectionList";
     }
 
-    /** 수정 폼 */
+    /** 출력(조회) 폼 */
     @GetMapping("/inspectionDetail/{inspectionId}")
     public String detail(@PathVariable String inspectionId,
                          HttpSession session,
                          Model model) {
         String companyId = (String) session.getAttribute("companyId");
-        Optional<Inspection> inspectionOpt = inspectionService.getInspectionByInspectionId(companyId, inspectionId);
-        if (inspectionOpt.isPresent()) {
-            Inspection inspection = inspectionOpt.get();
-            // InspectionItem 리스트 조회 및 세팅
-            List<InspectionItem> items = inspectionService.getInspectionItemByInspectionId(companyId, inspectionId);
-            inspection.setItems(items);
-
-            model.addAttribute("inspection", inspection);
-            return "inspection/inspectionForm";
-        }
-        return "redirect:/inspection/inspectionList";
+        Inspection inspection = inspectionService.getInspectionByInspectionId(companyId, inspectionId);
+        List<InspectionItem> items = inspectionService.getInspectionItemByCompanyIdAndInspectionId(companyId, inspectionId);
+        inspection.setItems(items);
+        model.addAttribute("inspection", inspection);
+        return "inspection/inspectionDetail"; // 출력 전용 템플릿로 변경
     }
 }

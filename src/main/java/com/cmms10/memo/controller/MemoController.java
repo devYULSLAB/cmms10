@@ -113,7 +113,11 @@ public class MemoController {
         String siteId = (String) session.getAttribute("siteId");
         
         // Pageable 객체 생성
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createDate").descending());
+        Pageable pageable = PageRequest.of(
+            page,
+            size,
+            Sort.by(Sort.Order.desc("isPinned"), Sort.Order.desc("createDate"))
+        );
         
         // Page 객체로 메모 목록 조회
         Page<Memo> memoPage = memoService.getMemoListPage(companyId, siteId, pageable);

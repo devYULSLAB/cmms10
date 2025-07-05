@@ -13,17 +13,6 @@
     <div class="max-w-6xl mx-auto mt-6">
 
         <h2 class="text-2xl font-bold mb-4">Inventory In/Out Management</h2>
-        <p class="mb-4 text-gray-600">
-            Company ID: <span th:text="${companyId}" class="font-medium"></span> |
-            Site ID: <span th:text="${siteId}" class="font-medium"></span>
-        </p>
-
-        <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
-            <span th:text="${successMessage}"></span>
-        </div>
-        <div th:if="${errorMessage}" class="p-3 mb-4 text-red-800 bg-red-100 rounded">
-            <span th:text="${errorMessage}"></span>
-        </div>
 
         <div id="inventoryTable" class="mb-6"></div>
 

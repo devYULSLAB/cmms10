@@ -34,8 +34,9 @@ public class PlantMasterService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<PlantMaster> getPlantMasterByplantId(String companyId, String plantId) {
-        return plantMasterRepository.findByCompanyIdAndPlantIdAndDeleteMarkIsNull(companyId, plantId);
+    public PlantMaster getPlantMasterByplantId(String companyId, String plantId) {
+        return plantMasterRepository.findByCompanyIdAndPlantIdAndDeleteMarkIsNull(companyId, plantId)
+                .orElseThrow(() -> new RuntimeException("PlantMaster not found: " + plantId));
     }
 
     @Transactional
@@ -43,7 +44,7 @@ public class PlantMasterService {
         LocalDateTime now = LocalDateTime.now();
         if(plantMaster.getPlantId() == null || plantMaster.getPlantId().isEmpty()) {
             String maxPlantId = plantMasterRepository.findMaxPlantIdByCompanyId(plantMaster.getCompanyId());
-            int newPlantId = (maxPlantId == null) ? 1000000000 : Integer.parseInt(maxPlantId) + 1;
+            Long newPlantId = (maxPlantId == null) ? 1000000000L : Long.parseLong(maxPlantId) + 1;
             plantMaster.setPlantId(String.valueOf(newPlantId));
             plantMaster.setCreateDate(now);
             plantMaster.setCreateBy(username);            
@@ -64,4 +65,4 @@ public class PlantMasterService {
         }
         plantMasterRepository.deleteById(id);
     }
-} 
+}

@@ -3,90 +3,80 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/defaultLayout}">
 <head>
-    <title>Work Order Detail</title>
+    <title>작업지시서 출력</title>
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="max-w-4xl mx-auto mt-8 space-y-6 print:p-4">
+    <div class="max-w-3xl mx-auto mt-8 bg-white shadow rounded p-8">
+        <h2 class="text-2xl font-bold mb-6">작업지시서 상세</h2>
+        <table class="min-w-full text-sm mb-6">
+            <tbody>
+                <tr>
+                    <th class="text-left px-4 py-2 w-40 bg-gray-100">작업지시번호</th>
+                    <td class="px-4 py-2" th:text="${workorder.orderId}"></td>
+                </tr>
+                <tr>
+                    <th class="text-left px-4 py-2 bg-gray-100">작업명</th>
+                    <td class="px-4 py-2" th:text="${workorder.orderName}"></td>
+                </tr>
+                <tr>
+                    <th class="text-left px-4 py-2 bg-gray-100">플랜트</th>
+                    <td class="px-4 py-2" th:text="${workorder.plantId}"></td>
+                </tr>
+                <tr>
+                    <th class="text-left px-4 py-2 bg-gray-100">작업유형</th>
+                    <td class="px-4 py-2" th:text="${workorder.jobType}"></td>
+                </tr>
+                <tr>
+                    <th class="text-left px-4 py-2 bg-gray-100">지시자</th>
+                    <td class="px-4 py-2" th:text="${workorder.createBy}"></td>
+                </tr>
+                <tr>
+                    <th class="text-left px-4 py-2 bg-gray-100">지시일</th>
+                    <td class="px-4 py-2" th:text="${#temporals.format(workorder.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                <tr>
+                    <th class="text-left px-4 py-2 bg-gray-100">상태</th>
+                    <td class="px-4 py-2" th:text="${workorder.status}"></td>
+                </tr>
+                <tr>
+                    <th class="text-left px-4 py-2 bg-gray-100">비고</th>
+                    <td class="px-4 py-2" th:text="${workorder.remark}"></td>
+                </tr>
+            </tbody>
+        </table>
 
-        <div class="flex justify-between items-center">
-            <h2 class="text-2xl font-bold">Work Order Detail</h2>
-            <button type="button" onclick="window.print()"
-                    class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 print:hidden">
-                <i class="fas fa-print mr-1"></i> Print
-            </button>
-        </div>
+        <!-- 작업지시 항목 목록 출력 -->
+        <h3 class="text-xl font-semibold mb-2 mt-8">작업지시 항목</h3>
+        <table class="min-w-full text-sm mb-6 border">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-3 py-2 border">No</th>
+                    <th class="px-3 py-2 border">항목명</th>
+                    <th class="px-3 py-2 border">방법</th>
+                    <th class="px-3 py-2 border">결과</th>
+                    <th class="px-3 py-2 border">비고</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item, iterStat : ${workorder.items}">
+                    <td class="border px-2 py-1" th:text="${iterStat.count}"></td>
+                    <td class="border px-2 py-1" th:text="${item.itemName}"></td>
+                    <td class="border px-2 py-1" th:text="${item.itemMethod}"></td>
+                    <td class="border px-2 py-1" th:text="${item.itemResult}"></td>
+                    <td class="border px-2 py-1" th:text="${item.note}"></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(workorder.items)}">
+                    <td class="border px-2 py-1 text-center" colspan="5">항목이 없습니다.</td>
+                </tr>
+            </tbody>
+        </table>
 
-        <!-- 기본 정보 -->
-        <div class="border rounded-lg shadow p-4 space-y-3">
-            <h3 class="font-semibold text-lg mb-2">Basic Information</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <span class="font-medium">Order ID:</span>
-                    <span th:text="${workorder.orderId}"></span>
-                </div>
-                <div>
-                    <span class="font-medium">Order Name:</span>
-                    <span th:text="${workorder.orderName}"></span>
-                </div>
-                <div>
-                    <span class="font-medium">Plant ID:</span>
-                    <span th:text="${workorder.plantId}"></span>
-                </div>
-                <div>
-                    <span class="font-medium">Job Type:</span>
-                    <span th:text="${workorder.jobType}"></span>
-                </div>
-                <div>
-                    <span class="font-medium">Dept:</span>
-                    <span th:text="${workorder.dept}"></span>
-                </div>
-                <div>
-                    <span class="font-medium">Schedule Date:</span>
-                    <span th:text="${workorder.scheduleDate != null ? #temporals.format(workorder.scheduleDate, 'yyyy-MM-dd HH:mm') : ''}"></span>
-                </div>
-                <div class="md:col-span-2">
-                    <span class="font-medium">Note:</span>
-                    <span th:text="${workorder.note}"></span>
-                </div>
-            </div>
-        </div>
-
-        <!-- 작업 항목 -->
-        <div class="border rounded-lg shadow p-4 space-y-3">
-            <h3 class="font-semibold text-lg mb-2">Work Order Items</h3>
-            <div class="overflow-x-auto">
-                <table class="min-w-full text-sm border">
-                    <thead class="bg-gray-100">
-                        <tr>
-                            <th class="px-4 py-2 border">Item Name</th>
-                            <th class="px-4 py-2 border">Item Method</th>
-                            <th class="px-4 py-2 border">Item Result</th>
-                            <th class="px-4 py-2 border">Note</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="item : ${workorder.items}">
-                            <td class="border px-4 py-2" th:text="${item.itemName}"></td>
-                            <td class="border px-4 py-2" th:text="${item.itemMethod}"></td>
-                            <td class="border px-4 py-2" th:text="${item.itemResult}"></td>
-                            <td class="border px-4 py-2" th:text="${item.note}"></td>
-                        </tr>
-                        <tr th:if="${#lists.isEmpty(workorder.items)}">
-                            <td colspan="4" class="text-center px-4 py-2 border">No items registered.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="flex justify-end gap-3 print:hidden">
-            <a th:href="@{/workorder/workorderList(companyId=${workorder.companyId},siteId=${workorder.siteId})}"
-               class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-               Back to List
+        <div class="flex justify-end">
+            <a th:href="@{/workorder/workorderList}" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                <i class="fas fa-list mr-1"></i> 목록으로
             </a>
         </div>
-
     </div>
 </div>
 </body>

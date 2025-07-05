@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 import jakarta.servlet.http.HttpSession;
 
@@ -39,24 +40,33 @@ public class WorkorderController {
         return "workorder/workorderList";
     }
 
+    /** 신규 폼 */
     @GetMapping("/workorderForm")
     public String form(Model model, HttpSession session) {
-        String companyId = (String) session.getAttribute("companyId");
-        String siteId = (String) session.getAttribute("siteId");
 
         Workorder workorder = new Workorder();
-        workorder.setCompanyId(companyId);
-        workorder.setSiteId(siteId);
 
         // 최소 1개 항목 생성 (초기화용)
-        WorkorderItem item = new WorkorderItem();
-        item.setCompanyId(companyId);
-        workorder.getItems().add(item);
+        List<WorkorderItem> items = new ArrayList<>();
+        items.add(new WorkorderItem());
+        workorder.setItems(items);
 
         model.addAttribute("workorder", workorder);
         return "workorder/workorderForm";
     }
 
+    /** 수정 폼 */
+    @GetMapping("/workorderForm/{orderId}")
+    public String edit(@PathVariable String orderId, Model model, HttpSession session) {
+        String companyId = (String) session.getAttribute("companyId");
+
+        Workorder workorder = workorderService.getWorkorderByWorkorderId(companyId, orderId);
+        List<WorkorderItem> items = workorderService.getWorkorderItems(companyId, orderId);
+        workorder.setItems(items);
+
+        model.addAttribute("workorder", workorder);
+        return "workorder/workorderForm";
+    }
 
     @GetMapping("/workorderDetail/{orderId}")
     public String detail(@PathVariable String orderId,
@@ -65,12 +75,10 @@ public class WorkorderController {
         // 세션에서 사용자 정보 가져오기
         String companyId = (String) session.getAttribute("companyId");
 
-        workorderService.getWorkorderByWorkorderId(companyId, orderId)
-            .ifPresent(workorder -> {
-                model.addAttribute("workorder", workorder);
-                List<WorkorderItem> items = workorderService.getWorkorderItems(companyId, orderId);
-                model.addAttribute("workorderItems", items);
-            });
+        Workorder workorder = workorderService.getWorkorderByWorkorderId(companyId, orderId);        
+        List<WorkorderItem> items = workorderService.getWorkorderItems(companyId, orderId);
+        workorder.setItems(items);
+        model.addAttribute("workorder", workorder);
         
         return "workorder/workorderDetail";
     }
@@ -80,33 +88,19 @@ public class WorkorderController {
                               HttpSession session,
                               RedirectAttributes redirectAttributes) {
         // 세션에서 사용자 정보 가져오기
+        String companyId = (String) session.getAttribute("companyId");
+        String siteId = (String) session.getAttribute("siteId");
         String username = (String) session.getAttribute("username");
 
-        try {
-            workorderService.saveWorkorder(workorder, username);
-            redirectAttributes.addFlashAttribute("successMessage", "Work order saved successfully");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Failed to save work order: " + e.getMessage());
-        }
+        workorder.setCompanyId(companyId);
+        workorder.setSiteId(siteId);
+
+        workorderService.saveWorkorder(workorder, username);
+
+        redirectAttributes.addFlashAttribute("successMessage", "Work order saved successfully");
         return "redirect:/workorder/workorderList";  // Fix redirect path
     }
-
-    @PostMapping("/item/workorderItemSave")
-    public String saveItem(@ModelAttribute WorkorderItem workorderItem,
-                                  HttpSession session,
-                                  RedirectAttributes redirectAttributes) {
-        
-        // 세션에서 사용자 정보 가져오기
-        String username = (String) session.getAttribute("username");
-        try {
-            workorderService.saveWorkorderItem(workorderItem, username);
-            redirectAttributes.addFlashAttribute("successMessage", "Work order item saved successfully");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Failed to save work order item: " + e.getMessage());
-        }
-        return "redirect:/workorder/detail/" + workorderItem.getOrderId();
-    }
-
+    
     @PostMapping("/workorderDelete/{orderId}")
     public String delete(@PathVariable String orderId,
                                 HttpSession session,

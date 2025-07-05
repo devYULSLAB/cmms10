@@ -32,18 +32,17 @@
                 </thead>
                 <tbody>
                     <tr th:each="insp : ${inspectionPage.content}" class="hover:bg-gray-50">
-                        <td class="px-4 py-2 border" th:text="${insp.inspectionId}"></td>
+                        <td class="px-4 py-2 border">
+                            <a th:href="@{/inspection/inspectionDetail/{id}(id=${insp.inspectionId})}"
+                               class="text-blue-700 hover:underline" th:text="${insp.inspectionId}"></a>
+                        </td>
                         <td class="px-4 py-2 border" th:text="${insp.inspectionName}"></td>
                         <td class="px-4 py-2 border" th:text="${insp.plantId}"></td>
                         <td class="px-4 py-2 border" th:text="${insp.jobType}"></td>
                         <td class="px-4 py-2 border space-x-2">
-                            <a th:href="@{/inspection/inspectionDetail/{id}(id=${insp.inspectionId})}" 
+                            <a th:href="@{/inspection/inspectionForm/{id}(id=${insp.inspectionId})}" 
                                class="px-2 py-1 text-yellow-800 border border-yellow-500 rounded hover:bg-yellow-50 text-xs">
                                <i class="fas fa-edit mr-1"></i><span th:text="#{inspection.button.edit}">Edit</span>
-                            </a>
-                            <a th:href="@{/inspection/print/{id}(id=${insp.inspectionId})}" 
-                               class="px-2 py-1 text-blue-800 border border-blue-500 rounded hover:bg-blue-50 text-xs">
-                               <i class="fas fa-print mr-1"></i><span th:text="#{inspection.button.print}">Print</span>
                             </a>
                             <form th:action="@{/inspection/inspectionDelete/{id}(id=${insp.inspectionId})}" method="post" 
                                   th:onsubmit="return confirm(#{inspection.delete.confirm});" class="inline">

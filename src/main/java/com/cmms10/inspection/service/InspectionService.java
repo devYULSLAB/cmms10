@@ -54,10 +54,11 @@ public class InspectionService {
      * @param inspectionId 점검 ID
      * @return 점검 정보 Optional
      */
-    @Transactional(readOnly = true)
-    public Optional<Inspection> getInspectionByInspectionId(String companyId, String inspectionId) {
-        return inspectionRepository.findByCompanyIdAndInspectionId(companyId, inspectionId);
+    public Inspection getInspectionByInspectionId(String companyId, String inspectionId) {
+        return inspectionRepository.findByCompanyIdAndInspectionId(companyId, inspectionId)
+                .orElseThrow(() -> new RuntimeException("해당 점검이 존재하지 않습니다."));
     }
+
 
     /**
      * plantId로 점검 정보 조회
@@ -83,7 +84,7 @@ public class InspectionService {
 
         if (isNewInspection) {
             String maxInspectionId = inspectionRepository.findMaxInspectionIdByCompanyId(inspection.getCompanyId());
-            String newInspectionId = (maxInspectionId == null) ? "3000000000" : String.valueOf(Integer.parseInt(maxInspectionId) + 1);
+            String newInspectionId = (maxInspectionId == null) ? "3000000000" : String.valueOf(Long.parseLong(maxInspectionId) + 1);
             
             inspection.setInspectionId(newInspectionId);
             inspection.setCreateDate(now);
@@ -144,7 +145,7 @@ public class InspectionService {
      * @param inspectionId 점검 ID
      * @return 점검 항목 목록
      */
-    public List<InspectionItem> getInspectionItemByInspectionId(String companyId, String inspectionId) {
+    public List<InspectionItem> getInspectionItemByCompanyIdAndInspectionId(String companyId, String inspectionId) {
         return inspectionItemRepository.findByCompanyIdAndInspectionId(companyId, inspectionId);
     }
 

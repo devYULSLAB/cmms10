@@ -52,7 +52,7 @@ public class InventoryMasterController {
         model.addAttribute("inventoryPage", inventoryPage);
         model.addAttribute("companyId", companyId);
         model.addAttribute("siteId", siteId);
-        model.addAttribute("username", username);
+        
         return "inventoryMaster/inventoryMasterList";
     }
 
@@ -64,23 +64,39 @@ public class InventoryMasterController {
      */
     @GetMapping("/inventoryMasterForm")
     public String form(Model model, HttpSession session) {
+        InventoryMaster inventoryMaster = new InventoryMaster();
         // 새로운 재고 마스터 폼을 위한 모델 초기화
-        model.addAttribute("inventoryMaster", new InventoryMaster());
-        // 세션에서 사용자 정보 가져오기
-        String companyId = (String) session.getAttribute("companyId");
-        String siteId = (String) session.getAttribute("siteId");
-        model.addAttribute("companyId", companyId);
-        model.addAttribute("siteId", siteId);
+        model.addAttribute("inventoryMaster", inventoryMaster);
         
+        return "inventoryMaster/inventoryMasterForm";
+    }
+
+    /**
+     * 재고 마스터 수정 폼
+     * @param inventoryId 재고 ID
+     * @param model 모델
+     * @param session 세션
+     * @return 뷰 이름
+     */
+    @GetMapping("/inventoryMasterForm/{inventoryId}")
+    public String form(@PathVariable String inventoryId,
+                       Model model,
+                       HttpSession session) {
+        String companyId = (String) session.getAttribute("companyId");
+
+        InventoryMaster inventoryMaster = inventoryMasterService.getInventoryMasterByInventoryId(companyId, inventoryId);
+        model.addAttribute("inventoryMaster", inventoryMaster);
+
         return "inventoryMaster/inventoryMasterForm";
     }
 
     @GetMapping("/inventoryIoHistory")
     public String ioHistory(Model model, HttpSession session) {
-        String companyId = (String) session.getAttribute("companyId");
-        String siteId = (String) session.getAttribute("siteId");
-        model.addAttribute("companyId", companyId);
-        model.addAttribute("siteId", siteId);
+        // String companyId = (String) session.getAttribute("companyId");
+        // String siteId = (String) session.getAttribute("siteId");
+
+        // model.addAttribute("companyId", companyId);
+        // model.addAttribute("siteId", siteId);
         return "inventoryMaster/inventoryIoHistory";
     }
 
@@ -93,8 +109,8 @@ public class InventoryMasterController {
      */
     @PostMapping("/inventoryMasterSave")
     public String save(@ModelAttribute InventoryMaster inventoryMaster,
-                                    HttpSession session,
-                                    RedirectAttributes redirectAttributes) {
+                        HttpSession session,
+                        RedirectAttributes redirectAttributes) {
         // 세션에서 사용자 정보 가져오기
         String companyId = (String) session.getAttribute("companyId");
         String siteId = (String) session.getAttribute("siteId");
@@ -102,11 +118,6 @@ public class InventoryMasterController {
         // 필수 정보 설정
         inventoryMaster.setCompanyId(companyId);
         inventoryMaster.setSiteId(siteId);
-
-        if (companyId == null || siteId == null || username == null) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Session information is missing.");
-            return "redirect:/inventoryMaster/inventoryMasterList";
-        }
 
         inventoryMasterService.saveInventoryMaster(inventoryMaster, username);
 
@@ -126,17 +137,10 @@ public class InventoryMasterController {
         // 세션에서 사용자 정보 가져오기
         String companyId = (String) session.getAttribute("companyId");
 
-        Optional<InventoryMaster> inventoryMasterOpt = inventoryMasterService.getInventoryMasterByInventoryId(companyId, inventoryId);
-        if (inventoryMasterOpt.isPresent()) {
-            model.addAttribute("inventoryMaster", inventoryMasterOpt.get());
-            return "inventoryMaster/inventoryMasterDetail";
-        } else {
-            model.addAttribute("errorMessage", "Inventory Master not found with ID: " + inventoryId);
-            return "inventoryMaster/inventoryMasterList";
-        }
+        InventoryMaster inventoryMaster = inventoryMasterService.getInventoryMasterByInventoryId(companyId, inventoryId);
+        model.addAttribute("inventoryMaster", inventoryMaster);
+        return "inventoryMaster/inventoryMasterDetail";
     }
-
-
 
     /**
      * 재고 마스터 삭제

@@ -37,32 +37,30 @@ public class PlantMasterController {
      * @return
      */
     @GetMapping("/plantMasterForm")  // Form path is correct
-    public String form(@RequestParam(value = "plantId", required = false) String plantId,
-                   Model model, 
-                   HttpSession session, 
-                   RedirectAttributes redirectAttributes) {
-        String companyId = (String) session.getAttribute("companyId");
-        String siteId = (String) session.getAttribute("siteId");
+    public String form(Model model, HttpSession session) {
 
-        PlantMaster plantMaster;
-        if (plantId != null && !plantId.isEmpty()) {
-            // 편집(수정) 화면: plantId로 기존 데이터 조회
-            Optional<PlantMaster> plantOpt = plantMasterService.getPlantMasterByplantId(companyId, plantId);
-            if (plantOpt.isPresent()) {
-                plantMaster = plantOpt.get();
-            } else {
-                redirectAttributes.addFlashAttribute("errorMessage", "해당 설비를 찾을 수 없습니다.");
-                return "redirect:/plantMaster/plantMasterList";
-            }
-        } else {
-            // 신규 등록 화면: 빈 객체 전달
-            plantMaster = new PlantMaster();
-        }
-
+        PlantMaster plantMaster = new PlantMaster();
         model.addAttribute("plantMaster", plantMaster);
-        model.addAttribute("companyId", companyId);
-        model.addAttribute("siteId", siteId);
         return "plantMaster/plantMasterForm";
+    }
+
+    /**
+     * 설비 수정 화면
+     * @param plantId
+     * @param model
+     * @param session
+     * @return
+     */
+    @GetMapping("/plantMasterForm/{plantId}")
+    public String form(@PathVariable String plantId,
+                       Model model,
+                       HttpSession session) {
+        // 세션에서 사용자 정보 가져오기
+        String companyId = (String) session.getAttribute("companyId");
+
+        PlantMaster plantMaster = plantMasterService.getPlantMasterByplantId(companyId, plantId);
+        model.addAttribute("plantMaster", plantMaster);
+        return "plantMaster/plantMasterForm";        
     }
 
     /**
@@ -80,11 +78,6 @@ public class PlantMasterController {
         // 필수 정보 설정
         plantMaster.setCompanyId(companyId);
         plantMaster.setSiteId(siteId);
-
-        if (companyId == null || siteId == null || username == null) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Session expired. Please log in again.");
-            return "redirect:/login";
-        }
 
         plantMasterService.savePlantMaster(plantMaster, username);
         
@@ -125,17 +118,23 @@ public class PlantMasterController {
                                        Model model) {
         // 세션에서 사용자 정보 가져오기
         String companyId = (String) session.getAttribute("companyId");
-        
-        Optional<PlantMaster> plantMasterOpt = plantMasterService.getPlantMasterByplantId(companyId, plantId);
-        if (plantMasterOpt.isPresent()) {
-            model.addAttribute("plantMaster", plantMasterOpt.get());
-            return "plantMaster/plantMasterDetail";
-        } else {
-            model.addAttribute("errorMessage", "Plant Master not found with ID: " + plantId);
-            return "plantMaster/plantMasterList";
-        }
-    }
+        String siteId = (String) session.getAttribute("siteId");
 
+        PlantMaster plantMaster = plantMasterService.getPlantMasterByplantId(companyId, plantId);
+        model.addAttribute("plantMaster", plantMaster);
+        model.addAttribute("companyId", companyId); //페이징에서 사용 
+        model.addAttribute("siteId", siteId); //페이징에서 사용 
+
+        return "plantMaster/plantMasterDetail";
+    }
+    
+    /**
+     * 설비 삭제
+     * @param plantId
+     * @param session
+     * @param redirectAttributes
+     * @return
+     */
     
 
     @PostMapping("/plantMasterDelete/{plantId}")
