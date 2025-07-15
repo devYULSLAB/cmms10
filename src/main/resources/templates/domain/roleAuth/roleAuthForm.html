@@ -10,9 +10,9 @@
 <body>
 <div layout:fragment="content">
     <div class="max-w-xl mx-auto mt-8 p-6 bg-white shadow-lg rounded-2xl">
-        <h1 class="text-2xl font-bold mb-4">
-            Add New Auth to Role: <span th:text="${roleAuth.roleId}"></span>
-        </h1>
+        <h2 class="text-2xl font-bold mb-4">
+            Add New Auth to Role: <span th:text="${roleAuth != null and roleAuth.roleId != null ? roleAuth.roleId : 'New Role'}"></span>
+        </h2>
 
         <div th:if="${successMessage}" class="mb-4 p-3 bg-green-100 text-green-800 rounded-lg">
             <span th:text="${successMessage}"></span>
@@ -24,20 +24,24 @@
         <div class="border rounded-xl p-4">
             <h2 class="text-lg font-semibold mb-4">Auth Details</h2>
 
-            <form th:action="@{/roleAuth/{roleId}/roleAuthSave(roleId=${roleAuth.roleId})}"
+            <form th:action="@{/roleAuth/roleAuthSave}"
                   th:object="${roleAuth}" method="post" class="space-y-4">
-
+            <!-- Hidden fields -->
+                <input type="hidden" name="mode" th:value="${mode}" />
+                
                 <div>
                     <label for="roleIdDisplay" class="block text-sm font-medium text-gray-700">Role ID</label>
-                    <input type="text" id="roleIdDisplay" th:field="*{roleId}" readonly
-                           class="mt-1 w-full rounded-lg border-gray-300 bg-gray-100 p-2 focus:outline-none" />
+                    <input type="text" id="roleIdDisplay" th:field="*{roleId}" th:value="${roleAuth != null and roleAuth.roleId != null ? roleAuth.roleId : ''}" 
+                           th:readonly="${mode == 'edit'}"
+                           class="mt-1 w-full rounded-lg border-gray-300 p-2 focus:outline-none" 
+                           th:class="${mode == 'edit' ? 'mt-1 w-full rounded-lg border-gray-300 bg-gray-100 p-2 focus:outline-none' : 'mt-1 w-full rounded-lg border-gray-300 p-2 focus:ring focus:ring-blue-200'}" />
                 </div>
 
                 <div>
-                    <label for="pageId" class="block text-sm font-medium text-gray-700">Page ID</label>
-                    <input type="text" id="pageId" th:field="*{pageId}" placeholder="Enter Page ID (e.g., memo, plant)"
-                           required class="mt-1 w-full rounded-lg border-gray-300 p-2 focus:ring focus:ring-blue-200" />
-                    <p class="text-xs text-gray-500 mt-1">Refers to the page or feature area (e.g., "memoList", "plantForm").</p>
+                    <label for="roleName" class="block text-sm font-medium text-gray-700">Role Name</label>
+                    <input type="text" id="roleName" th:field="*{roleName}" placeholder="Enter Role Name"
+                           class="mt-1 w-full rounded-lg border-gray-300 p-2 focus:ring focus:ring-blue-200" />
+                    <p class="text-xs text-gray-500 mt-1">Role name for display purposes.</p>
                 </div>
 
                 <div>
@@ -51,7 +55,7 @@
                     <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                         Save Auth
                     </button>
-                    <a th:href="@{/roleAuth/{roleId}/roleAuthList(roleId=${roleAuth.roleId})}"
+                    <a th:href="@{/roleAuth/roleAuthList}"
                        class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400">
                         Cancel
                     </a>

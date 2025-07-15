@@ -1,8 +1,9 @@
 package com.cmms10.memo.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import java.util.Objects;
 
 /**
@@ -12,8 +13,9 @@ import java.util.Objects;
  * @author cmms10
  * @since 2024-03-19
  */
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "memoComment")
 @IdClass(MemoCommentIdClass.class)
@@ -52,35 +54,35 @@ public class MemoComment {
     private Memo memo;
 
     // Constructors
-    public MemoComment() {
-    }
+    // public MemoComment() {
+    // }
 
-    public MemoComment(String companyId, String memoId, String commentId) {
-        this.companyId = companyId;
-        this.memoId = memoId;
-        this.commentId = commentId;
-    }
+    // public MemoComment(String companyId, String memoId, String commentId) {
+    //     this.companyId = companyId;
+    //     this.memoId = memoId;
+    //     this.commentId = commentId;
+    // }
 
-    public MemoComment(String companyId, String memoId, String commentId, String note) {
-        this.companyId = companyId;
-        this.memoId = memoId;
-        this.commentId = commentId;
-        this.note = note;
-    }
+    // public MemoComment(String companyId, String memoId, String commentId, String note) {
+    //     this.companyId = companyId;
+    //     this.memoId = memoId;
+    //     this.commentId = commentId;
+    //     this.note = note;
+    // }
 
     // equals and hashCode (only for PK fields)
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MemoComment that = (MemoComment) o;
-        return Objects.equals(companyId, that.companyId) &&
-               Objects.equals(memoId, that.memoId) &&
-               Objects.equals(commentId, that.commentId);
-    }
+    // @Override
+    // public boolean equals(Object o) {
+    //     if (this == o) return true;
+    //     if (o == null || getClass() != o.getClass()) return false;
+    //     MemoComment that = (MemoComment) o;
+    //     return Objects.equals(companyId, that.companyId) &&
+    //            Objects.equals(memoId, that.memoId) &&
+    //            Objects.equals(commentId, that.commentId);
+    // }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(companyId, memoId, commentId);
-    }
+    // @Override
+    // public int hashCode() {
+    //     return Objects.hash(companyId, memoId, commentId);
+    // }
 }

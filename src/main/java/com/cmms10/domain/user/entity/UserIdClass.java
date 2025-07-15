@@ -1,7 +1,9 @@
 package com.cmms10.domain.user.entity;
 
 import java.io.Serializable;
-import java.util.Objects;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 /**
  * cmms10 - UserIdClass
@@ -10,32 +12,10 @@ import java.util.Objects;
  * @author cmms10
  * @since 2024-03-19
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserIdClass implements Serializable {
     private String companyId;
     private String username;
-
-    // Default constructor
-    public UserIdClass() {
-    }
-
-    // Constructor with fields
-    public UserIdClass(String companyId, String username) {
-        this.companyId = companyId;
-        this.username = username;
-    }
-
-    // hashCode and equals
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserIdClass that = (UserIdClass) o;
-        return Objects.equals(companyId, that.companyId) &&
-               Objects.equals(username, that.username);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(companyId, username);
-    }
 }

@@ -4,8 +4,7 @@ import com.cmms10.domain.company.entity.Company;
 import com.cmms10.domain.company.repository.CompanyRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
+import java.time.LocalDateTime;
 
 /**
  * cmms10 - CompanyService
@@ -26,7 +25,7 @@ public class CompanyService {
 
     @Transactional(readOnly = true)
     public java.util.List<Company> getAllCompanies() {
-        return companyRepository.findAll();
+        return companyRepository.findAllByDeleteMarkIsNull();
     }
 
     /**
@@ -36,8 +35,9 @@ public class CompanyService {
      * @return 회사 정보
      */
     @Transactional(readOnly = true)
-    public Optional<Company> getCompanyById(String companyId) {
-        return companyRepository.findByCompanyIdAndDeleteMarkIsNull(companyId);
+    public Company getCompanyById(String companyId) {
+        return companyRepository.findByCompanyIdAndDeleteMarkIsNull(companyId)
+                .orElseThrow(() -> new RuntimeException("Company not found: " + companyId));
     }
 
     /**
@@ -46,8 +46,32 @@ public class CompanyService {
      * @param company 회사 정보
      * @return 저장된 회사 정보
      */
-    public Company saveCompany(Company company) {
-        return companyRepository.save(company);
+    @Transactional
+    public void saveCompany(Company company, String username, String mode) {
+        if (mode.equals("new")) {
+            // 신규 등록 시 ID가 비어있으면 예외 발생
+            if (company.getCompanyId() == null || company.getCompanyId().isEmpty()) {
+                throw new RuntimeException("회사 ID는 필수입니다.");
+            }
+            // 중복 체크 
+            boolean isDuplicate = companyRepository.existsById(company.getCompanyId());
+            if (isDuplicate) {
+                throw new RuntimeException("삭제되었거나 존재하는 회사 ID입니다: " + company.getCompanyId());
+            }
+            // 신규 등록 시 회사 정보를 설정
+            company.setCreateDate(LocalDateTime.now());
+            company.setCreateBy(username);
+        } else if (mode.equals("edit")) {
+            // 수정 시 ID가 비어있으면 예외 발생
+            if (company.getCompanyId() == null || company.getCompanyId().isEmpty()) {
+                throw new RuntimeException("수정할 회사 ID는 필수입니다.");
+            }
+            // 수정 시 회사 정보를 설정
+            company.setUpdateDate(LocalDateTime.now());
+            company.setUpdateBy(username);
+        }
+
+        companyRepository.save(company);
     }
 
     /**
@@ -55,10 +79,12 @@ public class CompanyService {
      * 
      * @param companyId 회사 ID
      */
-    public void deleteCompany(String companyId) {
+    public void deleteCompany(String companyId, String username) {
         companyRepository.findByCompanyIdAndDeleteMarkIsNull(companyId).ifPresent(company -> {
+            company.setUpdateDate(LocalDateTime.now());
+            company.setUpdateBy(username);
             company.setDeleteMark("Y");
             companyRepository.save(company);
         });
     }
-} 
+}

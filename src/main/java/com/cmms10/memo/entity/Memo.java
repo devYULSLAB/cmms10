@@ -1,8 +1,9 @@
 package com.cmms10.memo.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -13,8 +14,9 @@ import java.util.Objects;
  * @author cmms10
  * @since 2024-03-19
  */
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "memo")
 @IdClass(MemoIdClass.class)
@@ -60,31 +62,31 @@ public class Memo {
     private LocalDateTime updateDate;
 
     // Constructors
-    public Memo() {
-    }
+    // public Memo() {
+    // }
 
-    public Memo(String companyId, String memoId) {
-        this.companyId = companyId;
-        this.memoId = memoId;
-    }
+    // public Memo(String companyId, String memoId) {
+    //     this.companyId = companyId;
+    //     this.memoId = memoId;
+    // }
 
-    public Memo(String companyId, String memoId, String memoName) {
-        this.companyId = companyId;
-        this.memoId = memoId;
-        this.memoName = memoName;
-    }
+    // public Memo(String companyId, String memoId, String memoName) {
+    //     this.companyId = companyId;
+    //     this.memoId = memoId;
+    //     this.memoName = memoName;
+    // }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Memo memo = (Memo) o;
-        return Objects.equals(companyId, memo.companyId) &&
-               Objects.equals(memoId, memo.memoId);
-    }
+    // @Override
+    // public boolean equals(Object o) {
+    //     if (this == o) return true;
+    //     if (o == null || getClass() != o.getClass()) return false;
+    //     Memo memo = (Memo) o;
+    //     return Objects.equals(companyId, memo.companyId) &&
+    //            Objects.equals(memoId, memo.memoId);
+    // }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(companyId, memoId);
-    }
+    // @Override
+    // public int hashCode() {
+    //     return Objects.hash(companyId, memoId);
+    // }
 }

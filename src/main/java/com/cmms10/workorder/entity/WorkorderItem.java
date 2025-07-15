@@ -1,10 +1,9 @@
 package com.cmms10.workorder.entity;
 
 import jakarta.persistence.*;
-import java.util.Objects;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 /**
  * cmms10 - workorderItem
@@ -13,12 +12,12 @@ import lombok.NoArgsConstructor;
  * @author cmms10
  * @since 2024-03-19
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "workorderItem")
 @IdClass(WorkorderItemIdClass.class)
-@Getter
-@Setter
-@NoArgsConstructor
 public class WorkorderItem {
 
     @Id
@@ -52,19 +51,4 @@ public class WorkorderItem {
         @JoinColumn(name = "orderId", referencedColumnName = "orderId", insertable = false, updatable = false)
     })
     private Workorder workorder;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        WorkorderItem that = (WorkorderItem) o;
-        return Objects.equals(companyId, that.companyId) &&
-               Objects.equals(orderId, that.orderId) &&
-               Objects.equals(itemId, that.itemId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(companyId, orderId, itemId);
-    }
 }

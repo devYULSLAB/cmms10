@@ -21,9 +21,9 @@
             <span th:text="${errorMessage}"></span>
         </div>
 
-        <div class="mb-4">
-            <a th:href="@{/commonCode/commonCodeForm(companyId=${companyId})}" 
-               class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Add New Common Code</a>
+        <div class="mb-4 flex space-x-2">
+            <a th:href="@{/commonCode/commonCodeForm}" 
+               class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Add</a>
         </div>
 
         <div class="border rounded shadow">
@@ -44,15 +44,12 @@
                             <td class="py-2 px-3" th:text="${cc.codeName}"></td>
                             <td class="py-2 px-3" th:text="${cc.codeType}"></td>
                             <td class="py-2 px-3 space-x-2">
-                                <!-- Items (item 관련은 제외하라는 요청이 있었으니 삭제 또는 주석 처리) -->
                                 <!-- Edit -->
-                                <a th:href="@{/commonCode/commonCodeForm(codeId=${cc.codeId}, companyId=${cc.companyId})}" 
-                                   class="bg-yellow-400 hover:bg-yellow-500 text-black px-2 py-1 text-xs rounded">Edit</a>
+                                <a th:href="@{/commonCode/commonCodeForm/{codeId}/{companyId}(codeId=${cc.codeId}, companyId=${cc.companyId})}" 
+                                   class="bg-yellow-400 hover:bg-yellow-500 text-black px-2 py-1 text-xs rounded">Edit</a>                                
                                 <!-- Delete -->
-                                <form th:action="@{/commonCode/commonCodeDelete}" method="post" 
-                                      class="inline" onsubmit="return confirm('Are you sure you want to delete this common code and all its items?');">
-                                    <input type="hidden" name="codeId" th:value="${cc.codeId}" />
-                                    <input type="hidden" name="companyId" th:value="${cc.companyId}" />
+                                <form th:action="@{/commonCode/commonCodeDelete/{codeId}/{companyId}(codeId=${cc.codeId}, companyId=${cc.companyId})}" 
+                                    method="post" class="inline" >
                                     <button type="submit" 
                                             class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 text-xs rounded">Delete</button>
                                 </form>

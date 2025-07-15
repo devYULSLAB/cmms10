@@ -1,8 +1,9 @@
 package com.cmms10.plantMaster.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
@@ -15,8 +16,9 @@ import java.util.Objects;
  * @author cmms10
  * @since 2024-03-19
  */
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "plantMaster")
 @IdClass(PlantMasterIdClass.class)
@@ -25,6 +27,10 @@ public class PlantMaster {
     @Id
     @Column(name = "companyId", length = 5, nullable = false)
     private String companyId;
+
+    @Id
+    @Column(name = "siteId", length = 5, nullable = false)
+    private String siteId;
 
     @Id
     @Column(name = "plantId", length = 10, nullable = false)
@@ -78,15 +84,15 @@ public class PlantMaster {
     @Column(name = "psmYN", length = 1)
     private String psmYN;
 
+    @Column(name = "workPermitYN", length = 1)
+    private String workPermitYN;
+
     @Column(name = "tagYN", length = 1)
     private String tagYN;
 
     @Lob // For TEXT type
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
-
-    @Column(name = "siteId", length = 5)
-    private String siteId;
 
     @Column(name = "fileGroupId", length = 10)
     private String fileGroupId;
@@ -105,34 +111,5 @@ public class PlantMaster {
 
     @Column(name = "deleteMark")
     private String deleteMark;
-
-    // Constructors
-    public PlantMaster() {
-    }
-
-    public PlantMaster(String companyId, String plantId) {
-        this.companyId = companyId;
-        this.plantId = plantId;
-    }
-
-    public PlantMaster(String companyId, String plantId, String plantName) {
-        this.companyId = companyId;
-        this.plantId = plantId;
-        this.plantName = plantName;
-    }
-
-    // equals and hashCode (only for PK fields)
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PlantMaster that = (PlantMaster) o;
-        return Objects.equals(companyId, that.companyId) &&
-               Objects.equals(plantId, that.plantId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(companyId, plantId);
-    }
+    
 }

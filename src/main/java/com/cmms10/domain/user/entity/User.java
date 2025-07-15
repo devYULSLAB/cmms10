@@ -5,8 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
@@ -16,8 +17,9 @@ import java.time.LocalDateTime;
  * @author cmms10
  * @since 2024-03-19
  */
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "\"user\"") // Enclosed in quotes because "user" is often a reserved keyword
 @IdClass(UserIdClass.class)
@@ -52,12 +54,6 @@ public class User {
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
-    @Column(name = "siteAccessId", length = 1)
-    private String siteAccessId;
-
-    @Column(name = "siteId", length = 5)
-    private String siteId;
-
     @Column(name = "fileGroupId", length = 10)
     private String fileGroupId;
 
@@ -77,17 +73,4 @@ public class User {
     private String deleteMark;
 
     // Constructors
-    public User() {
-    }
-
-    public User(String companyId, String username) {
-        this.companyId = companyId;
-        this.username = username;
-    }
-
-    public User(String companyId, String username, String userFullName) {
-        this.companyId = companyId;
-        this.username = username;
-        this.userFullName = userFullName;
-    }
 }

@@ -36,17 +36,17 @@
                 <table class="min-w-full text-left text-sm">
                     <thead class="border-b bg-gray-50">
                         <tr>
-                            <th class="px-4 py-2">Page ID</th>
+                            <th class="px-4 py-2">Role Name</th>
                             <th class="px-4 py-2">Auth Granted</th>
                             <th class="px-4 py-2">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="ra : ${roleAuths}" class="border-b hover:bg-gray-50">
-                            <td class="px-4 py-2" th:text="${ra.pageId}"></td>
+                            <td class="px-4 py-2" th:text="${ra.roleName}"></td>
                             <td class="px-4 py-2" th:text="${ra.authGranted}"></td>
                             <td class="px-4 py-2">
-                                <a th:href="@{/roleAuth/{roleId}/roleAuthForm(roleId=${ra.roleId},authGranted=${ra.authGranted})}"
+                                <a th:href="@{/roleAuth/{roleId}/roleAuthForm/{authGranted}(roleId=${ra.roleId},authGranted=${ra.authGranted})}"
                                    class="px-3 py-1 bg-yellow-500 text-white rounded-md text-xs hover:bg-yellow-600">
                                     Edit
                                 </a>

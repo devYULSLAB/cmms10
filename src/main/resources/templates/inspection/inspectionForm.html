@@ -13,10 +13,9 @@
         
         <form th:action="@{/inspection/inspectionSave}" th:object="${inspection}" method="post" class="space-y-6">
             
-            <!-- Hidden fields : session 값으로 처리함
+            <!-- Hidden fields -->
             <input type="hidden" th:field="*{companyId}" />
-            <input type="hidden" th:field="*{siteId}" />
-            -->
+            <input type="hidden" th:field="*{siteId}" />            
 
             <!-- Basic Info -->
             <div class="border rounded-lg shadow p-4 space-y-4">
@@ -32,11 +31,21 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Job Type</label>
-                        <input type="text" th:field="*{jobType}" class="w-full border rounded px-2 py-1" />
+                        <select th:field="*{jobType}" class="w-full border rounded px-2 py-1">
+                            <option value="">Select Job Type</option>
+                            <option th:each="jobType : ${jobTypes}" 
+                                    th:value="${jobType.codeId}" 
+                                    th:text="${jobType.codeId + ' - ' + jobType.codeName}"></option>
+                        </select>
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Dept</label>
-                        <input type="text" th:field="*{dept}" class="w-full border rounded px-2 py-1" />
+                        <select th:field="*{dept}" class="w-full border rounded px-2 py-1">
+                            <option value="">Select Department</option>
+                            <option th:each="dept : ${depts}" 
+                                    th:value="${dept.deptId}" 
+                                    th:text="${dept.deptId + ' - ' + dept.deptName}"></option>
+                        </select>
                     </div>
                 </div>
                 <div>

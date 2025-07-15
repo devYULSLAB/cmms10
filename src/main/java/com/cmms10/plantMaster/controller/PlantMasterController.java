@@ -2,6 +2,9 @@ package com.cmms10.plantMaster.controller;
 
 import com.cmms10.plantMaster.entity.PlantMaster;
 import com.cmms10.plantMaster.service.PlantMasterService;
+import com.cmms10.funcMaster.service.FuncMasterService;
+import com.cmms10.domain.dept.service.DeptService;
+import com.cmms10.commonCode.service.CommonCodeService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Optional;
 
 /**
  * cmms10 - PlantMasterController
@@ -25,9 +27,18 @@ import java.util.Optional;
 public class PlantMasterController {
 
     private final PlantMasterService plantMasterService;
+    private final FuncMasterService funcMasterService;
+    private final DeptService deptService;
+    private final CommonCodeService commonCodeService;
 
-    public PlantMasterController(PlantMasterService plantMasterService) {
+    public PlantMasterController(PlantMasterService plantMasterService,
+                               FuncMasterService funcMasterService,
+                               DeptService deptService,
+                               CommonCodeService commonCodeService) {
         this.plantMasterService = plantMasterService;
+        this.funcMasterService = funcMasterService;
+        this.deptService = deptService;
+        this.commonCodeService = commonCodeService;
     }
 
     /**
@@ -38,9 +49,20 @@ public class PlantMasterController {
      */
     @GetMapping("/plantMasterForm")  // Form path is correct
     public String form(Model model, HttpSession session) {
+        String companyId = (String) session.getAttribute("companyId");
+        String siteId = (String) session.getAttribute("siteId");
 
         PlantMaster plantMaster = new PlantMaster();
+        plantMaster.setCompanyId(companyId);
+        plantMaster.setSiteId(siteId);
+        
+        // Select box 데이터 추가
         model.addAttribute("plantMaster", plantMaster);
+        model.addAttribute("funcMasters", funcMasterService.getAllFuncMasters(companyId));
+        model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
+        model.addAttribute("assetTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "ASSET"));
+        model.addAttribute("depreMethods", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "DEPRE"));
+        
         return "plantMaster/plantMasterForm";
     }
 
@@ -57,9 +79,17 @@ public class PlantMasterController {
                        HttpSession session) {
         // 세션에서 사용자 정보 가져오기
         String companyId = (String) session.getAttribute("companyId");
+        String siteId = (String) session.getAttribute("siteId");
 
-        PlantMaster plantMaster = plantMasterService.getPlantMasterByplantId(companyId, plantId);
+        PlantMaster plantMaster = plantMasterService.getPlantMasterByCompanyIdAndSiteIdAndPlantId(companyId, siteId, plantId);
+        
+        // Select box 데이터 추가
         model.addAttribute("plantMaster", plantMaster);
+        model.addAttribute("funcMasters", funcMasterService.getAllFuncMasters(companyId));
+        model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
+        model.addAttribute("assetTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "ASSET"));
+        model.addAttribute("depreMethods", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "DEPRE"));
+        
         return "plantMaster/plantMasterForm";        
     }
 
@@ -120,7 +150,7 @@ public class PlantMasterController {
         String companyId = (String) session.getAttribute("companyId");
         String siteId = (String) session.getAttribute("siteId");
 
-        PlantMaster plantMaster = plantMasterService.getPlantMasterByplantId(companyId, plantId);
+        PlantMaster plantMaster = plantMasterService.getPlantMasterByCompanyIdAndSiteIdAndPlantId(companyId, siteId, plantId);
         model.addAttribute("plantMaster", plantMaster);
         model.addAttribute("companyId", companyId); //페이징에서 사용 
         model.addAttribute("siteId", siteId); //페이징에서 사용 
@@ -144,9 +174,10 @@ public class PlantMasterController {
 
         // 세션에서 사용자 정보 가져오기
         String companyId = (String) session.getAttribute("companyId");
+        String siteId = (String) session.getAttribute("siteId");
 
         try {
-            plantMasterService.deletePlantMaster(companyId, plantId);
+            plantMasterService.deletePlantMaster(companyId, siteId, plantId);
             redirectAttributes.addFlashAttribute("successMessage", 
                 "Plant Master '" + plantId + "' deleted successfully!");
         } catch (Exception e) {

@@ -3,9 +3,9 @@ package com.cmms10.inspection.entity;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 /**
  * cmms10 - InspectionItem
@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
  * @author cmms10
  * @since 2024-03-19
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "inspectionItem")
 @IdClass(InspectionItemIdClass.class) // This will need InspectionItemIdClass in the same package or imported
-@Getter
-@Setter
-@NoArgsConstructor
 public class InspectionItem {
 
     @Id
@@ -65,19 +65,4 @@ public class InspectionItem {
         @JoinColumn(name = "inspectionId", referencedColumnName = "inspectionId", insertable = false, updatable = false)
     })
     private Inspection inspection; // This will need Inspection in the same package or imported
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        InspectionItem that = (InspectionItem) o;
-        return Objects.equals(companyId, that.companyId) &&
-               Objects.equals(inspectionId, that.inspectionId) &&
-               Objects.equals(itemId, that.itemId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(companyId, inspectionId, itemId);
-    }
 }

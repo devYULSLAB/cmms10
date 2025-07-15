@@ -6,10 +6,9 @@ import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 
 /**
@@ -19,12 +18,12 @@ import lombok.NoArgsConstructor;
  * @author cmms10
  * @since 2024-03-19
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "workorder")
 @IdClass(WorkorderIdClass.class) // This will need WorkorderIdClass in the same package or imported
-@Getter
-@Setter 
-
 public class Workorder {
 
     @Id
@@ -101,17 +100,17 @@ public class Workorder {
 
 
     // equals and hashCode (only for PK fields)
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Workorder that = (Workorder) o;
-        return Objects.equals(companyId, that.companyId) &&
-               Objects.equals(orderId, that.orderId);
-    }
+    // @Override
+    // public boolean equals(Object o) {
+    //     if (this == o) return true;
+    //     if (o == null || getClass() != o.getClass()) return false;
+    //     Workorder that = (Workorder) o;
+    //     return Objects.equals(companyId, that.companyId) &&
+    //            Objects.equals(orderId, that.orderId);
+    // }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(companyId, orderId);
-    }
+    // @Override
+    // public int hashCode() {
+    //     return Objects.hash(companyId, orderId);
+    // }
 }

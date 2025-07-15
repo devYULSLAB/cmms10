@@ -1,12 +1,13 @@
 package com.cmms10.inventoryMaster.controller;
 
-import com.cmms10.inventoryMaster.service.InventoryMasterService;
+import com.cmms10.inventoryMaster.service.InventoryIoService;
 import com.cmms10.inventoryMaster.entity.InventoryHistory;
 
 import jakarta.servlet.http.HttpSession;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.dao.CannotAcquireLockException;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class InventoryIoController {
 
-    private final InventoryMasterService inventoryMasterService;
+    private final InventoryIoService inventoryIoService;
 
     /**
      * 재고 입출고 저장
@@ -32,15 +33,17 @@ public class InventoryIoController {
      * @param session 세션
      * @return 결과 문자열
      */
-    @PostMapping("/save")
+    @PostMapping("/InventoryIoSave")
     public String saveInventoryIo(@RequestBody List<InventoryHistory> ioList, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
         String username = (String) session.getAttribute("username");
 
         try {
             ioList.forEach(io -> io.setCompanyId(companyId));
-            inventoryMasterService.processInventoryIo(ioList, username);
+            inventoryIoService.processInventoryIo(ioList, username);
             return "success";
+        } catch (CannotAcquireLockException e) {
+            return "lock: 다른 사용자가 처리 중입니다. 잠시만 기다려주세요.";
         } catch (Exception e) {
             return "error: " + e.getMessage();
         }
@@ -49,6 +52,6 @@ public class InventoryIoController {
     @GetMapping("/history/{inventoryId}")
     public List<InventoryHistory> getHistory(@PathVariable String inventoryId, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
-        return inventoryMasterService.getInventoryHistory(companyId, inventoryId);
+        return inventoryIoService.getInventoryHistory(companyId, inventoryId);
     }
 }

@@ -3,10 +3,11 @@ package com.cmms10.domain.site.controller;
 import com.cmms10.domain.site.entity.Site;
 import com.cmms10.domain.site.service.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * cmms10 - SiteController
@@ -26,8 +27,10 @@ public class SiteController {
      * 사이트 목록 화면
      */
     @GetMapping("/siteList")
-    public String list(Model model, Authentication auth) {
-        model.addAttribute("siteList", siteService.findByCompanyId(auth.getName()));
+    public String list(Model model, HttpSession session) {
+        String companyId = (String) session.getAttribute("companyId");
+        List <Site> siteList = siteService.getAllSitesByCompanyId(companyId);
+        model.addAttribute("siteList", siteList);
         return "domain/site/siteList";
     }
 
@@ -38,19 +41,33 @@ public class SiteController {
     public String detail(@PathVariable String companyId, 
                         @PathVariable String siteId, 
                         Model model) {
-        model.addAttribute("site", siteService.findById(companyId, siteId));
+        Site site = siteService.getSiteByCompanyIdAndSiteId(companyId, siteId);
+        model.addAttribute("site", site);
         return "domain/site/siteDetail";
     }
 
     /**
-     * 사이트 등록/수정 화면
+     * 사이트 등록(신규) 폼
      */
     @GetMapping("/siteForm")
-    public String form(@RequestParam(required = false) String companyId,
-                      @RequestParam(required = false) String siteId,
-                      Model model) {
-        Site site = (companyId != null && siteId != null) ?
-                siteService.findById(companyId, siteId) : new Site();
+    public String form(Model model, HttpSession session) {
+        Site site = new Site();
+        // 세션에서 companyId 가져와서 세팅
+        String companyId = (String) session.getAttribute("companyId");
+        site.setCompanyId(companyId);
+
+        model.addAttribute("site", site);
+        return "domain/site/siteForm";
+    }
+
+    /**
+     * 사이트 수정 폼 (PathVariable 방식)
+     */
+    @GetMapping("/siteForm/{companyId}/{siteId}")
+    public String editForm(@PathVariable String companyId,
+                       @PathVariable String siteId,
+                       Model model) {
+        Site site = siteService.getSiteByCompanyIdAndSiteId(companyId, siteId);
         model.addAttribute("site", site);
         return "domain/site/siteForm";
     }
@@ -59,8 +76,15 @@ public class SiteController {
      * 사이트 저장
      */
     @PostMapping("/siteSave")
-    public String save(@ModelAttribute Site site) {
-        siteService.save(site);
+    public String save(@ModelAttribute Site site, HttpSession session, Model model, @RequestParam String mode) {
+        String username = (String) session.getAttribute("username");
+        try {
+            siteService.save(site, username, mode);
+        } catch (RuntimeException e) {
+            model.addAttribute("site", site);
+            model.addAttribute("errorMessage", e.getMessage());
+            return form(model, session);
+        }
         return "redirect:/site/siteList";
     }
 
@@ -69,8 +93,10 @@ public class SiteController {
      */
     @PostMapping("/siteDelete/{companyId}/{siteId}")
     public String delete(@PathVariable String companyId,
-                        @PathVariable String siteId) {
-        siteService.delete(companyId, siteId);
+                        @PathVariable String siteId,
+                        HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        siteService.delete(companyId, siteId, username);
         return "redirect:/site/siteList";
     }
 }

@@ -3,6 +3,8 @@ package com.cmms10.workorder.controller;
 import com.cmms10.workorder.entity.Workorder;
 import com.cmms10.workorder.entity.WorkorderItem;
 import com.cmms10.workorder.service.WorkorderService;
+import com.cmms10.domain.dept.service.DeptService;
+import com.cmms10.commonCode.service.CommonCodeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -20,9 +22,15 @@ import jakarta.servlet.http.HttpSession;
 public class WorkorderController {
 
     private final WorkorderService workorderService;
+    private final DeptService deptService;
+    private final CommonCodeService commonCodeService;
 
-    public WorkorderController(WorkorderService workorderService) {
+    public WorkorderController(WorkorderService workorderService,
+                             DeptService deptService,
+                             CommonCodeService commonCodeService) {
         this.workorderService = workorderService;
+        this.deptService = deptService;
+        this.commonCodeService = commonCodeService;
     }
 
     @GetMapping("/workorderList")
@@ -43,6 +51,7 @@ public class WorkorderController {
     /** 신규 폼 */
     @GetMapping("/workorderForm")
     public String form(Model model, HttpSession session) {
+        String companyId = (String) session.getAttribute("companyId");
 
         Workorder workorder = new Workorder();
 
@@ -51,7 +60,11 @@ public class WorkorderController {
         items.add(new WorkorderItem());
         workorder.setItems(items);
 
+        // Select box 데이터 추가
         model.addAttribute("workorder", workorder);
+        model.addAttribute("jobTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
+        model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
+        
         return "workorder/workorderForm";
     }
 
@@ -64,7 +77,11 @@ public class WorkorderController {
         List<WorkorderItem> items = workorderService.getWorkorderItems(companyId, orderId);
         workorder.setItems(items);
 
+        // Select box 데이터 추가
         model.addAttribute("workorder", workorder);
+        model.addAttribute("jobTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
+        model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
+        
         return "workorder/workorderForm";
     }
 

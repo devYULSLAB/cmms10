@@ -39,4 +39,6 @@ public interface CommonCodeRepository extends JpaRepository<CommonCode, CommonCo
      * @return A list of CommonCode entities.
      */
     List<CommonCode> findByCompanyIdAndCodeType(String companyId, String codeType);
+
+    void deleteByCompanyIdAndCodeId(String companyId, String codeId);
 }

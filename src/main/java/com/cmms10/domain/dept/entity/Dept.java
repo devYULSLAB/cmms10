@@ -5,8 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
@@ -16,8 +17,9 @@ import java.time.LocalDateTime;
  * @author cmms10
  * @since 2024-03-19
  */
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "dept")
 @IdClass(DeptIdClass.class)
@@ -46,9 +48,6 @@ public class Dept {
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
-    @Column(name = "siteId", length = 5)
-    private String siteId; // As per table structure
-
     @Column(name = "fileGroupId", length = 10)
     private String fileGroupId;
 
@@ -66,14 +65,5 @@ public class Dept {
 
     @Column(name = "deleteMark", length = 1)
     private String deleteMark;
-
-    // Constructors
-    public Dept() {
-    }
-
-    public Dept(String companyId, String deptId) {
-        this.companyId = companyId;
-        this.deptId = deptId;
-    }
 
 }

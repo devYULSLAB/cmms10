@@ -7,32 +7,48 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="container mt-4">
-        <h1>Dept List</h1>
-        <a th:href="@{/dept/deptForm}" class="btn btn-primary mb-2">Add Dept</a>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Dept ID</th>
-                <th>Dept Name</th>
-                <th>Parent Dept ID</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="d : ${depts}">
-                <td th:text="${d.deptId}"></td>
-                <td th:text="${d.deptName}"></td>
-                <td th:text="${d.parentDeptId}"></td>
-                <td>
-                    <a th:href="@{/dept/deptForm(companyId=${d.companyId},deptId=${d.deptId})}" class="btn btn-sm btn-warning">Edit</a>
-                    <form th:action="@{/dept/deptDelete/{companyId}/{deptId}(companyId=${d.companyId},deptId=${d.deptId})}" method="post" style="display:inline;">
-                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="max-w-7xl mx-auto mt-8 p-4">
+        
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-2xl font-bold">Dept List</h1>
+            <a th:href="@{/dept/deptForm}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Dept</a>
+        </div>
+
+        <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
+            <span th:text="${successMessage}"></span>
+        </div>
+        <div th:if="${errorMessage}" class="p-3 mb-4 text-red-800 bg-red-100 rounded">
+            <span th:text="${errorMessage}"></span>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full border border-gray-300">
+                <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-4 py-2 border">Dept ID</th>
+                    <th class="px-4 py-2 border">Dept Name</th>
+                    <th class="px-4 py-2 border">Parent Dept ID</th>
+                    <th class="px-4 py-2 border">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="d : ${depts}" class="hover:bg-gray-50">
+                    <td class="px-4 py-2 border" th:text="${d.deptId}"></td>
+                    <td class="px-4 py-2 border" th:text="${d.deptName}"></td>
+                    <td class="px-4 py-2 border" th:text="${d.parentDeptId}"></td>
+                    <td class="px-4 py-2 border space-x-2">
+                        <a th:href="@{/dept/deptForm/{companyId}/{deptId}(companyId=${d.companyId},deptId=${d.deptId})}" 
+                           class="bg-yellow-400 text-black px-3 py-1 rounded hover:bg-yellow-500 text-sm">Edit</a>
+                        <form th:action="@{/dept/deptDelete/{companyId}/{deptId}(companyId=${d.companyId},deptId=${d.deptId})}" method="post" class="inline">
+                            <button type="submit" 
+                                    class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        
     </div>
 </div>
 </body>

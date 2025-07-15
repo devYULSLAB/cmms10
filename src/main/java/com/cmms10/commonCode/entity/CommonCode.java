@@ -1,10 +1,9 @@
 package com.cmms10.commonCode.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import java.util.List;
-import java.util.Objects;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 /**
  * cmms10 - CommonCode
@@ -13,8 +12,9 @@ import java.util.Objects;
  * @author cmms10
  * @since 2024-03-19
  */
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "commonCode")
 @IdClass(CommonCodeIdClass.class)
@@ -34,25 +34,22 @@ public class CommonCode {
     @Column(name = "codeName", length = 100)
     private String codeName;
 
-    @OneToMany(mappedBy = "commonCode", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CommonCodeItem> items;
-
     // Constructors
-    public CommonCode() {
-    }
+    // public CommonCode() {
+    // }
 
     // equals and hashCode (only for PK fields)
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CommonCode that = (CommonCode) o;
-        return Objects.equals(companyId, that.companyId) &&
-               Objects.equals(codeId, that.codeId);
-    }
+    // @Override
+    // public boolean equals(Object o) {
+    //     if (this == o) return true;
+    //     if (o == null || getClass() != o.getClass()) return false;
+    //     CommonCode that = (CommonCode) o;
+    //     return Objects.equals(companyId, that.companyId) &&
+    //            Objects.equals(codeId, that.codeId);
+    // }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(companyId, codeId);
-    }
+    // @Override
+    // public int hashCode() {
+    //     return Objects.hash(companyId, codeId);
+    // }
 }

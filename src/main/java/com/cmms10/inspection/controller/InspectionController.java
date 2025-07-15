@@ -3,6 +3,8 @@ package com.cmms10.inspection.controller;
 import com.cmms10.inspection.entity.Inspection;
 import com.cmms10.inspection.entity.InspectionItem;
 import com.cmms10.inspection.service.InspectionService;
+import com.cmms10.domain.dept.service.DeptService;
+import com.cmms10.commonCode.service.CommonCodeService;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.List; // Added import
@@ -25,14 +27,21 @@ import java.util.ArrayList;
 public class InspectionController {
 
     private final InspectionService inspectionService;
+    private final DeptService deptService;
+    private final CommonCodeService commonCodeService;
 
-    public InspectionController(InspectionService inspectionService) {
+    public InspectionController(InspectionService inspectionService,
+                              DeptService deptService,
+                              CommonCodeService commonCodeService) {
         this.inspectionService = inspectionService;
+        this.deptService = deptService;
+        this.commonCodeService = commonCodeService;
     }
 
     /** 신규 폼 */
     @GetMapping("/inspectionForm")
     public String form(Model model, HttpSession session) {
+        String companyId = (String) session.getAttribute("companyId");
 
         Inspection inspection = new Inspection();
 
@@ -42,7 +51,11 @@ public class InspectionController {
         }
         inspection.setItems(items);        
 
+        // Select box 데이터 추가
         model.addAttribute("inspection", inspection);
+        model.addAttribute("jobTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
+        model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
+        
         return "inspection/inspectionForm";
     }
 
@@ -56,7 +69,11 @@ public class InspectionController {
         List<InspectionItem> items = inspectionService.getInspectionItemByCompanyIdAndInspectionId(companyId, inspectionId);
         inspection.setItems(items);
 
+        // Select box 데이터 추가
         model.addAttribute("inspection", inspection);
+        model.addAttribute("jobTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
+        model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
+        
         return "inspection/inspectionForm";
     }
 

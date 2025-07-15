@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 /**
  * cmms10 - Inspection
@@ -16,12 +16,12 @@ import lombok.NoArgsConstructor;
  * @author cmms10
  * @since 2024-03-19
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "inspection")
 @IdClass(InspectionIdClass.class)
-@Getter
-@Setter
-@NoArgsConstructor
 public class Inspection {
 
     @Id
@@ -68,19 +68,5 @@ public class Inspection {
 
     @OneToMany(mappedBy = "inspection", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<InspectionItem> items = new ArrayList<>();
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Inspection that = (Inspection) o;
-        return Objects.equals(companyId, that.companyId) &&
-               Objects.equals(inspectionId, that.inspectionId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(companyId, inspectionId);
-    }
 
 }

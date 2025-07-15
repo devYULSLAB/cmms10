@@ -1,7 +1,13 @@
+/**
+ * 패키지: com.cmms10.domain.roleAuth.controller
+ * 프로그램명: RoleAuthController.java
+ * 주요기능: 역할별 권한 관리(목록, 등록, 수정, 삭제, 저장)
+ * 생성자: cmms10
+ * 생성일: 2024-07-13
+ */
 package com.cmms10.domain.roleAuth.controller;
 
 import com.cmms10.domain.roleAuth.entity.RoleAuth;
-import com.cmms10.domain.roleAuth.entity.RoleAuthIdClass;
 import com.cmms10.domain.roleAuth.service.RoleAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,79 +16,82 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-/**
- * cmms10 - RoleAuthController
- * 역할 권한 관리 컨트롤러
- * 
- * @author cmms10
- * @since 2024-03-19
- */
 @Controller
-@RequestMapping("/roleAuth/{roleId}")
+@RequestMapping("/roleAuth")
 public class RoleAuthController {
 
-    private final RoleAuthService roleService;
+    private final RoleAuthService roleAuthService;
 
-    public RoleAuthController(RoleAuthService roleService) {
-        this.roleService = roleService;
+    public RoleAuthController(RoleAuthService roleAuthService) {
+        this.roleAuthService = roleAuthService;
     }
 
-    /** 역할별 권한 목록 조회 */
+    /**
+     * 역할별 권한 목록 조회
+     * @param roleId 역할ID
+     */
     @GetMapping("/roleAuthList")
-    public String listRoleAuth(@PathVariable String roleId, Model model) {
-        model.addAttribute("roleId", roleId);
-        List<RoleAuth> roleAuths = roleService.getRoleAuthByRoleId(roleId);
+    public String list(Model model) {
+        List<RoleAuth> roleAuths = roleAuthService.getAllRoleAuths();
         model.addAttribute("roleAuths", roleAuths);
         return "domain/roleAuth/roleAuthList";
     }
 
-    /** 역할 권한 등록/수정 화면 */
+    /**
+     * 권한 등록 폼
+     * @param roleId 역할ID
+     */
     @GetMapping("/roleAuthForm")
-    public String showRoleAuthForm(@PathVariable String roleId,
-                                   @RequestParam(required = false) String authGranted,
-                                   Model model) {
-        RoleAuth roleAuth = (roleId != null && authGranted != null)
-                ? roleService.getRoleAuthByRoleIdAndAuthGranted(roleId, authGranted).orElse(new RoleAuth())
-                : new RoleAuth();
-        roleAuth.setRoleId(roleId);
+    public String form(Model model) {
+        RoleAuth roleAuth = new RoleAuth();
         model.addAttribute("roleAuth", roleAuth);
-        List<String> authTypes = List.of("ROLE_ADMIN", "ROLE_USER");
-        model.addAttribute("authTypes", authTypes);
+        model.addAttribute("mode", "new");
         return "domain/roleAuth/roleAuthForm";
     }
 
-    /** 역할 권한 저장 */
-    @PostMapping("/roleAuthSave")
-    public String saveRoleAuth(@PathVariable String roleId,
-                               @ModelAttribute RoleAuth roleAuth,
-                               RedirectAttributes redirectAttributes) {
-        roleAuth.setRoleId(roleId);
-
-        if (roleAuth.getAuthGranted() == null || roleAuth.getAuthGranted().isEmpty()) {
-            redirectAttributes.addFlashAttribute("errorMessage", "권한 값은 필수 입력값입니다.");
-            return "redirect:/roleAuth/" + roleId + "/roleAuthForm";
-        }
-
-        try {
-            roleService.saveRoleAuth(roleAuth);
-            redirectAttributes.addFlashAttribute("successMessage", "권한이 성공적으로 저장되었습니다.");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "권한 저장 중 오류가 발생했습니다: " + e.getMessage());
-        }
-        return "redirect:/roleAuth/" + roleId + "/roleAuthList";
+    /**
+     * 권한 수정 폼
+     * @param roleId 역할ID
+     * @param authGranted 권한명
+     */
+    @GetMapping("/roleAuthForm/{roleId}/{authGranted}")
+    public String editform(@PathVariable String roleId, @PathVariable String authGranted, Model model) {
+        RoleAuth roleAuth = roleAuthService.getRoleAuthByRoleIdAndAuthGranted(roleId, authGranted);
+        model.addAttribute("roleAuth", roleAuth);
+        model.addAttribute("mode", "edit");
+        return "domain/roleAuth/roleAuthForm";
     }
 
-    /** 역할 권한 삭제 */
-    @PostMapping("/roleAuthDelete")
-    public String deleteRoleAuth(@PathVariable String roleId,
-                                 @RequestParam String authGranted,
-                                 RedirectAttributes redirectAttributes) {
+    /**
+     * 권한 저장(신규/수정)
+     * @param roleAuth 권한 엔티티
+     */
+    @PostMapping("/roleAuthSave")
+    public String save(@ModelAttribute RoleAuth roleAuth, @RequestParam(required = false) String mode, Model model) {
         try {
-            roleService.deleteRoleAuth(roleId, authGranted);
+            roleAuthService.saveRoleAuth(roleAuth);
+            return "redirect:/roleAuth/roleAuthList";
+        } catch (Exception e) {
+            model.addAttribute("roleAuth", roleAuth);
+            model.addAttribute("errorMessage", "저장 중 오류가 발생했습니다: " + e.getMessage());
+            model.addAttribute("mode", mode != null ? mode : "new");
+            return "domain/roleAuth/roleAuthForm";
+        }
+    }
+
+    /**
+     * 권한 삭제
+     * @param roleId 역할ID
+     * @param authGranted 권한명
+     */
+    @PostMapping("/roleAuthDelete/{roleId}/{authGranted}")
+    public String delete(@PathVariable String roleId, @PathVariable String authGranted, RedirectAttributes redirectAttributes) {
+        try {
+            roleAuthService.deleteRoleAuth(roleId, authGranted);
             redirectAttributes.addFlashAttribute("successMessage", "권한이 성공적으로 삭제되었습니다.");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "권한 삭제 중 오류가 발생했습니다: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "삭제 중 오류가 발생했습니다: " + e.getMessage());
         }
-        return "redirect:/roleAuth/" + roleId + "/roleAuthList";
+        return "redirect:/roleAuth/roleAuthList";
     }
 }

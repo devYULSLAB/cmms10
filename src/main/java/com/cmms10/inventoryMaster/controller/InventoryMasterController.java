@@ -2,6 +2,9 @@ package com.cmms10.inventoryMaster.controller;
 
 import com.cmms10.inventoryMaster.entity.InventoryMaster;
 import com.cmms10.inventoryMaster.service.InventoryMasterService;
+import com.cmms10.domain.site.service.SiteService;
+import com.cmms10.domain.dept.service.DeptService;
+import com.cmms10.commonCode.service.CommonCodeService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -12,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import java.util.Optional;
 
 /**
  * cmms10 - InventoryMasterController
@@ -27,9 +29,18 @@ import java.util.Optional;
 public class InventoryMasterController {
 
     private final InventoryMasterService inventoryMasterService;
+    private final SiteService siteService;
+    private final DeptService deptService;
+    private final CommonCodeService commonCodeService;
 
-    public InventoryMasterController(InventoryMasterService inventoryMasterService) {
+    public InventoryMasterController(InventoryMasterService inventoryMasterService,
+                                   SiteService siteService,
+                                   DeptService deptService,
+                                   CommonCodeService commonCodeService) {
         this.inventoryMasterService = inventoryMasterService;
+        this.siteService = siteService;
+        this.deptService = deptService;
+        this.commonCodeService = commonCodeService;
     }
 
      /**
@@ -45,13 +56,10 @@ public class InventoryMasterController {
                             @PageableDefault(size = 10, sort = "inventoryId") Pageable pageable) {
         // 세션에서 사용자 정보 가져오기
         String companyId = (String) session.getAttribute("companyId");
-        String siteId = (String) session.getAttribute("siteId");
-        String username = (String) session.getAttribute("username");
         
-        Page<InventoryMaster> inventoryPage = inventoryMasterService.getAllInventoryMasters(companyId, siteId, pageable);
+        Page<InventoryMaster> inventoryPage = inventoryMasterService.getAllInventoryMasters(companyId, pageable);
         model.addAttribute("inventoryPage", inventoryPage);
         model.addAttribute("companyId", companyId);
-        model.addAttribute("siteId", siteId);
         
         return "inventoryMaster/inventoryMasterList";
     }
@@ -64,9 +72,15 @@ public class InventoryMasterController {
      */
     @GetMapping("/inventoryMasterForm")
     public String form(Model model, HttpSession session) {
+        String companyId = (String) session.getAttribute("companyId");
+
         InventoryMaster inventoryMaster = new InventoryMaster();
-        // 새로운 재고 마스터 폼을 위한 모델 초기화
+        inventoryMaster.setCompanyId(companyId);
+        
+        // Select box 데이터 추가
         model.addAttribute("inventoryMaster", inventoryMaster);
+        model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
+        model.addAttribute("assetTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "ASSET"));
         
         return "inventoryMaster/inventoryMasterForm";
     }
@@ -84,20 +98,14 @@ public class InventoryMasterController {
                        HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
 
-        InventoryMaster inventoryMaster = inventoryMasterService.getInventoryMasterByInventoryId(companyId, inventoryId);
+        InventoryMaster inventoryMaster = inventoryMasterService.getInventoryMasterByCompanyIdAndInventoryId(companyId, inventoryId);
+        
+        // Select box 데이터 추가
         model.addAttribute("inventoryMaster", inventoryMaster);
+        model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
+        model.addAttribute("assetTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "ASSET"));
 
         return "inventoryMaster/inventoryMasterForm";
-    }
-
-    @GetMapping("/inventoryIoHistory")
-    public String ioHistory(Model model, HttpSession session) {
-        // String companyId = (String) session.getAttribute("companyId");
-        // String siteId = (String) session.getAttribute("siteId");
-
-        // model.addAttribute("companyId", companyId);
-        // model.addAttribute("siteId", siteId);
-        return "inventoryMaster/inventoryIoHistory";
     }
 
     /**
@@ -113,11 +121,9 @@ public class InventoryMasterController {
                         RedirectAttributes redirectAttributes) {
         // 세션에서 사용자 정보 가져오기
         String companyId = (String) session.getAttribute("companyId");
-        String siteId = (String) session.getAttribute("siteId");
         String username = (String) session.getAttribute("username");
         // 필수 정보 설정
         inventoryMaster.setCompanyId(companyId);
-        inventoryMaster.setSiteId(siteId);
 
         inventoryMasterService.saveInventoryMaster(inventoryMaster, username);
 
@@ -137,7 +143,7 @@ public class InventoryMasterController {
         // 세션에서 사용자 정보 가져오기
         String companyId = (String) session.getAttribute("companyId");
 
-        InventoryMaster inventoryMaster = inventoryMasterService.getInventoryMasterByInventoryId(companyId, inventoryId);
+        InventoryMaster inventoryMaster = inventoryMasterService.getInventoryMasterByCompanyIdAndInventoryId(companyId, inventoryId);
         model.addAttribute("inventoryMaster", inventoryMaster);
         return "inventoryMaster/inventoryMasterDetail";
     }

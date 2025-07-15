@@ -51,18 +51,30 @@
                     </div>
                     <div class="col-span-3">
                         <label for="siteId" class="block text-sm font-medium mb-1">Site ID:</label>
-                        <input type="text" id="siteId" class="mt-1 block w-full border border-gray-300 rounded"
-                               th:field="*{siteId}" required />
+                        <select id="siteId" th:field="*{siteId}" class="mt-1 block w-full border border-gray-300 rounded" required>
+                            <option value="">Select Site</option>
+                            <option th:each="site : ${sites}" 
+                                    th:value="${site.siteId}" 
+                                    th:text="${site.siteId + ' - ' + site.siteName}"></option>
+                        </select>
                     </div>
                     <div class="col-span-3">
                         <label for="respDept" class="block text-sm font-medium mb-1">Responsible Dept:</label>
-                        <input type="text" id="respDept" class="mt-1 block w-full border border-gray-300 rounded"
-                               th:field="*{respDept}" />
+                        <select id="respDept" th:field="*{respDept}" class="mt-1 block w-full border border-gray-300 rounded">
+                            <option value="">Select Department</option>
+                            <option th:each="dept : ${depts}" 
+                                    th:value="${dept.deptId}" 
+                                    th:text="${dept.deptId + ' - ' + dept.deptName}"></option>
+                        </select>
                     </div>
                     <div class="col-span-3">
                         <label for="assetType" class="block text-sm font-medium mb-1">Asset Type:</label>
-                        <input type="text" id="assetType" class="mt-1 block w-full border border-gray-300 rounded"
-                               th:field="*{assetType}" />
+                        <select id="assetType" th:field="*{assetType}" class="mt-1 block w-full border border-gray-300 rounded">
+                            <option value="">Select Asset Type</option>
+                            <option th:each="asset : ${assetTypes}" 
+                                    th:value="${asset.codeId}" 
+                                    th:text="${asset.codeId + ' - ' + asset.codeName}"></option>
+                        </select>
                     </div>
                 </div>
             </div>

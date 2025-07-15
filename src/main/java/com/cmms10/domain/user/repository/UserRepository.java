@@ -5,6 +5,7 @@ import com.cmms10.domain.user.entity.UserIdClass;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
+import java.util.List;
 
 /**
  * cmms10 - UserRepository
@@ -15,10 +16,18 @@ import java.util.Optional;
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, UserIdClass> {
-    // Custom finder method to find a user by companyId and username strings,
-    // which is more convenient than creating UserIdClass instance every time for lookup.
-    Optional<User> findByCompanyIdAndUsername(String companyId, String username);
-        
-    // 로그인을 위한 사용자 조회 (삭제되지 않은 사용자만)
+
+    /** 회사ID로 전체 사용자를 조회합니다.
+     * @param companyId 회사 ID
+     * @return 사용자 목록
+     */
+    List<User> findByCompanyIdAndDeleteMarkIsNull(String companyId);
+    
+    /**
+     * 회사 ID와 사용자 이름으로 삭제되지 않은 사용자 정보를 조회합니다.
+     * @param companyId 회사 ID
+     * @param username 사용자 이름
+     * @return 삭제되지 않은 사용자 정보
+     */
     Optional<User> findByCompanyIdAndUsernameAndDeleteMarkIsNull(String companyId, String username);
 }

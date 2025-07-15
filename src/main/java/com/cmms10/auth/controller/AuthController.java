@@ -36,7 +36,7 @@ public class AuthController {
     @GetMapping("/")
     public String home(Authentication auth) {
         if (auth != null && auth.isAuthenticated()) {
-            return "redirect:/memo/memoList"; // tailwind CSS로 변경된 버젼임 , 기존 버젼은 bootstrap 사용
+            return "redirect:/memo/memoList"; 
         }
         return "redirect:/login";
     }

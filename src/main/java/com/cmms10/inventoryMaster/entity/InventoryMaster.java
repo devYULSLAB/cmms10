@@ -1,8 +1,9 @@
 package com.cmms10.inventoryMaster.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
@@ -14,8 +15,9 @@ import java.time.LocalDate;
  * @author cmms10
  * @since 2024-03-19
  */
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "inventoryMaster")
 @IdClass(InventoryMasterIdClass.class)
@@ -32,20 +34,11 @@ public class InventoryMaster {
     @Column(name = "inventoryName", length = 100)
     private String inventoryName;
 
-    @Column(name = "inventoryLoc", length = 100)
-    private String inventoryLoc;
-
     @Column(name = "respDept", length = 5)
     private String respDept;
 
     @Column(name = "assetType", length = 5)
     private String assetType;
-
-    @Column(name = "currentQty", precision = 15, scale = 2)
-    private BigDecimal currentQty;
-
-    @Column(name = "currentValue", precision = 15, scale = 2)
-    private BigDecimal currentValue;
 
     @Column(name = "manufacturer", length = 100)
     private String manufacturer;
@@ -59,12 +52,9 @@ public class InventoryMaster {
     @Column(name = "manufacturerSpec", length = 100)
     private String manufacturerSpec;
 
-    @Lob // For TEXT type
+    @Lob
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
-
-    @Column(name = "siteId", length = 5)
-    private String siteId;
 
     @Column(name = "fileGroupId", length = 10)
     private String fileGroupId;
@@ -84,18 +74,4 @@ public class InventoryMaster {
     @Column(name = "deleteMark", length = 1)
     private String deleteMark;
 
-    // Constructors
-    public InventoryMaster() {
-    }
-
-    public InventoryMaster(String companyId, String inventoryId) {
-        this.companyId = companyId;
-        this.inventoryId = inventoryId;
-    }
-
-    public InventoryMaster(String companyId, String inventoryId, String inventoryName) {
-        this.companyId = companyId;
-        this.inventoryId = inventoryId;
-        this.inventoryName = inventoryName;
-    }
 }

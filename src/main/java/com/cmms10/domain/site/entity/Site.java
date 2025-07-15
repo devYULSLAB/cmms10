@@ -1,8 +1,9 @@
 package com.cmms10.domain.site.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
@@ -12,8 +13,9 @@ import java.time.LocalDateTime;
  * @author cmms10
  * @since 2024-03-19
  */
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "site")
 @IdClass(SiteIdClass.class)
@@ -49,17 +51,4 @@ public class Site {
     private String deleteMark;
 
     // Constructors
-    public Site() {
-    }
-
-    public Site(String companyId, String siteId) {
-        this.companyId = companyId;
-        this.siteId = siteId;
-    }
-
-    public Site(String companyId, String siteId, String siteName) {
-        this.companyId = companyId;
-        this.siteId = siteId;
-        this.siteName = siteName;
-    }
 }

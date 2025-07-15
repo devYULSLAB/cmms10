@@ -4,6 +4,7 @@ import com.cmms10.domain.company.entity.Company;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,4 +24,11 @@ public interface CompanyRepository extends JpaRepository<Company, String> {
      * @return 회사 정보
      */
     Optional<Company> findByCompanyIdAndDeleteMarkIsNull(String companyId);
+
+    /**
+     * 삭제되지 않은 모든 회사 정보를 조회합니다.
+     * 
+     * @return 회사 정보 리스트
+     */
+    List<Company> findAllByDeleteMarkIsNull();
 }

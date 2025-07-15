@@ -11,10 +11,23 @@
 <div layout:fragment="content">
     <div class="max-w-xl mx-auto mt-8 p-6 bg-white shadow-lg rounded-2xl">
         
-        <h1 class="text-2xl font-bold mb-6" th:text="${company.companyId == null ? 'Create Company' : 'Edit Company'}"></h1>
+        <h2 class="text-2xl font-bold mb-6" th:text="${company.companyId == null ? 'Create Company' : 'Edit Company'}"></h2>
+        
+        <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
+            <span th:text="${successMessage}"></span>
+        </div>
+        <div th:if="${errorMessage}" class="p-3 mb-4 text-red-800 bg-red-100 rounded">
+            <span th:text="${errorMessage}"></span>
+        </div>
 
         <form th:action="@{/company/companySave}" th:object="${company}" method="post" class="space-y-4">
-            
+            <!-- Hidden field -->
+            <input type="hidden" th:field="*{createBy}" /> 
+            <input type="hidden" th:field="*{updateBy}" />
+            <input type="hidden" th:field="*{createDate}" />
+            <input type="hidden" th:field="*{updateDate}" />
+            <input type="hidden" name="mode" th:value="${mode}" />
+            <!--    -->
             <div>
                 <label for="companyId" class="block text-sm font-medium text-gray-700">Company ID</label>
                 <input type="text" id="companyId" th:field="*{companyId}" 
