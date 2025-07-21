@@ -32,19 +32,19 @@
                 <label for="companyId" class="block text-sm font-medium text-gray-700">Company ID</label>
                 <input type="text" id="companyId" th:field="*{companyId}" 
                        th:readonly="${company.companyId != null}" required
-                       class="mt-1 w-full rounded-lg border-gray-300 p-2 focus:ring focus:ring-blue-200" />
+                       class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300" />
             </div>
 
             <div>
                 <label for="companyName" class="block text-sm font-medium text-gray-700">Company Name</label>
                 <input type="text" id="companyName" th:field="*{companyName}" required
-                       class="mt-1 w-full rounded-lg border-gray-300 p-2 focus:ring focus:ring-blue-200" />
+                       class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300" />
             </div>
 
             <div>
                 <label for="note" class="block text-sm font-medium text-gray-700">Note</label>
                 <textarea id="note" th:field="*{note}" rows="3"
-                          class="mt-1 w-full rounded-lg border-gray-300 p-2 focus:ring focus:ring-blue-200"></textarea>
+                          class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"></textarea>
             </div>
 
             <div class="flex space-x-2">

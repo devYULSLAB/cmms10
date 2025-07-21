@@ -30,22 +30,21 @@ public interface WorkorderItemRepository extends JpaRepository<WorkorderItem, Wo
     );
     
     /**
-     * Finds all workorderItem entries for a given companyId and orderId,
-     * ordered by itemId in ascending order.
+     * CompanyId와 orderId로 workorderItem 엔티티를 페이징하여 조회합니다.
      *
-     * @param companyId The ID of the company.
-     * @param orderId The ID of the work order.
-     * @return A list of workorderItem entities.
+     * @param companyId 회사 ID
+     * @param orderId 작업지시 ID
+     * @return List<WorkorderItem> 작업지시 항목 엔티티
      */
     List<WorkorderItem> findByCompanyIdAndOrderIdOrderByItemIdAsc(String companyId, String orderId);
 
     /**
-     * Finds a specific workorderItem by its full composite key.
+     * CompanyId와 orderId로 workorderItem 엔티티를 조회합니다.
      *
-     * @param companyId The ID of the company.
-     * @param orderId The ID of the work order.
-     * @param itemId The ID of the item.
-     * @return An Optional containing the workorderItem if found, or empty otherwise.
+     * @param companyId 회사 ID
+     * @param orderId 작업지시 ID
+     * @param itemId 항목 ID
+     * @return Optional<WorkorderItem> 작업지시 항목 엔티티
      */
     Optional<WorkorderItem> findByCompanyIdAndOrderIdAndItemId(String companyId, String orderId, String itemId);
 }

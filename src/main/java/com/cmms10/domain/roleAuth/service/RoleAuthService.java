@@ -48,10 +48,8 @@ public class RoleAuthService {
         roleAuthRepository.save(roleAuth);
     }
 
-
-    // 추가된 메서드: 역할 ID와 권한으로 삭제
     @Transactional
-    public void deleteRoleAuth(String roleId, String authGranted) {
-        roleAuthRepository.deleteById(new RoleAuthIdClass(roleId, authGranted));
+    public void deleteById(RoleAuthIdClass id) {
+        roleAuthRepository.deleteById(id);
     }
 }

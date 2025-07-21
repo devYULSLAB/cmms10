@@ -31,6 +31,10 @@ public class Workorder {
     private String companyId;
 
     @Id
+    @Column(name = "siteId", length = 5)
+    private String siteId;
+
+    @Id
     @Column(name = "orderId", length = 10, nullable = false)
     private String orderId;
 
@@ -77,8 +81,6 @@ public class Workorder {
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
-    @Column(name = "siteId", length = 5)
-    private String siteId;
 
     @Column(name = "fileGroupId", length = 10)
     private String fileGroupId;
@@ -98,19 +100,4 @@ public class Workorder {
     @OneToMany(mappedBy = "workorder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<WorkorderItem> items = new ArrayList<>(); // This will need WorkorderItem in the same package or imported
 
-
-    // equals and hashCode (only for PK fields)
-    // @Override
-    // public boolean equals(Object o) {
-    //     if (this == o) return true;
-    //     if (o == null || getClass() != o.getClass()) return false;
-    //     Workorder that = (Workorder) o;
-    //     return Objects.equals(companyId, that.companyId) &&
-    //            Objects.equals(orderId, that.orderId);
-    // }
-
-    // @Override
-    // public int hashCode() {
-    //     return Objects.hash(companyId, orderId);
-    // }
 }

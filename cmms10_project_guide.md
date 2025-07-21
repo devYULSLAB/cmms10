@@ -12,20 +12,24 @@ Thymeleaf, tailwind css 적용
 
 ### 기본 원칙
 
-* 각 코드는 시작 부분에 이름, 기능 설명, 생성자, 생성일, 수정자, 수정일, 파라미터 주석 포함
-* 각 단계별 주요 기능에 대해 간단한 설명 포함
+* 각 코드는 시작 부분에 이름, 기능 설명, 생성자, 생성일, 수정자, 수정일
+* 각 단계별 주요 기능에 대해 간단한 설명 포함, 파리미터 주석 
 * 연계되는 프로그램에 대해 파라미터의 type과 name을 확인할 것
-* 코딩은 최대한 간단하게 명확한 방향으로 제시할 것. 유지보수성을 고려하여 디버깅이 어렵거나 코드가 난해하지 않도록 할 것. Lombok 이노테이션의 NoArgsConstructor,AllArgsConstructor,Data를 활용하여 코드를 간소화 
+* 코딩은 최대한 간단하게 명확한 방향으로 제시할 것. 유지보수성을 고려하여 디버깅이 어렵거나 코드가 난해하지 않도록 할 것. Lombok 이노테이션의 NoArgsConstructor,AllArgsConstructor,Data를 활용하여 코드를 간소화. 그러나 autowired 대신 생성자는 직접 주입 방식 채택함함
 * 동시에 진행하지 말고, 하나씩 단계적으로 진행할 것 
 
 ### 파일 Naming Rule
 
 * Controller: 폴더명Controller.java → 예: inspectionController.java
+              메소드는 form,editform,list,delete,save,detail..
+              mapping은 모듈이름+기능 → 예: @Getmapping("WorkorderForm")
 * Entity: 폴더명.java → 예: inspection.java
 * Service: 폴더명Service.java → 예: inspectionService.java
+           메소드는 최대한 자세히. 기능명+모듈명 → 예: saveWorkorder, getAllWorkorders
 * Repository: 폴더명Repository.java → 예: inspectionRepository.java
+              메소드는 파라미터를 알 수 있도록 → 예: findByCompanyIdAndOrderId
 * DTO: 폴더명DTO.java → 예: inspectionDTO.java
-* View: Form, List, Detail로 구분하고 Form은 입력화면, List는 조회, Detail은 각 항목별 출력폼폼
+* View: Form, List, Detail로 구분하고 Form은 입력화면, List는 조회, Detail은 각 항목별 출력폼
   예시: 폴더명+기능.html → 예: inspectionForm.html
 
 ## 화면 Layout 구조
@@ -39,14 +43,16 @@ Thymeleaf, tailwind css 적용
 ## 모듈별 기능 구현
 
 * Domain : 기준 정보 CRUD 
-* commonCode : 코드 값 관리 CRUD, 그룹 역할의 commonCode과 각 코드별 아이템인 commonCodeItem으로 구성
-  (참고) codeType의 설정값: JOBTP-job type, ASSET-asset type, DEPRE-deperciation type, 
-* PlantMaster : 설비 기준정보 관리. Tag/PSM 등 관리대상 여부 체크
-* funcMaster : PlantMaster의 기능위치 관리
-* InventoryMaster : 재고 기준정보 관리. 재고의 위치도 관리대상
-* Inspection : 예방점검. 등록 후 status 필드를 통해 상태값관리(저장-->승인). 일상점검에 해당되므로 자료를 DB화 하는데 의미가 있음
-* WorkOrder : 작업 지시서. 법인에서 지시서 발행 후 외주사 결과값 입력 후 승인 요청. 승인 후 확정 
-* 추후 개발 예정: 작업안전 허가서(위험,중요 설비에 대해 체크리스트 점검), 결재 기능
+* commonCode : 코드 값 관리 CRUD
+  (참고) codeType의 설정값: JOBTP-job type, ASSET-asset type, DEPRE-deperciation type 
+* PlantMaster : 설비 기준정보 관리. Tag/PSM 등 관리대상 여부 체크. plamtMasterList에서 복수의 plantId를 선택 후 QR 코드 출력 기능 제공하여 스티커 프린터에서 출력 후 설비에 부착할 수 있도록 함(Inspection,workorder에 활용)
+* InventoryMaster : 재고 기준정보 관리. plantMaster대비 이동이 더 빈번하고 출력빈도가 높을 것으로 예상되어 바코드 형태로 출력 기능 제공 
+* Inspection : 예방점검. 등록 후 status 필드를 통해 상태값관리(저장-->승인). 일상점검에 해당되므로 자료를 DB화 하는데 의미가 있음. 모바일에서 QR 스캔 후 입력이 가능하도록 기능 제공 
+* Workorder : 작업 지시서. 법인에서 지시서 발행 후 외주사 결과값 입력 후 승인 요청. 승인 후 확정. 모바일에서 QR 스캔 후 입력이 가능하도록 기능 제공 
+* Workpermit : 작업안전 허가서. PlantMaster에서 안전관리 대상 설비(WorkpermitYN="Y")는 반드시 승인된 Workpermit 을 Workorder 생성시 입력해야 한다. 
+* 추후 개발 예정: 결재 기능, 권한 기능
+  (검토중) 
+* AI 기능 : 매뉴얼 기반으로 FAISS 등으로 벡터 DB를 구성하고, LLM을 구축하고자 함 
 
 ## 다국어 구현
 
@@ -75,6 +81,7 @@ Thymeleaf, tailwind css 적용
   │   │   │   │       ├── plantMaster/
   │   │   │   │       ├── inventoryMaster/
   │   │   │   │       ├── inspection/
+  │   │   │   │       ├── workPermit/
   │   │   │   │       ├── workorder/
   │   │   │   │       ├── memo/
   │   │   │   │       └── common/     /*\* 공통코드드 */
@@ -99,6 +106,7 @@ Thymeleaf, tailwind css 적용
   │   │       │   ├── plantMaster/
   │   │       │   ├── inventoryMaster/
   │   │       │   ├── inspection/
+  │   │       │   ├── workPermit/
   │   │       │   ├── workorder/
   │   │       │   ├── memo/
   |   |       |   └── commonCode/ /* 공통코드 관리, Group과 item으로 구성 */
@@ -114,7 +122,8 @@ Thymeleaf, tailwind css 적용
 
 * 수동: companyId, siteId, deptId, username, codeId
 * 자동 숫자 일련번호 : scheduleId, itemId, memoId, commentId
-* 자동이나 채번규칙 있음 : plantId(1로 시작,10자리 숫자)  , inventoryId(2로 시작,10자리 숫자), inspectionId(3로 시작,10자리 숫자), workorderId(5로 시작,10자리 숫자), fileGroupId(테이블 이름 + YYMM + 5자리번호)
+* 자동이나 채번규칙 있음 : plantId(1로 시작,10자리 숫자)  , inventoryId(2로 시작,10자리 숫자), inspectionId(3로 시작,10자리 숫자), workPermit(9로 시작,10자리),workorderId(5로 시작,10자리 숫자), fileGroupId(테이블 이름 + YYMM + 5자리번호)
+  단, 자동채번은 companyId를 기준으로 Max 값을 선택한다. 즉, site 단위에서 키 값이 중복되지 않도록 한다. item 레벨에서 siteId를 PK로 관리하지 않으므로 중복될 수 있기 때문이다. 
 
   ## 보안 및 로깅
 

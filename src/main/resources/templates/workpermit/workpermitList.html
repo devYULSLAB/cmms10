@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<head>
+    <title>작업허가서 목록</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="max-w-6xl mx-auto mt-8 space-y-6">
+        <h2 class="text-2xl font-bold">작업허가서 목록</h2>
+        <div>
+            <a th:href="@{/workpermit/workpermitForm}"
+               class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+               <i class="fas fa-plus mr-2"></i>신규 등록
+            </a>
+        </div>
+        <div class="border rounded-lg shadow overflow-x-auto mt-4">
+            <table class="min-w-full text-sm text-left">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-2 border">사이트 ID</th>
+                        <th class="px-4 py-2 border">허가서 ID</th>
+                        <th class="px-4 py-2 border">설비 ID</th>
+                        <th class="px-4 py-2 border">허가서명</th>
+                        <th class="px-4 py-2 border">시작일</th>
+                        <th class="px-4 py-2 border">종료일</th>
+                        <th class="px-4 py-2 border">상태</th>
+                        <th class="px-4 py-2 border">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="wp : ${workpermitPage.content}" class="hover:bg-gray-50">
+                        <td class="border px-4 py-2" th:text="${wp.siteId}"></td>
+                        <td class="border px-4 py-2">
+                            <a th:href="@{/workpermit/workpermitDetail/{siteId}/{permitId}(siteId=${wp.siteId},permitId=${wp.permitId})}"
+                               class="text-blue-700 hover:underline"
+                               th:text="${wp.permitId}"></a>
+                        </td>
+                        <td class="border px-4 py-2" th:text="${wp.plantId}"></td>
+                        <td class="border px-4 py-2" th:text="${wp.permitName}"></td>
+                        <td class="border px-4 py-2" th:text="${wp.startDate}"></td>
+                        <td class="border px-4 py-2" th:text="${wp.endDate}"></td>
+                        <td class="border px-4 py-2" th:text="${wp.status}"></td>
+                        <td class="border px-4 py-2 space-x-2">
+                            <a th:href="@{/workpermit/workpermitForm/{siteId}/{permitId}(siteId=${wp.siteId},permitId=${wp.permitId})}"
+                               class="px-2 py-1 text-yellow-800 border border-yellow-500 rounded hover:bg-yellow-50 text-xs">수정</a>
+                            <form th:action="@{/workpermit/delete/{siteId}/{permitId}(siteId=${wp.siteId},permitId=${wp.permitId})}" method="post" class="inline"
+                                  th:onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                                <button type="submit"
+                                        class="px-2 py-1 text-red-800 border border-red-500 rounded hover:bg-red-50 text-xs">삭제</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${workpermitPage.empty}">
+                        <td colspan="8" class="text-center px-4 py-2 border">등록된 작업허가서가 없습니다.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Pagination -->
+        <div th:if="${workpermitPage.totalPages > 0}" class="flex justify-center mt-4 space-x-1">
+            <a th:href="@{/workpermit/workpermitList(page=${workpermitPage.number - 1}, size=${workpermitPage.size})}"
+               th:classappend="${workpermitPage.first ? 'pointer-events-none opacity-50' : ''}"
+               class="px-3 py-1 border rounded hover:bg-gray-100 text-sm">이전</a>
+            <a th:each="i : ${#numbers.sequence(0, workpermitPage.totalPages - 1)}"
+               th:href="@{/workpermit/workpermitList(page=${i}, size=${workpermitPage.size})}"
+               th:text="${i + 1}"
+               th:classappend="${i == workpermitPage.number ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}"
+               class="px-3 py-1 border rounded text-sm"></a>
+            <a th:href="@{/workpermit/workpermitList(page=${workpermitPage.number + 1}, size=${workpermitPage.size})}"
+               th:classappend="${workpermitPage.last ? 'pointer-events-none opacity-50' : ''}"
+               class="px-3 py-1 border rounded hover:bg-gray-100 text-sm">다음</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

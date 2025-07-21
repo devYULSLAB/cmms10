@@ -1,23 +1,23 @@
-2025-07-14 09:23:28 [restartedMain] INFO  com.cmms10.Cmms10Application - Starting Cmms10Application using Java 21.0.7 with PID 31172 (C:\github\cmms10\build\classes\java\main started by polkn in C:\github\cmms10)
-2025-07-14 09:23:28 [restartedMain] DEBUG com.cmms10.Cmms10Application - Running with Spring Boot v3.5.3, Spring v6.2.8
-2025-07-14 09:23:28 [restartedMain] INFO  com.cmms10.Cmms10Application - No active profile set, falling back to 1 default profile: "default"
-2025-07-14 09:23:28 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2025-07-14 09:23:28 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2025-07-14 09:23:29 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-07-14 09:23:29 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 85 ms. Found 16 JPA repository interfaces.
-2025-07-14 09:23:29 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-07-14 09:23:29 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-07-14 09:23:29 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
-2025-07-14 09:23:29 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-07-14 09:23:29 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1149 ms
-2025-07-14 09:23:29 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-07-14 09:23:30 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
-2025-07-14 09:23:30 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-07-14 09:23:30 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-07-14 09:23:30 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-07-14 09:23:31 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.mariadb.jdbc.Connection@4c76136b
-2025-07-14 09:23:31 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-07-14 09:23:32 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+2025-07-21 10:45:08 [restartedMain] INFO  com.cmms10.Cmms10Application - Starting Cmms10Application using Java 21.0.7 with PID 4328 (C:\github\cmms10\build\classes\java\main started by polkn in C:\github\cmms10)
+2025-07-21 10:45:08 [restartedMain] DEBUG com.cmms10.Cmms10Application - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-07-21 10:45:08 [restartedMain] INFO  com.cmms10.Cmms10Application - No active profile set, falling back to 1 default profile: "default"
+2025-07-21 10:45:08 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-07-21 10:45:08 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-07-21 10:45:09 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-21 10:45:09 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 140 ms. Found 20 JPA repository interfaces.
+2025-07-21 10:45:10 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-21 10:45:10 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-21 10:45:10 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-21 10:45:10 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-21 10:45:10 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1405 ms
+2025-07-21 10:45:10 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-21 10:45:10 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-07-21 10:45:10 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-07-21 10:45:10 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-07-21 10:45:10 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-07-21 10:45:12 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.mariadb.jdbc.Connection@2beb74
+2025-07-21 10:45:12 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-07-21 10:45:13 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 10.6.21
@@ -25,67 +25,119 @@
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2025-07-14 09:23:35 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-07-14 09:23:40 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-07-14 09:23:41 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-07-14 09:23:43 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
-2025-07-14 09:23:43 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
-2025-07-14 09:23:43 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
-2025-07-14 09:23:44 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2025-07-14 09:23:44 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase -2147483647
-2025-07-14 09:23:44 [restartedMain] TRACE o.s.c.s.DefaultLifecycleProcessor - Starting bean 'springBootLoggingLifecycle' of type [org.springframework.boot.context.logging.LoggingApplicationListener$Lifecycle]
-2025-07-14 09:23:44 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Successfully started bean 'springBootLoggingLifecycle'
-2025-07-14 09:23:44 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase 1073741823
-2025-07-14 09:23:44 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase 2147481599
-2025-07-14 09:23:44 [restartedMain] TRACE o.s.c.s.DefaultLifecycleProcessor - Starting bean 'webServerStartStop' of type [org.springframework.boot.web.servlet.context.WebServerStartStopLifecycle]
-2025-07-14 09:23:44 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
-2025-07-14 09:23:44 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Successfully started bean 'webServerStartStop'
-2025-07-14 09:23:44 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase 2147482623
-2025-07-14 09:23:44 [restartedMain] TRACE o.s.c.s.DefaultLifecycleProcessor - Starting bean 'webServerGracefulShutdown' of type [org.springframework.boot.web.context.WebServerGracefulShutdownLifecycle]
-2025-07-14 09:23:44 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Successfully started bean 'webServerGracefulShutdown'
-2025-07-14 09:23:44 [restartedMain] INFO  com.cmms10.Cmms10Application - Started Cmms10Application in 16.323 seconds (process running for 16.623)
-2025-07-14 09:41:55 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-07-14 09:41:55 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-07-14 09:41:55 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
-2025-07-14 09:41:55 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /inspection/inspectionForm
-2025-07-14 09:41:55 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
-2025-07-14 09:41:55 [http-nio-8080-exec-1] DEBUG o.s.s.w.s.HttpSessionRequestCache - Saved request http://localhost:8080/inspection/inspectionForm?continue to session
-2025-07-14 09:41:55 [http-nio-8080-exec-1] DEBUG o.s.s.web.DefaultRedirectStrategy - Redirecting to http://localhost:8080/login
-2025-07-14 09:41:55 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
-2025-07-14 09:41:55 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
-2025-07-14 09:41:56 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
-2025-07-14 09:42:01 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing POST /login
-2025-07-14 09:42:03 [http-nio-8080-exec-3] DEBUG o.s.s.a.d.DaoAuthenticationProvider - Authenticated user
-2025-07-14 09:42:03 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.s.ChangeSessionIdAuthenticationStrategy - Changed session id from 0F97AF084925A11FB0548A782B8D1281
-2025-07-14 09:42:03 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.CsrfAuthenticationStrategy - Replaced CSRF Token
-2025-07-14 09:42:03 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Stored SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=0F97AF084925A11FB0548A782B8D1281], Granted Authorities=[test]]] to HttpSession [org.apache.catalina.session.StandardSessionFacade@621cb8be]
-2025-07-14 09:42:03 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.UsernamePasswordAuthenticationFilter - Set SecurityContextHolder to UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=0F97AF084925A11FB0548A782B8D1281], Granted Authorities=[test]]
-2025-07-14 09:42:03 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /memo/memoList
-2025-07-14 09:42:03 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=0F97AF084925A11FB0548A782B8D1281], Granted Authorities=[test]]]
-2025-07-14 09:42:03 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /memo/memoList
-2025-07-14 09:42:07 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /inspection/inspectionForm
-2025-07-14 09:42:07 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=0F97AF084925A11FB0548A782B8D1281], Granted Authorities=[test]]]
-2025-07-14 09:42:07 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /inspection/inspectionForm
-2025-07-14 11:16:13 [restartedMain] INFO  com.cmms10.Cmms10Application - Starting Cmms10Application using Java 21.0.7 with PID 26896 (C:\github\cmms10\build\classes\java\main started by polkn in C:\github\cmms10)
-2025-07-14 11:16:13 [restartedMain] DEBUG com.cmms10.Cmms10Application - Running with Spring Boot v3.5.3, Spring v6.2.8
-2025-07-14 11:16:13 [restartedMain] INFO  com.cmms10.Cmms10Application - No active profile set, falling back to 1 default profile: "default"
-2025-07-14 11:16:13 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2025-07-14 11:16:13 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2025-07-14 11:16:14 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-07-14 11:16:14 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 81 ms. Found 16 JPA repository interfaces.
-2025-07-14 11:16:14 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-07-14 11:16:14 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-07-14 11:16:14 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
-2025-07-14 11:16:14 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-07-14 11:16:14 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 984 ms
-2025-07-14 11:16:15 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-07-14 11:16:15 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
-2025-07-14 11:16:15 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-07-14 11:16:15 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-07-14 11:16:15 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-07-14 11:16:16 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.mariadb.jdbc.Connection@75cd90a0
-2025-07-14 11:16:16 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-07-14 11:16:17 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+2025-07-21 10:45:15 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-07-21 10:45:22 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-21 10:45:23 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-07-21 10:45:24 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'inventoryIoController' defined in file [C:\github\cmms10\build\classes\java\main\com\cmms10\inventoryMaster\controller\InventoryIoController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'inventoryIoService' defined in file [C:\github\cmms10\build\classes\java\main\com\cmms10\inventoryMaster\service\InventoryIoService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'inventoryHistoryRepository' defined in com.cmms10.inventoryMaster.repository.InventoryHistoryRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Could not create query for public abstract org.springframework.data.domain.Page com.cmms10.inventoryMaster.repository.InventoryHistoryRepository.findByCompanyIdAndInventoryIdOrderByIoDateDesc(java.lang.String,java.lang.String); Reason: Paging query needs to have a Pageable parameter; Offending method: public abstract org.springframework.data.domain.Page com.cmms10.inventoryMaster.repository.InventoryHistoryRepository.findByCompanyIdAndInventoryIdOrderByIoDateDesc(java.lang.String,java.lang.String)
+2025-07-21 10:45:24 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-07-21 10:45:24 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-07-21 10:45:24 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-07-21 10:45:24 [restartedMain] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2025-07-21 10:45:24 [restartedMain] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-07-21 10:45:24 [restartedMain] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'inventoryIoController' defined in file [C:\github\cmms10\build\classes\java\main\com\cmms10\inventoryMaster\controller\InventoryIoController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'inventoryIoService' defined in file [C:\github\cmms10\build\classes\java\main\com\cmms10\inventoryMaster\service\InventoryIoService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'inventoryHistoryRepository' defined in com.cmms10.inventoryMaster.repository.InventoryHistoryRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Could not create query for public abstract org.springframework.data.domain.Page com.cmms10.inventoryMaster.repository.InventoryHistoryRepository.findByCompanyIdAndInventoryIdOrderByIoDateDesc(java.lang.String,java.lang.String); Reason: Paging query needs to have a Pageable parameter; Offending method: public abstract org.springframework.data.domain.Page com.cmms10.inventoryMaster.repository.InventoryHistoryRepository.findByCompanyIdAndInventoryIdOrderByIoDateDesc(java.lang.String,java.lang.String)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1395)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1222)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1188)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1123)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:987)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at com.cmms10.Cmms10Application.main(Cmms10Application.java:10)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'inventoryIoService' defined in file [C:\github\cmms10\build\classes\java\main\com\cmms10\inventoryMaster\service\InventoryIoService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'inventoryHistoryRepository' defined in com.cmms10.inventoryMaster.repository.InventoryHistoryRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Could not create query for public abstract org.springframework.data.domain.Page com.cmms10.inventoryMaster.repository.InventoryHistoryRepository.findByCompanyIdAndInventoryIdOrderByIoDateDesc(java.lang.String,java.lang.String); Reason: Paging query needs to have a Pageable parameter; Offending method: public abstract org.springframework.data.domain.Page com.cmms10.inventoryMaster.repository.InventoryHistoryRepository.findByCompanyIdAndInventoryIdOrderByIoDateDesc(java.lang.String,java.lang.String)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1395)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1683)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1628)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	... 24 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'inventoryHistoryRepository' defined in com.cmms10.inventoryMaster.repository.InventoryHistoryRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Could not create query for public abstract org.springframework.data.domain.Page com.cmms10.inventoryMaster.repository.InventoryHistoryRepository.findByCompanyIdAndInventoryIdOrderByIoDateDesc(java.lang.String,java.lang.String); Reason: Paging query needs to have a Pageable parameter; Offending method: public abstract org.springframework.data.domain.Page com.cmms10.inventoryMaster.repository.InventoryHistoryRepository.findByCompanyIdAndInventoryIdOrderByIoDateDesc(java.lang.String,java.lang.String)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1683)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1628)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	... 37 common frames omitted
+Caused by: org.springframework.data.repository.query.QueryCreationException: Could not create query for public abstract org.springframework.data.domain.Page com.cmms10.inventoryMaster.repository.InventoryHistoryRepository.findByCompanyIdAndInventoryIdOrderByIoDateDesc(java.lang.String,java.lang.String); Reason: Paging query needs to have a Pageable parameter; Offending method: public abstract org.springframework.data.domain.Page com.cmms10.inventoryMaster.repository.InventoryHistoryRepository.findByCompanyIdAndInventoryIdOrderByIoDateDesc(java.lang.String,java.lang.String)
+	at org.springframework.data.repository.query.QueryCreationException.create(QueryCreationException.java:101)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lookupQuery(QueryExecutorMethodInterceptor.java:120)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.mapMethodsToQuery(QueryExecutorMethodInterceptor.java:104)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lambda$new$0(QueryExecutorMethodInterceptor.java:92)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.<init>(QueryExecutorMethodInterceptor.java:92)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository(RepositoryFactorySupport.java:434)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.lambda$afterPropertiesSet$4(RepositoryFactoryBeanSupport.java:350)
+	at org.springframework.data.util.Lazy.getNullable(Lazy.java:135)
+	at org.springframework.data.util.Lazy.get(Lazy.java:113)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.afterPropertiesSet(RepositoryFactoryBeanSupport.java:356)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean.afterPropertiesSet(JpaRepositoryFactoryBean.java:132)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
+	... 47 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Paging query needs to have a Pageable parameter; Offending method: public abstract org.springframework.data.domain.Page com.cmms10.inventoryMaster.repository.InventoryHistoryRepository.findByCompanyIdAndInventoryIdOrderByIoDateDesc(java.lang.String,java.lang.String)
+	at org.springframework.util.Assert.isTrue(Assert.java:116)
+	at org.springframework.data.repository.query.QueryMethod.validate(QueryMethod.java:152)
+	at org.springframework.data.repository.query.QueryMethod.<init>(QueryMethod.java:125)
+	at org.springframework.data.jpa.repository.query.JpaQueryMethod.<init>(JpaQueryMethod.java:118)
+	at org.springframework.data.jpa.repository.query.JpaQueryMethod.<init>(JpaQueryMethod.java:102)
+	at org.springframework.data.jpa.repository.query.DefaultJpaQueryMethodFactory.build(DefaultJpaQueryMethodFactory.java:44)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$AbstractQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:98)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lookupQuery(QueryExecutorMethodInterceptor.java:116)
+	... 59 common frames omitted
+2025-07-21 10:53:05 [restartedMain] INFO  com.cmms10.Cmms10Application - Starting Cmms10Application using Java 21.0.7 with PID 31944 (C:\github\cmms10\build\classes\java\main started by polkn in C:\github\cmms10)
+2025-07-21 10:53:05 [restartedMain] DEBUG com.cmms10.Cmms10Application - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-07-21 10:53:05 [restartedMain] INFO  com.cmms10.Cmms10Application - No active profile set, falling back to 1 default profile: "default"
+2025-07-21 10:53:05 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-07-21 10:53:05 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-07-21 10:53:06 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-21 10:53:06 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 150 ms. Found 20 JPA repository interfaces.
+2025-07-21 10:53:07 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-21 10:53:07 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-21 10:53:07 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-21 10:53:07 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-21 10:53:07 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2281 ms
+2025-07-21 10:53:08 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-21 10:53:08 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-07-21 10:53:08 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-07-21 10:53:09 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-07-21 10:53:09 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-07-21 10:53:10 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.mariadb.jdbc.Connection@36c05f35
+2025-07-21 10:53:10 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-07-21 10:53:11 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 10.6.21
@@ -93,241 +145,229 @@
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2025-07-14 11:16:19 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-07-14 11:16:24 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-07-14 11:16:25 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-07-14 11:16:26 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
-2025-07-14 11:16:26 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
-2025-07-14 11:16:26 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
-2025-07-14 11:16:26 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2025-07-14 11:16:26 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase -2147483647
-2025-07-14 11:16:26 [restartedMain] TRACE o.s.c.s.DefaultLifecycleProcessor - Starting bean 'springBootLoggingLifecycle' of type [org.springframework.boot.context.logging.LoggingApplicationListener$Lifecycle]
-2025-07-14 11:16:26 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Successfully started bean 'springBootLoggingLifecycle'
-2025-07-14 11:16:26 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase 1073741823
-2025-07-14 11:16:26 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase 2147481599
-2025-07-14 11:16:26 [restartedMain] TRACE o.s.c.s.DefaultLifecycleProcessor - Starting bean 'webServerStartStop' of type [org.springframework.boot.web.servlet.context.WebServerStartStopLifecycle]
-2025-07-14 11:16:26 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
-2025-07-14 11:16:26 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Successfully started bean 'webServerStartStop'
-2025-07-14 11:16:26 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase 2147482623
-2025-07-14 11:16:26 [restartedMain] TRACE o.s.c.s.DefaultLifecycleProcessor - Starting bean 'webServerGracefulShutdown' of type [org.springframework.boot.web.context.WebServerGracefulShutdownLifecycle]
-2025-07-14 11:16:26 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Successfully started bean 'webServerGracefulShutdown'
-2025-07-14 11:16:26 [restartedMain] INFO  com.cmms10.Cmms10Application - Started Cmms10Application in 13.31 seconds (process running for 13.608)
-2025-07-14 11:18:55 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-07-14 11:18:55 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-07-14 11:18:55 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
-2025-07-14 11:18:55 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /
-2025-07-14 11:18:55 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /
-2025-07-14 11:18:55 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
-2025-07-14 11:18:55 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
-2025-07-14 11:18:55 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
-2025-07-14 11:18:56 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
-2025-07-14 11:18:56 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /favicon.ico
-2025-07-14 11:18:56 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /favicon.ico
-2025-07-14 11:18:56 [http-nio-8080-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
-2025-07-14 11:18:56 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
-2025-07-14 11:18:56 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /error
-2025-07-14 11:18:56 [http-nio-8080-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
-2025-07-14 11:19:00 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing POST /login
-2025-07-14 11:19:02 [http-nio-8080-exec-6] DEBUG o.s.s.a.d.DaoAuthenticationProvider - Authenticated user
-2025-07-14 11:19:02 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.s.ChangeSessionIdAuthenticationStrategy - Changed session id from 773C225433A2EFCF6541E81552B675B4
-2025-07-14 11:19:02 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.CsrfAuthenticationStrategy - Replaced CSRF Token
-2025-07-14 11:19:02 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Stored SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]] to HttpSession [org.apache.catalina.session.StandardSessionFacade@6dcd5f11]
-2025-07-14 11:19:02 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.UsernamePasswordAuthenticationFilter - Set SecurityContextHolder to UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]
-2025-07-14 11:19:02 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /memo/memoList
-2025-07-14 11:19:02 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:19:02 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /memo/memoList
-2025-07-14 11:29:09 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterForm
-2025-07-14 11:29:09 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:29:09 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterForm
-2025-07-14 11:29:27 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing POST /funcMaster/funcMasterSave
-2025-07-14 11:29:27 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:29:27 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured POST /funcMaster/funcMasterSave
-2025-07-14 11:29:29 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterList
-2025-07-14 11:29:29 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:29:29 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterList
-2025-07-14 11:29:33 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing POST /funcMaster/funcMasterDelete/ASSET/C0001
-2025-07-14 11:29:33 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:29:33 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured POST /funcMaster/funcMasterDelete/ASSET/C0001
-2025-07-14 11:29:34 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterList
-2025-07-14 11:29:34 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:29:34 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterList
-2025-07-14 11:29:36 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterForm
-2025-07-14 11:29:36 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:29:36 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterForm
-2025-07-14 11:29:44 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing POST /funcMaster/funcMasterSave
-2025-07-14 11:29:44 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:29:44 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured POST /funcMaster/funcMasterSave
-2025-07-14 11:29:45 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterList
-2025-07-14 11:29:45 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:29:45 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterList
-2025-07-14 11:29:47 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterForm/ASSET/C0001
-2025-07-14 11:29:47 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:29:47 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterForm/ASSET/C0001
-2025-07-14 11:29:49 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing POST /funcMaster/funcMasterSave
-2025-07-14 11:29:49 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:29:49 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured POST /funcMaster/funcMasterSave
-2025-07-14 11:29:51 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterList
-2025-07-14 11:29:51 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:29:51 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterList
-2025-07-14 11:29:55 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterForm
-2025-07-14 11:29:55 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:29:55 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterForm
-2025-07-14 11:30:08 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /funcMaster/funcMasterSave
-2025-07-14 11:30:08 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:30:08 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured POST /funcMaster/funcMasterSave
-2025-07-14 11:30:09 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterList
-2025-07-14 11:30:09 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:30:09 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterList
-2025-07-14 11:30:27 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterForm
-2025-07-14 11:30:27 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:30:27 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterForm
-2025-07-14 11:30:39 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing POST /funcMaster/funcMasterSave
-2025-07-14 11:30:39 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:30:39 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured POST /funcMaster/funcMasterSave
-2025-07-14 11:30:40 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterList
-2025-07-14 11:30:40 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:30:40 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterList
-2025-07-14 11:31:02 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /commonCode/commonCodeList
-2025-07-14 11:31:02 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:31:02 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /commonCode/commonCodeList
-2025-07-14 11:31:05 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /commonCode/commonCodeForm
-2025-07-14 11:31:05 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:31:05 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /commonCode/commonCodeForm
-2025-07-14 11:31:18 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterList
-2025-07-14 11:31:18 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:31:18 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterList
-2025-07-14 11:31:20 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing POST /funcMaster/funcMasterDelete/ASSET/C0001
-2025-07-14 11:31:20 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:31:20 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured POST /funcMaster/funcMasterDelete/ASSET/C0001
-2025-07-14 11:31:22 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterList
-2025-07-14 11:31:22 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:31:22 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterList
-2025-07-14 11:31:24 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing POST /funcMaster/funcMasterDelete/DEPRE/C0001
-2025-07-14 11:31:24 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:31:24 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured POST /funcMaster/funcMasterDelete/DEPRE/C0001
-2025-07-14 11:31:25 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterList
-2025-07-14 11:31:25 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:31:25 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterList
-2025-07-14 11:31:27 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing POST /funcMaster/funcMasterDelete/JOBTY/C0001
-2025-07-14 11:31:27 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:31:27 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured POST /funcMaster/funcMasterDelete/JOBTY/C0001
-2025-07-14 11:31:29 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterList
-2025-07-14 11:31:29 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:31:29 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterList
-2025-07-14 11:31:36 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterForm
-2025-07-14 11:31:36 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:31:36 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterForm
-2025-07-14 11:31:42 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterForm
-2025-07-14 11:31:42 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:31:42 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterForm
-2025-07-14 11:31:57 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing POST /funcMaster/funcMasterSave
-2025-07-14 11:31:57 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:31:57 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured POST /funcMaster/funcMasterSave
-2025-07-14 11:31:58 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterList
-2025-07-14 11:31:58 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:31:58 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterList
-2025-07-14 11:31:59 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterForm
-2025-07-14 11:31:59 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:31:59 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterForm
-2025-07-14 11:32:05 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing POST /funcMaster/funcMasterSave
-2025-07-14 11:32:05 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:32:05 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured POST /funcMaster/funcMasterSave
-2025-07-14 11:32:06 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterList
-2025-07-14 11:32:06 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:32:06 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterList
-2025-07-14 11:32:09 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterForm
-2025-07-14 11:32:09 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:32:09 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterForm
-2025-07-14 11:32:15 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing POST /funcMaster/funcMasterSave
-2025-07-14 11:32:15 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:32:15 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured POST /funcMaster/funcMasterSave
-2025-07-14 11:32:16 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /funcMaster/funcMasterList
-2025-07-14 11:32:16 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:32:16 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /funcMaster/funcMasterList
-2025-07-14 11:32:21 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /commonCode/commonCodeForm
-2025-07-14 11:32:21 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:32:21 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /commonCode/commonCodeForm
-2025-07-14 11:32:30 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing POST /commonCode/commonCodeSave
-2025-07-14 11:32:30 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:32:30 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured POST /commonCode/commonCodeSave
-2025-07-14 11:32:31 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /commonCode/commonCodeList
-2025-07-14 11:32:31 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:32:31 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /commonCode/commonCodeList
-2025-07-14 11:34:02 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /commonCode/commonCodeForm
-2025-07-14 11:34:02 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:34:02 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /commonCode/commonCodeForm
-2025-07-14 11:34:03 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /commonCode/commonCodeList
-2025-07-14 11:34:03 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:34:03 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /commonCode/commonCodeList
-2025-07-14 11:34:48 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /commonCode/commonCodeForm
-2025-07-14 11:34:48 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:34:48 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /commonCode/commonCodeForm
-2025-07-14 11:35:23 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing POST /commonCode/commonCodeSave
-2025-07-14 11:35:23 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:35:23 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured POST /commonCode/commonCodeSave
-2025-07-14 11:35:24 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /commonCode/commonCodeList
-2025-07-14 11:35:24 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:35:24 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /commonCode/commonCodeList
-2025-07-14 11:35:31 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /commonCode/commonCodeForm
-2025-07-14 11:35:31 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:35:31 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /commonCode/commonCodeForm
-2025-07-14 11:35:45 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing POST /commonCode/commonCodeSave
-2025-07-14 11:35:45 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:35:45 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured POST /commonCode/commonCodeSave
-2025-07-14 11:35:46 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /commonCode/commonCodeList
-2025-07-14 11:35:46 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:35:46 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /commonCode/commonCodeList
-2025-07-14 11:35:48 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /commonCode/commonCodeForm
-2025-07-14 11:35:48 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:35:48 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /commonCode/commonCodeForm
-2025-07-14 11:36:47 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing POST /commonCode/commonCodeSave
-2025-07-14 11:36:47 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:36:47 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured POST /commonCode/commonCodeSave
-2025-07-14 11:36:49 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /commonCode/commonCodeList
-2025-07-14 11:36:49 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:36:49 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /commonCode/commonCodeList
-2025-07-14 11:36:55 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /commonCode/commonCodeForm
-2025-07-14 11:36:55 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:36:55 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /commonCode/commonCodeForm
-2025-07-14 11:37:05 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing POST /commonCode/commonCodeSave
-2025-07-14 11:37:05 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:37:05 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured POST /commonCode/commonCodeSave
-2025-07-14 11:37:06 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /commonCode/commonCodeList
-2025-07-14 11:37:06 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:37:06 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /commonCode/commonCodeList
-2025-07-14 11:37:32 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /commonCode/commonCodeList
-2025-07-14 11:37:32 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=773C225433A2EFCF6541E81552B675B4], Granted Authorities=[test]]]
-2025-07-14 11:37:32 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /commonCode/commonCodeList
-2025-07-14 12:10:46 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@2d29460b ((conn=13289) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
-2025-07-14 12:10:51 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@51af8c57 ((conn=13282) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
-2025-07-14 12:10:51 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=9m33s228ms726µs).
-2025-07-14 12:10:56 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@2642bd7f ((conn=13300) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
-2025-07-14 12:11:01 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@413cbea2 ((conn=13293) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
-2025-07-14 12:11:06 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@7b184f5c ((conn=13284) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
-2025-07-14 12:11:11 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@65e24fa9 ((conn=13291) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
-2025-07-14 12:11:16 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@7854f1db ((conn=13287) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
-2025-07-14 12:11:21 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@1c9d8004 ((conn=13294) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
-2025-07-14 12:39:04 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m13s67ms12µs).
-2025-07-14 12:39:38 [restartedMain] INFO  com.cmms10.Cmms10Application - Starting Cmms10Application using Java 21.0.7 with PID 21812 (C:\github\cmms10\build\classes\java\main started by polkn in C:\github\cmms10)
-2025-07-14 12:39:38 [restartedMain] DEBUG com.cmms10.Cmms10Application - Running with Spring Boot v3.5.3, Spring v6.2.8
-2025-07-14 12:39:38 [restartedMain] INFO  com.cmms10.Cmms10Application - No active profile set, falling back to 1 default profile: "default"
-2025-07-14 12:39:38 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2025-07-14 12:39:38 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2025-07-14 12:39:39 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-07-14 12:39:39 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 77 ms. Found 16 JPA repository interfaces.
-2025-07-14 12:39:39 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-07-14 12:39:39 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2025-07-14 12:39:39 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
-2025-07-14 12:39:39 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-07-14 12:39:39 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 956 ms
-2025-07-14 12:39:39 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-07-14 12:39:40 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
-2025-07-14 12:39:40 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-07-14 12:39:40 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-07-14 12:39:40 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-07-14 12:39:41 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.mariadb.jdbc.Connection@3efc4fde
-2025-07-14 12:39:41 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-07-14 12:39:41 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+2025-07-21 10:53:14 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-07-21 10:53:20 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-21 10:53:21 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-07-21 10:53:23 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-07-21 10:53:23 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-07-21 10:53:23 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-07-21 10:53:24 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-07-21 10:53:24 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase -2147483647
+2025-07-21 10:53:24 [restartedMain] TRACE o.s.c.s.DefaultLifecycleProcessor - Starting bean 'springBootLoggingLifecycle' of type [org.springframework.boot.context.logging.LoggingApplicationListener$Lifecycle]
+2025-07-21 10:53:24 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Successfully started bean 'springBootLoggingLifecycle'
+2025-07-21 10:53:24 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase 1073741823
+2025-07-21 10:53:24 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase 2147481599
+2025-07-21 10:53:24 [restartedMain] TRACE o.s.c.s.DefaultLifecycleProcessor - Starting bean 'webServerStartStop' of type [org.springframework.boot.web.servlet.context.WebServerStartStopLifecycle]
+2025-07-21 10:53:24 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-07-21 10:53:24 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Successfully started bean 'webServerStartStop'
+2025-07-21 10:53:24 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase 2147482623
+2025-07-21 10:53:24 [restartedMain] TRACE o.s.c.s.DefaultLifecycleProcessor - Starting bean 'webServerGracefulShutdown' of type [org.springframework.boot.web.context.WebServerGracefulShutdownLifecycle]
+2025-07-21 10:53:24 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Successfully started bean 'webServerGracefulShutdown'
+2025-07-21 10:53:24 [restartedMain] INFO  com.cmms10.Cmms10Application - Started Cmms10Application in 19.707 seconds (process running for 20.3)
+2025-07-21 10:53:54 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-21 10:53:54 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-07-21 10:53:54 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 4 ms
+2025-07-21 10:53:54 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /
+2025-07-21 10:53:54 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /
+2025-07-21 10:53:54 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-21 10:53:54 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-07-21 10:53:54 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-07-21 10:53:55 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-21 10:53:55 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /favicon.ico
+2025-07-21 10:53:55 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /favicon.ico
+2025-07-21 10:53:55 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-21 10:53:55 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-07-21 10:53:55 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /error
+2025-07-21 10:53:56 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-21 10:53:58 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing POST /login
+2025-07-21 10:54:00 [http-nio-8080-exec-3] DEBUG o.s.s.a.d.DaoAuthenticationProvider - Authenticated user
+2025-07-21 10:54:00 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.s.ChangeSessionIdAuthenticationStrategy - Changed session id from D8F17A232A794684F090B49CD646F874
+2025-07-21 10:54:00 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.CsrfAuthenticationStrategy - Replaced CSRF Token
+2025-07-21 10:54:00 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Stored SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=D8F17A232A794684F090B49CD646F874], Granted Authorities=[test]]] to HttpSession [org.apache.catalina.session.StandardSessionFacade@61494d61]
+2025-07-21 10:54:00 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.UsernamePasswordAuthenticationFilter - Set SecurityContextHolder to UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=D8F17A232A794684F090B49CD646F874], Granted Authorities=[test]]
+2025-07-21 10:54:00 [http-nio-8080-exec-3] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
+java.util.MissingFormatArgumentException: Format specifier '%s'
+	at java.base/java.util.Formatter.format(Formatter.java:2790)
+	at java.base/java.util.Formatter.format(Formatter.java:2728)
+	at java.base/java.lang.String.format(String.java:4390)
+	at com.cmms10.auth.dto.CustomUserDetails.getFormattedUserInfo(CustomUserDetails.java:53)
+	at com.cmms10.config.SecurityConfig.lambda$authenticationSuccessHandler$3(SecurityConfig.java:90)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.successfulAuthentication(AbstractAuthenticationProcessingFilter.java:355)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:253)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:229)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.csrf.CsrfFilter.doFilterInternal(CsrfFilter.java:134)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1769)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-07-21 10:54:00 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing POST /error
+2025-07-21 10:54:00 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured POST /error
+2025-07-21 10:54:00 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=D8F17A232A794684F090B49CD646F874], Granted Authorities=[test]]]
+2025-07-21 11:08:47 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-07-21 11:08:47 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-07-21 11:08:47 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=D8F17A232A794684F090B49CD646F874], Granted Authorities=[test]]]
+2025-07-21 11:08:53 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing POST /login
+2025-07-21 11:08:56 [http-nio-8080-exec-7] DEBUG o.s.s.a.d.DaoAuthenticationProvider - Authenticated user
+2025-07-21 11:08:56 [http-nio-8080-exec-7] DEBUG o.s.s.w.a.s.ChangeSessionIdAuthenticationStrategy - Changed session id from 95C521EFC6815AB19F652EDB32A535F6
+2025-07-21 11:08:56 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.CsrfAuthenticationStrategy - Replaced CSRF Token
+2025-07-21 11:08:56 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Stored SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=95C521EFC6815AB19F652EDB32A535F6], Granted Authorities=[test]]] to HttpSession [org.apache.catalina.session.StandardSessionFacade@61494d61]
+2025-07-21 11:08:56 [http-nio-8080-exec-7] DEBUG o.s.s.w.a.UsernamePasswordAuthenticationFilter - Set SecurityContextHolder to UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=95C521EFC6815AB19F652EDB32A535F6], Granted Authorities=[test]]
+2025-07-21 11:08:56 [http-nio-8080-exec-7] ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
+java.util.MissingFormatArgumentException: Format specifier '%s'
+	at java.base/java.util.Formatter.format(Formatter.java:2790)
+	at java.base/java.util.Formatter.format(Formatter.java:2728)
+	at java.base/java.lang.String.format(String.java:4390)
+	at com.cmms10.auth.dto.CustomUserDetails.getFormattedUserInfo(CustomUserDetails.java:53)
+	at com.cmms10.config.SecurityConfig.lambda$authenticationSuccessHandler$3(SecurityConfig.java:90)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.successfulAuthentication(AbstractAuthenticationProcessingFilter.java:355)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:253)
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:229)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107)
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.csrf.CsrfFilter.doFilterInternal(CsrfFilter.java:134)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90)
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82)
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374)
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233)
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267)
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113)
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74)
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240)
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362)
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1769)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2025-07-21 11:08:56 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing POST /error
+2025-07-21 11:08:56 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured POST /error
+2025-07-21 11:08:56 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=95C521EFC6815AB19F652EDB32A535F6], Granted Authorities=[test]]]
+2025-07-21 11:13:02 [restartedMain] INFO  com.cmms10.Cmms10Application - Starting Cmms10Application using Java 21.0.7 with PID 33680 (C:\github\cmms10\build\classes\java\main started by polkn in C:\github\cmms10)
+2025-07-21 11:13:02 [restartedMain] DEBUG com.cmms10.Cmms10Application - Running with Spring Boot v3.5.3, Spring v6.2.8
+2025-07-21 11:13:02 [restartedMain] INFO  com.cmms10.Cmms10Application - No active profile set, falling back to 1 default profile: "default"
+2025-07-21 11:13:03 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-07-21 11:13:03 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-07-21 11:13:03 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-07-21 11:13:04 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 134 ms. Found 20 JPA repository interfaces.
+2025-07-21 11:13:04 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-07-21 11:13:04 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-21 11:13:04 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.42]
+2025-07-21 11:13:04 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-07-21 11:13:04 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1463 ms
+2025-07-21 11:13:04 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-07-21 11:13:04 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.18.Final
+2025-07-21 11:13:04 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-07-21 11:13:05 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-07-21 11:13:05 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-07-21 11:13:06 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.mariadb.jdbc.Connection@3b30560
+2025-07-21 11:13:06 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-07-21 11:13:07 [restartedMain] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 10.6.21
@@ -335,58 +375,224 @@
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2025-07-14 12:39:44 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-07-14 12:39:49 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-07-14 12:39:49 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-07-14 12:39:51 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
-2025-07-14 12:39:51 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
-2025-07-14 12:39:51 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
-2025-07-14 12:39:52 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2025-07-14 12:39:52 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase -2147483647
-2025-07-14 12:39:52 [restartedMain] TRACE o.s.c.s.DefaultLifecycleProcessor - Starting bean 'springBootLoggingLifecycle' of type [org.springframework.boot.context.logging.LoggingApplicationListener$Lifecycle]
-2025-07-14 12:39:52 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Successfully started bean 'springBootLoggingLifecycle'
-2025-07-14 12:39:52 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase 1073741823
-2025-07-14 12:39:52 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase 2147481599
-2025-07-14 12:39:52 [restartedMain] TRACE o.s.c.s.DefaultLifecycleProcessor - Starting bean 'webServerStartStop' of type [org.springframework.boot.web.servlet.context.WebServerStartStopLifecycle]
-2025-07-14 12:39:52 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
-2025-07-14 12:39:52 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Successfully started bean 'webServerStartStop'
-2025-07-14 12:39:52 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase 2147482623
-2025-07-14 12:39:52 [restartedMain] TRACE o.s.c.s.DefaultLifecycleProcessor - Starting bean 'webServerGracefulShutdown' of type [org.springframework.boot.web.context.WebServerGracefulShutdownLifecycle]
-2025-07-14 12:39:52 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Successfully started bean 'webServerGracefulShutdown'
-2025-07-14 12:39:52 [restartedMain] INFO  com.cmms10.Cmms10Application - Started Cmms10Application in 13.961 seconds (process running for 14.248)
-2025-07-14 12:40:08 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-07-14 12:40:08 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-07-14 12:40:08 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
-2025-07-14 12:40:08 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /
-2025-07-14 12:40:08 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /
-2025-07-14 12:40:08 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
-2025-07-14 12:40:08 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
-2025-07-14 12:40:08 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
-2025-07-14 12:40:09 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
-2025-07-14 12:40:09 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /favicon.ico
-2025-07-14 12:40:09 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /favicon.ico
-2025-07-14 12:40:09 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
-2025-07-14 12:40:09 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
-2025-07-14 12:40:09 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /error
-2025-07-14 12:40:09 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
-2025-07-14 12:40:13 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing POST /login
-2025-07-14 12:40:15 [http-nio-8080-exec-6] DEBUG o.s.s.a.d.DaoAuthenticationProvider - Authenticated user
-2025-07-14 12:40:15 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.s.ChangeSessionIdAuthenticationStrategy - Changed session id from C8E264E8FE25B8D8803894EFA5D98D17
-2025-07-14 12:40:15 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.CsrfAuthenticationStrategy - Replaced CSRF Token
-2025-07-14 12:40:15 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Stored SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=C8E264E8FE25B8D8803894EFA5D98D17], Granted Authorities=[test]]] to HttpSession [org.apache.catalina.session.StandardSessionFacade@4287468]
-2025-07-14 12:40:15 [http-nio-8080-exec-6] DEBUG o.s.s.w.a.UsernamePasswordAuthenticationFilter - Set SecurityContextHolder to UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=C8E264E8FE25B8D8803894EFA5D98D17], Granted Authorities=[test]]
-2025-07-14 12:40:15 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /memo/memoList
-2025-07-14 12:40:15 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=C8E264E8FE25B8D8803894EFA5D98D17], Granted Authorities=[test]]]
-2025-07-14 12:40:15 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /memo/memoList
-2025-07-14 12:40:24 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /plantMaster/plantMasterForm
-2025-07-14 12:40:24 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=C8E264E8FE25B8D8803894EFA5D98D17], Granted Authorities=[test]]]
-2025-07-14 12:40:24 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /plantMaster/plantMasterForm
-2025-07-14 12:40:48 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /inventoryMaster/inventoryMasterForm
-2025-07-14 12:40:48 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=C8E264E8FE25B8D8803894EFA5D98D17], Granted Authorities=[test]]]
-2025-07-14 12:40:48 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /inventoryMaster/inventoryMasterForm
-2025-07-14 12:41:03 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /plantMaster/plantMasterForm
-2025-07-14 12:41:03 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=C8E264E8FE25B8D8803894EFA5D98D17], Granted Authorities=[test]]]
-2025-07-14 12:41:03 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /plantMaster/plantMasterForm
-2025-07-14 12:42:33 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /inspection/inspectionForm
-2025-07-14 12:42:33 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=C8E264E8FE25B8D8803894EFA5D98D17], Granted Authorities=[test]]]
-2025-07-14 12:42:33 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /inspection/inspectionForm
+2025-07-21 11:13:10 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-07-21 11:13:17 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-07-21 11:13:19 [restartedMain] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-07-21 11:13:21 [restartedMain] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-07-21 11:13:21 [restartedMain] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-07-21 11:13:21 [restartedMain] DEBUG o.s.s.web.DefaultSecurityFilterChain - Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2025-07-21 11:13:22 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-07-21 11:13:22 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase -2147483647
+2025-07-21 11:13:22 [restartedMain] TRACE o.s.c.s.DefaultLifecycleProcessor - Starting bean 'springBootLoggingLifecycle' of type [org.springframework.boot.context.logging.LoggingApplicationListener$Lifecycle]
+2025-07-21 11:13:22 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Successfully started bean 'springBootLoggingLifecycle'
+2025-07-21 11:13:22 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase 1073741823
+2025-07-21 11:13:22 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase 2147481599
+2025-07-21 11:13:22 [restartedMain] TRACE o.s.c.s.DefaultLifecycleProcessor - Starting bean 'webServerStartStop' of type [org.springframework.boot.web.servlet.context.WebServerStartStopLifecycle]
+2025-07-21 11:13:22 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-07-21 11:13:22 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Successfully started bean 'webServerStartStop'
+2025-07-21 11:13:22 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Starting beans in phase 2147482623
+2025-07-21 11:13:22 [restartedMain] TRACE o.s.c.s.DefaultLifecycleProcessor - Starting bean 'webServerGracefulShutdown' of type [org.springframework.boot.web.context.WebServerGracefulShutdownLifecycle]
+2025-07-21 11:13:22 [restartedMain] DEBUG o.s.c.s.DefaultLifecycleProcessor - Successfully started bean 'webServerGracefulShutdown'
+2025-07-21 11:13:22 [restartedMain] INFO  com.cmms10.Cmms10Application - Started Cmms10Application in 19.965 seconds (process running for 20.42)
+2025-07-21 11:13:24 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-21 11:13:24 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-07-21 11:13:24 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-07-21 11:13:24 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /
+2025-07-21 11:13:24 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /
+2025-07-21 11:13:24 [http-nio-8080-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-21 11:13:24 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-07-21 11:13:24 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-07-21 11:13:25 [http-nio-8080-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-21 11:13:25 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /favicon.ico
+2025-07-21 11:13:25 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /favicon.ico
+2025-07-21 11:13:25 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-21 11:13:25 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-07-21 11:13:25 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /error
+2025-07-21 11:13:25 [http-nio-8080-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-21 11:13:50 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing POST /login
+2025-07-21 11:13:52 [http-nio-8080-exec-4] DEBUG o.s.s.a.d.DaoAuthenticationProvider - Authenticated user
+2025-07-21 11:13:52 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.s.ChangeSessionIdAuthenticationStrategy - Changed session id from 2DBD5E723060960DF23942585FEB870F
+2025-07-21 11:13:52 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.CsrfAuthenticationStrategy - Replaced CSRF Token
+2025-07-21 11:13:52 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Stored SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=2DBD5E723060960DF23942585FEB870F], Granted Authorities=[test]]] to HttpSession [org.apache.catalina.session.StandardSessionFacade@61494d61]
+2025-07-21 11:13:52 [http-nio-8080-exec-4] DEBUG o.s.s.w.a.UsernamePasswordAuthenticationFilter - Set SecurityContextHolder to UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=2DBD5E723060960DF23942585FEB870F], Granted Authorities=[test]]
+2025-07-21 11:13:52 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /memo/memoList
+2025-07-21 11:13:52 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=2DBD5E723060960DF23942585FEB870F], Granted Authorities=[test]]]
+2025-07-21 11:13:52 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /memo/memoList
+2025-07-21 12:52:04 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h38m27s727ms788µs700ns).
+2025-07-21 12:52:12 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@c147f62 ((conn=28418) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
+2025-07-21 12:52:17 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@271a8321 ((conn=28419) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
+2025-07-21 12:52:17 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@57bbe904 ((conn=28417) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
+2025-07-21 12:52:22 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@244b6b59 ((conn=28423) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
+2025-07-21 12:52:27 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@3b30560 ((conn=28416) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
+2025-07-21 12:52:32 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@2fa98184 ((conn=28425) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
+2025-07-21 12:52:37 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@27d2bebc ((conn=28421) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
+2025-07-21 12:52:42 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@1f2f23bf ((conn=28422) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
+2025-07-21 12:52:47 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@7ce9247f ((conn=28420) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
+2025-07-21 12:52:52 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection org.mariadb.jdbc.Connection@4efc5200 ((conn=28424) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.
+2025-07-21 12:52:52 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=47s995ms612µs700ns).
+2025-07-21 12:56:36 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /company/companyForm
+2025-07-21 12:56:36 [http-nio-8080-exec-8] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-21 12:56:36 [http-nio-8080-exec-8] DEBUG o.s.s.w.s.HttpSessionRequestCache - Saved request http://localhost:8080/company/companyForm?continue to session
+2025-07-21 12:56:36 [http-nio-8080-exec-8] DEBUG o.s.s.web.DefaultRedirectStrategy - Redirecting to http://localhost:8080/login
+2025-07-21 12:56:36 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /login
+2025-07-21 12:56:36 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /login
+2025-07-21 12:56:36 [http-nio-8080-exec-9] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-07-21 12:56:40 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing POST /login
+2025-07-21 12:56:41 [http-nio-8080-exec-10] DEBUG o.s.s.a.d.DaoAuthenticationProvider - Authenticated user
+2025-07-21 12:56:41 [http-nio-8080-exec-10] DEBUG o.s.s.w.a.s.ChangeSessionIdAuthenticationStrategy - Changed session id from A99F53C68FF1D20092743CABCDA1996E
+2025-07-21 12:56:41 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.CsrfAuthenticationStrategy - Replaced CSRF Token
+2025-07-21 12:56:41 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Stored SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]] to HttpSession [org.apache.catalina.session.StandardSessionFacade@71439d71]
+2025-07-21 12:56:41 [http-nio-8080-exec-10] DEBUG o.s.s.w.a.UsernamePasswordAuthenticationFilter - Set SecurityContextHolder to UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]
+2025-07-21 12:56:41 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /memo/memoList
+2025-07-21 12:56:41 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 12:56:41 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /memo/memoList
+2025-07-21 12:56:44 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /company/companyForm
+2025-07-21 12:56:44 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 12:56:44 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /company/companyForm
+2025-07-21 12:57:52 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing POST /company/companySave
+2025-07-21 12:57:52 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 12:57:52 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured POST /company/companySave
+2025-07-21 12:57:53 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /company/companyList
+2025-07-21 12:57:53 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 12:57:53 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /company/companyList
+2025-07-21 13:14:31 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /company/companyForm/C0003
+2025-07-21 13:14:31 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:14:31 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /company/companyForm/C0003
+2025-07-21 13:14:36 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing POST /company/companySave
+2025-07-21 13:14:36 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:14:36 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured POST /company/companySave
+2025-07-21 13:14:37 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /company/companyList
+2025-07-21 13:14:37 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:14:37 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /company/companyList
+2025-07-21 13:14:57 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing POST /company/companyDelete/C0003
+2025-07-21 13:14:57 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:14:57 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured POST /company/companyDelete/C0003
+2025-07-21 13:14:58 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /company/companyList
+2025-07-21 13:14:58 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:14:58 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /company/companyList
+2025-07-21 13:15:22 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing POST /company/companyDelete/C0002
+2025-07-21 13:15:22 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:15:22 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured POST /company/companyDelete/C0002
+2025-07-21 13:15:23 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /company/companyList
+2025-07-21 13:15:23 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:15:23 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /company/companyList
+2025-07-21 13:15:51 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /site/siteForm
+2025-07-21 13:15:51 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:15:51 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /site/siteForm
+2025-07-21 13:16:11 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /site/siteList
+2025-07-21 13:16:11 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:16:11 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /site/siteList
+2025-07-21 13:16:56 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /site/siteForm
+2025-07-21 13:16:56 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:16:56 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /site/siteForm
+2025-07-21 13:17:02 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /site/siteSave
+2025-07-21 13:17:02 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:17:02 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured POST /site/siteSave
+2025-07-21 13:17:03 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /site/siteList
+2025-07-21 13:17:03 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:17:03 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /site/siteList
+2025-07-21 13:17:46 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /company/companyForm
+2025-07-21 13:17:46 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:17:46 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /company/companyForm
+2025-07-21 13:17:47 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /company/companyList
+2025-07-21 13:17:47 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:17:47 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /company/companyList
+2025-07-21 13:17:50 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /site/siteForm
+2025-07-21 13:17:50 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:17:50 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /site/siteForm
+2025-07-21 13:22:32 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing POST /site/siteSave
+2025-07-21 13:22:32 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:22:32 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured POST /site/siteSave
+2025-07-21 13:22:33 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /site/siteList
+2025-07-21 13:22:33 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:22:33 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /site/siteList
+2025-07-21 13:30:42 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /site/siteForm/C0001/S0004
+2025-07-21 13:30:42 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:30:42 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /site/siteForm/C0001/S0004
+2025-07-21 13:30:44 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing POST /site/siteSave
+2025-07-21 13:30:44 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:30:44 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured POST /site/siteSave
+2025-07-21 13:30:45 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /site/siteList
+2025-07-21 13:30:45 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:30:45 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /site/siteList
+2025-07-21 13:31:59 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing POST /site/siteDelete/C0001/S0004
+2025-07-21 13:31:59 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:31:59 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured POST /site/siteDelete/C0001/S0004
+2025-07-21 13:32:00 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /site/siteList
+2025-07-21 13:32:00 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:32:00 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /site/siteList
+2025-07-21 13:33:51 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /dept/deptForm
+2025-07-21 13:33:51 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:33:51 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /dept/deptForm
+2025-07-21 13:33:54 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /company/companyForm
+2025-07-21 13:33:54 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:33:54 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /company/companyForm
+2025-07-21 13:33:56 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /site/siteForm
+2025-07-21 13:33:56 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:33:56 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /site/siteForm
+2025-07-21 13:33:58 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /dept/deptForm
+2025-07-21 13:33:58 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:33:58 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /dept/deptForm
+2025-07-21 13:34:00 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /site/siteForm
+2025-07-21 13:34:00 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:34:00 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /site/siteForm
+2025-07-21 13:34:02 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /company/companyForm
+2025-07-21 13:34:02 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:34:02 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /company/companyForm
+2025-07-21 13:34:03 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /site/siteForm
+2025-07-21 13:34:03 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:34:03 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /site/siteForm
+2025-07-21 13:34:10 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /user/userForm
+2025-07-21 13:34:10 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:34:10 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /user/userForm
+2025-07-21 13:34:16 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /dept/deptForm
+2025-07-21 13:34:16 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:34:16 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /dept/deptForm
+2025-07-21 13:37:12 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing POST /dept/deptSave
+2025-07-21 13:37:12 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:37:12 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured POST /dept/deptSave
+2025-07-21 13:37:13 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /dept/deptList
+2025-07-21 13:37:13 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:37:13 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /dept/deptList
+2025-07-21 13:37:32 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /company/companyForm
+2025-07-21 13:37:32 [http-nio-8080-exec-4] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:37:32 [http-nio-8080-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /company/companyForm
+2025-07-21 13:37:33 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /company/companyList
+2025-07-21 13:37:33 [http-nio-8080-exec-5] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:37:33 [http-nio-8080-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /company/companyList
+2025-07-21 13:37:37 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /site/siteForm
+2025-07-21 13:37:37 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:37:37 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /site/siteForm
+2025-07-21 13:37:38 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /site/siteList
+2025-07-21 13:37:38 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:37:38 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /site/siteList
+2025-07-21 13:37:41 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /dept/deptForm
+2025-07-21 13:37:41 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:37:41 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /dept/deptForm
+2025-07-21 13:37:42 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /dept/deptList
+2025-07-21 13:37:42 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:37:42 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /dept/deptList
+2025-07-21 13:37:45 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /company/companyForm
+2025-07-21 13:37:45 [http-nio-8080-exec-10] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:37:45 [http-nio-8080-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /company/companyForm
+2025-07-21 13:37:46 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /company/companyList
+2025-07-21 13:37:46 [http-nio-8080-exec-1] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:37:46 [http-nio-8080-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /company/companyList
+2025-07-21 13:37:49 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /dept/deptForm
+2025-07-21 13:37:49 [http-nio-8080-exec-2] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:37:49 [http-nio-8080-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /dept/deptForm
+2025-07-21 13:37:50 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /dept/deptList
+2025-07-21 13:37:50 [http-nio-8080-exec-3] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:37:50 [http-nio-8080-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /dept/deptList
+2025-07-21 13:39:54 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /company/companyForm
+2025-07-21 13:39:54 [http-nio-8080-exec-7] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:39:54 [http-nio-8080-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /company/companyForm
+2025-07-21 13:39:55 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /company/companyList
+2025-07-21 13:39:55 [http-nio-8080-exec-6] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:39:55 [http-nio-8080-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /company/companyList
+2025-07-21 13:40:01 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /site/siteForm
+2025-07-21 13:40:01 [http-nio-8080-exec-8] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:40:01 [http-nio-8080-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /site/siteForm
+2025-07-21 13:40:02 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /site/siteList
+2025-07-21 13:40:02 [http-nio-8080-exec-9] DEBUG o.s.s.w.c.HttpSessionSecurityContextRepository - Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=com.cmms10.auth.dto.CustomUserDetails [Username=ADMIN, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[test]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=A99F53C68FF1D20092743CABCDA1996E], Granted Authorities=[test]]]
+2025-07-21 13:40:02 [http-nio-8080-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /site/siteList

@@ -32,7 +32,7 @@ public class WorkorderService {
     }
 
     @Transactional(readOnly = true)
-    public Workorder getWorkorderByWorkorderId(String companyId, String orderId) {
+    public Workorder getWorkorderByCompanyIdAndOrderId(String companyId, String orderId) {
         return workorderRepository.findByCompanyIdAndOrderId(companyId, orderId)
                 .orElseThrow(() -> new IllegalArgumentException("작업지시를 찾을 수 없습니다: " + orderId));
     }

@@ -8,8 +8,6 @@ public class CustomUserDetails extends User {
 
     private final String companyId;
     private final String companyName;
-    private final String siteId;
-    private final String siteName;
     private final String deptId;
     private final String deptName;
     private final String userFullName; // To distinguish from getUsername() which is userId
@@ -19,16 +17,12 @@ public class CustomUserDetails extends User {
                              Collection<? extends GrantedAuthority> authorities,
                              String companyId,
                              String companyName,
-                             String siteId,
-                             String siteName,
                              String deptId,
                              String deptName,
                              String userFullName) {
         super(username, password, authorities);
         this.companyId = companyId;
         this.companyName = companyName;
-        this.siteId = siteId;
-        this.siteName = siteName;
         this.deptId = deptId;
         this.deptName = deptName;
         this.userFullName = userFullName;
@@ -43,14 +37,6 @@ public class CustomUserDetails extends User {
         return companyName;
     }
 
-    public String getSiteId() {
-        return siteId;
-    }
-
-    public String getSiteName() {
-        return siteName;
-    }
-
     public String getDeptId() {
         return deptId;
     }
@@ -63,12 +49,13 @@ public class CustomUserDetails extends User {
         return userFullName;
     }
 
+    // 주요 기능: 사용자 정보 포맷 반환
+    // @return 회사(이름)/부서(이름)/아이디(이름) 형태 문자열
     public String getFormattedUserInfo() {
-        return String.format("%s(%s)/%s(%s)/%s(%s)/%s(%s)",
+        return String.format("%s(%s)/%s(%s)/%s(%s)",
                 companyId, companyName,
-                siteId != null ? siteId : "", siteName != null ? siteName : "",
                 deptId != null ? deptId : "", deptName != null ? deptName : "",
-                getUsername(), userFullName 
+                getUsername(), userFullName
         );
     }
 }

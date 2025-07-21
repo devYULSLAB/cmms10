@@ -2,7 +2,7 @@ package com.cmms10.plantMaster.controller;
 
 import com.cmms10.plantMaster.entity.PlantMaster;
 import com.cmms10.plantMaster.service.PlantMasterService;
-import com.cmms10.funcMaster.service.FuncMasterService;
+import com.cmms10.domain.funcMaster.service.FuncMasterService;
 import com.cmms10.domain.dept.service.DeptService;
 import com.cmms10.commonCode.service.CommonCodeService;
 import jakarta.servlet.http.HttpSession;

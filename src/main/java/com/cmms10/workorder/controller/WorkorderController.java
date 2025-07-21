@@ -33,21 +33,6 @@ public class WorkorderController {
         this.commonCodeService = commonCodeService;
     }
 
-    @GetMapping("/workorderList")
-    public String list(Model model,
-                               HttpSession session,
-                               @PageableDefault(size = 10, sort = "orderId") Pageable pageable) {
-        
-        // 세션에서 사용자 정보 가져오기
-        String companyId = (String) session.getAttribute("companyId");
-        String siteId = (String) session.getAttribute("siteId");
-        
-        Page<Workorder> workorderPage = workorderService.getAllWorkorders(companyId, siteId, pageable);
-        model.addAttribute("workorderPage", workorderPage);
-        
-        return "workorder/workorderList";
-    }
-
     /** 신규 폼 */
     @GetMapping("/workorderForm")
     public String form(Model model, HttpSession session) {
@@ -60,8 +45,8 @@ public class WorkorderController {
         items.add(new WorkorderItem());
         workorder.setItems(items);
 
-        // Select box 데이터 추가
         model.addAttribute("workorder", workorder);
+        // Select box 데이터 추가
         model.addAttribute("jobTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
         
@@ -70,20 +55,33 @@ public class WorkorderController {
 
     /** 수정 폼 */
     @GetMapping("/workorderForm/{orderId}")
-    public String edit(@PathVariable String orderId, Model model, HttpSession session) {
+    public String editForm(@PathVariable String orderId, Model model, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
 
-        Workorder workorder = workorderService.getWorkorderByWorkorderId(companyId, orderId);
+        Workorder workorder = workorderService.getWorkorderByCompanyIdAndOrderId(companyId, orderId);
         List<WorkorderItem> items = workorderService.getWorkorderItems(companyId, orderId);
         workorder.setItems(items);
-
-        // Select box 데이터 추가
+        
         model.addAttribute("workorder", workorder);
+        // Select box 데이터 추가
         model.addAttribute("jobTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
         
         return "workorder/workorderForm";
     }
+
+    @GetMapping("/workorderList")
+    public String list(Model model, HttpSession session, Pageable pageable) {
+        
+        // 세션에서 사용자 정보 가져오기
+        String companyId = (String) session.getAttribute("companyId");
+        String siteId = (String) session.getAttribute("siteId");
+        
+        Page<Workorder> workorderPage = workorderService.getAllWorkorders(companyId, siteId, pageable);
+        model.addAttribute("workorderPage", workorderPage);
+        
+        return "workorder/workorderList";
+    }    
 
     @GetMapping("/workorderDetail/{orderId}")
     public String detail(@PathVariable String orderId,
@@ -92,7 +90,7 @@ public class WorkorderController {
         // 세션에서 사용자 정보 가져오기
         String companyId = (String) session.getAttribute("companyId");
 
-        Workorder workorder = workorderService.getWorkorderByWorkorderId(companyId, orderId);        
+        Workorder workorder = workorderService.getWorkorderByCompanyIdAndOrderId(companyId, orderId);        
         List<WorkorderItem> items = workorderService.getWorkorderItems(companyId, orderId);
         workorder.setItems(items);
         model.addAttribute("workorder", workorder);

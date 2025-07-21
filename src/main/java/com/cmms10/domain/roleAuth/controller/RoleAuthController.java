@@ -8,6 +8,7 @@
 package com.cmms10.domain.roleAuth.controller;
 
 import com.cmms10.domain.roleAuth.entity.RoleAuth;
+import com.cmms10.domain.roleAuth.entity.RoleAuthIdClass;
 import com.cmms10.domain.roleAuth.service.RoleAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/roleAuth")
@@ -70,28 +72,22 @@ public class RoleAuthController {
     public String save(@ModelAttribute RoleAuth roleAuth, @RequestParam(required = false) String mode, Model model) {
         try {
             roleAuthService.saveRoleAuth(roleAuth);
-            return "redirect:/roleAuth/roleAuthList";
         } catch (Exception e) {
             model.addAttribute("roleAuth", roleAuth);
             model.addAttribute("errorMessage", "저장 중 오류가 발생했습니다: " + e.getMessage());
             model.addAttribute("mode", mode != null ? mode : "new");
             return "domain/roleAuth/roleAuthForm";
         }
+        return "redirect:/roleAuth/roleAuthList";
     }
 
     /**
      * 권한 삭제
-     * @param roleId 역할ID
-     * @param authGranted 권한명
+     * 
      */
-    @PostMapping("/roleAuthDelete/{roleId}/{authGranted}")
-    public String delete(@PathVariable String roleId, @PathVariable String authGranted, RedirectAttributes redirectAttributes) {
-        try {
-            roleAuthService.deleteRoleAuth(roleId, authGranted);
-            redirectAttributes.addFlashAttribute("successMessage", "권한이 성공적으로 삭제되었습니다.");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "삭제 중 오류가 발생했습니다: " + e.getMessage());
-        }
+    @PostMapping("/roleAuthDelete")
+    public String delete(@ModelAttribute RoleAuthIdClass id) {
+        roleAuthService.deleteById(id);
         return "redirect:/roleAuth/roleAuthList";
     }
 }

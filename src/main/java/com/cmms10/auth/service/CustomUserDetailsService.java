@@ -37,7 +37,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleAuthRepository roleAuthRepository;
     private final CompanyRepository companyRepository;
-    private final SiteRepository siteRepository;
     private final DeptRepository deptRepository;
     // default company ID
     // private static final String DEFAULT_COMPANY_ID = "C0001";
@@ -48,12 +47,10 @@ public class CustomUserDetailsService implements UserDetailsService {
             UserRepository userRepository,
             RoleAuthRepository roleAuthRepository,
             CompanyRepository companyRepository,
-            SiteRepository siteRepository,
             DeptRepository deptRepository) {
         this.userRepository = userRepository;
         this.roleAuthRepository = roleAuthRepository;
         this.companyRepository = companyRepository;
-        this.siteRepository = siteRepository;
         this.deptRepository = deptRepository;
     }
 
@@ -98,12 +95,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         Company company = companyRepository.findByCompanyIdAndDeleteMarkIsNull(user.getCompanyId())
                 .orElseThrow(() -> new UsernameNotFoundException("Company not found with ID: " + user.getCompanyId())); 
         
-        // 사이트 정보 조회
-        Site site = null;
-        if (user.getSiteId() != null) {
-            site = siteRepository.findByCompanyIdAndSiteIdAndDeleteMarkIsNull(user.getCompanyId(), user.getSiteId())
-                    .orElseThrow(() -> new UsernameNotFoundException("Site not found with ID: " + user.getSiteId()));
-        }
         
         // 부서 정보 조회
         Dept dept = null;
@@ -119,8 +110,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                 authorities,
                 user.getCompanyId(),
                 company.getCompanyName(),
-                user.getSiteId(),
-                site != null ? site.getSiteName() : "",
                 user.getDeptId(),
                 dept != null ? dept.getDeptName() : "",
                 user.getUserFullName()

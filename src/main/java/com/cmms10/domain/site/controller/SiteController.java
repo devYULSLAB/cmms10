@@ -57,6 +57,7 @@ public class SiteController {
         site.setCompanyId(companyId);
 
         model.addAttribute("site", site);
+        model.addAttribute("mode", "new");
         return "domain/site/siteForm";
     }
 
@@ -69,6 +70,7 @@ public class SiteController {
                        Model model) {
         Site site = siteService.getSiteByCompanyIdAndSiteId(companyId, siteId);
         model.addAttribute("site", site);
+        model.addAttribute("mode", "edit");
         return "domain/site/siteForm";
     }
 

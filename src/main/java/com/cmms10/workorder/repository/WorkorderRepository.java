@@ -23,12 +23,13 @@ public interface WorkorderRepository extends JpaRepository<Workorder, WorkorderI
      *
      * @param companyId 회사 ID
      * @return Optional<String> 최대 작업지시 ID
+     * workorderItem에서 siteId는 PK가 아니므로 workorder가 unique하려면 orderId는 companyId의 MAX값이어야 합니다.(companyId,siteId의 Max이면 안됩니다.)
      */
     @Query("SELECT MAX(w.orderId) FROM Workorder w WHERE w.companyId = :companyId")
     String findMaxOrderIdByCompanyId(@Param("companyId") String companyId);
 
     /**
-     * Finds a page of workorder entries for a given companyId and siteId.
+     * CompanyId와 siteId로 workorder 엔티티를 페이징하여 조회합니다.
      *
      * @param companyId The ID of the company.
      * @param siteId The ID of the site.
@@ -47,13 +48,12 @@ public interface WorkorderRepository extends JpaRepository<Workorder, WorkorderI
     Page<Workorder> findByCompanyIdAndPlantId(String companyId, String plantId, Pageable pageable);
 
     /**
-     * Finds a specific workorder by its companyId and orderId.
+     * CompanyId와 orderId로 workorder 엔티티를 조회합니다.
      *
-     * @param companyId The ID of the company.
-     * @param orderId The ID of the work order.
-     * @return An Optional containing the workorder if found, or empty otherwise.
+     * @param companyId 회사 ID
+     * @param orderId 작업지시 ID
+     * @return Optional<Workorder> 작업지시 엔티티
      */
     Optional<Workorder> findByCompanyIdAndOrderId(String companyId, String orderId);
-
 
 }

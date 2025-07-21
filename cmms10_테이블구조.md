@@ -29,7 +29,7 @@
 | updateDate  | DATETIME     | 수정일        |
 | deleteMark  | CHAR(1)      | 삭제 마크     |
 
-## dept : 한 회사 내에 dept는 1개 임. 사이트별로 다를 수 없음 
+## dept : 한 회사 내에 dept는 1개 임. 사이트별로 다를 수 없음(다수의 사이트에 같은 기능의 부수가 존재시 코드값 분리해야 함 )
 
 | 필드명       | 데이터 타입   | 설명                                     |
 |:-------------|:-------------|:-----------------------------------------|
@@ -67,14 +67,15 @@
 | updateDate    | DATETIME     | 수정일               |
 | deleteMark    | CHAR(1)      | 삭제 마크            |
 
-## roleAuth : 이력 관리 안 함(생성일, 수정일 없음)
+### 권한 관리 : company, site, 페이지, 권한 그룹별 관리가 현재 구현하기 복합함. company 가 다른 경우 별도의 ID로 로그인 하도록 하며, (같은 company) site가 다른 경우 권한 구분 없이 페이지별 권한만 관리하도록 함. 현재 기능 구현이 안 되어 있음 
+
+## roleAuth : 권한 이름 관리 
 
 | 필드명       | 타입         | PK   | FK          | 설명                   |
 |:------------|:------------|:-----|:------------|:-----------------------|
 | roleId      | char(5)     | PK   |             | 권한 ID                 |
 | roleName    | varchar(50) |      |             | 권한 Name               |
-| authGranted | char(10)    | PK   |             | 권한 문자열 (SAVE, deleteMark,...) |
-
+| authGranted | varchar(50) | PK   |             | 권한 ID2                |
 
 ### 마스터 정보관리 : 기준정보는 삭제하지 않고 deleteMark 마크처리 (삭제된 데이터는 복구할 수 있도록. 기본 null, 삭제 "Y")
 ## plantMaster
@@ -228,6 +229,45 @@
 | itemResult   | Decimal(15,2)| 결과값                 |
 | note         | Text         | 비고                   |
 
+### 작업허가 관리 : plantMaster에서 workpermitYN="Y"인 것은 permit 번호를 workorder에 추가 
+## workPermit
+
+| 필드명      | 데이터 타입   | 설명                                                         |
+|:-----------|:-------------|:-------------------------------------------------------------|
+| companyId  | CHAR(5)      | 회사 ID (PK)                                                 |
+| siteId     | CHAR(5)      | 사이트 ID (PK)                                               |
+| permitId   | CHAR(10)     | 작업허가서 ID (PK, 6으로 시작하는 10자리 채번)                |
+| permitName    | Varchar(100) | 작업허가서서 이름        |
+| plantId    | CHAR(10)     | 대상 설비                                                    |
+| permitType | CHAR(5)      | 작업 유형 코드 (예: HOT, ELEC 등, 공통코드)                  |
+| status     | CHAR(1)      | 상태: D(초안), R(요청), A(승인), C(종료), R(반려)            |
+| startDate  | DATE         | 작업 시작 일시                                                |
+| endDate    | DATE         | 작업 종료 일시                                                |
+| requestBy  | CHAR(5)      | 작성자 (username)                                            |
+| approveBy  | CHAR(5)      | 승인자 (username)                                            |
+| performBy  | CHAR(5)      | 실제 작업자 (username)                                       |
+| hazardNote | TEXT         | 위험 요소                                                    |
+| safetyMeasure | TEXT      | 안전조치                                                     |
+| workDesc   | TEXT         | 작업 요약                                                    |
+| fileGroupId| CHAR(10)     | 첨부파일 그룹                                                |
+| createBy   | CHAR(5)      | 생성자                                                       |
+| createDate | DATETIME     | 생성일                                                       |
+| updateBy   | CHAR(5)      | 수정자                                                       |
+| updateDate | DATETIME     | 수정일                                                       |
+
+## workPermitItem
+
+| 필드명      | 데이터 타입   | 설명                                         |
+|:-----------|:-------------|:---------------------------------------------|
+| companyId  | CHAR(5)      | 회사 ID (PK)                                 |
+| permitId   | CHAR(10)     | 작업허가서 ID (PK)                           |
+| itemId     | CHAR(2)      | 항목 번호 (PK, 자동 증가)                    |
+| signerName | VARCHAR(100) | 서명자 이름 (직접 입력 또는 사용자 선택)     |
+| signature  | TEXT         | 서명 데이터 (이미지 또는 base64)             |
+| signedAt   | DATETIME     | 서명 시간                                    |
+| role       | CHAR(5)      | 역할 (WRITER, APPROVER, WORKER 등)           |
+| note       | TEXT         | 비고 (선택)                                  |
+
 ### 작업오더 관리 : 향후 status 필드 추가하여 결재 등 상태관리 추가
 ## workorder
 
@@ -241,6 +281,7 @@
 | memoId       | CHAR(10)     | 메모 ID 레퍼런스             |
 | jobType      | Char(5)      | 작업유형             |
 | dept         | Char(5)      | 수행부서             |
+| permitId     | Char(10)     | 작업허가가             |
 | scheduleDate | Date         | 계획일               |
 | scheduleMM   | Decimal(15,2)| 예상 공수(Man Month) |
 | scheduleCost | Decimal(15,2)| 예상 비용            |
@@ -309,12 +350,5 @@
 | codeType    | Char(5)      | 코드 유형 / 자산유형, 작업유형, 분류유형(자산)       |
 | codeName    | Varchar(100) | 코드 이름                                      |
 
-## commonCodeItem ==> 삭제 
 
-| 필드명       | 데이터 타입   | 설명                |
-|:-------------|:-------------|:--------------------|
-| companyId    | Char(5)      | 회사 ID (PK)        |
-| codeId       | Char(5)      | 코드 ID (PK)        |
-| codeItemId   | Char(5)      | 코드 아이템 ID (PK) |
-| codeItemName | Varchar(100) | 코드 아이템 번호    |
 

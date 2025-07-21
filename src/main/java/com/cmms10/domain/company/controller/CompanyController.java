@@ -18,13 +18,6 @@ public class CompanyController {
         this.companyService = companyService;
     }
 
-    @GetMapping("/companyList")
-    public String list(Model model) {
-        List<Company> companies = companyService.getAllCompanies();
-        model.addAttribute("companies", companies);
-        return "domain/company/companyList";
-    }
-
     @GetMapping("/companyForm")
     public String form(Model model) {
         Company company = new Company();
@@ -39,6 +32,13 @@ public class CompanyController {
         model.addAttribute("company", company);
         model.addAttribute("mode", "edit");
         return "domain/company/companyForm";
+    }
+    
+    @GetMapping("/companyList")
+    public String list(Model model) {
+        List<Company> companies = companyService.getAllCompanies();
+        model.addAttribute("companies", companies);
+        return "domain/company/companyList";
     }
 
     @PostMapping("/companySave")

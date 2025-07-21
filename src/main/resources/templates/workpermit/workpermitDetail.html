@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--
+패키지: com.cmms10.workPermit
+파일: workPermitDetail.html
+주요기능: 작업허가서 상세정보 출력 및 프린트 폼
+생성자: (로그인 이름 입력)
+생성일: (생성일 입력)
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>작업허가서 상세</title>
+</head>
+<body>
+    <div layout:fragment="content"></div>
+        <h2>작업허가서 상세</h2>
+        <table>
+            <tr>
+                <th>회사명</th>
+                <td th:text="${workpermit.companyName}"></td>
+                <th>사이트명</th>
+                <td th:text="${workpermit.siteName}"></td>
+            </tr>
+            <tr>
+                <th>허가번호</th>
+                <td th:text="${workpermit.permitId}"></td>
+                <th>허가서명</th>
+                <td th:text="${workpermit.permitName}"></td>
+            </tr>
+            <tr>
+                <th>설비 ID</th>
+                <td th:text="${workpermit.plantId}"></td>
+                <th>상태</th>
+                <td th:text="${workpermit.status}"></td>
+            </tr>
+            <tr>
+                <th>작업 기간</th>
+                <td colspan="3" th:text="${workpermit.startDate} + ' ~ ' + ${workpermit.endDate}"></td>
+            </tr>
+            <tr>
+                <th>작업 요약</th>
+                <td colspan="3" th:text="${workpermit.workDesc}"></td>
+            </tr>
+            <tr>
+                <th>위험요소</th>
+                <td colspan="3" th:text="${workpermit.hazardNote}"></td>
+            </tr>
+            <tr>
+                <th>안전조치</th>
+                <td colspan="3" th:text="${workpermit.safetyMeasure}"></td>
+            </tr>
+        </table>
+        <h3>작업자 서명</h3>
+        <table>
+            <thead>
+            <tr>
+                <th>작업자명</th>
+                <th>서명</th>
+            </tr>
+            </thead>
+            <tbody id="itemTableBody">
+            <tr th:each="item, iterStat : ${workpermit.items}">
+                <td th:text="${item.signerName}"></td>
+                <td><img th:src="${item.signature}" alt="서명 이미지" class="signature-img"/></td>
+            </tr>
+            </tbody>
+        </table>
+</div>
+</body>
+</html>

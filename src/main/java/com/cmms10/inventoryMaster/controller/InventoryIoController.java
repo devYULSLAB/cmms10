@@ -8,8 +8,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.dao.CannotAcquireLockException;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * cmms10 - InventoryIoController
@@ -34,7 +34,7 @@ public class InventoryIoController {
      * @return 결과 문자열
      */
     @PostMapping("/InventoryIoSave")
-    public String saveInventoryIo(@RequestBody List<InventoryHistory> ioList, HttpSession session) {
+    public String saveInventoryIo(@RequestBody Page<InventoryHistory> ioList, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
         String username = (String) session.getAttribute("username");
 
@@ -50,8 +50,8 @@ public class InventoryIoController {
     }
 
     @GetMapping("/history/{inventoryId}")
-    public List<InventoryHistory> getHistory(@PathVariable String inventoryId, HttpSession session) {
+    public Page<InventoryHistory> getHistory(@PathVariable String inventoryId, HttpSession session, Pageable pageable) {
         String companyId = (String) session.getAttribute("companyId");
-        return inventoryIoService.getInventoryHistory(companyId, inventoryId);
+        return inventoryIoService.getInventoryHistory(companyId, inventoryId, pageable);
     }
 }

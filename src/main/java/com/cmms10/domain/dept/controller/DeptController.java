@@ -30,6 +30,7 @@ public class DeptController {
     public String form(Model model, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
         model.addAttribute("dept", new Dept());
+        model.addAttribute("mode", "new");
         return "domain/dept/deptForm";
     }
 
@@ -40,13 +41,20 @@ public class DeptController {
         Dept dept = deptService.getDeptByCompanyIdAndDeptId(companyId, deptId);
 
         model.addAttribute("dept", dept);
+        model.addAttribute("mode", "edit");
         return "domain/dept/deptForm";
     }
 
     @PostMapping("/deptSave")
     public String save(@ModelAttribute Dept dept, Model model,HttpSession session, @RequestParam String mode) {
         String username = (String) session.getAttribute("username");
-        deptService.saveDept(dept, username, mode);
+        try {
+            deptService.saveDept(dept, username, mode);
+        } catch (RuntimeException e) {
+            model.addAttribute("dept", dept);
+            model.addAttribute("errorMessage", e.getMessage());
+            return form(model, session);
+        }
         return "redirect:/dept/deptList";
     }
 

@@ -22,15 +22,11 @@ import java.util.List;
 @Transactional
 public class SiteService {
 
-    @Autowired
-    private SiteRepository siteRepository;
+    private final SiteRepository siteRepository;
 
-    /**
-     * 회사 ID로 사이트 목록 조회
-     */
-    // public List<Site> findByCompanyId(String companyId) {
-    //     return siteRepository.findByCompanyIdAndDeleteMarkIsNull(companyId);
-    // }
+    public SiteService(SiteRepository siteRepository) {
+        this.siteRepository = siteRepository;
+    }
 
     /**
      * 회사 ID로 사이트 목록 조회
@@ -38,14 +34,6 @@ public class SiteService {
     public List<Site> getAllSitesByCompanyId(String companyId) {
         return siteRepository.findByCompanyIdAndDeleteMarkIsNull(companyId);
     }
-
-    /**
-     * 사이트 ID로 조회
-     */
-    // public Site findById(String companyId, String siteId) {
-    //     return siteRepository.findByCompanyIdAndSiteIdAndDeleteMarkIsNull(companyId, siteId)
-    //             .orElseThrow(() -> new RuntimeException("Site not found"));
-    // }
 
     /**
      * 사이트 ID로 조회
@@ -59,6 +47,7 @@ public class SiteService {
      * 사이트 저장
      */
     public Site save(Site site, String username, String mode) {
+        LocalDateTime now = LocalDateTime.now();
         if (mode.equals("new")) {
             // 신규 등록 시 ID가 비어있으면 예외 발생
             if (site.getSiteId() == null || site.getSiteId().isEmpty()) {
@@ -70,7 +59,7 @@ public class SiteService {
                 throw new RuntimeException("삭제되었거나 존재하는 사이트 ID입니다: " + site.getSiteId());
             }
             // 신규 등록 시 사이트 정보를 설정
-            site.setCreateDate(LocalDateTime.now());
+            site.setCreateDate(now);
             site.setCreateBy(username);
 
         } else if (mode.equals("edit")) {
@@ -79,7 +68,7 @@ public class SiteService {
                 throw new RuntimeException("사이트 ID는 필수입니다.");
             }
             // 수정 시 사이트 정보를 설정
-            site.setUpdateDate(LocalDateTime.now());    
+            site.setUpdateDate(now);    
             site.setUpdateBy(username);
         } 
         
@@ -90,10 +79,10 @@ public class SiteService {
      * 사이트 삭제
      */
     public void delete(String companyId, String siteId, String username) {
+        LocalDateTime now = LocalDateTime.now();
         siteRepository.findByCompanyIdAndSiteIdAndDeleteMarkIsNull(companyId, siteId).ifPresent(site -> {
-
                     site.setUpdateBy(username);
-                    site.setUpdateDate(LocalDateTime.now());
+                    site.setUpdateDate(now);
                     site.setDeleteMark("Y");
                     siteRepository.save(site);
                 });

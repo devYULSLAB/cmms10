@@ -5,6 +5,7 @@ import com.cmms10.domain.company.repository.CompanyRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * cmms10 - CompanyService
@@ -24,7 +25,7 @@ public class CompanyService {
     }
 
     @Transactional(readOnly = true)
-    public java.util.List<Company> getAllCompanies() {
+    public List<Company> getAllCompanies() {
         return companyRepository.findAllByDeleteMarkIsNull();
     }
 
@@ -48,6 +49,7 @@ public class CompanyService {
      */
     @Transactional
     public void saveCompany(Company company, String username, String mode) {
+        LocalDateTime now = LocalDateTime.now();
         if (mode.equals("new")) {
             // 신규 등록 시 ID가 비어있으면 예외 발생
             if (company.getCompanyId() == null || company.getCompanyId().isEmpty()) {
@@ -59,7 +61,7 @@ public class CompanyService {
                 throw new RuntimeException("삭제되었거나 존재하는 회사 ID입니다: " + company.getCompanyId());
             }
             // 신규 등록 시 회사 정보를 설정
-            company.setCreateDate(LocalDateTime.now());
+            company.setCreateDate(now);
             company.setCreateBy(username);
         } else if (mode.equals("edit")) {
             // 수정 시 ID가 비어있으면 예외 발생
@@ -67,7 +69,7 @@ public class CompanyService {
                 throw new RuntimeException("수정할 회사 ID는 필수입니다.");
             }
             // 수정 시 회사 정보를 설정
-            company.setUpdateDate(LocalDateTime.now());
+            company.setUpdateDate(now);
             company.setUpdateBy(username);
         }
 
@@ -80,8 +82,9 @@ public class CompanyService {
      * @param companyId 회사 ID
      */
     public void deleteCompany(String companyId, String username) {
+        LocalDateTime now = LocalDateTime.now();
         companyRepository.findByCompanyIdAndDeleteMarkIsNull(companyId).ifPresent(company -> {
-            company.setUpdateDate(LocalDateTime.now());
+            company.setUpdateDate(now);
             company.setUpdateBy(username);
             company.setDeleteMark("Y");
             companyRepository.save(company);

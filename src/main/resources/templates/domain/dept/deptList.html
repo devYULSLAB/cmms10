@@ -22,21 +22,21 @@
         </div>
 
         <div class="overflow-x-auto">
-            <table class="min-w-full border border-gray-300">
-                <thead class="bg-gray-100">
+            <table class="min-w-full text-left text-sm">
+                <thead class="border-b bg-gray-50">
                 <tr>
-                    <th class="px-4 py-2 border">Dept ID</th>
-                    <th class="px-4 py-2 border">Dept Name</th>
-                    <th class="px-4 py-2 border">Parent Dept ID</th>
-                    <th class="px-4 py-2 border">Actions</th>
+                    <th class="px-4 py-2">Dept ID</th>
+                    <th class="px-4 py-2">Dept Name</th>
+                    <th class="px-4 py-2">Parent Dept ID</th>
+                    <th class="px-4 py-2">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="d : ${depts}" class="hover:bg-gray-50">
-                    <td class="px-4 py-2 border" th:text="${d.deptId}"></td>
-                    <td class="px-4 py-2 border" th:text="${d.deptName}"></td>
-                    <td class="px-4 py-2 border" th:text="${d.parentDeptId}"></td>
-                    <td class="px-4 py-2 border space-x-2">
+                    <td class="px-4 py-2" th:text="${d.deptId}"></td>
+                    <td class="px-4 py-2" th:text="${d.deptName}"></td>
+                    <td class="px-4 py-2" th:text="${d.parentDeptId}"></td>
+                    <td class="px-4 py-2 space-x-2">
                         <a th:href="@{/dept/deptForm/{companyId}/{deptId}(companyId=${d.companyId},deptId=${d.deptId})}" 
                            class="bg-yellow-400 text-black px-3 py-1 rounded hover:bg-yellow-500 text-sm">Edit</a>
                         <form th:action="@{/dept/deptDelete/{companyId}/{deptId}(companyId=${d.companyId},deptId=${d.deptId})}" method="post" class="inline">

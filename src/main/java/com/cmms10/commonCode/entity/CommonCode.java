@@ -34,22 +34,4 @@ public class CommonCode {
     @Column(name = "codeName", length = 100)
     private String codeName;
 
-    // Constructors
-    // public CommonCode() {
-    // }
-
-    // equals and hashCode (only for PK fields)
-    // @Override
-    // public boolean equals(Object o) {
-    //     if (this == o) return true;
-    //     if (o == null || getClass() != o.getClass()) return false;
-    //     CommonCode that = (CommonCode) o;
-    //     return Objects.equals(companyId, that.companyId) &&
-    //            Objects.equals(codeId, that.codeId);
-    // }
-
-    // @Override
-    // public int hashCode() {
-    //     return Objects.hash(companyId, codeId);
-    // }
 }

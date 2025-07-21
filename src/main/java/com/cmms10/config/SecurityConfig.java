@@ -85,8 +85,6 @@ public class SecurityConfig {
             session.setAttribute("userFullName", userDetails.getUserFullName());
             session.setAttribute("companyId", userDetails.getCompanyId());
             session.setAttribute("companyName", userDetails.getCompanyName());
-            session.setAttribute("siteId", userDetails.getSiteId());
-            session.setAttribute("siteName", userDetails.getSiteName());
             session.setAttribute("deptId", userDetails.getDeptId());
             session.setAttribute("deptName", userDetails.getDeptName());
             session.setAttribute("formattedUserInfo", userDetails.getFormattedUserInfo());

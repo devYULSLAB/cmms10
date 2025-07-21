@@ -39,6 +39,7 @@ public class UserController {
         // 신규 사용자 등록을 위한 User 객체 생성
         User user = new User();
         model.addAttribute("user", user);
+        model.addAttribute("mode", "new");
         return "domain/user/userForm";
     }
 
@@ -52,13 +53,20 @@ public class UserController {
 
         User user = userService.getUserByCompanyIdAndUsername(companyId, username);
         model.addAttribute("user", user);
+        model.addAttribute("mode", "edit");
         return "domain/user/userForm";
     }
 
     @PostMapping("/userSave")
     public String save(@ModelAttribute User user, Model model, HttpSession session, @RequestParam String mode) {
         String username = (String) session.getAttribute("username");
-        userService.saveUser(user, username, mode);
+        try {
+            userService.saveUser(user, username, mode);
+        } catch (RuntimeException e) {
+            model.addAttribute("user", user);
+            model.addAttribute("errorMessage", e.getMessage());
+            return form(model, session);
+        }
         return "redirect:/user/userList";
     }
 

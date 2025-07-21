@@ -17,5 +17,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class WorkorderIdClass implements Serializable {
     private String companyId;
+    private String siteId;
     private String orderId;
 }
