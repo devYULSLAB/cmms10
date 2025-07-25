@@ -22,13 +22,14 @@ public class WorkpermitService {
     private final WorkpermitRepository workpermitRepository;
     private final WorkpermitItemRepository workpermitItemRepository;
 
-    public WorkpermitService(WorkpermitRepository workpermitRepository, WorkpermitItemRepository workpermitItemRepository) {
+    public WorkpermitService(WorkpermitRepository workpermitRepository,
+            WorkpermitItemRepository workpermitItemRepository) {
         this.workpermitRepository = workpermitRepository;
         this.workpermitItemRepository = workpermitItemRepository;
     }
 
-    public Page<Workpermit> getAllWorkpermits(String companyId, String siteId, Pageable pageable) {
-        return workpermitRepository.findByCompanyIdAndSiteId(companyId, siteId, pageable);
+    public Page<Workpermit> getAllWorkpermitsByCompanyId(String companyId, Pageable pageable) {
+        return workpermitRepository.findByCompanyIdOrderByPermitIdAsc(companyId, pageable);
     }
 
     public Workpermit getWorkpermitByCompanyIdAndPermitId(String companyId, String siteId, String permitId) {
@@ -69,7 +70,7 @@ public class WorkpermitService {
                     validItems.add(item);
                 }
             }
-            
+
             // 기존 리스트를 비우고 유효한 항목들로 교체
             items.clear();
             items.addAll(validItems);
@@ -80,9 +81,8 @@ public class WorkpermitService {
 
     public WorkpermitItem saveWorkpermitItem(WorkpermitItem workpermitItem, String username) {
         String maxItemId = workpermitItemRepository.findMaxItemIdByCompanyIdAndPermitId(
-            workpermitItem.getCompanyId(),
-            workpermitItem.getPermitId()
-        );
+                workpermitItem.getCompanyId(),
+                workpermitItem.getPermitId());
         int newItemId = (maxItemId == null) ? 1 : Integer.parseInt(maxItemId) + 1;
         workpermitItem.setItemId(String.valueOf(newItemId));
 
@@ -91,10 +91,9 @@ public class WorkpermitService {
 
     public void deleteWorkpermit(String companyId, String permitId) {
         Optional<Workpermit> workpermitOpt = workpermitRepository.findByCompanyIdAndPermitId(
-            companyId, 
-            permitId
-        );
-        
+                companyId,
+                permitId);
+
         if (workpermitOpt.isPresent()) {
             Workpermit workpermit = workpermitOpt.get();
             // Delete associated items first
@@ -109,11 +108,10 @@ public class WorkpermitService {
 
     public void deleteWorkpermitItem(String companyId, String permitId, String itemId) {
         Optional<WorkpermitItem> itemOpt = workpermitItemRepository.findByCompanyIdAndPermitIdAndItemIdOrderByItemIdAsc(
-            companyId, 
-            permitId, 
-            itemId
-        );
-        
+                companyId,
+                permitId,
+                itemId);
+
         if (itemOpt.isPresent()) {
             WorkpermitItem item = itemOpt.get();
             workpermitItemRepository.delete(item);
@@ -121,7 +119,5 @@ public class WorkpermitService {
             throw new RuntimeException("workpermitItem not found with ID: " + itemId);
         }
     }
-
-
 
 }

@@ -1,4 +1,4 @@
-package com.cmms10.domain.funcMaster.entity;
+package com.cmms10.funcMaster.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

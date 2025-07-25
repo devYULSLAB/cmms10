@@ -11,7 +11,7 @@
 <div layout:fragment="content">
     <div class="max-w-xl mx-auto mt-8 p-6 bg-white shadow-lg rounded-2xl">
 
-        <h2 class="text-2xl font-bold mb-6" th:text="${site.siteId == null ? 'Create Site' : 'Edit Site'}"></h2>
+        <h2 class="text-2xl font-bold mb-6" th:text="${site.siteId == null ? '사이트코드 생성' : '사이트코드 수정'}">사이트코드</h2>
 
         <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
             <span th:text="${successMessage}"></span>
@@ -23,32 +23,34 @@
         <form th:action="@{/site/siteSave}" th:object="${site}" method="post" class="space-y-4">
             <!-- Hidden fields -->
             <input type="hidden" th:field="*{companyId}" />
+            
             <input type="hidden" th:field="*{createBy}" />
             <input type="hidden" th:field="*{createDate}" />
             <input type="hidden" th:field="*{updateBy}" />
             <input type="hidden" th:field="*{updateDate}" />
+            
             <input type="hidden" name="mode" th:value="${mode}" />
 
             <div>
-                <label for="siteId" class="block text-sm font-medium text-gray-700">Site ID</label>
+                <label for="siteId" class="block text-sm font-medium text-gray-700" th:text="#{siteId}">사이트코드</label>
                 <input type="text" id="siteId" th:field="*{siteId}" 
                        th:readonly="${site.siteId != null}" required
                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300" />
             </div>
 
             <div>
-                <label for="siteName" class="block text-sm font-medium text-gray-700">Site Name</label>
+                <label for="siteName" class="block text-sm font-medium text-gray-700" th:text="#{siteName}">사이트명</label>
                 <input type="text" id="siteName" th:field="*{siteName}" required
                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300" />
             </div>
 
             <div class="flex space-x-2">
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                    Save
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" th:text="#{save}">
+                    저장
                 </button>
                 <a th:href="@{/site/siteList}" 
-                   class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400">
-                    Cancel
+                   class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400" th:text="#{cancel}">
+                   취소/목록
                 </a>
             </div>
             

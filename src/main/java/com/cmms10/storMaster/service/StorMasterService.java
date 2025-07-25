@@ -1,13 +1,12 @@
-package com.cmms10.domain.storMaster.service;
+package com.cmms10.storMaster.service;
 
-import com.cmms10.domain.storMaster.entity.StorMaster;
-import com.cmms10.domain.storMaster.entity.StorMasterIdClass;
-import com.cmms10.domain.storMaster.repository.StorMasterRepository;
+import com.cmms10.storMaster.entity.StorMaster;
+import com.cmms10.storMaster.entity.StorMasterIdClass;
+import com.cmms10.storMaster.repository.StorMasterRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 
 @Service
 public class StorMasterService {
@@ -27,14 +26,17 @@ public class StorMasterService {
 
     public StorMaster findByCompanyIdAndSiteIdAndLocId(String companyId, String siteId, String locId) {
         return storMasterRepository.findByCompanyIdAndSiteIdAndLocId(companyId, siteId, locId)
-        .orElseThrow(() -> new RuntimeException("창고 마스터를 찾을 수 없습니다: " + companyId + "/" + siteId + "/" + locId));
+                .orElseThrow(
+                        () -> new RuntimeException("창고 마스터를 찾을 수 없습니다: " + companyId + "/" + siteId + "/" + locId));
     }
 
-    public List<StorMaster> findByCompanyIdAndSiteIdAndParentLocId(String companyId, String siteId, String parentLocId) {
+    public List<StorMaster> findByCompanyIdAndSiteIdAndParentLocId(String companyId, String siteId,
+            String parentLocId) {
         return storMasterRepository.findByCompanyIdAndSiteIdAndParentLocId(companyId, siteId, parentLocId);
     }
 
-    public List<StorMaster> findByCompanyIdAndSiteIdAndLocNameContaining(String companyId, String siteId, String locName) {
+    public List<StorMaster> findByCompanyIdAndSiteIdAndLocNameContaining(String companyId, String siteId,
+            String locName) {
         return storMasterRepository.findByCompanyIdAndSiteIdAndLocNameContaining(companyId, siteId, locName);
     }
 
@@ -45,4 +47,4 @@ public class StorMasterService {
     public void deleteById(StorMasterIdClass id) {
         storMasterRepository.deleteById(id);
     }
-} 
+}

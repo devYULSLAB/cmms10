@@ -1,88 +1,95 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/defaultLayout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/defaultLayout}">
 
 <head>
     <title>Inspection Detail</title>
 </head>
 
 <body>
-<div layout:fragment="content">
-    <div class="max-w-4xl mx-auto mt-8 space-y-6">
+    <div layout:fragment="content">
+        <div class="max-w-4xl mx-auto mt-8 space-y-6">
 
-        <h2 class="text-2xl font-bold">예방점검 상세</h2>
+            <h2 class="text-2xl font-bold" th:text="#{inspectionDetail}">예방점검 상세</h2>
 
-        <!-- Basic Information -->
-        <div class="border rounded-lg shadow p-4 space-y-4">
-            <h3 class="font-semibold text-lg mb-2">기본 정보</h3>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div>
-                    <label class="block text-sm font-medium mb-1">ID</label>
-                    <div th:text="${inspection.inspectionId}">-</div>
+            <!-- Basic Information -->
+            <div class="border rounded-lg shadow p-4 space-y-4">
+                <h3 class="font-semibold text-lg mb-2" th:text="#{basicInformation}">기본 정보</h3>
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1" th:text="#{inspectionId}">ID</label>
+                        <div th:text="${inspection.inspectionId}">-</div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1" th:text="#{plantId}">설비</label>
+                        <div th:text="${inspection.plantId}">-</div>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium mb-1" th:text="#{jobType}">작업유형</label>
+                        <div th:text="${inspection.jobType}">-</div>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium mb-1" th:text="#{siteId}">사이트</label>
+                        <div th:text="${inspection.siteId}">-</div>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium mb-1" th:text="#{deptId}">부서</label>
+                        <div th:text="${inspection.deptId}">-</div>
+                    </div>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium mb-1">설비</label>
-                    <div th:text="${inspection.plantId}">-</div>
+                    <label class="block text-sm font-medium mb-1 mt-4" th:text="#{inspectionName}">점검명</label>
+                    <div th:text="${inspection.inspectionName}">-</div>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium mb-1">작업유형</label>
-                    <div th:text="${inspection.jobType}">-</div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium mb-1">부서</label>
-                    <div th:text="${inspection.dept}">-</div>
+                    <label class="block text-sm font-medium mb-1 mt-4" th:text="#{note}">비고</label>
+                    <div th:text="${inspection.note}">-</div>
                 </div>
             </div>
-            <div>
-                <label class="block text-sm font-medium mb-1 mt-4">점검명</label>
-                <div th:text="${inspection.inspectionName}">-</div>
+
+            <!-- Inspection Items -->
+            <div class="border rounded-lg shadow p-4 space-y-4">
+                <h3 class="font-semibold text-lg mb-2" th:text="#{inspectionItems}">점검 항목</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm border">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="border px-2 py-1" th:text="#{itemName}">항목명</th>
+                                <th class="border px-2 py-1" th:text="#{itemMethod}">방법</th>
+                                <th class="border px-2 py-1" th:text="#{itemUnit}">단위</th>
+                                <th class="border px-2 py-1" th:text="#{itemLower}">하한</th>
+                                <th class="border px-2 py-1" th:text="#{itemUpper}">상한</th>
+                                <th class="border px-2 py-1" th:text="#{itemStandard}">기준값</th>
+                                <th class="border px-2 py-1" th:text="#{itemResult}">측정값</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item : ${inspection.items}">
+                                <td class="border px-2 py-1" th:text="${item.itemName}">-</td>
+                                <td class="border px-2 py-1" th:text="${item.itemMethod}">-</td>
+                                <td class="border px-2 py-1" th:text="${item.itemUnit}">-</td>
+                                <td class="border px-2 py-1" th:text="${item.itemLower}">-</td>
+                                <td class="border px-2 py-1" th:text="${item.itemUpper}">-</td>
+                                <td class="border px-2 py-1" th:text="${item.itemStandard}">-</td>
+                                <td class="border px-2 py-1" th:text="${item.itemResult}">-</td>
+                            </tr>
+                            <tr th:if="${inspection.items == null or #lists.isEmpty(inspection.items)}">
+                                <td class="border px-2 py-1 text-center" colspan="5">등록된 항목이 없습니다.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div>
-                <label class="block text-sm font-medium mb-1 mt-4">비고</label>
-                <div th:text="${inspection.note}">-</div>
+
+            <!-- Buttons -->
+            <div class="flex gap-3 justify-end">
+                <a th:href="@{/inspection/inspectionList(companyId=${inspection.companyId},siteId=${inspection.siteId})}"
+                    class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400" th:text="#{cancel}">목록으로</a>
+                </a>
             </div>
+
         </div>
-
-        <!-- Inspection Items -->
-        <div class="border rounded-lg shadow p-4 space-y-4">
-            <h3 class="font-semibold text-lg mb-2">점검 항목</h3>
-            <div class="overflow-x-auto">
-                <table class="min-w-full text-sm border">
-                    <thead class="bg-gray-100">
-                        <tr>
-                            <th class="border px-2 py-1">항목명</th>
-                            <th class="border px-2 py-1">하한</th>
-                            <th class="border px-2 py-1">상한</th>
-                            <th class="border px-2 py-1">기준값</th>
-                            <th class="border px-2 py-1">측정값</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="item : ${inspection.items}">
-                            <td class="border px-2 py-1" th:text="${item.itemName}">-</td>
-                            <td class="border px-2 py-1" th:text="${item.itemLower}">-</td>
-                            <td class="border px-2 py-1" th:text="${item.itemUpper}">-</td>
-                            <td class="border px-2 py-1" th:text="${item.itemStandard}">-</td>
-                            <td class="border px-2 py-1" th:text="${item.itemResult}">-</td>
-                        </tr>
-                        <tr th:if="${inspection.items == null or #lists.isEmpty(inspection.items)}">
-                            <td class="border px-2 py-1 text-center" colspan="5">등록된 항목이 없습니다.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Buttons -->
-        <div class="flex gap-3 justify-end">
-            <a th:href="@{/inspection/inspectionList(companyId=${inspection.companyId},siteId=${inspection.siteId})}"
-               class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-                목록으로
-            </a>
-        </div>
-
     </div>
-</div>
 </body>
+
 </html>

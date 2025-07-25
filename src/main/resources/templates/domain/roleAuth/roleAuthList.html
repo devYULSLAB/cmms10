@@ -1,75 +1,67 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/defaultLayout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/defaultLayout}">
 
 <head>
-    <title>Auths for Role: <span th:text="${roleId}">Role</span></title>
+    <title>권한코드 목록 </title>
 </head>
 
 <body>
-<div layout:fragment="content">
-    <div class="max-w-4xl mx-auto mt-8 p-6 bg-white shadow-lg rounded-2xl">
-        <h2 class="text-2xl font-bold mb-4">
-            Auths for Role: <span th:text="${roleId}"></span>
-        </h2>
-
-        <div th:if="${successMessage}" class="mb-4 p-3 bg-green-100 text-green-800 rounded-lg">
-            <span th:text="${successMessage}"></span>
-        </div>
-        <div th:if="${errorMessage}" class="mb-4 p-3 bg-red-100 text-red-800 rounded-lg">
-            <span th:text="${errorMessage}"></span>
-        </div>
-
-        <div class="mb-4 flex space-x-2">
-            <a th:href="@{/roleAuth/{roleId}/roleAuthForm(roleId=${roleId})}"
-               class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                Add New Auth
-            </a>
-        </div>
-
-        <div class="border rounded-xl overflow-hidden">
-            <div class="bg-gray-100 px-4 py-2 font-semibold">
-                Assigned Auths
+    <div layout:fragment="content">
+        <div class="max-w-7xl mx-auto mt-8 p-4">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold" th:text="#{roleAuthList}">권한코드 목록</h2>
+                <a th:href="@{/roleAuth/roleAuthForm}"
+                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" th:text="#{add}">
+                    권한코드 생성
+                </a>
             </div>
-            <div class="p-4 overflow-x-auto">
+
+            <div th:if="${successMessage}" class="mb-4 p-3 bg-green-100 text-green-800 rounded-lg">
+                <span th:text="${successMessage}"></span>
+            </div>
+            <div th:if="${errorMessage}" class="mb-4 p-3 bg-red-100 text-red-800 rounded-lg">
+                <span th:text="${errorMessage}"></span>
+            </div>
+            <div class="overflow-x-auto">
                 <table class="min-w-full text-left text-sm">
                     <thead class="border-b bg-gray-50">
                         <tr>
-                            <th class="px-4 py-2">Auth Granted</th>
-                            <th class="px-4 py-2">Auth Name</th>
-                            <th class="px-4 py-2">Actions</th>
+                            <th class="px-4 py-2" th:text="#{roleId}">역할코드</th>
+                            <th class="px-4 py-2" th:text="#{authGranted}">권한코드</th>
+                            <th class="px-4 py-2" th:text="#{roleName}">역할명</th>
+                            <th class="px-4 py-2" th:text="#{action}">액션</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="ra : ${roleAuths}" class="border-b hover:bg-gray-50">
+                            <td class="px-4 py-2" th:text="${ra.roleId}"></td>
                             <td class="px-4 py-2" th:text="${ra.roleName}"></td>
                             <td class="px-4 py-2" th:text="${ra.authGranted}"></td>
                             <td class="px-4 py-2">
                                 <a th:href="@{/roleAuth/{roleId}/roleAuthForm/{authGranted}(roleId=${ra.roleId},authGranted=${ra.authGranted})}"
-                                   class="px-3 py-1 bg-yellow-500 text-white rounded-md text-xs hover:bg-yellow-600">
-                                    Edit
+                                    class="px-3 py-1 bg-yellow-500 text-white rounded-md text-xs hover:bg-yellow-600"
+                                    th:text="#{edit}">
+                                    수정
                                 </a>
-                                <form th:action="@{/roleAuth/roleAuthDelete}" method="post" class="inline">
-                                    <input type="hidden" name="roleId" th:value="${ra.roleId}" />
-                                    <input type="hidden" name="authGranted" th:value="${ra.authGranted}" />
+                                <form
+                                    th:action="@{/roleAuth/roleAuthDelete/{roleId}/{authGranted}(roleId=${ra.roleId},authGranted=${ra.authGranted})}"
+                                    method="post" class="inline">
                                     <button type="submit"
-                                            class="px-3 py-1 bg-red-500 text-white rounded-md text-xs hover:bg-red-600">
-                                        Remove Auth
+                                        class="px-3 py-1 bg-red-500 text-white rounded-md text-xs hover:bg-red-600"
+                                        th:text="#{delete}">
+                                        삭제
                                     </button>
                                 </form>
-                            </td>
-                        </tr>
-                        <tr th:if="${#lists.isEmpty(roleAuths)}">
-                            <td colspan="3" class="text-center px-4 py-4 text-gray-500">
-                                No Auths assigned to this role.
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+
+
         </div>
     </div>
-</div>
 </body>
+
 </html>

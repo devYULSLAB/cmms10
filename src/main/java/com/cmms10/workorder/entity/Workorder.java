@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-
 /**
  * cmms10 - workorder
  * 작업 오더 관리 엔티티
@@ -50,8 +49,8 @@ public class Workorder {
     @Column(name = "jobType", length = 5)
     private String jobType;
 
-    @Column(name = "dept", length = 5)
-    private String dept;
+    @Column(name = "deptId", length = 5)
+    private String deptId;
 
     @Column(name = "scheduleDate")
     private LocalDate scheduleDate;
@@ -81,7 +80,6 @@ public class Workorder {
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
-
     @Column(name = "fileGroupId", length = 10)
     private String fileGroupId;
 
@@ -98,6 +96,7 @@ public class Workorder {
     private LocalDateTime updateDate;
 
     @OneToMany(mappedBy = "workorder", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<WorkorderItem> items = new ArrayList<>(); // This will need WorkorderItem in the same package or imported
+    private List<WorkorderItem> items = new ArrayList<>(); // This will need WorkorderItem in the same package or
+                                                           // imported
 
 }

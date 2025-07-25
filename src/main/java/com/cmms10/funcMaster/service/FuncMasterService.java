@@ -1,8 +1,7 @@
-package com.cmms10.domain.funcMaster.service;
+package com.cmms10.funcMaster.service;
 
-import com.cmms10.domain.funcMaster.entity.FuncMaster;
-import com.cmms10.domain.funcMaster.repository.FuncMasterRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.cmms10.funcMaster.entity.FuncMaster;
+import com.cmms10.funcMaster.repository.FuncMasterRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +26,7 @@ public class FuncMasterService {
 
     /**
      * 모든 기능 마스터 조회
+     * 
      * @param companyId 회사 ID
      * @return 기능 마스터 목록
      */
@@ -36,8 +36,9 @@ public class FuncMasterService {
 
     /**
      * 회사 ID와 기능 ID로 기능 마스터 조회
+     * 
      * @param companyId 회사 ID
-     * @param funcId 기능 ID
+     * @param funcId    기능 ID
      * @return 기능 마스터
      */
     public FuncMaster getFuncMasterByCompanyIdAndFuncId(String companyId, String funcId) {
@@ -47,6 +48,7 @@ public class FuncMasterService {
 
     /**
      * 기능 마스터 저장
+     * 
      * @param funcMaster 저장할 기능 마스터
      * @return 저장된 기능 마스터
      */
@@ -56,8 +58,9 @@ public class FuncMasterService {
 
     /**
      * 기능 마스터 삭제
+     * 
      * @param companyId 회사 ID
-     * @param funcId 기능 ID
+     * @param funcId    기능 ID
      */
     public void deleteFuncMaster(String companyId, String funcId) {
         Optional<FuncMaster> funcMaster = funcMasterRepository.findByCompanyIdAndFuncId(companyId, funcId);
@@ -66,8 +69,9 @@ public class FuncMasterService {
 
     /**
      * 회사 ID와 기능 타입으로 기능 마스터 조회
+     * 
      * @param companyId 회사 ID
-     * @param funcType 기능 타입
+     * @param funcType  기능 타입
      * @return 기능 마스터 목록
      */
     public List<FuncMaster> getFuncMastersByCompanyIdAndFuncType(String companyId, String funcType) {
@@ -76,8 +80,9 @@ public class FuncMasterService {
 
     /**
      * 회사 ID와 기능 이름으로 기능 마스터 검색
+     * 
      * @param companyId 회사 ID
-     * @param funcName 기능 이름
+     * @param funcName  기능 이름
      * @return 기능 마스터 목록
      */
     public List<FuncMaster> searchFuncMastersByFuncName(String companyId, String funcName) {
@@ -86,6 +91,7 @@ public class FuncMasterService {
 
     /**
      * 회사 ID로 기능 마스터 개수 조회
+     * 
      * @param companyId 회사 ID
      * @return 기능 마스터 개수
      */
@@ -95,11 +101,12 @@ public class FuncMasterService {
 
     /**
      * 회사 ID와 기능 ID로 기능 마스터 존재 여부 확인
+     * 
      * @param companyId 회사 ID
-     * @param funcId 기능 ID
+     * @param funcId    기능 ID
      * @return 존재 여부
      */
     public boolean existsFuncMaster(String companyId, String funcId) {
         return funcMasterRepository.existsByCompanyIdAndFuncId(companyId, funcId);
     }
-} 
+}

@@ -1,132 +1,141 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/defaultLayout}">
+    layout:decorate="~{layout/defaultLayout}">
 
 <head>
-    <title th:text="${inventoryMaster.inventoryId == null ? 'New Inventory Master' : 'Edit Inventory Master'}">Inventory Master Form</title>
+    <title>Inventory Master Form</title>
 </head>
 
 <body>
-<div layout:fragment="content">
-    <div class="max-w-5xl mx-auto mt-6">
-        
-        <h2 class="text-2xl font-bold mb-4" th:text="${inventoryMaster.inventoryId == null ? 'Create New Inventory Master' : 'Edit Inventory Master: ' + inventoryMaster.inventoryId}">Inventory Master Form</h2>
+    <div layout:fragment="content">
+        <div class="max-w-5xl mx-auto mt-6">
 
-        <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
-            <span th:text="${successMessage}"></span>
-        </div>
-        <div th:if="${errorMessage}" class="p-3 mb-4 text-red-800 bg-red-100 rounded">
-            <span th:text="${errorMessage}"></span>
-        </div>
+            <h2 class="text-2xl font-bold mb-4"
+                th:text="${inventoryMaster.inventoryId == null ? '재고 마스터 생성' : '재고 마스터 수정: ' + inventoryMaster.inventoryId}">
+                Inventory Master Form</h2>
 
-        <form th:action="@{/inventoryMaster/inventoryMasterSave}" th:object="${inventoryMaster}" method="post" class="space-y-6">
-            <input type="hidden" th:field="*{companyId}" />
-            <input type="hidden" th:field="*{deleteMark}" />
-            <input type="hidden" th:field="*{createBy}" />
-            <input type="hidden" th:field="*{createDate}" />
-            <input type="hidden" th:field="*{updateBy}" />
-            <input type="hidden" th:field="*{updateDate}" />
+            <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
+                <span th:text="${successMessage}"></span>
+            </div>
+            <div th:if="${errorMessage}" class="p-3 mb-4 text-red-800 bg-red-100 rounded">
+                <span th:text="${errorMessage}"></span>
+            </div>
 
-            <!-- Basic Information -->
-            <div class="border rounded-lg shadow p-4 bg-white">
-                <h5 class="text-lg font-semibold mb-4 border-b pb-2">Basic Information</h5>
+            <form th:action="@{/inventoryMaster/inventoryMasterSave}" th:object="${inventoryMaster}" method="post"
+                class="space-y-6">
+                <!-- Hidden fields -->
+                <input type="hidden" th:field="*{companyId}" />
 
-                <div class="grid grid-cols-12 gap-4">
-                    <div class="col-span-4">
-                        <label for="inventoryId" class="block text-sm font-medium mb-1">Inventory ID:</label>
-                        <input type="text" id="inventoryId" class="mt-1 block w-full border border-gray-100 rounded"
-                               th:field="*{inventoryId}" readonly required />
+                <!-- Basic Information -->
+                <div class="border rounded-lg shadow p-4 bg-white">
+                    <h5 class="text-lg font-semibold mb-4 border-b pb-2" th:text="#{basicInformation}">기본 정보</h5>
+
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-3">
+                            <label for="inventoryId" class="block text-sm font-medium mb-1"
+                                th:text="#{inventoryId}">재고ID:</label>
+                            <input type="text" id="inventoryId" class="w-full border rounded px-2 py-1 bg-gray-100"
+                                th:field="*{inventoryId}" readonly required />
+                        </div>
+                        <div class="col-span-9">
+                            <label for="inventoryName" class="block text-sm font-medium mb-1"
+                                th:text="#{inventoryName}">재고 이름:</label>
+                            <input type="text" id="inventoryName" class="w-full border rounded px-2 py-1"
+                                th:field="*{inventoryName}" required />
+                        </div>
                     </div>
-                    <div class="col-span-8">
-                        <label for="inventoryName" class="block text-sm font-medium mb-1">Inventory Name:</label>
-                        <input type="text" id="inventoryName" class="mt-1 block w-full border border-gray-300 rounded"
-                               th:field="*{inventoryName}" required />
-                    </div>
-                </div>
-                <div class="grid grid-cols-12 gap-4">
-                    <div class="col-span-6">
-                        <label for="inventoryLoc" class="block text-sm font-medium mb-1">Location:</label>
-                        <input type="text" id="inventoryLoc" class="mt-1 block w-full border border-gray-300 rounded"
-                               th:field="*{inventoryLoc}" />
-                    </div>
-                    <div class="col-span-3">
-                        <label for="siteId" class="block text-sm font-medium mb-1">Site ID:</label>
-                        <select id="siteId" th:field="*{siteId}" class="mt-1 block w-full border border-gray-300 rounded" required>
-                            <option value="">Select Site</option>
-                            <option th:each="site : ${sites}" 
-                                    th:value="${site.siteId}" 
-                                    th:text="${site.siteId + ' - ' + site.siteName}"></option>
-                        </select>
-                    </div>
-                    <div class="col-span-3">
-                        <label for="respDept" class="block text-sm font-medium mb-1">Responsible Dept:</label>
-                        <select id="respDept" th:field="*{respDept}" class="mt-1 block w-full border border-gray-300 rounded">
-                            <option value="">Select Department</option>
-                            <option th:each="dept : ${depts}" 
-                                    th:value="${dept.deptId}" 
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-6">
+                            <label for="inventoryLoc" class="block text-sm font-medium mb-1"
+                                th:text="#{inventoryLoc}">위치:</label>
+                            <input type="text" id="inventoryLoc" class="w-full border rounded px-2 py-1"
+                                th:field="*{inventoryLoc}" />
+                        </div>
+                        <div class="col-span-3">
+                            <label for="respDept" class="block text-sm font-medium mb-1" th:text="#{respDept}">담당
+                                부서:</label>
+                            <select id="respDept" th:field="*{respDept}"
+                                class="mt-1 block w-full border border-gray-300 rounded">
+                                <option value="">Select Department</option>
+                                <option th:each="dept : ${depts}" th:value="${dept.deptId}"
                                     th:text="${dept.deptId + ' - ' + dept.deptName}"></option>
-                        </select>
-                    </div>
-                    <div class="col-span-3">
-                        <label for="assetType" class="block text-sm font-medium mb-1">Asset Type:</label>
-                        <select id="assetType" th:field="*{assetType}" class="mt-1 block w-full border border-gray-300 rounded">
-                            <option value="">Select Asset Type</option>
-                            <option th:each="asset : ${assetTypes}" 
-                                    th:value="${asset.codeId}" 
+                            </select>
+                        </div>
+                        <div class="col-span-3">
+                            <label for="assetType" class="block text-sm font-medium mb-1" th:text="#{assetType}">자산
+                                유형:</label>
+                            <select id="assetType" th:field="*{assetType}"
+                                class="mt-1 block w-full border border-gray-300 rounded">
+                                <option value="" th:text="#{select}">-- Select --</option>
+                                <option th:each="asset : ${assetTypes}" th:value="${asset.codeId}"
                                     th:text="${asset.codeId + ' - ' + asset.codeName}"></option>
-                        </select>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Manufacturer Details -->
-            <div class="border rounded-lg p-4 shadow">
-                <h5 class="text-lg font-semibold mb-4">Manufacturer Details</h5>
+                <!-- Manufacturer Details -->
+                <div class="border rounded-lg p-4 shadow">
+                    <h5 class="text-lg font-semibold mb-4" th:text="#{manufacturerInformation}">제조사 상세</h5>
 
-                <div class="grid grid-cols-12 gap-4">
-                    <div class="col-span-3">
-                        <label for="manufacturer" class="block text-sm font-medium">Manufacturer</label>
-                        <input type="text" id="manufacturer" th:field="*{manufacturer}" class="mt-1 block w-full border border-gray-300 rounded" />
-                    </div>
-                    <div class="col-span-3">
-                        <label for="manufacturerModel" class="block text-sm font-medium">Model</label>
-                        <input type="text" id="manufacturerModel" th:field="*{manufacturerModel}" class="mt-1 block w-full border border-gray-300 rounded" />
-                    </div>
-                    <div class="col-span-3">
-                        <label for="manufacturerSN" class="block text-sm font-medium">Serial Number</label>
-                        <input type="text" id="manufacturerSN" th:field="*{manufacturerSN}" class="mt-1 block w-full border border-gray-300 rounded" />
-                    </div>
-                    <div class="col-span-3">
-                        <label for="manufacturerSpec" class="block text-sm font-medium">Specification</label>
-                        <input type="text" id="manufacturerSpec" th:field="*{manufacturerSpec}" class="mt-1 block w-full border border-gray-300 rounded" />
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-3">
+                            <label for="manufacturer" class="block text-sm font-medium"
+                                th:text="#{manufacturer}">제조사:</label>
+                            <input type="text" id="manufacturer" th:field="*{manufacturer}"
+                                class="mt-1 block w-full border border-gray-300 rounded" />
+                        </div>
+                        <div class="col-span-3">
+                            <label for="manufacturerModel" class="block text-sm font-medium"
+                                th:text="#{manufacturerModel}">모델:</label>
+                            <input type="text" id="manufacturerModel" th:field="*{manufacturerModel}"
+                                class="mt-1 block w-full border border-gray-300 rounded" />
+                        </div>
+                        <div class="col-span-3">
+                            <label for="manufacturerSN" class="block text-sm font-medium"
+                                th:text="#{manufacturerSN}">시리얼 번호:</label>
+                            <input type="text" id="manufacturerSN" th:field="*{manufacturerSN}"
+                                class="mt-1 block w-full border border-gray-300 rounded" />
+                        </div>
+                        <div class="col-span-3">
+                            <label for="manufacturerSpec" class="block text-sm font-medium"
+                                th:text="#{manufacturerSpec}">규격:</label>
+                            <input type="text" id="manufacturerSpec" th:field="*{manufacturerSpec}"
+                                class="mt-1 block w-full border border-gray-300 rounded" />
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Notes & Files -->
-            <div class="border rounded-lg shadow p-4 bg-white">
-                <h5 class="text-lg font-semibold mb-4 border-b pb-2">Notes & Files</h5>
+                <!-- Notes & Files -->
+                <div class="border rounded-lg shadow p-4 bg-white">
+                    <h5 class="text-lg font-semibold mb-4 border-b pb-2" th:text="#{note}">메모</h5>
 
-                <div class="mb-4">
-                    <label for="note" class="block text-sm font-medium mb-1">Note:</label>
-                    <textarea id="note" rows="3" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
-                              th:field="*{note}"></textarea>
+                    <div class="mb-4">
+                        <label for="note" class="block text-sm font-medium mb-1" th:text="#{note}">메모:</label>
+                        <textarea id="note" rows="3"
+                            class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+                            th:field="*{note}"></textarea>
+                    </div>
+
+                    <div>
+                        <label for="fileGroupId" class="block text-sm font-medium mb-1" th:text="#{fileGroupId}">파일 그룹
+                            ID:</label>
+                        <input type="text" id="fileGroupId"
+                            class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+                            th:field="*{fileGroupId}" />
+                    </div>
                 </div>
 
-                <div>
-                    <label for="fileGroupId" class="block text-sm font-medium mb-1">File Group ID:</label>
-                    <input type="text" id="fileGroupId" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
-                           th:field="*{fileGroupId}" />
+                <!-- Buttons -->
+                <div class="flex gap-3 mt-6">
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        th:text="#{save}">저장</button>
+                    <a th:href="@{/inventoryMaster/inventoryList}"
+                        class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" th:text="#{cancel}">취소/목록</a>
                 </div>
-            </div>
-
-            <!-- Buttons -->
-            <div class="flex gap-3 mt-6">
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Save Inventory Master</button>
-                <a th:href="@{/inventoryMaster/inventoryList}" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Cancel</a>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 </body>
+
 </html>

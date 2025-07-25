@@ -36,39 +36,38 @@ public interface PlantMasterRepository extends JpaRepository<PlantMaster, PlantM
      * 회사 ID별 최대 plant ID를 조회합니다.
      *
      * @param companyId 회사 ID
-     * @param siteId 사이트 ID
+     * @param siteId    사이트 ID
      * @return Optional<String> 최대 plant ID
      */
     @Query("SELECT MAX(p.plantId) FROM PlantMaster p WHERE p.companyId = :companyId AND p.siteId = :siteId")
     String findMaxPlantIdByCompanyIdAndSiteId(@Param("companyId") String companyId, @Param("siteId") String siteId);
 
     /**
-     * Finds a specific PlantMaster by its companyId and plantId.
-     * This is equivalent to JpaRepository's findById method when the IdClass is used.
+     * 회사 ID와 사이트 ID를 기준으로 설비 마스터 목록을 조회합니다.
      *
      * @param companyId The ID of the company.
-     * @param plantId The ID of the plant.
-     * @return Page 객체로 반환
-     */
-    Page<PlantMaster> findByCompanyIdAndPlantIdAndDeleteMarkIsNull(String companyId, String plantId, Pageable pageable);
-
-    /**
-     * Finds a specific PlantMaster by its companyId and plantId.
-     * This is equivalent to JpaRepository's findById method when the IdClass is used.
-     *
-     * @param companyId The ID of the company.
-     * @param siteId The ID of the site.
-     * @param plantId The ID of the plant.
+     * @param siteId    The ID of the site.
+     * @param plantId   The ID of the plant.
      * @return An Optional containing the PlantMaster if found, or empty otherwise.
      */
-    Optional<PlantMaster> findByCompanyIdAndSiteIdAndPlantIdAndDeleteMarkIsNull(String companyId, String siteId, String plantId);
+    Optional<PlantMaster> findByCompanyIdAndSiteIdAndPlantIdAndDeleteMarkIsNull(String companyId, String siteId,
+            String plantId);
 
     /**
-     * Finds a page of PlantMaster entries for a given companyId and siteId.
+     * 회사 ID와 사이트 ID를 기준으로 설비 마스터 목록을 조회합니다.
      *
      * @param companyId The ID of the company.
-     * @param siteId The ID of the site.
-     * @param pageable Pagination information.
+     * @param pageable  Pagination information.
+     * @return A page of PlantMaster entities.
+     */
+    Page<PlantMaster> findByCompanyIdAndDeleteMarkIsNull(String companyId, Pageable pageable);
+
+    /**
+     * 회사 ID와 사이트 ID를 기준으로 설비 마스터 목록을 조회합니다.
+     *
+     * @param companyId The ID of the company.
+     * @param siteId    The ID of the site.
+     * @param pageable  Pagination information.
      * @return A page of PlantMaster entities.
      */
     Page<PlantMaster> findByCompanyIdAndSiteIdAndDeleteMarkIsNull(String companyId, String siteId, Pageable pageable);
@@ -78,20 +77,22 @@ public interface PlantMasterRepository extends JpaRepository<PlantMaster, PlantM
      *
      * @param companyId The ID of the company.
      * @param plantName The name of the plant (partial match).
-     * @param pageable Pagination information.
+     * @param pageable  Pagination information.
      * @return A page of PlantMaster entities.
      */
 
-    Page<PlantMaster> findByCompanyIdAndPlantNameContainingAndDeleteMarkIsNull(String companyId, String plantName, Pageable pageable);
+    Page<PlantMaster> findByCompanyIdAndPlantNameContainingAndDeleteMarkIsNull(String companyId, String plantName,
+            Pageable pageable);
 
     /**
      * Finds a page of PlantMaster entries for a given companyId and createBy.
      *
      * @param companyId The ID of the company.
-     * @param respDept Responsible department.
-     * @param pageable Pagination information.
+     * @param respDept  Responsible department.
+     * @param pageable  Pagination information.
      * @return A page of PlantMaster entities.
      */
-    Page<PlantMaster> findByCompanyIdAndRespDeptAndDeleteMarkIsNull(String companyId, String respDept, Pageable pageable);
+    Page<PlantMaster> findByCompanyIdAndRespDeptAndDeleteMarkIsNull(String companyId, String respDept,
+            Pageable pageable);
 
 }

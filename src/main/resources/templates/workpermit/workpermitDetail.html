@@ -7,63 +7,110 @@
 생성일: (생성일 입력)
 -->
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>작업허가서 상세</title>
 </head>
+
 <body>
-    <div layout:fragment="content"></div>
-        <h2>작업허가서 상세</h2>
-        <table>
-            <tr>
-                <th>회사명</th>
-                <td th:text="${workpermit.companyName}"></td>
-                <th>사이트명</th>
-                <td th:text="${workpermit.siteName}"></td>
-            </tr>
-            <tr>
-                <th>허가번호</th>
-                <td th:text="${workpermit.permitId}"></td>
-                <th>허가서명</th>
-                <td th:text="${workpermit.permitName}"></td>
-            </tr>
-            <tr>
-                <th>설비 ID</th>
-                <td th:text="${workpermit.plantId}"></td>
-                <th>상태</th>
-                <td th:text="${workpermit.status}"></td>
-            </tr>
-            <tr>
-                <th>작업 기간</th>
-                <td colspan="3" th:text="${workpermit.startDate} + ' ~ ' + ${workpermit.endDate}"></td>
-            </tr>
-            <tr>
-                <th>작업 요약</th>
-                <td colspan="3" th:text="${workpermit.workDesc}"></td>
-            </tr>
-            <tr>
-                <th>위험요소</th>
-                <td colspan="3" th:text="${workpermit.hazardNote}"></td>
-            </tr>
-            <tr>
-                <th>안전조치</th>
-                <td colspan="3" th:text="${workpermit.safetyMeasure}"></td>
-            </tr>
-        </table>
-        <h3>작업자 서명</h3>
-        <table>
-            <thead>
-            <tr>
-                <th>작업자명</th>
-                <th>서명</th>
-            </tr>
-            </thead>
-            <tbody id="itemTableBody">
-            <tr th:each="item, iterStat : ${workpermit.items}">
-                <td th:text="${item.signerName}"></td>
-                <td><img th:src="${item.signature}" alt="서명 이미지" class="signature-img"/></td>
-            </tr>
-            </tbody>
-        </table>
-</div>
+    <div layout:fragment="content">
+
+        <h2 class="text-2xl font-bold" th:text="#{workpermitDetail}">작업허가서 상세</h2>
+
+        <!-- Basic Information -->
+        <div class="border rounded-lg shadow p-4 space-y-4">
+            <h3 class="font-semibold text-lg mb-2" th:text="#{basicInformation}">기본 정보</h3>
+            <div class="grid grid-cols-12 gap-4">
+                <div class="col-span-3">
+                    <label class="block text-sm font-medium mb-1" th:text="#{permitId}">Permit ID</label>
+                    <div th:text="${workpermit.permitId}"></div>
+                </div>
+                <div class="col-span-3">
+                    <label class="block text-sm font-medium mb-1" th:text="#{plantId}">Plant ID</label>
+                    <div th:text="${workpermit.plantId}"></div>
+                </div>
+                <div class="col-span-2">
+                    <label class="block text-sm font-medium mb-1" th:text="#{permitType}">Permit Type</label>
+                    <div th:text="${workpermit.permitType}"></div>
+                </div>
+                <div class="col-span-2">
+                    <label class="block text-sm font-medium mb-1" th:text="#{siteId}">Site</label>
+                    <div th:text="${workpermit.siteId}"></div>
+                </div>
+                <div class="col-span-2">
+                    <label class="block text-sm font-medium mb-1" th:text="#{deptId}">Dept</label>
+                    <div th:text="${workpermit.deptId}"></div>
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1" th:text="#{permitName}">Permit Name</label>
+                <div th:text="${workpermit.permitName}"></div>
+            </div>
+        </div>
+        <!-- Permit Period -->
+        <div class="border rounded-lg shadow p-4 space-y-4">
+            <h3 class="font-semibold text-lg mb-2" th:text="#{permitPeriod}">Permit Period</h3>
+            <div class="grid grid-cols-12 gap-4">
+                <div class="col-span-3">
+                    <label class="block text-sm font-medium mb-1" th:text="#{startDate}">Start Date</label>
+                    <div th:text="${workpermit.startDate}"></div>
+                </div>
+                <div class="col-span-3">
+                    <label class="block text-sm font-medium mb-1" th:text="#{endDate}">End Date</label>
+                    <div th:text="${workpermit.endDate}"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Permit Description -->
+        <div class="border rounded-lg shadow p-4 space-y-4">
+            <h3 class="font-semibold text-lg mb-2" th:text="#{permitDescription}">Permit Description</h3>
+            <div class="grid grid-cols-12 gap-4">
+                <div class="col-span-3">
+                    <label class="block text-sm font-medium mb-1" th:text="#{workDesc}">Work Description</label>
+                    <div th:text="${workpermit.workDesc}"></div>
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium mb-1" th:text="#{hazardNote}">Hazard Note</label>
+                <div th:text="${workpermit.hazardNote}"></div>
+            </div>
+        </div>
+        <!-- Permit Safety Measures -->
+        <div class="border rounded-lg shadow p-4 space-y-4">
+            <h3 class="font-semibold text-lg mb-2" th:text="#{safetyMeasures}">Permit Safety Measures</h3>
+            <div class="grid grid-cols-12 gap-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1" th:text="#{safetyMeasure}">Safety
+                        Measure</label>
+                    <div th:text="${workpermit.safetyMeasure}"></div>
+                </div>
+            </div>
+
+            <!-- Permit Signatures items-->
+            <div class="border rounded-lg shadow p-4 space-y-4">
+                <h3 class="font-semibold text-lg mb-2" th:text="#{signature}">Permit Signatures</h3>
+                <table class="w-full">
+                    <thead>
+                        <tr>
+                            <th>Signer Name</th>
+                            <th>Signature</th>
+                        </tr>
+                    </thead>
+                    <tbody id="itemTableBody">
+                        <tr th:each="item : ${workpermit.items}">
+                            <td th:text="${item.signerName}"></td>
+                            <td>
+                                <!-- 서명 이미지를 base64로 저장했다면 -->
+                                <img th:if="${item.signature != null}"
+                                    th:src="'data:image/png;base64,' + ${item.signature}" width="150" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
 </body>
+
 </html>

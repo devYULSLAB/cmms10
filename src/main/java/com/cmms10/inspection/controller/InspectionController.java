@@ -3,6 +3,7 @@ package com.cmms10.inspection.controller;
 import com.cmms10.inspection.entity.Inspection;
 import com.cmms10.inspection.entity.InspectionItem;
 import com.cmms10.inspection.service.InspectionService;
+import com.cmms10.domain.site.service.SiteService;
 import com.cmms10.domain.dept.service.DeptService;
 import com.cmms10.commonCode.service.CommonCodeService;
 import jakarta.servlet.http.HttpSession;
@@ -27,13 +28,16 @@ import java.util.ArrayList;
 public class InspectionController {
 
     private final InspectionService inspectionService;
+    private final SiteService siteService;
     private final DeptService deptService;
     private final CommonCodeService commonCodeService;
 
     public InspectionController(InspectionService inspectionService,
-                              DeptService deptService,
-                              CommonCodeService commonCodeService) {
+            SiteService siteService,
+            DeptService deptService,
+            CommonCodeService commonCodeService) {
         this.inspectionService = inspectionService;
+        this.siteService = siteService;
         this.deptService = deptService;
         this.commonCodeService = commonCodeService;
     }
@@ -41,6 +45,7 @@ public class InspectionController {
     /** 신규 폼 */
     @GetMapping("/inspectionForm")
     public String form(Model model, HttpSession session) {
+        // 세션에서 기본값 설정
         String companyId = (String) session.getAttribute("companyId");
 
         Inspection inspection = new Inspection();
@@ -49,45 +54,48 @@ public class InspectionController {
         for (int i = 0; i < 10; i++) {
             items.add(new InspectionItem());
         }
-        inspection.setItems(items);        
-
-        // Select box 데이터 추가
-        model.addAttribute("inspection", inspection);
-        model.addAttribute("jobTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
-        model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
-        
-        return "inspection/inspectionForm";
-    }
-
-    /** 수정 폼 */
-    @GetMapping("/inspectionForm/{inspectionId}")
-    public String edit(@PathVariable String inspectionId, 
-                        Model model, 
-                        HttpSession session) {
-        String companyId = (String) session.getAttribute("companyId");
-        Inspection inspection = inspectionService.getInspectionByInspectionId(companyId, inspectionId);
-        List<InspectionItem> items = inspectionService.getInspectionItemByCompanyIdAndInspectionId(companyId, inspectionId);
+        inspection.setCompanyId(companyId);
         inspection.setItems(items);
 
         // Select box 데이터 추가
         model.addAttribute("inspection", inspection);
+        model.addAttribute("sites", siteService.getAllSitesByCompanyId(companyId));
         model.addAttribute("jobTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
-        
+
+        return "inspection/inspectionForm";
+    }
+
+    /** 수정 폼 */
+    @GetMapping("/inspectionForm/{siteId}/{inspectionId}")
+    public String edit(@PathVariable String siteId,
+            @PathVariable String inspectionId,
+            Model model,
+            HttpSession session) {
+
+        String companyId = (String) session.getAttribute("companyId");
+
+        Inspection inspection = inspectionService.getInspectionByCompanyIdAndSiteIdAndInspectionId(companyId, siteId,
+                inspectionId);
+        List<InspectionItem> items = inspectionService.getInspectionItemByCompanyIdAndInspectionId(companyId,
+                inspectionId);
+        inspection.setItems(items);
+
+        // Select box 데이터 추가
+        model.addAttribute("inspection", inspection);
+        model.addAttribute("sites", siteService.getAllSitesByCompanyId(companyId));
+        model.addAttribute("jobTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
+        model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
+
         return "inspection/inspectionForm";
     }
 
     /** 저장 */
     @PostMapping("/inspectionSave")
     public String saveInspection(@ModelAttribute Inspection inspection,
-                                HttpSession session,
-                                RedirectAttributes redirectAttributes) {
-        String companyId = (String) session.getAttribute("companyId");
-        String siteId = (String) session.getAttribute("siteId");
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
         String username = (String) session.getAttribute("username");
-
-        inspection.setCompanyId(companyId);
-        inspection.setSiteId(siteId);
 
         inspectionService.saveInspection(inspection, username);
         redirectAttributes.addFlashAttribute("successMessage", "점검이 저장되었습니다.");
@@ -95,39 +103,43 @@ public class InspectionController {
     }
 
     /** 삭제 */
-    @PostMapping("/inspectionDelete/{inspectionId}")
-    public String deleteInspection(@PathVariable String inspectionId, HttpSession session) {
+    @PostMapping("/inspectionDelete/{siteId}/{inspectionId}")
+    public String deleteInspection(@PathVariable String siteId,
+            @PathVariable String inspectionId,
+            HttpSession session) {
+        String companyId = (String) session.getAttribute("companyId");
         try {
-            String companyId = (String) session.getAttribute("companyId");
-            inspectionService.deleteInspection(companyId, inspectionId);
+            inspectionService.deleteInspection(companyId, siteId, inspectionId);
         } catch (Exception e) {
             throw new RuntimeException("점검 삭제 중 오류 발생: " + e.getMessage());
         }
         return "redirect:/inspection/inspectionList";
     }
-    
+
     /** 목록 조회 */
     @GetMapping("/inspectionList")
     public String list(Model model,
-                       HttpSession session,
-                       @PageableDefault(size = 10, sort = "inspectionId") Pageable pageable) {
+            HttpSession session,
+            @PageableDefault(size = 10, sort = "inspectionId") Pageable pageable) {
         String companyId = (String) session.getAttribute("companyId");
-        String siteId = (String) session.getAttribute("siteId");
-        Page<Inspection> inspectionPage = inspectionService.getAllInspections(companyId, siteId, pageable);
-        model.addAttribute("inspectionPage", inspectionPage);
-        //model.addAttribute("companyId", companyId);
-        //model.addAttribute("siteId", siteId);
+
+        Page<Inspection> inspections = inspectionService.getAllInspectionsByCompanyId(companyId, pageable);
+        model.addAttribute("inspections", inspections);
+
         return "inspection/inspectionList";
     }
 
     /** 출력(조회) 폼 */
-    @GetMapping("/inspectionDetail/{inspectionId}")
-    public String detail(@PathVariable String inspectionId,
-                         HttpSession session,
-                         Model model) {
+    @GetMapping("/inspectionDetail/{siteId}/{inspectionId}")
+    public String detail(@PathVariable String siteId,
+            @PathVariable String inspectionId,
+            HttpSession session,
+            Model model) {
         String companyId = (String) session.getAttribute("companyId");
-        Inspection inspection = inspectionService.getInspectionByInspectionId(companyId, inspectionId);
-        List<InspectionItem> items = inspectionService.getInspectionItemByCompanyIdAndInspectionId(companyId, inspectionId);
+        Inspection inspection = inspectionService.getInspectionByCompanyIdAndSiteIdAndInspectionId(companyId, siteId,
+                inspectionId);
+        List<InspectionItem> items = inspectionService.getInspectionItemByCompanyIdAndInspectionId(companyId,
+                inspectionId);
         inspection.setItems(items);
         model.addAttribute("inspection", inspection);
         return "inspection/inspectionDetail"; // 출력 전용 템플릿로 변경

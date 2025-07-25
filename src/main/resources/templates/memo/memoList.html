@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/defaultLayout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/defaultLayout}">
+
 <head>
     <title>메모 목록</title>
     <th:block layout:fragment="page-css">
@@ -9,79 +9,82 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     </th:block>
 </head>
+
 <body>
-<div layout:fragment="content">
-    <div class="px-6 py-4">
-        <h2 class="text-2xl font-semibold mb-6">메모 목록</h2>
+    <div layout:fragment="content">
+        <div class="px-6 py-4">
+            <h2 class="text-2xl font-semibold mb-6" th:text="#{memoList}">메모 목록</h2>
 
-        <!-- 새 메모 버튼 -->
-        <div class="mb-4">
-            <a th:href="@{/memo/memoForm}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded hover:bg-blue-700">
-                <i class="fas fa-plus mr-2"></i> 새 메모
-            </a>
-        </div>
+            <!-- 새 메모 버튼 -->
+            <div class="mb-4">
+                <a th:href="@{/memo/memoForm}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    th:text="#{add}">
+                    새 메모
+                </a>
+            </div>
 
-        <!-- 메모 목록 테이블 -->
-        <div class="bg-white shadow rounded overflow-x-auto">
-            <table class="min-w-full text-sm text-left border border-gray-200">
-                <thead class="bg-gray-100 text-gray-700">
-                <tr>
-                    <th class="px-4 py-3 border-b">제목</th>
-                    <th class="px-4 py-3 border-b">작성자</th>
-                    <th class="px-4 py-3 border-b">작성일</th>
-                    <th class="px-4 py-3 border-b">조회수</th>
-                    <th class="px-4 py-3 border-b">고정</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="memo : ${memoPage.content}" class="hover:bg-gray-50 border-t">
-                    <td class="px-4 py-2">
-                        <a th:href="@{/memo/memoDetail/{id}(id=${memo.memoId})}"
-                           th:text="${memo.memoName}" class="text-blue-600 hover:underline"></a>
-                    </td>
-                    <td class="px-4 py-2" th:text="${memo.createBy}"></td>
-                    <td class="px-4 py-2" th:text="${#temporals.format(memo.createDate, 'yyyy-MM-dd HH:mm')}"></td>
-                    <td class="px-4 py-2" th:text="${memo.viewCount}"></td>
-                    <td class="px-4 py-2 text-center">
-                        <i th:if="${memo.isPinned == 'Y'}" class="fas fa-thumbtack text-blue-500"></i>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+            <!-- 메모 목록 테이블 -->
+            <div class="bg-white shadow rounded overflow-x-auto">
+                <table class="min-w-full text-sm text-left border border-gray-200">
+                    <thead class="bg-gray-100 text-gray-700">
+                        <tr>
+                            <th class="px-4 py-3 border-b" th:text="#{memoName}">제목</th>
+                            <th class="px-4 py-3 border-b" th:text="#{createBy}">작성자</th>
+                            <th class="px-4 py-3 border-b" th:text="#{createDate}">작성일</th>
+                            <th class="px-4 py-3 border-b" th:text="#{viewCount}">조회수</th>
+                            <th class="px-4 py-3 border-b" th:text="#{isPinned}">고정</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="memo : ${memos.content}" class="hover:bg-gray-50 border-t">
+                            <td class="px-4 py-2">
+                                <a th:href="@{/memo/memoDetail/{id}(id=${memo.memoId})}" th:text="${memo.memoName}"
+                                    class="text-blue-600 hover:underline"></a>
+                            </td>
+                            <td class="px-4 py-2" th:text="${memo.createBy}"></td>
+                            <td class="px-4 py-2" th:text="${#temporals.format(memo.createDate, 'yyyy-MM-dd HH:mm')}">
+                            </td>
+                            <td class="px-4 py-2" th:text="${memo.viewCount}"></td>
+                            <td class="px-4 py-2 text-center">
+                                <i th:if="${memo.isPinned == 'Y'}" class="fas fa-thumbtack text-blue-500"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-        <!-- 페이징 -->
-        <div class="flex justify-center mt-6" th:if="${memoPage.totalPages > 0}">
-            <ul class="inline-flex items-center -space-x-px text-sm">
-                <!-- 이전 -->
-                <li>
-                    <a class="px-3 py-1 border border-gray-300 rounded-l hover:bg-gray-100"
-                       th:href="@{/memo/memoList(page=${memoPage.number - 1})}"
-                       th:classappend="${!memoPage.hasPrevious()} ? 'opacity-50 pointer-events-none'">
-                        &laquo;
-                    </a>
-                </li>
+            <!-- 페이징 -->
+            <div class="flex justify-center mt-6" th:if="${memos.totalPages > 0}">
+                <ul class="inline-flex items-center -space-x-px text-sm">
+                    <!-- 이전 -->
+                    <li>
+                        <a class="px-3 py-1 border border-gray-300 rounded-l hover:bg-gray-100"
+                            th:href="@{/memo/memoList(page=${memos.number - 1})}"
+                            th:classappend="${!memos.hasPrevious()} ? 'opacity-50 pointer-events-none'">
+                            &laquo;
+                        </a>
+                    </li>
 
-                <!-- 페이지 번호 -->
-                <li th:each="pageNumber : ${#numbers.sequence(0, memoPage.totalPages - 1)}">
-                    <a th:href="@{/memo/memoList(page=${pageNumber})}"
-                       th:text="${pageNumber + 1}"
-                       class="px-3 py-1 border border-gray-300 hover:bg-gray-100"
-                       th:classappend="${pageNumber == memoPage.number} ? 'bg-blue-600 text-white'">
-                    </a>
-                </li>
+                    <!-- 페이지 번호 -->
+                    <li th:each="pageNumber : ${#numbers.sequence(0, memos.totalPages - 1)}">
+                        <a th:href="@{/memo/memoList(page=${pageNumber})}" th:text="${pageNumber + 1}"
+                            class="px-3 py-1 border border-gray-300 hover:bg-gray-100"
+                            th:classappend="${pageNumber == memos.number} ? 'bg-blue-600 text-white'">
+                        </a>
+                    </li>
 
-                <!-- 다음 -->
-                <li>
-                    <a class="px-3 py-1 border border-gray-300 rounded-r hover:bg-gray-100"
-                       th:href="@{/memo/memoList(page=${memoPage.number + 1})}"
-                       th:classappend="${!memoPage.hasNext()} ? 'opacity-50 pointer-events-none'">
-                        &raquo;
-                    </a>
-                </li>
-            </ul>
+                    <!-- 다음 -->
+                    <li>
+                        <a class="px-3 py-1 border border-gray-300 rounded-r hover:bg-gray-100"
+                            th:href="@{/memo/memoList(page=${memos.number + 1})}"
+                            th:classappend="${!memos.hasNext()} ? 'opacity-50 pointer-events-none'">
+                            &raquo;
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
 </body>
+
 </html>

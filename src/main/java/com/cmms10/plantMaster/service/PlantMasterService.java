@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 /**
  * cmms10 - PlantService
@@ -23,14 +22,14 @@ import java.util.Optional;
 public class PlantMasterService {
 
     private final PlantMasterRepository plantMasterRepository;
-      
+
     public PlantMasterService(PlantMasterRepository plantMasterRepository) {
         this.plantMasterRepository = plantMasterRepository;
     }
 
     @Transactional(readOnly = true)
-    public Page<PlantMaster> getAllPlantMasters(String companyId, String siteId, Pageable pageable) {
-        return plantMasterRepository.findByCompanyIdAndSiteIdAndDeleteMarkIsNull(companyId, siteId, pageable);
+    public Page<PlantMaster> getAllPlantMastersByCompanyId(String companyId, Pageable pageable) {
+        return plantMasterRepository.findByCompanyIdAndDeleteMarkIsNull(companyId, pageable);
     }
 
     @Transactional(readOnly = true)
@@ -42,18 +41,19 @@ public class PlantMasterService {
     @Transactional
     public PlantMaster savePlantMaster(PlantMaster plantMaster, String username) {
         LocalDateTime now = LocalDateTime.now();
-        if(plantMaster.getPlantId() == null || plantMaster.getPlantId().isEmpty()) {
-            String maxPlantId = plantMasterRepository.findMaxPlantIdByCompanyIdAndSiteId(plantMaster.getCompanyId(), plantMaster.getSiteId());
+        if (plantMaster.getPlantId() == null || plantMaster.getPlantId().isEmpty()) {
+            String maxPlantId = plantMasterRepository.findMaxPlantIdByCompanyIdAndSiteId(plantMaster.getCompanyId(),
+                    plantMaster.getSiteId());
             Long newPlantId = (maxPlantId == null) ? 1000000000L : Long.parseLong(maxPlantId) + 1;
             plantMaster.setPlantId(String.valueOf(newPlantId));
             plantMaster.setCreateDate(now);
-            plantMaster.setCreateBy(username);            
+            plantMaster.setCreateBy(username);
         } else {
             // 수정정
             plantMaster.setUpdateDate(now);
             plantMaster.setUpdateBy(username);
-        }   
-                
+        }
+
         return plantMasterRepository.save(plantMaster);
     }
 

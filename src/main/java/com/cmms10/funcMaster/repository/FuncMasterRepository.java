@@ -1,7 +1,7 @@
-package com.cmms10.domain.funcMaster.repository;
+package com.cmms10.funcMaster.repository;
 
-import com.cmms10.domain.funcMaster.entity.FuncMaster;
-import com.cmms10.domain.funcMaster.entity.FuncMasterIdClass;
+import com.cmms10.funcMaster.entity.FuncMaster;
+import com.cmms10.funcMaster.entity.FuncMasterIdClass;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +21,7 @@ public interface FuncMasterRepository extends JpaRepository<FuncMaster, FuncMast
 
     /**
      * 회사 ID로 모든 기능 마스터 조회
+     * 
      * @param companyId 회사 ID
      * @return 기능 마스터 목록
      */
@@ -28,30 +29,34 @@ public interface FuncMasterRepository extends JpaRepository<FuncMaster, FuncMast
 
     /**
      * 회사 ID와 기능 ID로 기능 마스터 조회
+     * 
      * @param companyId 회사 ID
-     * @param funcId 기능 ID
+     * @param funcId    기능 ID
      * @return 기능 마스터 (Optional)
      */
     Optional<FuncMaster> findByCompanyIdAndFuncId(String companyId, String funcId);
 
     /**
      * 회사 ID와 기능 타입으로 기능 마스터 조회
+     * 
      * @param companyId 회사 ID
-     * @param funcType 기능 타입
+     * @param funcType  기능 타입
      * @return 기능 마스터 목록
      */
     List<FuncMaster> findByCompanyIdAndFuncType(String companyId, String funcType);
 
     /**
      * 회사 ID와 기능 이름으로 기능 마스터 조회
+     * 
      * @param companyId 회사 ID
-     * @param funcName 기능 이름
+     * @param funcName  기능 이름
      * @return 기능 마스터 목록
      */
     List<FuncMaster> findByCompanyIdAndFuncNameContaining(String companyId, String funcName);
 
     /**
      * 회사 ID로 기능 마스터 개수 조회
+     * 
      * @param companyId 회사 ID
      * @return 기능 마스터 개수
      */
@@ -59,9 +64,10 @@ public interface FuncMasterRepository extends JpaRepository<FuncMaster, FuncMast
 
     /**
      * 회사 ID와 기능 ID로 기능 마스터 존재 여부 확인
+     * 
      * @param companyId 회사 ID
-     * @param funcId 기능 ID
+     * @param funcId    기능 ID
      * @return 존재 여부
      */
     boolean existsByCompanyIdAndFuncId(String companyId, String funcId);
-} 
+}

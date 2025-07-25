@@ -18,6 +18,15 @@ spring:
       hibernate:
         'format_sql': true
         # dialect: org.hibernate.dialect.MariaDBDialect
+
+  thymeleaf:
+    cache: false
+
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
   
   messages:
     basename: messages/messages

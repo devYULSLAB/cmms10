@@ -1,13 +1,16 @@
 <!-- workPermitForm.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>작업허가서 등록</title>
 </head>
+
 <body>
     <div layout:fragment="content">
         <div class="max-w-4xl mx-auto mt-8 space-y-6">
-            <h2 class="text-2xl font-bold" th:text="${workpermit.permitId == null ? '작업허가서 신규' : '작업허가서 수정: ' + workpermit.permitId}">작업허가서 등록</h2>
+            <h2 class="text-2xl font-bold"
+                th:text="${workpermit.permitId == null ? '작업허가서 신규' : '작업허가서 수정: ' + workpermit.permitId}">작업허가서 등록</h2>
             <!-- Alerts -->
             <div th:if="${successMessage}" class="p-3 bg-green-100 text-green-800 rounded">
                 <span th:text="${successMessage}"></span>
@@ -16,83 +19,89 @@
                 <span th:text="${errorMessage}"></span>
             </div>
 
-            <form th:action="@{/workpermit/workpermitSave}" method="post" th:object="${workpermit}" onsubmit="saveSignature()">
+            <form th:action="@{/workpermit/workpermitSave}" method="post" th:object="${workpermit}"
+                onsubmit="saveSignature()">
                 <!-- Hidden fields -->
                 <input type="hidden" th:field="*{companyId}" />
-                <input type="hidden" th:field="*{siteId}" />
+
                 <!-- Basic Info -->
                 <div class="border rounded-lg shadow p-4 space-y-4">
-                    <h3 class="font-semibold text-lg mb-2">Basic Information</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium mb-1">Permit ID</label>
-                            <input type="text" th:field="*{permitId}" class="w-full border rounded px-2 py-1 bg-gray-100" readonly />
+                    <h3 class="font-semibold text-lg mb-2" th:text="#{basicInformation}">Basic Information</h3>
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-3">
+                            <label class="block text-sm font-medium mb-1" th:text="#{permitId}">Permit ID</label>
+                            <input type="text" th:field="*{permitId}"
+                                class="w-full border rounded px-2 py-1 bg-gray-100" readonly />
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-1">Plant ID</label>
+                        <div class="col-span-3">
+                            <label class="block text-sm font-medium mb-1" th:text="#{plantId}">Plant ID</label>
                             <input type="text" th:field="*{plantId}" class="w-full border rounded px-2 py-1" />
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-1">Permit Name</label>
-                            <input type="text" th:field="*{permitName}" class="w-full border rounded px-2 py-1" />
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-1">Permit Type</label>
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium mb-1" th:text="#{permitType}">Permit Type</label>
                             <input type="text" th:field="*{permitType}" class="w-full border rounded px-2 py-1" />
                         </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium mb-1" th:text="#{siteId}">Site</label>
+                            <input type="text" id="siteId" th:field="*{siteId}"
+                                class="w-full border rounded px-2 py-1" />
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium mb-1" th:text="#{deptId}">Dept</label>
+                            <input type="text" th:field="*{deptId}" class="w-full border rounded px-2 py-1" />
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1" th:text="#{permitName}">Permit Name</label>
+                        <input type="text" th:field="*{permitName}" class="w-full border rounded px-2 py-1" />
                     </div>
                 </div>
                 <!-- Permit Period -->
                 <div class="border rounded-lg shadow p-4 space-y-4">
-                    <h3 class="font-semibold text-lg mb-2">Permit Period</h3>
+                    <h3 class="font-semibold text-lg mb-2" th:text="#{permitPeriod}">Permit Period</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium mb-1">Start Date</label>
-                            <input type="datetime-local" th:field="*{startDate}" class="w-full border rounded px-2 py-1" />
+                            <label class="block text-sm font-medium mb-1" th:text="#{startDate}">Start Date</label>
+                            <input type="date" th:field="*{startDate}" class="w-full border rounded px-2 py-1" />
                         </div>
                         <div>
-                            <label class="block text-sm font-medium mb-1">End Date</label>
-                            <input type="datetime-local" th:field="*{endDate}" class="w-full border rounded px-2 py-1" />
+                            <label class="block text-sm font-medium mb-1" th:text="#{endDate}">End Date</label>
+                            <input type="date" th:field="*{endDate}" class="w-full border rounded px-2 py-1" />
                         </div>
                     </div>
                 </div>
-                <!-- Permit Type -->
-                <div class="border rounded-lg shadow p-4 space-y-4">
-                    <h3 class="font-semibold text-lg mb-2">Permit Type</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium mb-1">Permit Type</label>
-                            <input type="text" th:field="*{permitType}" class="w-full border rounded px-2 py-1" />
-                        </div>
-                    </div>
-                </div>
+
                 <!-- Permit Description -->
                 <div class="border rounded-lg shadow p-4 space-y-4">
-                    <h3 class="font-semibold text-lg mb-2">Permit Description</h3>
+                    <h3 class="font-semibold text-lg mb-2" th:text="#{permitDescription}">Permit Description</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium mb-1">Work Description</label>
-                            <textarea th:field="*{workDesc}" rows="3" class="w-full border rounded px-2 py-1"></textarea>
+                            <label class="block text-sm font-medium mb-1" th:text="#{workDesc}">Work Description</label>
+                            <textarea th:field="*{workDesc}" rows="3"
+                                class="w-full border rounded px-2 py-1"></textarea>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium mb-1">Hazard Note</label>
-                            <textarea th:field="*{hazardNote}" rows="3" class="w-full border rounded px-2 py-1"></textarea>
+                            <label class="block text-sm font-medium mb-1" th:text="#{hazardNote}">Hazard Note</label>
+                            <textarea th:field="*{hazardNote}" rows="3"
+                                class="w-full border rounded px-2 py-1"></textarea>
                         </div>
                     </div>
                 </div>
                 <!-- Permit Safety Measures -->
                 <div class="border rounded-lg shadow p-4 space-y-4">
-                    <h3 class="font-semibold text-lg mb-2">Permit Safety Measures</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> 
+                    <h3 class="font-semibold text-lg mb-2" th:text="#{safetyMeasures}">Permit Safety Measures</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium mb-1">Safety Measure</label>
-                            <textarea th:field="*{safetyMeasure}" rows="3" class="w-full border rounded px-2 py-1"></textarea>
+                            <label class="block text-sm font-medium mb-1" th:text="#{safetyMeasure}">Safety
+                                Measure</label>
+                            <textarea th:field="*{safetyMeasure}" rows="3"
+                                class="w-full border rounded px-2 py-1"></textarea>
                         </div>
                     </div>
                 </div>
                 <!-- Permit Signatures items-->
                 <div class="border rounded-lg shadow p-4 space-y-4">
-                    <h3 class="font-semibold text-lg mb-2">Permit Signatures</h3>
+                    <h3 class="font-semibold text-lg mb-2" th:text="#{signature}">Permit Signatures</h3>
                     <table class="w-full">
                         <thead>
                             <tr>
@@ -103,12 +112,16 @@
                         <tbody id="itemTableBody">
                             <tr th:each="item, iterStat : *{items}">
                                 <td>
-                                    <input type="text" th:field="*{items[__${iterStat.index}__].signerName}" class="w-full border rounded px-2 py-1" required/>
+                                    <input type="text" th:field="*{items[__${iterStat.index}__].signerName}"
+                                        class="w-full border rounded px-2 py-1" required />
                                 </td>
                                 <td>
-                                    <canvas th:attr="id='signatureCanvas' + ${iterStat.index}" width="300" height="100" style="border:1px solid #000;"></canvas>
-                                    <input type="hidden" th:field="*{items[__${iterStat.index}__].signature}" th:attr="id='signatureData' + ${iterStat.index}"/>
-                                    <button type="button" th:attr="onclick='clearSignature(' + ${iterStat.index} + ')'" class="ml-2">지우기</button>
+                                    <canvas th:attr="id='signatureCanvas' + ${iterStat.index}" width="300" height="100"
+                                        style="border:1px solid #000;"></canvas>
+                                    <input type="hidden" th:field="*{items[__${iterStat.index}__].signature}"
+                                        th:attr="id='signatureData' + ${iterStat.index}" />
+                                    <button type="button" th:attr="onclick='clearSignature(' + ${iterStat.index} + ')'"
+                                        class="ml-2">지우기</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -116,7 +129,8 @@
                 </div>
                 <!-- Submit Button -->
                 <div class="flex justify-end">
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                        th:text="#{save}">저장 </button>
                 </div>
             </form>
         </div>
@@ -124,9 +138,9 @@
     <th:block layout:fragment="page-js">
         <script th:inline="javascript">
             // canvas 서명 입력 기능 (여러 개 지원)
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function () {
                 const canvases = document.querySelectorAll('canvas[id^="signatureCanvas"]');
-                canvases.forEach(function(canvas) {
+                canvases.forEach(function (canvas) {
                     let drawing = false;
                     let ctx = canvas.getContext('2d');
                     let lastX = 0, lastY = 0;
@@ -138,11 +152,11 @@
                             return [e.offsetX, e.offsetY];
                         }
                     }
-                    canvas.addEventListener('mousedown', function(e) {
+                    canvas.addEventListener('mousedown', function (e) {
                         drawing = true;
                         [lastX, lastY] = getXY(e);
                     });
-                    canvas.addEventListener('mousemove', function(e) {
+                    canvas.addEventListener('mousemove', function (e) {
                         if (!drawing) return;
                         const [x, y] = getXY(e);
                         ctx.beginPath();
@@ -151,14 +165,14 @@
                         ctx.stroke();
                         [lastX, lastY] = [x, y];
                     });
-                    canvas.addEventListener('mouseup', function() { drawing = false; });
-                    canvas.addEventListener('mouseout', function() { drawing = false; });
+                    canvas.addEventListener('mouseup', function () { drawing = false; });
+                    canvas.addEventListener('mouseout', function () { drawing = false; });
                     // 터치 지원
-                    canvas.addEventListener('touchstart', function(e) {
+                    canvas.addEventListener('touchstart', function (e) {
                         drawing = true;
                         [lastX, lastY] = getXY(e);
                     });
-                    canvas.addEventListener('touchmove', function(e) {
+                    canvas.addEventListener('touchmove', function (e) {
                         if (!drawing) return;
                         const [x, y] = getXY(e);
                         ctx.beginPath();
@@ -167,14 +181,14 @@
                         ctx.stroke();
                         [lastX, lastY] = [x, y];
                         e.preventDefault();
-                    }, {passive: false});
-                    canvas.addEventListener('touchend', function() { drawing = false; });
+                    }, { passive: false });
+                    canvas.addEventListener('touchend', function () { drawing = false; });
                 });
             });
             // 모든 canvas의 이미지를 hidden input에 저장
             function saveAllSignatures() {
                 const canvases = document.querySelectorAll('canvas[id^="signatureCanvas"]');
-                canvases.forEach(function(canvas) {
+                canvases.forEach(function (canvas) {
                     const idx = canvas.id.replace('signatureCanvas', '');
                     const dataUrl = canvas.toDataURL("image/png");
                     const hidden = document.getElementById('signatureData' + idx);
@@ -192,10 +206,11 @@
                 if (hidden) hidden.value = '';
             }
             // 폼 제출 시 서명 저장
-            document.querySelector('form').addEventListener('submit', function(e) {
+            document.querySelector('form').addEventListener('submit', function (e) {
                 saveAllSignatures();
             });
         </script>
     </th:block>
 </body>
+
 </html>

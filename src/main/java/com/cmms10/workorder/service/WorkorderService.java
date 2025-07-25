@@ -27,13 +27,13 @@ public class WorkorderService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Workorder> getAllWorkorders(String companyId, String siteId, Pageable pageable) {
-        return workorderRepository.findByCompanyIdAndSiteId(companyId, siteId, pageable);
+    public Page<Workorder> getAllWorkordersByCompanyId(String companyId, Pageable pageable) {
+        return workorderRepository.findByCompanyIdOrderByOrderIdAsc(companyId, pageable);
     }
 
     @Transactional(readOnly = true)
-    public Workorder getWorkorderByCompanyIdAndOrderId(String companyId, String orderId) {
-        return workorderRepository.findByCompanyIdAndOrderId(companyId, orderId)
+    public Workorder getWorkorderByCompanyIdAndSiteIdAndOrderId(String companyId, String siteId, String orderId) {
+        return workorderRepository.findByCompanyIdAndSiteIdAndOrderId(companyId, siteId, orderId)
                 .orElseThrow(() -> new IllegalArgumentException("작업지시를 찾을 수 없습니다: " + orderId));
     }
 
@@ -75,7 +75,7 @@ public class WorkorderService {
                     validItems.add(item);
                 }
             }
-            
+
             // 기존 리스트를 비우고 유효한 항목들로 교체
             items.clear();
             items.addAll(validItems);
@@ -88,9 +88,8 @@ public class WorkorderService {
     public WorkorderItem saveWorkorderItem(WorkorderItem workorderItem, String username) {
 
         String maxItemId = workorderItemRepository.findMaxItemIdByCompanyIdAndOrderId(
-            workorderItem.getCompanyId(),
-            workorderItem.getOrderId()
-        );
+                workorderItem.getCompanyId(),
+                workorderItem.getOrderId());
         int newItemId = (maxItemId == null) ? 1 : Integer.parseInt(maxItemId) + 1;
         workorderItem.setItemId(String.valueOf(newItemId));
 
@@ -98,16 +97,17 @@ public class WorkorderService {
     }
 
     @Transactional
-    public void deleteWorkorder(String companyId, String workorderId) {
-        Optional<Workorder> workorderOpt = workorderRepository.findByCompanyIdAndOrderId(
-            companyId, 
-            workorderId
-        );
-        
+    public void deleteWorkorder(String companyId, String siteId, String workorderId) {
+        Optional<Workorder> workorderOpt = workorderRepository.findByCompanyIdAndSiteIdAndOrderId(
+                companyId,
+                siteId,
+                workorderId);
+
         if (workorderOpt.isPresent()) {
             Workorder workorder = workorderOpt.get();
             // Delete associated items first
-            List<WorkorderItem> items = workorderItemRepository.findByCompanyIdAndOrderIdOrderByItemIdAsc(companyId, workorderId);
+            List<WorkorderItem> items = workorderItemRepository.findByCompanyIdAndOrderIdOrderByItemIdAsc(companyId,
+                    workorderId);
             workorderItemRepository.deleteAll(items);
             // Delete the work order
             workorderRepository.delete(workorder);
@@ -119,11 +119,10 @@ public class WorkorderService {
     @Transactional
     public void deleteWorkorderItem(String companyId, String workorderId, String itemId) {
         Optional<WorkorderItem> itemOpt = workorderItemRepository.findByCompanyIdAndOrderIdAndItemId(
-            companyId, 
-            workorderId, 
-            itemId
-        );
-        
+                companyId,
+                workorderId,
+                itemId);
+
         if (itemOpt.isPresent()) {
             WorkorderItem item = itemOpt.get();
             workorderItemRepository.delete(item);

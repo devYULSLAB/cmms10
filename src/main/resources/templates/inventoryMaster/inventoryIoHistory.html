@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/defaultLayout}">
+    layout:decorate="~{layout/defaultLayout}">
 
 <head>
     <title>Inventory In/Out</title>
@@ -9,83 +9,85 @@
 </head>
 
 <body>
-<div layout:fragment="content">
-    <div class="max-w-6xl mx-auto mt-6">
+    <div layout:fragment="content">
+        <div class="max-w-6xl mx-auto mt-6">
 
-        <h2 class="text-2xl font-bold mb-4">Inventory In/Out Management</h2>
+            <h2 class="text-2xl font-bold mb-4" th:text="#{inventoryInOutManagement}">Inventory In/Out Management</h2>
 
-        <div id="inventoryTable" class="mb-6"></div>
+            <div id="inventoryTable" class="mb-6"></div>
 
-        <div class="flex gap-3">
-            <button id="saveBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Save</button>
-            <a th:href="@{/inventoryMaster/inventoryMasterList(companyId=${companyId}, siteId=${siteId})}"
-               class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Back to Inventory List</a>
+            <div class="flex gap-3">
+                <button id="saveBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    th:text="#{save}">저장</button>
+                <a th:href="@{/inventoryMaster/inventoryMasterList(companyId=${companyId}, siteId=${siteId})}"
+                    class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" th:text="#{inventoryList}">목록</a>
+            </div>
         </div>
     </div>
-</div>
 
-<th:block layout:fragment="page-js">
-    <script>
-        const container = document.getElementById('inventoryTable');
-        const hot = new Handsontable(container, {
-            data: [],
-            colHeaders: ['Date', 'In/Out', 'Inventory ID', 'Inventory Name', 'Qty', 'Unit Price', 'Total Value', 'Note'],
-            columns: [
-                { type: 'date', dateFormat: 'YYYY-MM-DD' },
-                { type: 'dropdown', source: ['I', 'O'] },
-                { type: 'text' },
-                { type: 'text', readOnly: true },
-                { type: 'numeric' },
-                { type: 'numeric' },
-                { type: 'numeric', readOnly: true },
-                { type: 'text' }
-            ],
-            stretchH: 'all',
-            rowHeaders: true,
-            minSpareRows: 5,
-            contextMenu: true,
-            afterChange: function(changes, source) {
-                if (source === 'edit' || source === 'paste') {
-                    changes.forEach(([row, prop, oldValue, newValue]) => {
-                        if (prop === 4 || prop === 5) { // Qty or Unit Price changed
-                            const qty = hot.getDataAtCell(row, 4) || 0;
-                            const unitPrice = hot.getDataAtCell(row, 5) || 0;
-                            hot.setDataAtCell(row, 6, qty * unitPrice);
+    <th:block layout:fragment="page-js">
+        <script>
+            const container = document.getElementById('inventoryTable');
+            const hot = new Handsontable(container, {
+                data: [],
+                colHeaders: ['Date', 'In/Out', 'Inventory ID', 'Inventory Name', 'Qty', 'Unit Price', 'Total Value', 'Note'],
+                columns: [
+                    { type: 'date', dateFormat: 'YYYY-MM-DD' },
+                    { type: 'dropdown', source: ['I', 'O'] },
+                    { type: 'text' },
+                    { type: 'text', readOnly: true },
+                    { type: 'numeric' },
+                    { type: 'numeric' },
+                    { type: 'numeric', readOnly: true },
+                    { type: 'text' }
+                ],
+                stretchH: 'all',
+                rowHeaders: true,
+                minSpareRows: 5,
+                contextMenu: true,
+                afterChange: function (changes, source) {
+                    if (source === 'edit' || source === 'paste') {
+                        changes.forEach(([row, prop, oldValue, newValue]) => {
+                            if (prop === 4 || prop === 5) { // Qty or Unit Price changed
+                                const qty = hot.getDataAtCell(row, 4) || 0;
+                                const unitPrice = hot.getDataAtCell(row, 5) || 0;
+                                hot.setDataAtCell(row, 6, qty * unitPrice);
+                            }
+                        });
+                    }
+                }
+            });
+
+            document.getElementById('saveBtn').addEventListener('click', () => {
+                const rows = hot.getData().filter(r => r[2]);
+                const payload = rows.map(r => ({
+                    ioDate: r[0],
+                    ioType: r[1],
+                    inventoryId: r[2],
+                    qty: r[4],
+                    unitPrice: r[5],
+                    totalValue: r[6],
+                    note: r[7]
+                }));
+                fetch('/inventoryIo/InventoryIoSave', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                })
+                    .then(res => res.text())
+                    .then(msg => {
+                        if (msg === 'success') {
+                            location.reload();
+                        } else if (msg.startsWith('lock:')) {
+                            alert(msg.replace('lock:', '').trim());
+                        } else {
+                            alert('Error: ' + msg);
                         }
-                    });
-                }
-            }
-        });
-
-        document.getElementById('saveBtn').addEventListener('click', () => {
-            const rows = hot.getData().filter(r => r[2]);
-            const payload = rows.map(r => ({
-                ioDate: r[0],
-                ioType: r[1],
-                inventoryId: r[2],
-                qty: r[4],
-                unitPrice: r[5],
-                totalValue: r[6],
-                note: r[7]
-            }));
-            fetch('/inventoryIo/InventoryIoSave', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            })
-            .then(res => res.text())
-            .then(msg => {
-                if(msg === 'success') {
-                    location.reload();
-                } else if(msg.startsWith('lock:')) {
-                    alert(msg.replace('lock:', '').trim());
-                } else {
-                    alert('Error: ' + msg);
-                }
-            })
-            .catch(err => alert('Error: ' + err));
-        });
-    </script>
-</th:block>
+                    })
+                    .catch(err => alert('Error: ' + err));
+            });
+        </script>
+    </th:block>
 </body>
+
 </html>

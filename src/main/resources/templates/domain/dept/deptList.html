@@ -10,8 +10,10 @@
     <div class="max-w-7xl mx-auto mt-8 p-4">
         
         <div class="flex justify-between items-center mb-4">
-            <h1 class="text-2xl font-bold">Dept List</h1>
-            <a th:href="@{/dept/deptForm}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Dept</a>
+            <h2 class="text-2xl font-bold" th:text="#{deptList}">부서코드 목록</h2>
+            <a th:href="@{/dept/deptForm}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" th:text="#{add}">
+                부서코드 생성
+            </a>
         </div>
 
         <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
@@ -25,10 +27,10 @@
             <table class="min-w-full text-left text-sm">
                 <thead class="border-b bg-gray-50">
                 <tr>
-                    <th class="px-4 py-2">Dept ID</th>
-                    <th class="px-4 py-2">Dept Name</th>
-                    <th class="px-4 py-2">Parent Dept ID</th>
-                    <th class="px-4 py-2">Actions</th>
+                    <th class="px-4 py-2" th:text="#{deptId}">부서코드</th>
+                    <th class="px-4 py-2" th:text="#{deptName}">부서명</th>
+                    <th class="px-4 py-2" th:text="#{deptParentId}">상위부서</th>
+                    <th class="px-4 py-2" th:text="#{action}">액션</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -38,10 +40,10 @@
                     <td class="px-4 py-2" th:text="${d.parentDeptId}"></td>
                     <td class="px-4 py-2 space-x-2">
                         <a th:href="@{/dept/deptForm/{companyId}/{deptId}(companyId=${d.companyId},deptId=${d.deptId})}" 
-                           class="bg-yellow-400 text-black px-3 py-1 rounded hover:bg-yellow-500 text-sm">Edit</a>
+                           class="bg-yellow-400 text-black px-3 py-1 rounded hover:bg-yellow-500 text-sm" th:text="#{edit}">수정</a>
                         <form th:action="@{/dept/deptDelete/{companyId}/{deptId}(companyId=${d.companyId},deptId=${d.deptId})}" method="post" class="inline">
                             <button type="submit" 
-                                    class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm">Delete</button>
+                                    class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm" th:text="#{delete}">삭제</button>
                         </form>
                     </td>
                 </tr>

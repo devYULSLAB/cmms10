@@ -1,4 +1,4 @@
-package com.cmms10.domain.funcMaster.entity;
+package com.cmms10.funcMaster.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,4 +34,4 @@ public class FuncMaster {
 
     @Column(name = "funcName", length = 100)
     private String funcName;
-} 
+}

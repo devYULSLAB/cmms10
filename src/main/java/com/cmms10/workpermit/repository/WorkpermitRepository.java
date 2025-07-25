@@ -25,22 +25,34 @@ public interface WorkpermitRepository extends JpaRepository<Workpermit, Workperm
      *
      * @param companyId 회사 ID
      * @return Optional<String> 최대 작업허가 ID
-     * workpermitItem에서 siteId는 PK가 아니므로 workpermit가 unique하려면 permitId는 companyId의 MAX값이어야 합니다.(companyId,siteId의 Max이면 안됩니다.)
+     *         workpermitItem에서 siteId는 PK가 아니므로 workpermit가 unique하려면 permitId는
+     *         companyId의 MAX값이어야 합니다.(companyId,siteId의 Max이면 안됩니다.)
      */
     @Query("SELECT MAX(w.permitId) FROM Workpermit w WHERE w.companyId = :companyId")
     String findMaxPermitIdByCompanyId(@Param("companyId") String companyId);
 
     /**
+     * CompanyId로 workpermit 엔티티를 페이징하여 조회합니다.
+     * 
+     * @param companyId
+     * @param pageable
+     * @return
+     */
+    Page<Workpermit> findByCompanyIdOrderByPermitIdAsc(String companyId, Pageable pageable);
+
+    /**
      * CompanyId와 siteId로 workpermit 엔티티를 페이징하여 조회합니다.
+     * 
      * @param companyId
      * @param siteId
      * @param pageable
      * @return
      */
-    Page<Workpermit> findByCompanyIdAndSiteId(String companyId, String siteId, Pageable pageable);
+    Page<Workpermit> findByCompanyIdAndSiteIdOrderByPermitIdAsc(String companyId, String siteId, Pageable pageable);
 
     /**
      * CompanyId와 plantId로 workpermit 엔티티를 페이징하여 조회합니다.
+     * 
      * @param companyId
      * @param plantId
      * @param pageable
@@ -49,13 +61,21 @@ public interface WorkpermitRepository extends JpaRepository<Workpermit, Workperm
     Page<Workpermit> findByCompanyIdAndPlantId(String companyId, String plantId, Pageable pageable);
 
     /**
+     * CompanyId와 permitName을 포함하여 페이징하여 조회합니다.
+     * 
+     * @param companyId
+     * @param permitName
+     * @param pageable
+     * @return
+     */
+    Page<Workpermit> findByCompanyIdAndPermitNameContaining(String companyId, String permitName, Pageable pageable);
+
+    /**
      * CompanyId와 permitId로 workpermit 엔티티를 조회합니다.
      *
      * @param companyId 회사 ID
-     * @param permitId 작업허가 ID
+     * @param permitId  작업허가 ID
      * @return Optional<Workpermit> 작업허가 엔티티
      */
     Optional<Workpermit> findByCompanyIdAndPermitId(String companyId, String permitId);
 }
-
-

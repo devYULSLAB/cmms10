@@ -5,7 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * cmms10 - Memo
@@ -43,8 +44,8 @@ public class Memo {
     @Column(name = "viewCount")
     private Integer viewCount;
 
-    @Column(name = "siteId", length = 5)
-    private String siteId;
+    // @Column(name = "siteId", length = 5)
+    // private String siteId;
 
     @Column(name = "fileGroupId", length = 10)
     private String fileGroupId;
@@ -61,32 +62,7 @@ public class Memo {
     @Column(name = "updateDate")
     private LocalDateTime updateDate;
 
-    // Constructors
-    // public Memo() {
-    // }
+    @OneToMany(mappedBy = "memo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<MemoComment> commentList = new ArrayList<>();
 
-    // public Memo(String companyId, String memoId) {
-    //     this.companyId = companyId;
-    //     this.memoId = memoId;
-    // }
-
-    // public Memo(String companyId, String memoId, String memoName) {
-    //     this.companyId = companyId;
-    //     this.memoId = memoId;
-    //     this.memoName = memoName;
-    // }
-
-    // @Override
-    // public boolean equals(Object o) {
-    //     if (this == o) return true;
-    //     if (o == null || getClass() != o.getClass()) return false;
-    //     Memo memo = (Memo) o;
-    //     return Objects.equals(companyId, memo.companyId) &&
-    //            Objects.equals(memoId, memo.memoId);
-    // }
-
-    // @Override
-    // public int hashCode() {
-    //     return Objects.hash(companyId, memoId);
-    // }
 }

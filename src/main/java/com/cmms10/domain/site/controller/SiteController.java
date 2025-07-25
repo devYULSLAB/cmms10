@@ -51,9 +51,8 @@ public class SiteController {
      */
     @GetMapping("/siteForm")
     public String form(Model model, HttpSession session) {
-        Site site = new Site();
-        // 세션에서 companyId 가져와서 세팅
         String companyId = (String) session.getAttribute("companyId");
+        Site site = new Site();
         site.setCompanyId(companyId);
 
         model.addAttribute("site", site);

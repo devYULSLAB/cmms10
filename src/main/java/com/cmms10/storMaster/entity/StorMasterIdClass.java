@@ -1,4 +1,4 @@
-package com.cmms10.domain.storMaster.entity;
+package com.cmms10.storMaster.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,4 +12,4 @@ public class StorMasterIdClass implements Serializable {
     private String companyId;
     private String siteId;
     private String locId;
-} 
+}

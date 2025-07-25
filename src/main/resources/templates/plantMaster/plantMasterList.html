@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/defaultLayout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/defaultLayout}">
 
 <head>
     <title>Plant Master</title>
@@ -9,105 +8,109 @@
 
 <body>
 
-<div layout:fragment="content">
-    <div class="max-w-7xl mx-auto p-4">
+    <div layout:fragment="content">
+        <div class="max-w-7xl mx-auto p-4">
 
-        <!-- 상단 제목 -->
-        <h2 class="text-2xl font-bold mb-4">Plant Master</h2>
+            <!-- 상단 제목 -->
+            <h2 class="text-2xl font-bold mb-4" th:text="#{plantMasterList}">플랜트 마스터</h2>
 
 
-        <!-- 추가 버튼 -->
-        <div class="mb-4">
-            <a th:href="@{/plantMaster/plantMasterForm}" 
-               class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Add New Plant</a>
-        </div>
-
-        <!-- 리스트 카드 -->
-        <div class="border rounded shadow mb-4">
-            <div class="bg-gray-100 px-4 py-2">
-                <h5 class="text-lg font-semibold">Plant Master List</h5>
+            <!-- 추가 버튼 -->
+            <div class="mb-4">
+                <a th:href="@{/plantMaster/plantMasterForm}"
+                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" th:text="#{add}">플랜트 추가</a>
             </div>
-            <div class="overflow-x-auto">
-                <table class="min-w-full text-sm text-left">
-                    <thead class="bg-gray-200">
-                        <tr>
-                            <th class="px-4 py-2">Plant ID</th>
-                            <th class="px-4 py-2">Plant Name</th>
-                            <th class="px-4 py-2">Location</th>
-                            <th class="px-4 py-2">Asset Type</th>
-                            <th class="px-4 py-2">Site ID</th>
-                            <th class="px-4 py-2">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="plant : ${plantPage.content}" class="hover:bg-gray-50 border-t">
-                            <!-- Plant ID에 상세 페이지 링크 추가 -->
-                            <td class="px-4 py-2">
-                                <a th:href="@{/plantMaster/plantMasterDetail/{plantId}(plantId=${plant.plantId})}"
-                                   class="text-blue-600 hover:underline" th:text="${plant.plantId}"></a>
-                            </td>
-                            <td class="px-4 py-2" th:text="${plant.plantName}"></td>
-                            <td class="px-4 py-2" th:text="${plant.plantLoc}"></td>
-                            <td class="px-4 py-2" th:text="${plant.assetType}"></td>
-                            <td class="px-4 py-2" th:text="${plant.siteId}"></td>
-                            <td class="px-4 py-2 space-x-2">
-                                <!-- Edit 버튼을 plantMasterForm.html로 연결 -->
-                                <a th:href="@{/plantMaster/plantMasterForm(plantId=${plant.plantId})}" 
-                                   class="px-3 py-1 bg-yellow-400 hover:bg-yellow-500 text-white rounded text-xs">Edit</a>
-                                <form th:action="@{/plantMaster/plantMasterDelete/{plantId}(plantId=${plant.plantId})}"
-                                      method="post" class="inline"
-                                      onsubmit="return confirm('Are you sure you want to delete this plant master?');">
-                                    <button type="submit" 
-                                            class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-xs">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr th:if="${plantPage.empty}">
-                            <td colspan="6" class="text-center px-4 py-4 text-gray-500">No plant masters found.</td>
-                        </tr>
-                    </tbody>
-                </table>
+
+            <!-- 리스트 카드 -->
+            <div class="border rounded shadow mb-4">
+                <div class="bg-gray-100 px-4 py-2">
+                    <h5 class="text-lg font-semibold" th:text="#{plantMasterList}">플랜트 마스터 목록</h5>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm text-left">
+                        <thead class="bg-gray-200">
+                            <tr>
+                                <th class="px-4 py-2" th:text="#{plantId}">플랜트 ID</th>
+                                <th class="px-4 py-2" th:text="#{plantName}">플랜트 이름</th>
+                                <th class="px-4 py-2" th:text="#{plantLoc}">위치</th>
+                                <th class="px-4 py-2" th:text="#{assetType}">자산 유형</th>
+                                <th class="px-4 py-2" th:text="#{siteId}">사이트 ID</th>
+                                <th class="px-4 py-2" th:text="#{action}">액션</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="plant : ${plants}" class="hover:bg-gray-50 border-t">
+                                <!-- Plant ID에 상세 페이지 링크 추가 -->
+                                <td class="px-4 py-2">
+                                    <a th:href="@{/plantMaster/plantMasterDetail/{siteId}/{plantId}(siteId=${plant.siteId}, plantId=${plant.plantId})}"
+                                        class="text-blue-600 hover:underline" th:text="${plant.plantId}"></a>
+                                </td>
+                                <td class="px-4 py-2" th:text="${plant.plantName}"></td>
+                                <td class="px-4 py-2" th:text="${plant.plantLoc}"></td>
+                                <td class="px-4 py-2" th:text="${plant.assetType}"></td>
+                                <td class="px-4 py-2" th:text="${plant.siteId}"></td>
+                                <td class="px-4 py-2 space-x-2">
+                                    <!-- Edit 버튼을 plantMasterForm.html로 연결 -->
+                                    <a th:href="@{/plantMaster/plantMasterForm/{siteId}/{plantId}(siteId=${plant.siteId}, plantId=${plant.plantId})}"
+                                        class="px-3 py-1 bg-yellow-400 hover:bg-yellow-500 text-white rounded text-xs"
+                                        th:text="#{edit}">수정</a>
+                                    <form
+                                        th:action="@{/plantMaster/plantMasterDelete/{siteId}/{plantId}(siteId=${plant.siteId}, plantId=${plant.plantId})}"
+                                        method="post" class="inline">
+                                        <button type="submit"
+                                            class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-xs"
+                                            th:text="#{delete}">삭제</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
 
-        <!-- 페이징 -->
-        <nav th:if="${plantPage.totalPages > 0}" class="mt-4 flex justify-center">
-            <ul class="inline-flex items-center space-x-2">
-                <li>
-                    <a th:href="@{/plantMaster/plantMasterList(companyId=${companyId}, siteId=${siteId}, page=${plantPage.number - 1}, size=${plantPage.size})}"
-                       th:classappend="${plantPage.first} ? 'pointer-events-none opacity-50' : ''"
-                       class="px-3 py-1 border rounded hover:bg-gray-100">Previous</a>
-                </li>
-                <li th:each="i : ${#numbers.sequence(0, plantPage.totalPages - 1)}">
-                    <a th:href="@{/plantMaster/plantMasterList(companyId=${companyId}, siteId=${siteId}, page=${i}, size=${plantPage.size})}"
-                       th:classappend="${i == plantPage.number} ? 'bg-blue-600 text-white' : 'border hover:bg-gray-100'"
-                       class="px-3 py-1 rounded" th:text="${i + 1}"></a>
-                </li>
-                <li>
-                    <a th:href="@{/plantMaster/plantMasterList(companyId=${companyId}, siteId=${siteId}, page=${plantPage.number + 1}, size=${plantPage.size})}"
-                       th:classappend="${plantPage.last} ? 'pointer-events-none opacity-50' : ''"
-                       class="px-3 py-1 border rounded hover:bg-gray-100">Next</a>
-                </li>
-            </ul>
-        </nav>
+            <!-- 페이징 -->
+            <nav th:if="${plants.totalPages > 0}" class="mt-4 flex justify-center">
+                <ul class="inline-flex items-center space-x-2">
+                    <li>
+                        <a th:href="@{/plantMaster/plantMasterList(companyId=${companyId}, siteId=${siteId}, page=${plants.number - 1}, size=${plants.size})}"
+                            th:classappend="${plants.first} ? 'pointer-events-none opacity-50' : ''"
+                            class="px-3 py-1 border rounded hover:bg-gray-100">Previous</a>
+                    </li>
+                    <li th:each="i : ${#numbers.sequence(0, plants.totalPages - 1)}">
+                        <a th:href="@{/plantMaster/plantMasterList(companyId=${companyId}, siteId=${siteId}, page=${i}, size=${plants.size})}"
+                            th:classappend="${i == plants.number} ? 'bg-blue-600 text-white' : 'border hover:bg-gray-100'"
+                            class="px-3 py-1 rounded" th:text="${i + 1}"></a>
+                    </li>
+                    <li>
+                        <a th:href="@{/plantMaster/plantMasterList(companyId=${companyId}, siteId=${siteId}, page=${plants.number + 1}, size=${plants.size})}"
+                            th:classappend="${plants.last} ? 'pointer-events-none opacity-50' : ''"
+                            class="px-3 py-1 border rounded hover:bg-gray-100">Next</a>
+                    </li>
+                </ul>
+            </nav>
 
-        <!-- 하단 버튼 -->
-        <div class="mt-6 flex justify-end space-x-3">
-            <a th:href="@{/plantMaster/plantMasterList}" class="px-4 py-2 bg-gray-300 text-gray-800 font-semibold rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
-                목록으로
-            </a>
-            <a th:href="@{/plantMaster/plantMasterForm(plantId=${plantMaster.plantId})}" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                수정
-            </a>
-            <form th:action="@{/plantMaster/plantMasterDelete/{plantId}(plantId=${plantMaster.plantId})}" method="post" class="inline">
-                <button type="submit" class="px-4 py-2 bg-red-600 text-white font-semibold rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            <!-- 하단 버튼 -->
+            <div class="mt-6 flex justify-end space-x-3">
+                <a th:href="@{/plantMaster/plantMasterList}"
+                    class="px-4 py-2 bg-gray-300 text-gray-800 font-semibold rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
+                    목록으로
+                </a>
+                <a th:href="@{/plantMaster/plantMasterForm(plantId=${plantMaster.plantId})}"
+                    class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    수정
+                </a>
+                <form th:action="@{/plantMaster/plantMasterDelete/{plantId}(plantId=${plantMaster.plantId})}"
+                    method="post" class="inline">
+                    <button type="submit"
+                        class="px-4 py-2 bg-red-600 text-white font-semibold rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                         onclick="return confirm('정말 삭제하시겠습니까?');">
-                    삭제
-                </button>
-            </form>
+                        삭제
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
 </body>
+
 </html>

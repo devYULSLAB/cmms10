@@ -38,43 +38,64 @@ public class InspectionService {
 
     /**
      * 모든 점검 목록을 페이지네이션으로 조회
+     * 
      * @param companyId 회사 ID
-     * @param siteId 사이트 ID
-     * @param pageable 페이지 정보
+     * @param pageable  페이지 정보
      * @return 점검 목록 페이지
      */
     @Transactional(readOnly = true)
-    public Page<Inspection> getAllInspections(String companyId, String siteId, Pageable pageable) {
-        return inspectionRepository.findByCompanyIdAndSiteId(companyId, siteId, pageable);
+    public Page<Inspection> getAllInspectionsByCompanyId(String companyId, Pageable pageable) {
+        return inspectionRepository.findByCompanyIdOrderByInspectionIdAsc(companyId, pageable);
     }
-    
+
+    /**
+     * 모든 점검 목록을 페이지네이션으로 조회
+     * 
+     * @param companyId 회사 ID
+     * @param siteId    사이트 ID
+     * @param pageable  페이지 정보
+     * @return 점검 목록 페이지
+     */
+    @Transactional(readOnly = true)
+    public Page<Inspection> getAllInspectionsByCompanyIdAndSiteId(String companyId, String siteId, Pageable pageable) {
+        return inspectionRepository.findByCompanyIdAndSiteIdOrderByInspectionIdAsc(companyId, siteId, pageable);
+    }
+
     /**
      * 점검 ID로 점검 정보 조회
-     * @param companyId 회사 ID
+     * 
+     * @param companyId    회사 ID
+     * @param siteId       사이트 ID
      * @param inspectionId 점검 ID
      * @return 점검 정보 Optional
      */
-    public Inspection getInspectionByInspectionId(String companyId, String inspectionId) {
-        return inspectionRepository.findByCompanyIdAndInspectionId(companyId, inspectionId)
+    @Transactional(readOnly = true)
+    public Inspection getInspectionByCompanyIdAndSiteIdAndInspectionId(String companyId, String siteId,
+            String inspectionId) {
+        return inspectionRepository.findByCompanyIdAndSiteIdAndInspectionId(companyId, siteId, inspectionId)
                 .orElseThrow(() -> new RuntimeException("해당 점검이 존재하지 않습니다."));
     }
 
-
     /**
      * plantId로 점검 정보 조회
+     * 
      * @param companyId 회사 ID
-     * @param plantId 설비 ID
+     * @param siteId    사이트 ID
+     * @param plantId   설비 ID
      * @return 점검 정보 Optional
      */
     @Transactional(readOnly = true)
-    public Page<Inspection> getInspectionByPlantId(String companyId, String plantId, Pageable pageable) {
-        return inspectionRepository.findByCompanyIdAndPlantId(companyId, plantId, pageable);
+    public Page<Inspection> getInspectionByCompanyIdAndSiteIdAndPlantId(String companyId, String siteId, String plantId,
+            Pageable pageable) {
+        return inspectionRepository.findByCompanyIdAndSiteIdAndPlantIdOrderByInspectionIdAsc(companyId, siteId, plantId,
+                pageable);
     }
 
     /**
      * 점검 정보 저장 (신규 등록 또는 수정)
+     * 
      * @param inspection 저장할 점검 정보
-     * @param username 사용자 이름 (등록자 또는 수정자)
+     * @param username   사용자 이름 (등록자 또는 수정자)
      * @return 저장된 점검 정보
      */
     @Transactional
@@ -84,8 +105,9 @@ public class InspectionService {
 
         if (isNewInspection) {
             String maxInspectionId = inspectionRepository.findMaxInspectionIdByCompanyId(inspection.getCompanyId());
-            String newInspectionId = (maxInspectionId == null) ? "3000000000" : String.valueOf(Long.parseLong(maxInspectionId) + 1);
-            
+            String newInspectionId = (maxInspectionId == null) ? "3000000000"
+                    : String.valueOf(Long.parseLong(maxInspectionId) + 1);
+
             inspection.setInspectionId(newInspectionId);
             inspection.setCreateDate(now);
             inspection.setCreateBy(username);
@@ -93,14 +115,14 @@ public class InspectionService {
             inspection.setUpdateDate(now);
             inspection.setUpdateBy(username);
         }
-        
+
         // InspectionItem 처리
         List<InspectionItem> items = inspection.getItems();
         if (items != null && !items.isEmpty()) {
             // 새로운 리스트를 생성하여 유효한 항목만 추가
             List<InspectionItem> validItems = new ArrayList<>();
             int itemIndex = 1;
-            
+
             for (InspectionItem item : items) {
                 if (item.getItemName() != null && !item.getItemName().isEmpty()) {
                     item.setCompanyId(inspection.getCompanyId());
@@ -110,7 +132,7 @@ public class InspectionService {
                     validItems.add(item);
                 }
             }
-            
+
             // 기존 리스트를 비우고 유효한 항목들로 교체
             items.clear();
             items.addAll(validItems);
@@ -119,32 +141,36 @@ public class InspectionService {
         return inspectionRepository.save(inspection);
     }
 
-
     /**
      * 점검 정보 삭제 (소프트 삭제)
-     * @param companyId 회사 ID
+     * 
+     * @param companyId    회사 ID
      * @param inspectionId 점검 ID
      */
     @Transactional
-    public void deleteInspection(String companyId, String inspectionId) {
-    Optional<Inspection> inspectionOpt = inspectionRepository.findByCompanyIdAndInspectionId(companyId, inspectionId);
-    
-        if (inspectionOpt.isPresent()) {            
+    public void deleteInspection(String companyId, String siteId, String inspectionId) {
+        Optional<Inspection> inspectionOpt = inspectionRepository.findByCompanyIdAndSiteIdAndInspectionId(companyId,
+                siteId, inspectionId);
+
+        if (inspectionOpt.isPresent()) {
             // 1. Delete all related inspection items first
             inspectionItemRepository.deleteByCompanyIdAndInspectionId(companyId, inspectionId);
             // 2. Finally delete the inspection
-            inspectionRepository.deleteByCompanyIdAndInspectionId(companyId, inspectionId);
+            inspectionRepository.deleteByCompanyIdAndSiteIdAndInspectionId(companyId, siteId, inspectionId);
         } else {
             throw new RuntimeException("Inspection not found with ID: " + inspectionId);
         }
     }
 
     /**
-     * 점검 ID로 점검 항목 목록 조회
-     * @param companyId 회사 ID
+     * 점검 항목 목록 조회
+     * 
+     * @param companyId    회사 ID
+     * @param siteId       사이트 ID
      * @param inspectionId 점검 ID
      * @return 점검 항목 목록
      */
+    @Transactional(readOnly = true)
     public List<InspectionItem> getInspectionItemByCompanyIdAndInspectionId(String companyId, String inspectionId) {
         return inspectionItemRepository.findByCompanyIdAndInspectionId(companyId, inspectionId);
     }

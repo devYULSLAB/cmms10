@@ -10,8 +10,8 @@
     <div class="max-w-7xl mx-auto mt-8 p-4">
         
         <div class="flex justify-between items-center mb-4">
-            <h1 class="text-2xl font-bold">User List</h1>
-            <a th:href="@{/user/userForm}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add User</a>
+            <h1 class="text-2xl font-bold" th:text="#{userList}">사용자코드 목록</h1>
+            <a th:href="@{/user/userForm}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" th:text="#{add}">사용자코드 생성</a>
         </div>
 
         <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
@@ -25,13 +25,13 @@
             <table class="min-w-full text-left text-sm">
                 <thead class="border-b bg-gray-50">
                 <tr>
-                    <th class="px-4 py-2">Username</th>
-                    <th class="px-4 py-2">Name</th>
-                    <th class="px-4 py-2">Phone</th>
-                    <th class="px-4 py-2">Email</th>
-                    <th class="px-4 py-2">Dept ID</th>
-                    <th class="px-4 py-2">Role ID</th>
-                    <th class="px-4 py-2">Actions</th>
+                    <th class="px-4 py-2" th:text="#{username}">사용자코드</th>
+                    <th class="px-4 py-2" th:text="#{userFullName}">이름</th>
+                    <th class="px-4 py-2" th:text="#{phone}">전화번호</th>
+                    <th class="px-4 py-2" th:text="#{email}">이메일</th>
+                    <th class="px-4 py-2" th:text="#{deptId}">부서</th>
+                    <th class="px-4 py-2" th:text="#{roleId}">역할</th>
+                    <th class="px-4 py-2" th:text="#{action}">액션</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -44,10 +44,10 @@
                     <td class="px-4 py-2" th:text="${u.roleId}"></td>
                     <td class="px-4 py-2 space-x-2">
                         <a th:href="@{/user/userForm/{companyId}/{username}(companyId=${u.companyId},username=${u.username})}" 
-                           class="bg-yellow-400 text-black px-3 py-1 rounded hover:bg-yellow-500 text-sm">Edit</a>
+                           class="bg-yellow-400 text-black px-3 py-1 rounded hover:bg-yellow-500 text-sm" th:text="#{edit}">수정</a>
                         <form th:action="@{/user/userDelete/{companyId}/{username}(companyId=${u.companyId},username=${u.username})}" method="post" class="inline">
                             <button type="submit" 
-                                    class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm">Delete</button>
+                                    class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm" th:text="#{delete}">삭제</button>
                         </form>
                     </td>
                 </tr>

@@ -37,7 +37,7 @@
 | deptId       | Char(5)      | 부서 ID (PK)                             |
 | deptName     | Varchar(100) | 부서 이름                                |
 | parentDeptId | CHAR(5)      | 상위 부서 ID (NULL이면 최상위)           |
-| deptLevel    | INT          | 계층 단계 (예: 1=본사, 2=사업부, 3=파트) |
+| deptLevel    | INT          | 계층 단계 (예: 1=HQ, 2=사업부, 3=파트) |
 | sortOrder    | INT          | 정렬 순서                                |         
 | note         | Text         | 설명                                     |
 | fileGroupId  | CHAR(10)     | 첨부파일 그룹                            |
@@ -47,7 +47,7 @@
 | updateDate   | DATETIME     | 수정일                                   |
 | deleteMark   | CHAR(1)      | 삭제마크                                |
 
-## user : 복수의 site 담당자는 siteAccess 참조  : Spring boot에 맞게 userId 대신 username 활용함
+## user : Spring boot에 맞게 userId 대신 username 활용함
 
 | 필드명        | 데이터 타입   | 설명                 |
 |:--------------|:-------------|:---------------------|
@@ -67,9 +67,17 @@
 | updateDate    | DATETIME     | 수정일               |
 | deleteMark    | CHAR(1)      | 삭제 마크            |
 
-### 권한 관리 : company, site, 페이지, 권한 그룹별 관리가 현재 구현하기 복합함. company 가 다른 경우 별도의 ID로 로그인 하도록 하며, (같은 company) site가 다른 경우 권한 구분 없이 페이지별 권한만 관리하도록 함. 현재 기능 구현이 안 되어 있음 
+### 권한 관리 : company, site, 페이지, 권한 그룹별 관리가 현재 구현하기 복잡함. company 가 다른 경우 별도의 ID로 로그인 하도록 하며, (같은 company) site가 다른 경우 권한 구분 없이 페이지별 권한만 관리하도록 함. 현재 기능 구현이 안 되어 있음 
 
-## roleAuth : 권한 이름 관리 
+## roleAuth : 권한 이름 관리 : Company별로 권한 구분 안 됨 
+*roleId
+RADMN : Role_admin : Admin user
+RMAST : Role_master : Master data user 
+RMGNR : Role_manager : Manager user (approval)
+RUSER : Role_user : general user 
+* authGranted
+create, read, update, delete, approve, master
+
 
 | 필드명       | 타입         | PK   | FK          | 설명                   |
 |:------------|:------------|:-----|:------------|:-----------------------|
@@ -239,6 +247,7 @@
 | permitId   | CHAR(10)     | 작업허가서 ID (PK, 6으로 시작하는 10자리 채번)                |
 | permitName    | Varchar(100) | 작업허가서서 이름        |
 | plantId    | CHAR(10)     | 대상 설비                                                    |
+| deptId     | CHAR(5)      | 부서 코드                                                 |
 | permitType | CHAR(5)      | 작업 유형 코드 (예: HOT, ELEC 등, 공통코드)                  |
 | status     | CHAR(1)      | 상태: D(초안), R(요청), A(승인), C(종료), R(반려)            |
 | startDate  | DATE         | 작업 시작 일시                                                |

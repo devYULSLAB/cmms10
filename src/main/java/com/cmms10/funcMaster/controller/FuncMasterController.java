@@ -1,7 +1,7 @@
-package com.cmms10.domain.funcMaster.controller;
+package com.cmms10.funcMaster.controller;
 
-import com.cmms10.domain.funcMaster.entity.FuncMaster;
-import com.cmms10.domain.funcMaster.service.FuncMasterService;
+import com.cmms10.funcMaster.entity.FuncMaster;
+import com.cmms10.funcMaster.service.FuncMasterService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +30,8 @@ public class FuncMasterController {
 
     /**
      * 기능 마스터 목록
-     * @param model 모델
+     * 
+     * @param model   모델
      * @param session 세션
      * @return 뷰 이름
      */
@@ -45,7 +46,8 @@ public class FuncMasterController {
 
     /**
      * 기능 마스터 등록 폼
-     * @param model 모델
+     * 
+     * @param model   모델
      * @param session 세션
      * @return 뷰 이름
      */
@@ -61,9 +63,10 @@ public class FuncMasterController {
 
     /**
      * 기능 마스터 수정 폼
-     * @param funcId 기능 ID
+     * 
+     * @param funcId    기능 ID
      * @param companyId 회사 ID
-     * @param model 모델
+     * @param model     모델
      * @return 뷰 이름
      */
     @GetMapping("/funcMasterForm/{funcId}/{companyId}")
@@ -76,15 +79,16 @@ public class FuncMasterController {
 
     /**
      * 기능 마스터 저장
-     * @param funcMaster 기능 마스터
-     * @param mode 모드
+     * 
+     * @param funcMaster         기능 마스터
+     * @param mode               모드
      * @param redirectAttributes 리다이렉트 속성
      * @return 리다이렉트 URL
      */
     @PostMapping("/funcMasterSave")
     public String funcMasterSave(@ModelAttribute FuncMaster funcMaster,
-                                 @RequestParam(required = false) String mode,
-                                 RedirectAttributes redirectAttributes) {
+            @RequestParam(required = false) String mode,
+            RedirectAttributes redirectAttributes) {
         try {
             funcMasterService.saveFuncMaster(funcMaster);
             redirectAttributes.addFlashAttribute("successMessage", "기능 마스터가 성공적으로 저장되었습니다.");
@@ -96,15 +100,16 @@ public class FuncMasterController {
 
     /**
      * 기능 마스터 삭제
-     * @param funcId 기능 ID
-     * @param companyId 회사 ID
+     * 
+     * @param funcId             기능 ID
+     * @param companyId          회사 ID
      * @param redirectAttributes 리다이렉트 속성
      * @return 리다이렉트 URL
      */
     @PostMapping("/funcMasterDelete/{funcId}/{companyId}")
     public String funcMasterDelete(@PathVariable String funcId,
-                                   @PathVariable String companyId,
-                                   RedirectAttributes redirectAttributes) {
+            @PathVariable String companyId,
+            RedirectAttributes redirectAttributes) {
         try {
             funcMasterService.deleteFuncMaster(companyId, funcId);
             redirectAttributes.addFlashAttribute("successMessage", "기능 마스터가 성공적으로 삭제되었습니다.");
@@ -113,4 +118,4 @@ public class FuncMasterController {
         }
         return "redirect:/funcMaster/funcMasterList";
     }
-} 
+}

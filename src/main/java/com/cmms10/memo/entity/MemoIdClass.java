@@ -1,7 +1,6 @@
 package com.cmms10.memo.entity;
 
 import java.io.Serializable;
-import java.util.Objects;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;

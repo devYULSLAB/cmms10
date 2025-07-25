@@ -1,8 +1,8 @@
-package com.cmms10.domain.storMaster.controller;
+package com.cmms10.storMaster.controller;
 
-import com.cmms10.domain.storMaster.entity.StorMaster;
-import com.cmms10.domain.storMaster.entity.StorMasterIdClass;
-import com.cmms10.domain.storMaster.service.StorMasterService;
+import com.cmms10.storMaster.entity.StorMaster;
+import com.cmms10.storMaster.entity.StorMasterIdClass;
+import com.cmms10.storMaster.service.StorMasterService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +38,8 @@ public class StorMasterController {
     }
 
     @GetMapping("/storMasterForm/{companyId}/{siteId}/{locId}")
-    public String editForm(@PathVariable String companyId, @PathVariable String siteId, @PathVariable String locId, Model model) {
+    public String editForm(@PathVariable String companyId, @PathVariable String siteId, @PathVariable String locId,
+            Model model) {
         StorMaster storMaster = storMasterService.findByCompanyIdAndSiteIdAndLocId(companyId, siteId, locId);
         model.addAttribute("storMaster", storMaster);
         model.addAttribute("mode", "edit");
@@ -56,4 +57,4 @@ public class StorMasterController {
         storMasterService.deleteById(id);
         return "redirect:/storMaster/list";
     }
-} 
+}

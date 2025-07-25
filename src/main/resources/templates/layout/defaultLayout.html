@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +15,7 @@
 
   <th:block layout:fragment="page-css"></th:block>
 </head>
+
 <body class="flex flex-col min-h-screen bg-white text-gray-800">
 
   <!-- Header -->
@@ -28,7 +29,8 @@
     <div sec:authorize="isAuthenticated()" class="text-sm flex items-center gap-3">
       <span th:text="${session.formattedUserInfo}">User Info Placeholder</span>
       <form th:action="@{/logout}" method="post">
-        <button type="submit" class="px-3 py-1 border border-gray-400 rounded text-gray-600 hover:bg-gray-200" th:text="#{logout.button}">Logout</button>
+        <button type="submit" class="px-3 py-1 border border-gray-400 rounded text-gray-600 hover:bg-gray-200"
+          th:text="#{login.logout}">Logout</button>
       </form>
     </div>
   </header>
@@ -108,9 +110,12 @@
             <i class="fas fa-chevron-down"></i>
           </button>
           <ul class="submenu hidden pl-7 mt-1 space-y-1">
-            <li><a th:href="@{/inventoryMaster/inventoryMasterForm}" class="block py-1 hover:text-yellow-300">입력</a></li>
-            <li><a th:href="@{/inventoryMaster/inventoryMasterList}" class="block py-1 hover:text-yellow-300">목록</a></li>
-            <li><a th:href="@{/inventoryMaster/inventoryIoHistory}" class="block py-1 hover:text-yellow-300">입출고</a></li>
+            <li><a th:href="@{/inventoryMaster/inventoryMasterForm}" class="block py-1 hover:text-yellow-300">입력</a>
+            </li>
+            <li><a th:href="@{/inventoryMaster/inventoryMasterList}" class="block py-1 hover:text-yellow-300">목록</a>
+            </li>
+            <li><a th:href="@{/inventoryMaster/inventoryIoHistory}" class="block py-1 hover:text-yellow-300">입출고</a>
+            </li>
           </ul>
         </li>
 
@@ -128,7 +133,22 @@
             <li><a th:href="@{/funcMaster/funcMasterForm}" class="block py-1 hover:text-yellow-300">입력</a></li>
           </ul>
         </li>
-        
+
+        <!-- StoreMaster 메뉴  -->
+        <li>
+          <button class="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-700 rounded menu-toggle">
+            <div class="flex items-center gap-2">
+              <i class="fas fa-clipboard-check w-5 text-center"></i>
+              <span class="menu-text">StoreMaster</span>
+            </div>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <ul class="submenu hidden pl-7 mt-1 space-y-1">
+            <li><a th:href="@{/storeMaster/storeMasterList}" class="block py-1 hover:text-yellow-300">목록</a></li>
+            <li><a th:href="@{/storeMaster/storeMasterForm}" class="block py-1 hover:text-yellow-300">입력</a></li>
+          </ul>
+        </li>
+
         <!-- Common 메뉴  -->
         <li>
           <button class="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-700 rounded menu-toggle">
@@ -167,7 +187,8 @@
 
     <!-- Content -->
     <main class="flex-1 p-6 overflow-y-auto" layout:fragment="content">
-      <p class="text-gray-400 text-sm">This is default content from layout.html. If you see this, the page did not provide its own content fragment.</p>
+      <p class="text-gray-400 text-sm">This is default content from layout.html. If you see this, the page did not
+        provide its own content fragment.</p>
     </main>
   </div>
 
@@ -195,4 +216,5 @@
 
   <th:block layout:fragment="page-js"></th:block>
 </body>
+
 </html>

@@ -25,41 +25,40 @@ public interface InventoryMasterRepository extends JpaRepository<InventoryMaster
     String findMaxInventoryIdByCompanyId(@Param("companyId") String companyId);
 
     /**
-     * Finds a specific non-deleted InventoryMaster by its companyId and inventoryId.
+     * 회사 ID와 재고 ID를 기준으로 재고 마스터를 조회합니다.
      *
-     * @param companyId The ID of the company.
-     * @param inventoryId The ID of the inventory.
-     * @return An Optional containing the non-deleted InventoryMaster if found, or empty otherwise.
+     * @param companyId    회사 ID
+     * @param inventoryId  재고 ID
+     * @return Optional<InventoryMaster> 조회된 재고 마스터, 없으면 Optional.empty()
      */
-
-     Optional<InventoryMaster> findByCompanyIdAndInventoryIdAndDeleteMarkIsNull(String companyId, String inventoryId);
+    Optional<InventoryMaster> findByCompanyIdAndInventoryIdAndDeleteMarkIsNull(String companyId, String inventoryId);
 
     /**
-     * Finds a page of non-deleted InventoryMaster entries for a given companyId and siteId.
+     * 회사 ID를 기준으로 재고 마스터 목록을 조회합니다.
      *
-     * @param companyId The ID of the company.
-     * @param pageable Pagination information.
-     * @return A page of non-deleted InventoryMaster entities.
+     * @param companyId 회사 ID
+     * @param pageable  페이징 정보
+     * @return Page<InventoryMaster> 조회된 재고 마스터 목록
      */
     Page<InventoryMaster> findByCompanyIdAndDeleteMarkIsNull(String companyId, Pageable pageable);
 
     /**
-     * Finds all non-deleted InventoryMaster entries for a given companyId.
+     * 회사 ID와 담당 부서를 기준으로 재고 마스터 목록을 조회합니다.
      *
-     * @param companyId The ID of the company.
-     * @param respDept The ID of the responsible department.
-     * @param pageable Pagination information.
-     * @return A list of non-deleted InventoryMaster entities.
+     * @param companyId 회사 ID
+     * @param respDept  담당 부서
+     * @param pageable  페이징 정보
+     * @return Page<InventoryMaster> 조회된 재고 마스터 목록
      */
     Page<InventoryMaster> findByCompanyIdAndRespDeptAndDeleteMarkIsNull(String companyId, String respDept, Pageable pageable);
     
     /**
-     * Finds all non-deleted InventoryMaster entries for a given companyId.
+     * 회사 ID와 재고명을 기준으로 재고 마스터 목록을 조회합니다.
      *
-     * @param companyId The ID of the company.
-     * @param inventoryName The name of the inventory (partial match).
-     * @param pageable Pagination information.
-     * @return A list of non-deleted InventoryMaster entities.
+     * @param companyId    회사 ID
+     * @param inventoryName 재고명 (부분 일치)
+     * @param pageable      페이징 정보
+     * @return Page<InventoryMaster> 조회된 재고 마스터 목록
      */
     Page<InventoryMaster> findByCompanyIdAndInventoryNameContainingAndDeleteMarkIsNull(String companyId, String inventoryName, Pageable pageable);
     

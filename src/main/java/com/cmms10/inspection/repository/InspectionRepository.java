@@ -30,56 +30,69 @@ public interface InspectionRepository extends JpaRepository<Inspection, Inspecti
     /**
      * 회사 ID와 점검 ID로 특정 점검을 조회합니다.
      *
-     * @param companyId 회사 ID
+     * @param companyId    회사 ID
+     * @param siteId       사이트 ID
      * @param inspectionId 점검 ID
      * @return 점검 엔티티 (Optional)
      */
-    Optional<Inspection> findByCompanyIdAndInspectionId(String companyId, String inspectionId);
+    Optional<Inspection> findByCompanyIdAndSiteIdAndInspectionId(String companyId, String siteId, String inspectionId);
 
     /**
      * 회사 ID와 사이트 ID로 점검 목록을 페이징하여 조회합니다.
      *
      * @param companyId 회사 ID
-     * @param siteId 사이트 ID
-     * @param pageable 페이징 정보
+     * @param pageable  페이징 정보
      * @return 점검 엔티티 페이지
      */
-    Page<Inspection> findByCompanyIdAndSiteId(String companyId, String siteId, Pageable pageable);
+    Page<Inspection> findByCompanyIdOrderByInspectionIdAsc(String companyId, Pageable pageable);
+
+    /**
+     * 회사 ID와 사이트 ID로 점검 목록을 페이징하여 조회합니다.
+     *
+     * @param companyId 회사 ID
+     * @param siteId    사이트 ID
+     * @param pageable  페이징 정보
+     * @return 점검 엔티티 페이지
+     */
+    Page<Inspection> findByCompanyIdAndSiteIdOrderByInspectionIdAsc(String companyId, String siteId, Pageable pageable);
 
     /**
      * 회사 ID와 수행 부서로 점검 목록을 페이징하여 조회합니다.
      *
      * @param companyId 회사 ID
-     * @param Dept 수행 부서
-     * @param pageable 페이징 정보
+     * @param Dept      수행 부서
+     * @param pageable  페이징 정보
      * @return 점검 엔티티 페이지
      */
-    Page<Inspection> findByCompanyIdAndDept(String companyId, String Dept, Pageable pageable);
+    Page<Inspection> findByCompanyIdAndDeptIdOrderByInspectionIdAsc(String companyId, String deptId, Pageable pageable);
 
     /**
      * 회사 ID와 점검 이름으로 점검 목록을 페이징하여 조회합니다.
      *
-     * @param companyId 회사 ID
+     * @param companyId      회사 ID
      * @param inspectionName 점검 이름
-     * @param pageable 페이징 정보
+     * @param pageable       페이징 정보
      * @return 점검 엔티티 페이지
      */
-    Page<Inspection> findByCompanyIdAndInspectionNameContaining(String companyId, String inspectionName, Pageable pageable);
-    
+    Page<Inspection> findByCompanyIdAndInspectionNameContainingOrderByInspectionIdAsc(String companyId,
+            String inspectionName, Pageable pageable);
+
     /**
      * 회사 ID와 플랜트 ID로 점검을 조회합니다.
      *
      * @param companyId 회사 ID
-     * @param plantId 플랜트 ID
+     * @param siteId    사이트 ID
+     * @param plantId   플랜트 ID
      * @return 점검 엔티티 목록
      */
-    Page<Inspection> findByCompanyIdAndPlantId(String companyId, String plantId, Pageable pageable);
+    Page<Inspection> findByCompanyIdAndSiteIdAndPlantIdOrderByInspectionIdAsc(String companyId, String siteId,
+            String plantId, Pageable pageable);
 
     /**
      * 회사 ID와 점검 ID로 점검을 삭제합니다.
      *
-     * @param companyId 회사 ID
+     * @param companyId    회사 ID
      * @param inspectionId 점검 ID
      */
-    void deleteByCompanyIdAndInspectionId(String companyId, String inspectionId);
+    void deleteByCompanyIdAndSiteIdAndInspectionId(String companyId, String siteId, String inspectionId);
 }

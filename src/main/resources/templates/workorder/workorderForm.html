@@ -1,140 +1,157 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/defaultLayout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/defaultLayout}">
+
 <head>
     <title>Work Order Form</title>
 </head>
+
 <body>
-<div layout:fragment="content">
-    <div class="max-w-4xl mx-auto mt-8 space-y-6">
-        
-        <h2 class="text-2xl font-bold" th:text="${workorder.orderId == null ? '작업오더 신규' : '작업오더 수정: ' + workorder.orderId}">Work Order Form</h2>
+    <div layout:fragment="content">
+        <div class="max-w-4xl mx-auto mt-8 space-y-6">
 
-        <!-- Alerts -->
-        <div th:if="${successMessage}" class="p-3 bg-green-100 text-green-800 rounded">
-            <span th:text="${successMessage}"></span>
-        </div>
-        <div th:if="${errorMessage}" class="p-3 bg-red-100 text-red-800 rounded">
-            <span th:text="${errorMessage}"></span>
-        </div>
+            <h2 class="text-2xl font-bold"
+                th:text="${workorder.orderId == null ? '작업오더 신규' : '작업오더 수정: ' + workorder.orderId}">작업 오더 </h2>
 
-        <form th:action="@{/workorder/workorderSave}" th:object="${workorder}" method="post" class="space-y-6">
-            
-            <!-- Hidden fields -->
-            <input type="hidden" th:field="*{companyId}" />
-            <input type="hidden" th:field="*{siteId}" />
+            <!-- Alerts -->
+            <div th:if="${successMessage}" class="p-3 bg-green-100 text-green-800 rounded">
+                <span th:text="${successMessage}"></span>
+            </div>
+            <div th:if="${errorMessage}" class="p-3 bg-red-100 text-red-800 rounded">
+                <span th:text="${errorMessage}"></span>
+            </div>
 
-            <!-- Basic Info -->
-            <div class="border rounded-lg shadow p-4 space-y-4">
-                <h3 class="font-semibold text-lg mb-2">Basic Information</h3>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Order ID</label>
-                        <input type="text" th:field="*{orderId}" class="w-full border rounded px-2 py-1 bg-gray-100" readonly />
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Plant ID</label>
-                        <input type="text" th:field="*{plantId}" class="w-full border rounded px-2 py-1" />
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Job Type</label>
-                        <select th:field="*{jobType}" class="w-full border rounded px-2 py-1">
-                            <option value="">Select Job Type</option>
-                            <option th:each="jobType : ${jobTypes}" 
-                                    th:value="${jobType.codeId}" 
+            <form th:action="@{/workorder/workorderSave}" th:object="${workorder}" method="post" class="space-y-6">
+
+                <!-- Hidden fields -->
+                <input type="hidden" th:field="*{companyId}" />
+                <input type="hidden" th:field="*{siteId}" />
+
+                <!-- Basic Info -->
+                <div class="border rounded-lg shadow p-4 space-y-4">
+                    <h3 class="font-semibold text-lg mb-2" th:text="#{basicInformation}">Basic Information</h3>
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-3">
+                            <label class="block text-sm font-medium mb-1" th:text="#{orderId}">Order ID</label>
+                            <input type="text" th:field="*{orderId}" class="w-full border rounded px-2 py-1 bg-gray-100"
+                                readonly />
+                        </div>
+                        <div class="col-span-3">
+                            <label class="block text-sm font-medium mb-1" th:text="#{plantId}">Plant ID</label>
+                            <input type="text" th:field="*{plantId}" class="w-full border rounded px-2 py-1" />
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium mb-1" th:text="#{jobType}">Job Type</label>
+                            <select th:field="*{jobType}" class="w-full border rounded px-2 py-1">
+                                <option value="" th:text="#{select}">Select</option>
+                                <option th:each="jobType : ${jobTypes}" th:value="${jobType.codeId}"
                                     th:text="${jobType.codeId + ' - ' + jobType.codeName}"></option>
-                        </select>
+                            </select>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium mb-1" th:text="#{siteId}">Site</label>
+                            <select th:field="*{siteId}" class="w-full border rounded px-2 py-1">
+                                <option value="" th:text="#{select}">-- Select --</option>
+                                <option th:each="site : ${sites}" th:value="${site.siteId}"
+                                    th:text="${site.siteId + ' - ' + site.siteName}"></option>
+                            </select>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-sm font-medium mb-1" th:text="#{deptId}">Dept</label>
+                            <select th:field="*{deptId}" class="w-full border rounded px-2 py-1">
+                                <option value="" th:text="#{select}">Select</option>
+                                <option th:each="dept : ${depts}" th:value="${dept.deptId}"
+                                    th:text="${dept.deptId + ' - ' + dept.deptName}"></option>
+                            </select>
+                        </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium mb-1">Dept</label>
-                        <select th:field="*{dept}" class="w-full border rounded px-2 py-1">
-                            <option value="">Select Department</option>
-                            <option th:each="dept : ${depts}" 
-                                    th:value="${dept.deptId}" 
-                                    th:text="${dept.deptId + ' - ' + dept.deptName}"></option>
-                        </select>
+                        <label class="block text-sm font-medium mb-1 mt-4" th:text="#{orderName}">Order Name</label>
+                        <input type="text" th:field="*{orderName}" class="w-full border rounded px-2 py-1" required />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1 mt-4" th:text="#{note}">Note</label>
+                        <textarea th:field="*{note}" class="w-full border rounded px-2 py-1" rows="3"></textarea>
                     </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium mb-1 mt-4">Order Name</label>
-                    <input type="text" th:field="*{orderName}" class="w-full border rounded px-2 py-1" required />
-                </div>
-                <div>
-                    <label class="block text-sm font-medium mb-1 mt-4">Note</label>
-                    <textarea th:field="*{note}" class="w-full border rounded px-2 py-1" rows="3"></textarea>
-                </div>
-            </div>
 
-            <!-- Workorder Items -->
-            <div class="border rounded-lg shadow p-4 space-y-4">
-                <h3 class="font-semibold text-lg mb-2">Work Order Items</h3>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full text-sm border">
-                        <thead class="bg-gray-100">
-                            <tr>
-                                <th class="px-3 py-2 border">Item Name</th>
-                                <th class="px-3 py-2 border">Item Method</th>
-                                <th class="px-3 py-2 border">Item Result</th>
-                                <th class="px-3 py-2 border">Note</th>
-                            </tr>
-                        </thead>
-                        <tbody id="itemTableBody">
-                            <tr th:each="item, iterStat : ${workorder.items}">
-                                <td class="border px-2 py-1">
-                                    <input type="text" th:field="*{items[__${iterStat.index}__].itemName}" class="w-full border rounded px-1 py-0.5" />
-                                </td>
-                                <td class="border px-2 py-1">
-                                    <input type="text" th:field="*{items[__${iterStat.index}__].itemMethod}" class="w-full border rounded px-1 py-0.5" />
-                                </td>
-                                <td class="border px-2 py-1">
-                                    <input type="text" th:field="*{items[__${iterStat.index}__].itemResult}" class="w-full border rounded px-1 py-0.5" />
-                                </td>
-                                <td class="border px-2 py-1">
-                                    <input type="text" th:field="*{items[__${iterStat.index}__].note}" class="w-full border rounded px-1 py-0.5" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- Workorder Items -->
+                <div class="border rounded-lg shadow p-4 space-y-4">
+                    <h3 class="font-semibold text-lg mb-2" th:text="#{workOrderItems}">Work Order Items</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full text-sm border">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-3 py-2 border" th:text="#{itemName}">Item Name</th>
+                                    <th class="px-3 py-2 border" th:text="#{itemMethod}">Item Method</th>
+                                    <th class="px-3 py-2 border" th:text="#{itemResult}">Item Result</th>
+                                    <th class="px-3 py-2 border" th:text="#{note}">Note</th>
+                                </tr>
+                            </thead>
+                            <tbody id="itemTableBody">
+                                <tr th:each="item, iterStat : ${workorder.items}">
+                                    <td class="border px-2 py-1">
+                                        <input type="text" th:field="*{items[__${iterStat.index}__].itemName}"
+                                            class="w-full border rounded px-1 py-0.5" />
+                                    </td>
+                                    <td class="border px-2 py-1">
+                                        <input type="text" th:field="*{items[__${iterStat.index}__].itemMethod}"
+                                            class="w-full border rounded px-1 py-0.5" />
+                                    </td>
+                                    <td class="border px-2 py-1">
+                                        <input type="text" th:field="*{items[__${iterStat.index}__].itemResult}"
+                                            class="w-full border rounded px-1 py-0.5" />
+                                    </td>
+                                    <td class="border px-2 py-1">
+                                        <input type="text" th:field="*{items[__${iterStat.index}__].note}"
+                                            class="w-full border rounded px-1 py-0.5" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="flex justify-between mt-3">
+                        <button type="button" class="px-3 py-1 border rounded text-blue-600 hover:bg-blue-50 text-sm"
+                            onclick="addItemRow()" th:text="#{add}">Add Item</button>
+                        <button type="button" class="px-3 py-1 border rounded text-red-600 hover:bg-red-50 text-sm"
+                            onclick="removeItemRow()" th:text="#{delete}">Remove Last Item</button>
+                    </div>
                 </div>
-                <div class="flex justify-between mt-3">
-                    <button type="button" class="px-3 py-1 border rounded text-blue-600 hover:bg-blue-50 text-sm" onclick="addItemRow()">Add Item</button>
-                    <button type="button" class="px-3 py-1 border rounded text-red-600 hover:bg-red-50 text-sm" onclick="removeItemRow()">Remove Last Item</button>
-                </div>
-            </div>
 
-            <!-- Submit Buttons -->
-            <div class="flex gap-3 justify-end">
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Save</button>
-                <a th:href="@{/workorder/workorderList(companyId=${session.companyId},siteId=${session.siteId})}"
-                   class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Cancel</a>
-            </div>
-        </form>
+                <!-- Submit Buttons -->
+                <div class="flex gap-3 justify-end">
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        th:text="#{save}">저장 </button>
+                    <a th:href="@{/workorder/workorderList(companyId=${session.companyId},siteId=${session.siteId})}"
+                        class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" th:text="#{cancel}">취소</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<th:block layout:fragment="page-js">
-<script th:inline="javascript">
-    function addItemRow() {
-        const index = document.querySelectorAll('#itemTableBody tr').length;
-        const tbody = document.getElementById('itemTableBody');
-        const row = document.createElement('tr');
-        row.innerHTML = `
+    <th:block layout:fragment="page-js">
+        <script th:inline="javascript">
+            function addItemRow() {
+                const index = document.querySelectorAll('#itemTableBody tr').length;
+                const tbody = document.getElementById('itemTableBody');
+                const row = document.createElement('tr');
+                row.innerHTML = `
             <td class="border px-2 py-1"><input type="text" name="items[${index}].itemName" class="w-full border rounded px-1 py-0.5" /></td>
             <td class="border px-2 py-1"><input type="text" name="items[${index}].itemMethod" class="w-full border rounded px-1 py-0.5" /></td>
             <td class="border px-2 py-1"><input type="text" name="items[${index}].itemResult" class="w-full border rounded px-1 py-0.5" /></td>
             <td class="border px-2 py-1"><input type="text" name="items[${index}].note" class="w-full border rounded px-1 py-0.5" /></td>
         `;
-        tbody.appendChild(row);
-    }
+                tbody.appendChild(row);
+            }
 
-    function removeItemRow() {
-        const tbody = document.getElementById('itemTableBody');
-        if (tbody.children.length > 0) {
-            tbody.removeChild(tbody.lastElementChild);
-        }
-    }
-</script>
-</th:block>
+            function removeItemRow() {
+                const tbody = document.getElementById('itemTableBody');
+                if (tbody.children.length > 0) {
+                    tbody.removeChild(tbody.lastElementChild);
+                }
+            }
+        </script>
+    </th:block>
 </body>
+
 </html>

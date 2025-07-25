@@ -1,95 +1,105 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/defaultLayout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/defaultLayout}">
+
 <head>
     <title>User Form</title>
 </head>
+
 <body>
-<div layout:fragment="content">
-    <div class="max-w-xl mx-auto mt-8 p-6 bg-white shadow rounded">
-        <h2 class="text-2xl font-bold mb-6" th:text="${user.username == null ? 'Create User' : 'Edit User'}"></h2>
-        
-        <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
-            <span th:text="${successMessage}"></span>
+    <div layout:fragment="content">
+        <div class="max-w-xl mx-auto mt-8 p-6 bg-white shadow-lg rounded-2xl">
+            <h2 class="text-2xl font-bold mb-6" th:text="${user.username == null ? '사용자코드 생성' : '사용자코드 수정'}">사용자코드</h2>
+
+            <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
+                <span th:text="${successMessage}"></span>
+            </div>
+            <div th:if="${errorMessage}" class="p-3 mb-4 text-red-800 bg-red-100 rounded">
+                <span th:text="${errorMessage}"></span>
+            </div>
+
+            <form th:action="@{/user/userSave}" th:object="${user}" method="post" class="space-y-4">
+                <!-- Hidden fields -->
+                <input type="hidden" th:field="*{companyId}" />
+                <input type="hidden" th:field="*{createBy}" />
+                <input type="hidden" th:field="*{createDate}" />
+                <input type="hidden" th:field="*{updateBy}" />
+                <input type="hidden" th:field="*{updateDate}" />
+
+                <input type="hidden" name="mode" th:value="${mode}" />
+
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700"
+                        th:text="#{username}">사용자코드</label>
+                    <input type="text" id="username" th:field="*{username}"
+                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+                        th:readonly="${user.username != null}" required>
+                </div>
+
+                <div>
+                    <label for="userFullName" class="block text-sm font-medium text-gray-700"
+                        th:text="#{userFullName}">이름</label>
+                    <input type="text" id="userFullName" th:field="*{userFullName}"
+                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+                        required>
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700"
+                        th:text="#{password}">비밀번호</label>
+                    <input type="password" id="password" th:field="*{password}"
+                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+                        required>
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700" th:text="#{email}">이메일</label>
+                    <input type="email" id="email" th:field="*{email}"
+                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300">
+                </div>
+
+                <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700" th:text="#{phone}">전화번호</label>
+                    <input type="text" id="phone" th:field="*{phone}"
+                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300">
+                </div>
+
+                <div>
+                    <label for="deptId" class="block text-sm font-medium text-gray-700" th:text="#{deptId}">부서</label>
+                    <select id="deptId" th:field="*{deptId}"
+                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300">
+                        <option value="" th:text="#{select}">-- Select --</option>
+                        <option th:each="dept : ${deptList}" th:value="${dept.deptId}" th:text="${dept.deptName}">
+                        </option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="roleId" class="block text-sm font-medium text-gray-700" th:text="#{roleId}">역할</label>
+                    <select id="roleId" th:field="*{roleId}"
+                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300">
+                        <option value="" th:text="#{select}">-- Select --</option>
+                        <option th:each="roleAuth : ${roleAuthList}" th:value="${roleAuth.roleId}"
+                            th:text="${roleAuth.roleName}">
+                        </option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="note" class="block text-sm font-medium text-gray-700" th:text="#{note}">비고</label>
+                    <textarea id="note" th:field="*{note}" rows="2"
+                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"></textarea>
+                </div>
+
+                <div class="flex space-x-2 mt-4">
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                        th:text="#{save}">생성</button>
+                    <a th:href="@{/user/userList}" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                        th:text="#{cancel}">취소/목록</a>
+                </div>
+            </form>
         </div>
-        <div th:if="${errorMessage}" class="p-3 mb-4 text-red-800 bg-red-100 rounded">
-            <span th:text="${errorMessage}"></span>
-        </div>
-        
-        <form th:action="@{/user/userSave}" th:object="${user}" method="post" class="space-y-4">
-            <!-- Hidden fields -->
-            <input type="hidden" th:field="*{companyId}" />
-            <input type="hidden" th:field="*{createBy}" />
-            <input type="hidden" th:field="*{createDate}" />
-            <input type="hidden" th:field="*{updateBy}" />
-            <input type="hidden" th:field="*{updateDate}" />
-            <input type="hidden" name="mode" th:value="${mode}" />
-
-            <div>
-                <label for="username" class="block mb-1 font-medium">Username</label>
-                <input type="text" id="username" th:field="*{username}"
-                       class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-                       th:readonly="${user.username != null}" required>
-            </div>
-
-            <div>
-                <label for="userFullName" class="block mb-1 font-medium">Name</label>
-                <input type="text" id="userFullName" th:field="*{userFullName}"
-                       class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-                       required>
-            </div>
-
-            <div>
-                <label for="password" class="block mb-1 font-medium">Password</label>
-                <input type="password" id="password" th:field="*{password}"
-                       class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-                       required>
-            </div>
-
-            <div>
-                <label for="email" class="block mb-1 font-medium">Email</label>
-                <input type="email" id="email" th:field="*{email}"
-                       class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300">
-            </div>
-
-            <div>
-                <label for="phone" class="block mb-1 font-medium">Phone</label>
-                <input type="text" id="phone" th:field="*{phone}"
-                       class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300">
-            </div>
-
-            <div>
-                <label for="deptId" class="block mb-1 font-medium">Department</label>
-                <select id="deptId" th:field="*{deptId}"
-                        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300">
-                    <option value="">-- Select Department --</option>
-                    <option th:each="dept : ${deptList}"
-                            th:value="${dept.deptId}"
-                            th:text="${dept.deptName}"></option>
-                </select>
-            </div>
-
-            <div>
-                <label for="roleId" class="block mb-1 font-medium">Role</label>
-                <input type="text" id="roleId" th:field="*{roleId}"
-                       class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300">
-            </div>
-
-            <div>
-                <label for="note" class="block mb-1 font-medium">Note</label>
-                <textarea id="note" th:field="*{note}" rows="2"
-                          class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"></textarea>
-            </div>
-
-            <div class="flex space-x-2 mt-4">
-                <button type="submit"
-                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>
-                <a th:href="@{/user/userList}"
-                   class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Cancel</a>
-            </div>
-        </form>
     </div>
-</div>
 </body>
+
 </html>

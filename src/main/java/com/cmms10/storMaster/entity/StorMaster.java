@@ -1,4 +1,4 @@
-package com.cmms10.domain.storMaster.entity;
+package com.cmms10.storMaster.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -32,4 +32,4 @@ public class StorMaster {
 
     @Column(name = "locName", length = 100)
     private String locName;
-} 
+}

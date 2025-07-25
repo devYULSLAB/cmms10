@@ -51,6 +51,10 @@ public class Workpermit {
     @Column(name = "permitType", length = 5)
     private String permitType;
 
+    /** 부서 ID */
+    @Column(name = "deptId", length = 5)
+    private String deptId;
+
     /** 상태: D(초안), P(진행중), A(승인), C(종료), R(반려) */
     @Column(name = "status", length = 1)
     private String status;
@@ -110,4 +114,4 @@ public class Workpermit {
     @OneToMany(mappedBy = "workpermit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<WorkpermitItem> items = new ArrayList<>();
 
-} 
+}

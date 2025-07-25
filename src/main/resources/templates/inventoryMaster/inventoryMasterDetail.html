@@ -1,101 +1,103 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/defaultLayout}">
+    layout:decorate="~{layout/defaultLayout}">
 
 <head>
     <title>Inventory Master Detail</title>
 </head>
 
 <body>
-<div layout:fragment="content">
-    <div class="max-w-5xl mx-auto mt-6">
+    <div layout:fragment="content">
+        <div class="max-w-5xl mx-auto mt-6">
 
-        <h2 class="text-2xl font-bold mb-4">Inventory Master Detail</h2>
+            <h2 class="text-2xl font-bold mb-4" th:text="{domain.inventoryMasterDetail}">재고 마스터 상세</h2>
 
-        <div class="border rounded-lg shadow p-6 bg-white space-y-6">
+            <div class="border rounded-lg shadow p-6 bg-white space-y-6">
 
-            <!-- Basic Information -->
-            <div>
-                <h5 class="text-lg font-semibold mb-2 border-b pb-1">Basic Information</h5>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-gray-600">Inventory ID:</label>
-                        <p class="font-medium" th:text="${inventoryMaster.inventoryId}"></p>
-                    </div>
-                    <div>
-                        <label class="block text-gray-600">Inventory Name:</label>
-                        <p class="font-medium" th:text="${inventoryMaster.inventoryName}"></p>
-                    </div>
-                    <div>
-                        <label class="block text-gray-600">Location:</label>
-                        <p class="font-medium" th:text="${inventoryMaster.inventoryLoc}"></p>
-                    </div>
-                    <div>
-                        <label class="block text-gray-600">Site ID:</label>
-                        <p class="font-medium" th:text="${inventoryMaster.siteId}"></p>
-                    </div>
-                    <div>
-                        <label class="block text-gray-600">Responsible Dept:</label>
-                        <p class="font-medium" th:text="${inventoryMaster.respDept}"></p>
-                    </div>
-                    <div>
-                        <label class="block text-gray-600">Asset Type:</label>
-                        <p class="font-medium" th:text="${inventoryMaster.assetType}"></p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Manufacturer Details -->
-            <div>
-                <h5 class="text-lg font-semibold mb-2 border-b pb-1">Manufacturer Details</h5>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-gray-600">Manufacturer:</label>
-                        <p class="font-medium" th:text="${inventoryMaster.manufacturer}"></p>
-                    </div>
-                    <div>
-                        <label class="block text-gray-600">Model:</label>
-                        <p class="font-medium" th:text="${inventoryMaster.manufacturerModel}"></p>
-                    </div>
-                    <div>
-                        <label class="block text-gray-600">Serial Number:</label>
-                        <p class="font-medium" th:text="${inventoryMaster.manufacturerSN}"></p>
-                    </div>
-                    <div>
-                        <label class="block text-gray-600">Specification:</label>
-                        <p class="font-medium" th:text="${inventoryMaster.manufacturerSpec}"></p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Notes & Files -->
-            <div>
-                <h5 class="text-lg font-semibold mb-2 border-b pb-1">Notes & Files</h5>
-                <div class="mb-2">
-                    <label class="block text-gray-600">Note:</label>
-                    <p class="font-medium whitespace-pre-line" th:text="${inventoryMaster.note}"></p>
-                </div>
+                <!-- Basic Information -->
                 <div>
-                    <label class="block text-gray-600">File Group ID:</label>
-                    <p class="font-medium" th:text="${inventoryMaster.fileGroupId}"></p>
+                    <h5 class="text-lg font-semibold mb-2 border-b pb-1" th:text="#{basicInformation}">기본 정보</h5>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-600" th:text="#{inventoryId}">재고 ID:</label>
+                            <p class="font-medium" th:text="${inventoryMaster.inventoryId}"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-600" th:text="#{inventoryName}">재고 이름:</label>
+                            <p class="font-medium" th:text="${inventoryMaster.inventoryName}"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-600" th:text="#{location}">위치:</label>
+                            <p class="font-medium" th:text="${inventoryMaster.inventoryLoc}"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-600" th:text="#{siteId}">사이트 ID:</label>
+                            <p class="font-medium" th:text="${inventoryMaster.siteId}"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-600" th:text="#{respDept}">담당 부서:</label>
+                            <p class="font-medium" th:text="${inventoryMaster.respDept}"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-600" th:text="#{assetType}">자산 유형:</label>
+                            <p class="font-medium" th:text="${inventoryMaster.assetType}"></p>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Manufacturer Details -->
+                <div>
+                    <h5 class="text-lg font-semibold mb-2 border-b pb-1" th:text="#{manufacturerInformation}">제조사 상세
+                    </h5>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-600" th:text="#{manufacturer}">제조사:</label>
+                            <p class="font-medium" th:text="${inventoryMaster.manufacturer}"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-600" th:text="#{manufacturerModel}">모델:</label>
+                            <p class="font-medium" th:text="${inventoryMaster.manufacturerModel}"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-600" th:text="#{manufacturerSN}">시리얼 번호:</label>
+                            <p class="font-medium" th:text="${inventoryMaster.manufacturerSN}"></p>
+                        </div>
+                        <div>
+                            <label class="block text-gray-600" th:text="#{manufacturerSpec}">규격:</label>
+                            <p class="font-medium" th:text="${inventoryMaster.manufacturerSpec}"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notes & Files -->
+                <div>
+                    <h5 class="text-lg font-semibold mb-2 border-b pb-1" th:text="#{note}">메모</h5>
+                    <div class="mb-2">
+                        <label class="block text-gray-600" th:text="#{note}">메모:</label>
+                        <p class="font-medium whitespace-pre-line" th:text="${inventoryMaster.note}"></p>
+                    </div>
+                    <div>
+                        <label class="block text-gray-600" th:text="#{fileGroupId}">파일 그룹 ID:</label>
+                        <p class="font-medium" th:text="${inventoryMaster.fileGroupId}"></p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-6 flex gap-3">
+                <a th:href="@{/inventoryMaster/inventoryMasterForm(inventoryId=${inventoryMaster.inventoryId}, companyId=${inventoryMaster.companyId}, siteId=${inventoryMaster.siteId})}"
+                    class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600" th:text="{common.edit}">
+                    수정
+                </a>
+                <a th:href="@{/inventoryMaster/inventoryList(companyId=${inventoryMaster.companyId}, siteId=${inventoryMaster.siteId})}"
+                    class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" th:text="{common.backToList}">
+                    목록으로
+                </a>
             </div>
 
         </div>
-
-        <!-- Action Buttons -->
-        <div class="mt-6 flex gap-3">
-            <a th:href="@{/inventoryMaster/inventoryMasterForm(inventoryId=${inventoryMaster.inventoryId}, companyId=${inventoryMaster.companyId}, siteId=${inventoryMaster.siteId})}"
-               class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">
-                Edit
-            </a>
-            <a th:href="@{/inventoryMaster/inventoryList(companyId=${inventoryMaster.companyId}, siteId=${inventoryMaster.siteId})}"
-               class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-                Back to List
-            </a>
-        </div>
-
     </div>
-</div>
 </body>
+
 </html>

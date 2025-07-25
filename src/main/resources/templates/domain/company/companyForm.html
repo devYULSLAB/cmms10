@@ -11,7 +11,7 @@
 <div layout:fragment="content">
     <div class="max-w-xl mx-auto mt-8 p-6 bg-white shadow-lg rounded-2xl">
         
-        <h2 class="text-2xl font-bold mb-6" th:text="${company.companyId == null ? 'Create Company' : 'Edit Company'}"></h2>
+        <h2 class="text-2xl font-bold mb-6" th:text="${company.companyId == null ? '회사코드 생성' : '회사코드 수정'}">회사코드</h2>
         
         <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
             <span th:text="${successMessage}"></span>
@@ -26,34 +26,34 @@
             <input type="hidden" th:field="*{updateBy}" />
             <input type="hidden" th:field="*{createDate}" />
             <input type="hidden" th:field="*{updateDate}" />
+            
             <input type="hidden" name="mode" th:value="${mode}" />
-            <!--    -->
+            
             <div>
-                <label for="companyId" class="block text-sm font-medium text-gray-700">Company ID</label>
+                <label for="companyId" class="block text-sm font-medium text-gray-700" th:text="#{companyId}">회사코드</label>
                 <input type="text" id="companyId" th:field="*{companyId}" 
-                       th:readonly="${company.companyId != null}" required
                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300" />
             </div>
 
             <div>
-                <label for="companyName" class="block text-sm font-medium text-gray-700">Company Name</label>
+                <label for="companyName" class="block text-sm font-medium text-gray-700" th:text="#{companyName}">회사명</label>
                 <input type="text" id="companyName" th:field="*{companyName}" required
                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300" />
             </div>
 
             <div>
-                <label for="note" class="block text-sm font-medium text-gray-700">Note</label>
+                <label for="note" class="block text-sm font-medium text-gray-700" th:text="#{note}">비고</label>
                 <textarea id="note" th:field="*{note}" rows="3"
                           class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"></textarea>
             </div>
 
             <div class="flex space-x-2">
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                    Save
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" th:text="#{save}">
+                    저장
                 </button>
                 <a th:href="@{/company/companyList}" 
-                   class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400">
-                    Cancel
+                   class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400" th:text="#{cancel}">
+                    취소/목록
                 </a>
             </div>
             

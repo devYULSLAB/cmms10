@@ -8,7 +8,7 @@
 <body>
 <div layout:fragment="content">
     <div class="max-w-6xl mx-auto mt-8 space-y-6">
-        <h2 class="text-2xl font-bold">작업허가서 목록</h2>
+        <h2 class="text-2xl font-bold" th:text="#{workpermitList}">작업허가서 목록</h2>
         <div>
             <a th:href="@{/workpermit/workpermitForm}"
                class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
@@ -19,14 +19,14 @@
             <table class="min-w-full text-sm text-left">
                 <thead class="bg-gray-100">
                     <tr>
-                        <th class="px-4 py-2 border">사이트 ID</th>
-                        <th class="px-4 py-2 border">허가서 ID</th>
-                        <th class="px-4 py-2 border">설비 ID</th>
-                        <th class="px-4 py-2 border">허가서명</th>
-                        <th class="px-4 py-2 border">시작일</th>
-                        <th class="px-4 py-2 border">종료일</th>
-                        <th class="px-4 py-2 border">상태</th>
-                        <th class="px-4 py-2 border">Actions</th>
+                        <th class="px-4 py-2 border" th:text="#{siteId}">사이트 ID</th>
+                        <th class="px-4 py-2 border" th:text="#{permitId}">허가서 ID</th>
+                        <th class="px-4 py-2 border" th:text="#{plantId}">설비 ID</th>
+                        <th class="px-4 py-2 border" th:text="#{permitName}">허가서명</th>
+                        <th class="px-4 py-2 border" th:text="#{startDate}">시작일</th>
+                        <th class="px-4 py-2 border" th:text="#{endDate}">종료일</th>
+                        <th class="px-4 py-2 border" th:text="#{status}">상태</th>
+                        <th class="px-4 py-2 border" th:text="#{actions}">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,11 +44,11 @@
                         <td class="border px-4 py-2" th:text="${wp.status}"></td>
                         <td class="border px-4 py-2 space-x-2">
                             <a th:href="@{/workpermit/workpermitForm/{siteId}/{permitId}(siteId=${wp.siteId},permitId=${wp.permitId})}"
-                               class="px-2 py-1 text-yellow-800 border border-yellow-500 rounded hover:bg-yellow-50 text-xs">수정</a>
+                               class="px-2 py-1 text-yellow-800 border border-yellow-500 rounded hover:bg-yellow-50 text-xs" th:text="#{edit}">수정</a>
                             <form th:action="@{/workpermit/delete/{siteId}/{permitId}(siteId=${wp.siteId},permitId=${wp.permitId})}" method="post" class="inline"
                                   th:onsubmit="return confirm('정말 삭제하시겠습니까?');">
                                 <button type="submit"
-                                        class="px-2 py-1 text-red-800 border border-red-500 rounded hover:bg-red-50 text-xs">삭제</button>
+                                        class="px-2 py-1 text-red-800 border border-red-500 rounded hover:bg-red-50 text-xs" th:text="#{delete}">삭제</button>
                             </form>
                         </td>
                     </tr>

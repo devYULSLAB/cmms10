@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Service
 public class MemoService {
-    
+
     private final MemoRepository memoRepository;
     private final MemoCommentRepository memoCommentRepository;
 
@@ -29,11 +29,11 @@ public class MemoService {
         this.memoRepository = memoRepository;
         this.memoCommentRepository = memoCommentRepository;
     }
-    
+
     /**
      * 메모를 저장합니다.
      * 
-     * @param memo 메모
+     * @param memo     메모
      * @param username 사용자 ID
      * @return 저장된 메모
      */
@@ -58,7 +58,7 @@ public class MemoService {
             memo.setUpdateBy(username);
             memo.setUpdateDate(now);
         }
-        
+
         return memoRepository.save(memo);
     }
 
@@ -66,35 +66,34 @@ public class MemoService {
      * 페이징 처리된 메모 목록을 조회합니다.
      * 
      * @param companyId 회사 ID
-     * @param siteId 사이트 ID (기본)
-     * @param pageable 페이징 정보
+     * @param pageable  페이징 정보
      * @return 페이징된 메모 목록
      */
-    public Page<Memo> getMemoListPage(String companyId, String siteId, Pageable pageable) {
-        return memoRepository.findByCompanyIdAndSiteId(companyId, siteId, pageable);
+    public Page<Memo> getMemoByCompanyId(String companyId, Pageable pageable) {
+        return memoRepository.findByCompanyId(companyId, pageable);
     }
 
     /**
      * 페이징 처리된 메모 목록을 조회합니다.
      * 
      * @param companyId 회사 ID
-     * @param memoName 메모 이름 (부분 일치)
-     * @param pageable 페이징 정보
+     * @param memoName  메모 이름 (부분 일치)
+     * @param pageable  페이징 정보
      * @return 페이징된 메모 목록
      */
-    public Page<Memo> getMemoListPagebymemoName(String companyId, String memoName, Pageable pageable) {
+    public Page<Memo> getMemoByCompanyIdAndMemoName(String companyId, String memoName, Pageable pageable) {
         return memoRepository.findByCompanyIdAndMemoNameContaining(companyId, memoName, pageable);
     }
 
-        /**
+    /**
      * 페이징 처리된 메모 목록을 조회합니다.
      * 
      * @param companyId 회사 ID
-     * @param createBy 메모 생성자 (부분 일치)
-     * @param pageable 페이징 정보
+     * @param createBy  메모 생성자 (부분 일치)
+     * @param pageable  페이징 정보
      * @return 페이징된 메모 목록
      */
-    public Page<Memo> getMemoListPagebyCreateBy(String companyId, String createBy, Pageable pageable) {
+    public Page<Memo> getMemoByCompanyIdAndCreateBy(String companyId, String createBy, Pageable pageable) {
         return memoRepository.findByCompanyIdAndCreateBy(companyId, createBy, pageable);
     }
 
@@ -102,49 +101,46 @@ public class MemoService {
      * 메모를 조회합니다.
      * 
      * @param companyId 회사 ID
-     * @param memoId 메모 ID
+     * @param memoId    메모 ID
      * @return 메모
      */
-    public Optional<Memo> getMemo(String companyId, String memoId) {
-        Optional<Memo> memoOpt = memoRepository.findByCompanyIdAndMemoId(companyId, memoId);
-        
+    public Memo getMemoByCompanyIdAndMemoId(String companyId, String memoId) {
+        Memo memo = memoRepository.findByCompanyIdAndMemoId(companyId, memoId)
+                .orElseThrow(() -> new RuntimeException("Memo not found: " + memoId));
+
         // 조회된 메모가 있으면 조회수 증가
-        memoOpt.ifPresent(memo -> {
-            memo.setViewCount(memo.getViewCount() + 1);
-            memoRepository.save(memo);
-        });
-        
-        return memoOpt;
+        memo.setViewCount(memo.getViewCount() + 1);
+        memoRepository.save(memo);
+
+        return memo;
     }
 
     /**
      * 메모를 삭제합니다.
      * 
      * @param companyId 회사 ID
-     * @param memoId 메모 ID
-     * @param username 사용자 ID
+     * @param memoId    메모 ID
+     * @param username  사용자 ID
      */
     @Transactional
     public void deleteMemo(String companyId, String memoId) {
-        Optional<Memo> memoOpt = memoRepository.findByCompanyIdAndMemoId(companyId, memoId);
-        if (memoOpt.isPresent()) {
-            // 1. First delete all related comments
-            List<MemoComment> comments = memoCommentRepository
+        Memo memo = memoRepository.findByCompanyIdAndMemoId(companyId, memoId)
+                .orElseThrow(() -> new RuntimeException("Memo not found: " + memoId));
+
+        // 1. First delete all related comments
+        List<MemoComment> comments = memoCommentRepository
                 .findByCompanyIdAndMemoIdOrderBySortOrderAsc(companyId, memoId);
-            memoCommentRepository.deleteAll(comments);
-            
-            // 2. Then delete the memo
-            memoRepository.delete(memoOpt.get());
-        } else {
-            throw new RuntimeException("Memo not found with ID: " + memoId);
-        }
+        memoCommentRepository.deleteAll(comments);
+
+        // 2. Then delete the memo
+        memoRepository.delete(memo);
     }
 
     /**
      * 메모 댓글 목록을 조회합니다.
      * 
      * @param companyId 회사 ID
-     * @param memoId 메모 ID
+     * @param memoId    메모 ID
      * @return 댓글 목록
      */
     public List<MemoComment> getMemoCommentList(String companyId, String memoId) {
@@ -160,9 +156,8 @@ public class MemoService {
     @Transactional
     public MemoComment saveMemoComment(MemoComment comment) {
         String maxCommentId = memoCommentRepository.findMaxCommentIdByCompanyIdAndMemoId(
-            comment.getCompanyId(),
-            comment.getMemoId()
-        );
+                comment.getCompanyId(),
+                comment.getMemoId());
         int newCommentId = (maxCommentId == null) ? 1 : Integer.parseInt(maxCommentId) + 1;
         comment.setCommentId(String.valueOf(newCommentId));
         comment.setSortOrder(newCommentId); // 댓글 ID를 정렬 순서로 사용
@@ -173,8 +168,7 @@ public class MemoService {
     @Transactional
     public void deleteMemoComment(String companyId, String memoId, String commentId) {
         Optional<MemoComment> commentOpt = memoCommentRepository.findByCompanyIdAndMemoIdAndCommentId(
-            companyId, memoId, commentId
-        );
+                companyId, memoId, commentId);
         if (commentOpt.isPresent()) {
             memoCommentRepository.delete(commentOpt.get());
         } else {

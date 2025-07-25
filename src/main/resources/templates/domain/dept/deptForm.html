@@ -8,7 +8,7 @@
 <body>
 <div layout:fragment="content">
     <div class="max-w-xl mx-auto mt-8 p-6 bg-white shadow rounded">
-        <h2 class="text-2xl font-bold mb-6" th:text="${dept.deptId == null ? 'Create Dept' : 'Edit Dept'}"></h2>
+        <h2 class="text-2xl font-bold mb-6" th:text="${dept.deptId == null ? '부서코드 생성' : '부서코드 수정'}">부서코드</h2>
 
         <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
             <span th:text="${successMessage}"></span>
@@ -24,39 +24,40 @@
             <input type="hidden" th:field="*{createDate}" />
             <input type="hidden" th:field="*{updateBy}" />
             <input type="hidden" th:field="*{updateDate}" />
+            
             <input type="hidden" name="mode" th:value="${mode}" />
 
             <div>
-                <label for="deptId" class="block mb-1 font-medium">Dept ID</label>
+                <label for="deptId" class="block text-sm font-medium text-gray-700" th:text="#{deptId}">부서코드</label>
                 <input type="text" id="deptId" th:field="*{deptId}"
-                       class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+                       class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                        th:readonly="${dept.deptId != null}" required>
             </div>
 
             <div>
-                <label for="deptName" class="block mb-1 font-medium">Dept Name</label>
+                <label for="deptName" class="block text-sm font-medium text-gray-700" th:text="#{deptName}">부서명</label>
                 <input type="text" id="deptName" th:field="*{deptName}"
-                       class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+                       class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                        required>
             </div>
 
             <div>
-                <label for="parentDeptId" class="block mb-1 font-medium">Parent Dept ID</label>
+                <label for="parentDeptId" class="block text-sm font-medium text-gray-700" th:text="#{deptParentId}">상위부서</label>
                 <input type="text" id="parentDeptId" th:field="*{parentDeptId}"
-                       class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300">
+                       class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300">
             </div>
 
             <div>
-                <label for="note" class="block mb-1 font-medium">Note</label>
+                <label for="note" class="block text-sm font-medium text-gray-700" th:text="#{note}">비고</label>
                 <textarea id="note" th:field="*{note}" rows="2"
-                          class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"></textarea>
+                          class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"></textarea>
             </div>
 
             <div class="flex space-x-2 mt-4">
                 <button type="submit"
-                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>
+                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" th:text="#{save}">저장</button>
                 <a th:href="@{/dept/deptList}"
-                   class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Cancel</a>
+                   class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400" th:text="#{cancel}">취소/목록</a>
             </div>
         </form>
     </div>

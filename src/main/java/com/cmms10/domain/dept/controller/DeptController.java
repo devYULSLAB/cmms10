@@ -29,7 +29,9 @@ public class DeptController {
     @GetMapping("/deptForm")
     public String form(Model model, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
-        model.addAttribute("dept", new Dept());
+        Dept dept = new Dept();
+        dept.setCompanyId(companyId);
+        model.addAttribute("dept", dept);
         model.addAttribute("mode", "new");
         return "domain/dept/deptForm";
     }

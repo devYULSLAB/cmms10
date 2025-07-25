@@ -1,84 +1,87 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/defaultLayout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/defaultLayout}">
+
 <head>
     <title>Work Orders</title>
 </head>
+
 <body>
 
-<div layout:fragment="content">
-    <div class="max-w-6xl mx-auto mt-8 space-y-6">
+    <div layout:fragment="content">
+        <div class="max-w-6xl mx-auto mt-8 space-y-6">
 
-        <h2 class="text-2xl font-bold">Work Orders</h2>
-        <div>
-            <a th:href="@{/workorder/workorderForm}" 
-               class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
-               <i class="fas fa-plus mr-2"></i>Add New Work Order
-            </a>
+            <h2 class="text-2xl font-bold" th:text="#{workorderList}">작업 오더 목록</h2>
+            <div>
+                <a th:href="@{/workorder/workorderForm}"
+                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    <span th:text="#{add}">Add Work Order</span>
+                </a>
+            </div>
+
+            <div class="border rounded-lg shadow overflow-x-auto mt-4">
+                <table class="min-w-full text-sm text-left">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-2 border" th:text="#{orderId}">Order ID</th>
+                            <th class="px-4 py-2 border" th:text="#{orderName}">Order Name</th>
+                            <th class="px-4 py-2 border" th:text="#{plantId}">Plant ID</th>
+                            <th class="px-4 py-2 border" th:text="#{jobType}">Job Type</th>
+                            <th class="px-4 py-2 border" th:text="#{scheduleDate}">Schedule Date</th>
+                            <th class="px-4 py-2 border" th:text="#{siteId}">Site ID</th>
+                            <th class="px-4 py-2 border" th:text="#{action}">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="wo : ${workorders.content}" class="hover:bg-gray-50">
+                            <td class="border px-4 py-2">
+                                <a th:href="@{/workorder/workorderDetail/{orderId}(orderId=${wo.orderId})}"
+                                    class="text-blue-700 hover:underline" th:text="${wo.orderId}"></a>
+                            </td>
+                            <td class="border px-4 py-2" th:text="${wo.orderName}"></td>
+                            <td class="border px-4 py-2" th:text="${wo.plantId}"></td>
+                            <td class="border px-4 py-2" th:text="${wo.jobType}"></td>
+                            <td class="border px-4 py-2"
+                                th:text="${wo.scheduleDate != null ? #temporals.format(wo.scheduleDate, 'yyyy-MM-dd HH:mm') : ''}">
+                            </td>
+                            <td class="border px-4 py-2" th:text="${wo.siteId}"></td>
+                            <td class="border px-4 py-2 space-x-2">
+                                <a th:href="@{/workorder/workorderForm/{siteId}/{orderId}(siteId=${wo.siteId},orderId=${wo.orderId})}"
+                                    class="px-2 py-1 text-yellow-800 border border-yellow-500 rounded hover:bg-yellow-50 text-xs"
+                                    th:text="#{edit}">수정</a>
+                                <form
+                                    th:action="@{/workorder/workorderDelete/{siteId}/{orderId}(siteId=${wo.siteId},orderId=${wo.orderId})}"
+                                    method="post" class="inline">
+                                    <button type="submit"
+                                        class="px-2 py-1 text-red-800 border border-red-500 rounded hover:bg-red-50 text-xs"
+                                        th:text="#{delete}">삭제</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div th:if="${workorders.totalPages > 0}" class="flex justify-center mt-4 space-x-1">
+                <a th:href="@{/workorder/workorderList(companyId=${companyId}, siteId=${siteId}, page=${workorders.number - 1}, size=${workorders.size})}"
+                    th:classappend="${workorders.first ? 'pointer-events-none opacity-50' : ''}"
+                    class="px-3 py-1 border rounded hover:bg-gray-100 text-sm">Previous</a>
+
+                <a th:each="i : ${#numbers.sequence(0, workorders.totalPages - 1)}"
+                    th:href="@{/workorder/workorderList(companyId=${companyId}, siteId=${siteId}, page=${i}, size=${workorders.size})}"
+                    th:text="${i + 1}"
+                    th:classappend="${i == workorders.number ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}"
+                    class="px-3 py-1 border rounded text-sm"></a>
+
+                <a th:href="@{/workorder/workorderList(companyId=${companyId}, siteId=${siteId}, page=${workorderPage.number + 1}, size=${workorderPage.size})}"
+                    th:classappend="${workorders.last ? 'pointer-events-none opacity-50' : ''}"
+                    class="px-3 py-1 border rounded hover:bg-gray-100 text-sm">Next</a>
+            </div>
+
         </div>
-
-        <div class="border rounded-lg shadow overflow-x-auto mt-4">
-            <table class="min-w-full text-sm text-left">
-                <thead class="bg-gray-100">
-                    <tr>
-                        <th class="px-4 py-2 border">Order ID</th>
-                        <th class="px-4 py-2 border">Order Name</th>
-                        <th class="px-4 py-2 border">Plant ID</th>
-                        <th class="px-4 py-2 border">Job Type</th>
-                        <th class="px-4 py-2 border">Schedule Date</th>
-                        <th class="px-4 py-2 border">Site ID</th>
-                        <th class="px-4 py-2 border">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="wo : ${workorderPage.content}" class="hover:bg-gray-50">
-                        <td class="border px-4 py-2">
-                            <a th:href="@{/workorder/workorderDetail/{orderId}(orderId=${wo.orderId})}"
-                               class="text-blue-700 hover:underline"
-                               th:text="${wo.orderId}"></a>
-                        </td>
-                        <td class="border px-4 py-2" th:text="${wo.orderName}"></td>
-                        <td class="border px-4 py-2" th:text="${wo.plantId}"></td>
-                        <td class="border px-4 py-2" th:text="${wo.jobType}"></td>
-                        <td class="border px-4 py-2" th:text="${wo.scheduleDate != null ? #temporals.format(wo.scheduleDate, 'yyyy-MM-dd HH:mm') : ''}"></td>
-                        <td class="border px-4 py-2" th:text="${wo.siteId}"></td>
-                        <td class="border px-4 py-2 space-x-2">
-                            <a th:href="@{/workorder/workorderForm/{orderId}(orderId=${wo.orderId})}"
-                               class="px-2 py-1 text-yellow-800 border border-yellow-500 rounded hover:bg-yellow-50 text-xs">Edit</a>
-                            <form th:action="@{/workorder/workorderDelete/{orderId}(orderId=${wo.orderId})}" method="post" class="inline"
-                                  th:onsubmit="return confirm('Are you sure you want to delete this work order?');">
-                                <button type="submit"
-                                        class="px-2 py-1 text-red-800 border border-red-500 rounded hover:bg-red-50 text-xs">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    <tr th:if="${workorderPage.empty}">
-                        <td colspan="7" class="text-center px-4 py-2 border">No work orders found.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Pagination -->
-        <div th:if="${workorderPage.totalPages > 0}" class="flex justify-center mt-4 space-x-1">
-            <a th:href="@{/workorders/list(companyId=${companyId}, siteId=${siteId}, page=${workorderPage.number - 1}, size=${workorderPage.size})}"
-               th:classappend="${workorderPage.first ? 'pointer-events-none opacity-50' : ''}"
-               class="px-3 py-1 border rounded hover:bg-gray-100 text-sm">Previous</a>
-
-            <a th:each="i : ${#numbers.sequence(0, workorderPage.totalPages - 1)}"
-               th:href="@{/workorders/list(companyId=${companyId}, siteId=${siteId}, page=${i}, size=${workorderPage.size})}"
-               th:text="${i + 1}"
-               th:classappend="${i == workorderPage.number ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}"
-               class="px-3 py-1 border rounded text-sm"></a>
-
-            <a th:href="@{/workorders/list(companyId=${companyId}, siteId=${siteId}, page=${workorderPage.number + 1}, size=${workorderPage.size})}"
-               th:classappend="${workorderPage.last ? 'pointer-events-none opacity-50' : ''}"
-               class="px-3 py-1 border rounded hover:bg-gray-100 text-sm">Next</a>
-        </div>
-
     </div>
-</div>
 
 </body>
+
 </html>

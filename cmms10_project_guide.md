@@ -43,8 +43,8 @@ Thymeleaf, tailwind css 적용
 ## 모듈별 기능 구현
 
 * Domain : 기준 정보 CRUD 
-* commonCode : 코드 값 관리 CRUD
-  (참고) codeType의 설정값: JOBTP-job type, ASSET-asset type, DEPRE-deperciation type 
+* commonCode : 코드 값 관리 CRUD+detail(출력용)
+  (참고) codeType의 설정값: JOBTP-job type, ASSET-asset type, DEPRE-deperciation type, PERMT-permitType 
 * PlantMaster : 설비 기준정보 관리. Tag/PSM 등 관리대상 여부 체크. plamtMasterList에서 복수의 plantId를 선택 후 QR 코드 출력 기능 제공하여 스티커 프린터에서 출력 후 설비에 부착할 수 있도록 함(Inspection,workorder에 활용)
 * InventoryMaster : 재고 기준정보 관리. plantMaster대비 이동이 더 빈번하고 출력빈도가 높을 것으로 예상되어 바코드 형태로 출력 기능 제공 
 * Inspection : 예방점검. 등록 후 status 필드를 통해 상태값관리(저장-->승인). 일상점검에 해당되므로 자료를 DB화 하는데 의미가 있음. 모바일에서 QR 스캔 후 입력이 가능하도록 기능 제공 
@@ -56,7 +56,7 @@ Thymeleaf, tailwind css 적용
 
 ## 다국어 구현
 
-* 한국어와 영어를 기본 구현하고 resources/messages\_en.properties/messages\_ko.properties
+* 한국어와 영어를 기본 구현하고 resources/messages\_en.properties/messages\_ko.properties : messages.properties를 유지해야 작동함 
 
   ## Template 구조
 
@@ -122,7 +122,8 @@ Thymeleaf, tailwind css 적용
 
 * 수동: companyId, siteId, deptId, username, codeId
 * 자동 숫자 일련번호 : scheduleId, itemId, memoId, commentId
-* 자동이나 채번규칙 있음 : plantId(1로 시작,10자리 숫자)  , inventoryId(2로 시작,10자리 숫자), inspectionId(3로 시작,10자리 숫자), workPermit(9로 시작,10자리),workorderId(5로 시작,10자리 숫자), fileGroupId(테이블 이름 + YYMM + 5자리번호)
+* 자동이나 채번규칙 있음 : 
+  plantId(1로 시작,10자리 숫자)  , inventoryId(2로 시작,10자리 숫자), inspectionId(3로 시작,10자리 숫자), workPermit(9로 시작,10자리),workorderId(5로 시작,10자리 숫자), fileGroupId(테이블 이름 + YYMM + 5자리번호)
   단, 자동채번은 companyId를 기준으로 Max 값을 선택한다. 즉, site 단위에서 키 값이 중복되지 않도록 한다. item 레벨에서 siteId를 PK로 관리하지 않으므로 중복될 수 있기 때문이다. 
 
   ## 보안 및 로깅

@@ -2,8 +2,10 @@ package com.cmms10.domain.user.controller;
 
 import com.cmms10.domain.user.entity.User;
 import com.cmms10.domain.dept.entity.Dept;
+import com.cmms10.domain.roleAuth.entity.RoleAuth;
 import com.cmms10.domain.dept.service.DeptService;
 import com.cmms10.domain.user.service.UserService;
+import com.cmms10.domain.roleAuth.service.RoleAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +17,13 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
-    private final DeptService deptService; // 부서 목록을 위한 서비스
+    private final DeptService deptService;
+    private final RoleAuthService roleAuthService;
 
-    public UserController(UserService userService, DeptService deptService) {
+    public UserController(UserService userService, DeptService deptService, RoleAuthService roleAuthService) {
         this.userService = userService;
         this.deptService = deptService;
+        this.roleAuthService = roleAuthService;
     }
 
     @GetMapping("/userList")
@@ -33,11 +37,16 @@ public class UserController {
     @GetMapping("/userForm")
     public String form(Model model, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
-        // 세션에서 companyId를 가져와서 사이트와 부서 목록을 조회
-        List <Dept> deptList = deptService.getAllDeptsByCompanyId(companyId);
-        model.addAttribute("deptList", deptList);
         // 신규 사용자 등록을 위한 User 객체 생성
         User user = new User();
+        user.setCompanyId(companyId);
+        // 부서 목록을 조회
+        List<Dept> deptList = deptService.getAllDeptsByCompanyId(companyId);
+        model.addAttribute("deptList", deptList);
+        // 권한 목록을 조회
+        List<RoleAuth> roleAuthList = roleAuthService.getAllRoleAuths();
+        model.addAttribute("roleAuthList", roleAuthList);
+
         model.addAttribute("user", user);
         model.addAttribute("mode", "new");
         return "domain/user/userForm";
@@ -45,11 +54,14 @@ public class UserController {
 
     @GetMapping("/userForm/{companyId}/{username}")
     public String editForm(@PathVariable String companyId,
-                       @PathVariable String username,
-                       Model model, HttpSession session) {
-        // 세션에서 companyId를 가져와서 부서 목록을 조회
-        List <Dept> deptList = deptService.getAllDeptsByCompanyId(companyId);
+            @PathVariable String username,
+            Model model, HttpSession session) {
+        // 부서 목로을 조회
+        List<Dept> deptList = deptService.getAllDeptsByCompanyId(companyId);
         model.addAttribute("deptList", deptList);
+        // 권한 목록을 조회
+        List<RoleAuth> roleAuthList = roleAuthService.getAllRoleAuths();
+        model.addAttribute("roleAuthList", roleAuthList);
 
         User user = userService.getUserByCompanyIdAndUsername(companyId, username);
         model.addAttribute("user", user);

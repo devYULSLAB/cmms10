@@ -29,6 +29,10 @@ public class Inspection {
     private String companyId;
 
     @Id
+    @Column(name = "siteId", length = 5)
+    private String siteId;
+
+    @Id
     @Column(name = "inspectionId", length = 10, nullable = false)
     private String inspectionId;
 
@@ -41,15 +45,12 @@ public class Inspection {
     @Column(name = "jobType", length = 5)
     private String jobType;
 
-    @Column(name = "dept", length = 5)
-    private String dept;
+    @Column(name = "deptId", length = 5)
+    private String deptId;
 
     @Lob // For TEXT type
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
-
-    @Column(name = "siteId", length = 5)
-    private String siteId;
 
     @Column(name = "fileGroupId", length = 10)
     private String fileGroupId;
