@@ -3,91 +3,119 @@
     layout:decorate="~{layout/defaultLayout}">
 
 <head>
-    <title>Inventory In/Out</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable@13.0.0/dist/handsontable.full.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/handsontable@13.0.0/dist/handsontable.full.min.js"></script>
+    <title th:text="#{inventoryIoHistory}">재고 입출고 이력</title>
+    <link rel="stylesheet" th:href="@{/webjars/handsontable/11.1.0/dist/handsontable.full.min.css}" />
+    <script th:src="@{/webjars/handsontable/11.1.0/dist/handsontable.full.min.js}"></script>
 </head>
 
 <body>
     <div layout:fragment="content">
-        <div class="max-w-6xl mx-auto mt-6">
+        <div class="max-w-6xl mx-auto p-4">
 
-            <h2 class="text-2xl font-bold mb-4" th:text="#{inventoryInOutManagement}">Inventory In/Out Management</h2>
+            <h2 class="text-2xl font-bold mb-4" th:text="#{inventoryIoHistory}">재고 입출고 이력</h2>
 
-            <div id="inventoryTable" class="mb-6"></div>
+            <!-- 숨겨진 필드: 회사 ID -->
+            <input type="hidden" id="companyId" th:value="${companyId}" />
 
-            <div class="flex gap-3">
-                <button id="saveBtn" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            <div id="hot"></div>
+
+            <div class="mt-6 flex justify-end space-x-3">
+                <button id="saveBtn"
+                    class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     th:text="#{save}">저장</button>
-                <a th:href="@{/inventoryMaster/inventoryMasterList(companyId=${companyId}, siteId=${siteId})}"
-                    class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" th:text="#{inventoryList}">목록</a>
             </div>
         </div>
     </div>
 
-    <th:block layout:fragment="page-js">
-        <script>
-            const container = document.getElementById('inventoryTable');
-            const hot = new Handsontable(container, {
-                data: [],
-                colHeaders: ['Date', 'In/Out', 'Inventory ID', 'Inventory Name', 'Qty', 'Unit Price', 'Total Value', 'Note'],
-                columns: [
-                    { type: 'date', dateFormat: 'YYYY-MM-DD' },
-                    { type: 'dropdown', source: ['I', 'O'] },
-                    { type: 'text' },
-                    { type: 'text', readOnly: true },
-                    { type: 'numeric' },
-                    { type: 'numeric' },
-                    { type: 'numeric', readOnly: true },
-                    { type: 'text' }
-                ],
-                stretchH: 'all',
-                rowHeaders: true,
-                minSpareRows: 5,
-                contextMenu: true,
-                afterChange: function (changes, source) {
-                    if (source === 'edit' || source === 'paste') {
-                        changes.forEach(([row, prop, oldValue, newValue]) => {
-                            if (prop === 4 || prop === 5) { // Qty or Unit Price changed
-                                const qty = hot.getDataAtCell(row, 4) || 0;
-                                const unitPrice = hot.getDataAtCell(row, 5) || 0;
-                                hot.setDataAtCell(row, 6, qty * unitPrice);
-                            }
-                        });
-                    }
-                }
-            });
+    <script th:inline="javascript">
+        const container = document.getElementById('hot');
+        const ctx = /*[[${#httpServletRequest.contextPath}]]*/ '';
+        const companyId = document.getElementById('companyId').value;
 
-            document.getElementById('saveBtn').addEventListener('click', () => {
-                const rows = hot.getData().filter(r => r[2]);
-                const payload = rows.map(r => ({
-                    ioDate: r[0],
-                    ioType: r[1],
-                    inventoryId: r[2],
-                    qty: r[4],
-                    unitPrice: r[5],
-                    totalValue: r[6],
-                    note: r[7]
-                }));
-                fetch('/inventoryIo/InventoryIoSave', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                })
-                    .then(res => res.text())
-                    .then(msg => {
-                        if (msg === 'success') {
-                            location.reload();
-                        } else if (msg.startsWith('lock:')) {
-                            alert(msg.replace('lock:', '').trim());
-                        } else {
-                            alert('Error: ' + msg);
+        const hot = new Handsontable(container, {
+            data: [],
+            colHeaders: ['입출고일자', '유형', '사업장', '재고ID', '재고명', '수량', '단가', '금액', '비고'],
+            columns: [
+                { data: 'ioDate', type: 'date', dateFormat: 'YYYY-MM-DD' },
+                {
+                    data: 'ioType', type: 'dropdown',
+                    source: ['IN', 'OUT']
+                },
+                { data: 'siteId', type: 'text' },
+                { data: 'inventoryId', type: 'text' },
+                { data: 'inventoryName', readOnly: true },
+                { data: 'qty', type: 'numeric' },
+                { data: 'unitPrice', type: 'numeric' },
+                { data: 'totalValue', type: 'numeric', readOnly: true },
+                { data: 'note', type: 'text' }
+            ],
+            stretchH: 'all',
+            rowHeaders: true,
+            minSpareRows: 5,
+            licenseKey: 'non-commercial-and-evaluation',
+
+            afterChange: function (changes, source) {
+                if (source === 'edit' && changes) {
+                    changes.forEach(([row, prop, oldValue, newValue]) => {
+                        if (prop === 'inventoryId') {
+                            const inventoryId = newValue;
+                            if (inventoryId) {
+                                fetch(`${ctx}/inventoryMaster/api/nameById?companyId=${companyId}&inventoryId=${inventoryId}`)
+                                    .then(res => res.ok ? res.json() : Promise.reject(res))
+                                    .then(data => {
+                                        hot.setDataAtCell(row, 4, data.inventoryName || 'Not found');
+                                    })
+                                    .catch(() => {
+                                        hot.setDataAtCell(row, 4, 'Invalid ID');
+                                    });
+                            }
                         }
-                    })
-                    .catch(err => alert('Error: ' + err));
-            });
-        </script>
-    </th:block>
+
+                        if (prop === 'qty' || prop === 'unitPrice') {
+                            const qty = hot.getDataAtRowProp(row, 'qty') || 0;
+                            const price = hot.getDataAtRowProp(row, 'unitPrice') || 0;
+                            hot.setDataAtRowProp(row, 'totalValue', qty * price);
+                        }
+                    });
+                }
+            }
+        });
+
+        document.getElementById('saveBtn').addEventListener('click', () => {
+            const rows = hot.getData().filter(r => r[3]); // inventoryId 존재하는 행만 저장
+
+            const payload = rows.map(r => ({
+                ioDate: r[0],
+                ioType: r[1],
+                siteId: r[2],
+                inventoryId: r[3],
+                qty: r[5],
+                unitPrice: r[6],
+                totalValue: r[7],
+                note: r[8]
+            }));
+
+            fetch(`${ctx}/inventoryIo/InventoryIoSave`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+                .then(res => res.text())
+                .then(text => {
+                    if (text.startsWith('lock:')) {
+                        alert('잠금 상태로 저장할 수 없습니다.');
+                    } else if (text === 'success') {
+                        alert('저장되었습니다.');
+                        location.reload();
+                    } else {
+                        alert('저장 중 오류가 발생했습니다: ' + text);
+                    }
+                })
+                .catch(err => {
+                    alert('서버 오류: ' + err);
+                });
+        });
+    </script>
 </body>
 
 </html>

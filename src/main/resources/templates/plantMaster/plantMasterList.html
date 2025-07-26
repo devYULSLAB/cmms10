@@ -88,26 +88,6 @@
                     </li>
                 </ul>
             </nav>
-
-            <!-- 하단 버튼 -->
-            <div class="mt-6 flex justify-end space-x-3">
-                <a th:href="@{/plantMaster/plantMasterList}"
-                    class="px-4 py-2 bg-gray-300 text-gray-800 font-semibold rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
-                    목록으로
-                </a>
-                <a th:href="@{/plantMaster/plantMasterForm(plantId=${plantMaster.plantId})}"
-                    class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                    수정
-                </a>
-                <form th:action="@{/plantMaster/plantMasterDelete/{plantId}(plantId=${plantMaster.plantId})}"
-                    method="post" class="inline">
-                    <button type="submit"
-                        class="px-4 py-2 bg-red-600 text-white font-semibold rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                        onclick="return confirm('정말 삭제하시겠습니까?');">
-                        삭제
-                    </button>
-                </form>
-            </div>
         </div>
     </div>
 

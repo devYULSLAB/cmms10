@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import java.util.List;
 
 /**
  * cmms10 - InventoryIoService
@@ -25,18 +26,20 @@ public class InventoryIoService {
     private final InventoryHistoryRepository inventoryHistoryRepository;
     private final InventoryStockRepository inventoryStockRepository;
 
-    public InventoryIoService(InventoryHistoryRepository inventoryHistoryRepository, InventoryStockRepository inventoryStockRepository) {
+    public InventoryIoService(InventoryHistoryRepository inventoryHistoryRepository,
+            InventoryStockRepository inventoryStockRepository) {
         this.inventoryHistoryRepository = inventoryHistoryRepository;
         this.inventoryStockRepository = inventoryStockRepository;
     }
 
     /**
      * 재고 입출고 처리 (Pessimistic Lock 적용)
-     * @param ioList 입출고 내역 리스트
+     * 
+     * @param ioList   입출고 내역 리스트
      * @param username 처리자
      */
     @Transactional
-    public void processInventoryIo(Page<InventoryHistory> ioList, String username) {
+    public void processInventoryIo(List<InventoryHistory> ioList, String username) {
         for (InventoryHistory io : ioList) {
             try {
                 // 재고(PK: companyId, siteId, locId, inventoryId) 행을 Pessimistic Lock으로 조회
@@ -72,7 +75,7 @@ public class InventoryIoService {
      * 재고 입출고 이력 조회
      */
     @Transactional(readOnly = true)
-    public Page<InventoryHistory> getInventoryHistory(String companyId, String inventoryId, Pageable pageable) {
-        return inventoryHistoryRepository.findByCompanyIdAndInventoryIdOrderByIoDateDesc(companyId, inventoryId, pageable);
+    public List<InventoryHistory> getInventoryHistory(String companyId, String inventoryId) {
+        return inventoryHistoryRepository.findByCompanyIdAndInventoryIdOrderByIoDateDesc(companyId, inventoryId);
     }
-} 
+}

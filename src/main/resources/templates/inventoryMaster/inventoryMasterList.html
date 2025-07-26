@@ -13,7 +13,6 @@
             <h2 class="text-2xl font-bold mb-4" th:text="#{inventoryMasterList}">재고 마스터</h2>
             <p class="mb-4 text-gray-600">
                 <span th:text="#{companyId}">회사 ID:</span> <span th:text="${companyId}" class="font-medium"></span> |
-                <span th:text="#{siteId}">사이트 ID:</span> <span th:text="${siteId}" class="font-medium"></span>
             </p>
 
             <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
@@ -48,23 +47,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="item : ${inventoryPage.content}" class="hover:bg-gray-50">
+                        <tr th:each="item : ${inventories.content}" class="hover:bg-gray-50">
                             <td class="px-4 py-2 border text-blue-600 underline cursor-pointer">
-                                <a th:href="@{/inventoryMaster/inventoryMasterDetail/{inventoryId}(inventoryId=${item.inventoryId}, companyId=${item.companyId})}"
-                                    th:text="${item.inventoryId}" th:text="#{inventoryId}">재고 ID</a>
+                                <a th:href="@{/inventoryMaster/inventoryMasterDetail/{inventoryId}(inventoryId=${item.inventoryId})}"
+                                    th:text="${item.inventoryId}">재고 ID</a>
                             </td>
                             <td class="px-4 py-2 border" th:text="${item.inventoryName}"></td>
                             <td class="px-4 py-2 border" th:text="${item.inventoryLoc}"></td>
                             <td class="px-4 py-2 border" th:text="${item.assetType}"></td>
                             <td class="px-4 py-2 border" th:text="${item.siteId}"></td>
                             <td class="px-4 py-2 border flex flex-wrap gap-2">
-                                <a th:href="@{/inventoryMaster/inventoryMasterForm/{inventoryId}(inventoryId=${item.inventoryId}, companyId=${item.companyId})}"
+                                <a th:href="@{/inventoryMaster/inventoryMasterForm/{inventoryId}(inventoryId=${item.inventoryId})}"
                                     class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-xs"
                                     th:text="#{edit}">
                                     수정
                                 </a>
                                 <form
-                                    th:action="@{/inventoryMaster/inventoryMasterDelete/{inventoryId}(inventoryId=${item.inventoryId}, companyId=${item.companyId}, siteId=${item.siteId})}"
+                                    th:action="@{/inventoryMaster/inventoryMasterDelete/{inventoryId}(inventoryId=${item.inventoryId})}"
                                     method="post">
                                     <button type="submit"
                                         class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-xs"
@@ -79,26 +78,26 @@
             </div>
 
             <!-- Pagination Controls -->
-            <div th:if="${inventoryPage.totalPages > 0}" class="mt-6 flex justify-center">
+            <div th:if="${inventories.totalPages > 0}" class="mt-6 flex justify-center">
                 <ul class="inline-flex border rounded overflow-hidden">
                     <li>
-                        <a th:href="@{/inventoryMaster/inventoryList(companyId=${companyId}, siteId=${siteId}, page=${inventoryPage.number - 1}, size=${inventoryPage.size})}"
-                            th:classappend="${inventoryPage.first ? 'pointer-events-none opacity-50' : ''}"
+                        <a th:href="@{/inventoryMaster/inventoryList(companyId=${companyId}, siteId=${siteId}, page=${inventories.number - 1}, size=${inventories.size})}"
+                            th:classappend="${inventories.first ? 'pointer-events-none opacity-50' : ''}"
                             class="px-3 py-1 bg-white hover:bg-gray-100 border-r">
                             Previous
                         </a>
                     </li>
-                    <li th:each="i : ${#numbers.sequence(0, inventoryPage.totalPages - 1)}">
-                        <a th:href="@{/inventoryMaster/inventoryList(companyId=${companyId}, siteId=${siteId}, page=${i}, size=${inventoryPage.size})}"
+                    <li th:each="i : ${#numbers.sequence(0, inventories.totalPages - 1)}">
+                        <a th:href="@{/inventoryMaster/inventoryList(companyId=${companyId}, siteId=${siteId}, page=${i}, size=${inventories.size})}"
                             th:text="${i + 1}"
-                            th:classappend="${i == inventoryPage.number ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-100'}"
+                            th:classappend="${i == inventories.number ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-100'}"
                             class="px-3 py-1 border-r">
                             1
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/inventoryMaster/inventoryList(companyId=${companyId}, siteId=${siteId}, page=${inventoryPage.number + 1}, size=${inventoryPage.size})}"
-                            th:classappend="${inventoryPage.last ? 'pointer-events-none opacity-50' : ''}"
+                        <a th:href="@{/inventoryMaster/inventoryList(companyId=${companyId}, siteId=${siteId}, page=${inventories.number + 1}, size=${inventories.size})}"
+                            th:classappend="${inventories.last ? 'pointer-events-none opacity-50' : ''}"
                             class="px-3 py-1 bg-white hover:bg-gray-100">
                             Next
                         </a>

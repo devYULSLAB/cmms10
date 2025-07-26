@@ -54,14 +54,12 @@ public class PlantMasterController {
     @GetMapping("/plantMasterForm") // Form path is correct
     public String form(Model model, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
-        // String siteId = (String) session.getAttribute("siteId");
 
         PlantMaster plantMaster = new PlantMaster();
         plantMaster.setCompanyId(companyId);
-        // plantMaster.setSiteId(siteId);
 
-        // Select box 데이터 추가
         model.addAttribute("plantMaster", plantMaster);
+        // Select box 데이터 추가
         model.addAttribute("sites", siteService.getAllSitesByCompanyId(companyId));
         model.addAttribute("funcMasters", funcMasterService.getAllFuncMasters(companyId));
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));

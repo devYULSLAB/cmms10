@@ -8,12 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.domain.Pageable;
+import java.util.List;
 
 public interface InventoryHistoryRepository extends JpaRepository<InventoryHistory, InventoryHistoryId> {
 
     @Query("SELECT MAX(h.historyId) FROM InventoryHistory h WHERE h.companyId = :companyId")
     String findMaxHistoryIdByCompanyId(@Param("companyId") String companyId);
 
-    Page<InventoryHistory> findByCompanyIdAndInventoryIdOrderByIoDateDesc(String companyId, String inventoryId, Pageable pageable);
+    List<InventoryHistory> findByCompanyIdAndInventoryIdOrderByIoDateDesc(String companyId, String inventoryId);
 
 }

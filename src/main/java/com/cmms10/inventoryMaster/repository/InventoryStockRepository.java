@@ -21,7 +21,7 @@ public interface InventoryStockRepository extends JpaRepository<InventoryStock, 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select s from InventoryStock s where s.companyId = :companyId and s.siteId = :siteId and s.locId = :locId and s.inventoryId = :inventoryId")
     Optional<InventoryStock> findWithLock(@Param("companyId") String companyId,
-                                          @Param("siteId") String siteId,
-                                          @Param("locId") String locId,
-                                          @Param("inventoryId") String inventoryId);
+            @Param("siteId") String siteId,
+            @Param("locId") String locId,
+            @Param("inventoryId") String inventoryId);
 }

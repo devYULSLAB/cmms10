@@ -2,14 +2,16 @@ package com.cmms10.inventoryMaster.controller;
 
 import com.cmms10.inventoryMaster.service.InventoryIoService;
 import com.cmms10.inventoryMaster.entity.InventoryHistory;
+import com.cmms10.inventoryMaster.service.InventoryMasterService;
+import com.cmms10.inventoryMaster.entity.InventoryMaster;
 
 import jakarta.servlet.http.HttpSession;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.dao.CannotAcquireLockException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.Map;
+import java.util.List;
 
 /**
  * cmms10 - InventoryIoController
@@ -26,15 +28,10 @@ import org.springframework.data.domain.Pageable;
 public class InventoryIoController {
 
     private final InventoryIoService inventoryIoService;
+    private final InventoryMasterService inventoryMasterService;
 
-    /**
-     * 재고 입출고 저장
-     * @param ioList 입출고 내역 리스트 (InventoryHistory 엔티티 구조 그대로 전달)
-     * @param session 세션
-     * @return 결과 문자열
-     */
     @PostMapping("/InventoryIoSave")
-    public String saveInventoryIo(@RequestBody Page<InventoryHistory> ioList, HttpSession session) {
+    public String saveInventoryIo(@RequestBody List<InventoryHistory> ioList, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
         String username = (String) session.getAttribute("username");
 
@@ -50,8 +47,19 @@ public class InventoryIoController {
     }
 
     @GetMapping("/history/{inventoryId}")
-    public Page<InventoryHistory> getHistory(@PathVariable String inventoryId, HttpSession session, Pageable pageable) {
+    public List<InventoryHistory> getHistory(@PathVariable String inventoryId, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
-        return inventoryIoService.getInventoryHistory(companyId, inventoryId, pageable);
+        return inventoryIoService.getInventoryHistory(companyId, inventoryId);
+    }
+
+    @GetMapping("/inventoryMaster/api/nameById")
+    @ResponseBody
+    public Map<String, String> getInventoryName(
+            @RequestParam String companyId,
+            @RequestParam String inventoryId) {
+
+        InventoryMaster item = inventoryMasterService.getInventoryMasterByCompanyIdAndInventoryId(companyId,
+                inventoryId);
+        return Map.of("inventoryName", item != null ? item.getInventoryName() : "");
     }
 }

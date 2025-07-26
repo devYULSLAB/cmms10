@@ -35,7 +35,7 @@
                             <label for="inventoryId" class="block text-sm font-medium mb-1"
                                 th:text="#{inventoryId}">재고ID:</label>
                             <input type="text" id="inventoryId" class="w-full border rounded px-2 py-1 bg-gray-100"
-                                th:field="*{inventoryId}" readonly required />
+                                th:field="*{inventoryId}" readonly />
                         </div>
                         <div class="col-span-9">
                             <label for="inventoryName" class="block text-sm font-medium mb-1"
@@ -56,7 +56,7 @@
                                 부서:</label>
                             <select id="respDept" th:field="*{respDept}"
                                 class="mt-1 block w-full border border-gray-300 rounded">
-                                <option value="">Select Department</option>
+                                <option value="" th:text="#{select}">-- Select --</option>
                                 <option th:each="dept : ${depts}" th:value="${dept.deptId}"
                                     th:text="${dept.deptId + ' - ' + dept.deptName}"></option>
                             </select>

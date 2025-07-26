@@ -13,25 +13,17 @@
 <body>
     <div layout:fragment="content">
         <div class="px-6 py-4">
-            <!-- 목록으로 버튼 -->
-            <div class="mb-4">
-                <a th:href="@{/memo/memoList}" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
-                    th:text="#{cancel}">
-                    목록으로
-                </a>
-            </div>
-
             <!-- 메모 카드 -->
             <div class="bg-white shadow rounded mb-6">
                 <div class="flex justify-between items-center border-b px-6 py-4 bg-gray-100">
-                    <h2 class="text-lg font-semibold" th:text="${memoName}">메모 제목</h2>
+                    <h2 class="text-lg font-semibold" th:text="${memo.memoName}">메모 제목</h2>
                     <div class="flex gap-2">
-                        <a th:href="@{/memo/memoForm/{id}(id=${memo.memoId})}"
+                        <a th:href="@{/memo/memoForm/{memoId}(memoId=${memo.memoId})}"
                             class="px-3 py-1 bg-yellow-400 hover:bg-yellow-500 text-white text-sm rounded inline-flex items-center"
                             th:text="#{edit}">
                             수정
                         </a>
-                        <form th:action="@{/memo/memoDelete/{id}(id=${memo.memoId})}" method="post">
+                        <form th:action="@{/memo/memoDelete/{memoId}(memoId=${memo.memoId})}" method="post">
                             <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?');"
                                 class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-sm rounded inline-flex items-center"
                                 th:text="#{delete}">
@@ -94,6 +86,13 @@
                         등록된 댓글이 없습니다.
                     </div>
                 </div>
+            </div>
+            <!-- 목록으로 버튼 -->
+            <div class="mb-4">
+                <a th:href="@{/memo/memoList}" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                    th:text="#{cancel}">
+                    목록으로
+                </a>
             </div>
         </div>
     </div>

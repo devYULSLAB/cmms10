@@ -7,21 +7,19 @@
 </head>
 
 <body>
-
     <div layout:fragment="content">
         <div class="max-w-5xl mx-auto p-4">
 
             <h2 class="text-2xl font-bold mb-4" th:text="${plantMaster.plantId == null ? '플랜트 마스터 생성' : '플랜트 마스터 수정'}">
                 Plant Master Form</h2>
+
             <form th:action="@{/plantMaster/plantMasterSave}" th:object="${plantMaster}" method="post"
                 class="space-y-6">
-                <!-- Hidden fields -->
                 <input type="hidden" th:field="*{companyId}" />
 
                 <!-- Basic Information Section -->
                 <div class="form-section border rounded-lg p-4 shadow">
                     <h5 class="text-lg font-semibold mb-4" th:text="#{basicInformation}">기본정보</h5>
-                    <!-- 1st row -->
                     <div class="grid grid-cols-12 gap-4">
                         <div class="col-span-3">
                             <label for="plantId" class="block text-sm font-medium" th:text="#{plantId}">플랜트 ID</label>
@@ -35,8 +33,7 @@
                                 class="w-full border rounded px-2 py-1" />
                         </div>
                     </div>
-                    <!-- 2nd row -->
-                    <div class="grid grid-cols-12 gap-4">
+                    <div class="grid grid-cols-12 gap-4 mt-4">
                         <div class="col-span-3">
                             <label for="siteId" class="block text-sm font-medium" th:text="#{siteId}">사이트 ID</label>
                             <select id="siteId" th:field="*{siteId}" class="w-full border rounded px-2 py-1">
@@ -67,157 +64,156 @@
                             <input type="date" id="installDate" th:field="*{installDate}"
                                 class="w-full border rounded px-2 py-1" />
                         </div>
-
                     </div>
-                    <!-- 3rd row -->
                     <div class="grid grid-cols-12 gap-4 mt-4">
                         <div class="col-span-6">
                             <label for="plantLoc" class="block text-sm font-medium" th:text="#{plantLoc}">위치</label>
                             <input type="text" id="plantLoc" th:field="*{plantLoc}"
                                 class="w-full border rounded px-2 py-1" />
-                        </div>class="w-full border rounded px-2 py-1" />
+                        </div>
                     </div>
                 </div>
-        </div>
-        <!-- Financial Information Section -->
-        <div class="border rounded-lg p-4 shadow">
-            <h5 class="text-lg font-semibold mb-4" th:text="#{financialInformation}">재무정보</h5>
 
-            <div class="grid grid-cols-12 gap-4">
-                <div class="col-span-3">
-                    <label for="assetType" class="block text-sm font-medium" th:text="#{assetType}">자산
-                        유형</label>
-                    <select id="assetType" th:field="*{assetType}" class="w-full border rounded px-2 py-1">
-                        <option value="" th:text="#{select}">자산 유형 선택</option>
-                        <option th:each="asset : ${assetTypes}" th:value="${asset.codeId}"
-                            th:text="${asset.codeId + ' - ' + asset.codeName}"></option>
-                    </select>
-                </div>
-                <div class="col-span-3">
-                    <label for="depreMethod" class="block text-sm font-medium" th:text="#{depreMethod}">감가상각
-                        방법</label>
-                    <select id="depreMethod" th:field="*{depreMethod}" class="w-full border rounded px-2 py-1">
-                        <option value="" th:text="#{select}">감가상각 방법 선택</option>
-                        <option th:each="depre : ${depreMethods}" th:value="${depre.codeId}"
-                            th:text="${depre.codeId + ' - ' + depre.codeName}"></option>
-                    </select>
-                </div>
-                <div class="col-span-3">
-                    <label for="acquitionValue" class="block text-sm font-medium"
-                        th:text="#{acquitionValue}">취득가액</label>
-                    <input type="number" step="0.01" id="acquitionValue" th:field="*{acquitionValue}"
-                        class="w-full border rounded px-2 py-1" />
-                </div>
-                <div class="col-span-3">
-                    <label for="residualValue" class="block text-sm font-medium" th:text="#{residualValue}">잔존가액</label>
-                    <input type="number" step="0.01" id="residualValue" th:field="*{residualValue}"
-                        class="w-full border rounded px-2 py-1" />
-                </div>
-            </div>
-        </div>
-        <!-- Manufacturer Information Section -->
-        <div class="border rounded-lg p-4 shadow">
-            <h5 class="text-lg font-semibold mb-4" th:text="#{manufacturerInformation}">제조사 정보</h5>
-
-            <div class="grid grid-cols-12 gap-4">
-                <div class="col-span-3">
-                    <label for="manufacturer" class="block text-sm font-medium" th:text="#{manufacturer}">제조사</label>
-                    <input type="text" id="manufacturer" th:field="*{manufacturer}"
-                        class="w-full border rounded px-2 py-1" />
-                </div>
-                <div class="col-span-3">
-                    <label for="manufacturerModel" class="block text-sm font-medium"
-                        th:text="#{manufacturerModel}">모델</label>
-                    <input type="text" id="manufacturerModel" th:field="*{manufacturerModel}"
-                        class="w-full border rounded px-2 py-1" />
-                </div>
-                <div class="col-span-3">
-                    <label for="manufacturerSN" class="block text-sm font-medium" th:text="#{manufacturerSN}">시리얼
-                        번호</label>
-                    <input type="text" id="manufacturerSN" th:field="*{manufacturerSN}"
-                        class="w-full border rounded px-2 py-1" />
-                </div>
-                <div class="col-span-3">
-                    <label for="manufacturerSpec" class="block text-sm font-medium"
-                        th:text="#{manufacturerSpec}">규격</label>
-                    <input type="text" id="manufacturerSpec" th:field="*{manufacturerSpec}"
-                        class="w-full border rounded px-2 py-1" />
-                </div>
-            </div>
-        </div>
-        <!-- Operational Flags Information Section -->
-        <div class="border rounded-lg p-4 shadow">
-            <h5 class="text-lg font-semibold mb-4" th:text="#{operationalFlags}">운영 플래그</h5>
-
-            <div class="grid grid-cols-12 gap-4">
-                <div class="col-span-3">
-                    <label class="block text-sm font-medium" th:text="#{inspectionYN}">검사 Y/N</label>
-                    <div class="flex items-center space-x-2 mt-1">
-                        <input type="radio" th:field="*{inspectionYN}" id="inspectionY" value="Y"
-                            class="border-gray-300" />
-                        <label for="inspectionY">Yes</label>
-                        <input type="radio" th:field="*{inspectionYN}" id="inspectionN" value="N"
-                            class="ml-4 border-gray-300" />
-                        <label for="inspectionN">No</label>
+                <!-- Financial Information Section -->
+                <div class="border rounded-lg p-4 shadow">
+                    <h5 class="text-lg font-semibold mb-4" th:text="#{financialInformation}">재무정보</h5>
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-3">
+                            <label for="assetType" class="block text-sm font-medium" th:text="#{assetType}">자산
+                                유형</label>
+                            <select id="assetType" th:field="*{assetType}" class="w-full border rounded px-2 py-1">
+                                <option value="" th:text="#{select}">자산 유형 선택</option>
+                                <option th:each="asset : ${assetTypes}" th:value="${asset.codeId}"
+                                    th:text="${asset.codeId + ' - ' + asset.codeName}"></option>
+                            </select>
+                        </div>
+                        <div class="col-span-3">
+                            <label for="depreMethod" class="block text-sm font-medium" th:text="#{depreMethod}">감가상각
+                                방법</label>
+                            <select id="depreMethod" th:field="*{depreMethod}" class="w-full border rounded px-2 py-1">
+                                <option value="" th:text="#{select}">감가상각 방법 선택</option>
+                                <option th:each="depre : ${depreMethods}" th:value="${depre.codeId}"
+                                    th:text="${depre.codeId + ' - ' + depre.codeName}"></option>
+                            </select>
+                        </div>
+                        <div class="col-span-3">
+                            <label for="acquitionValue" class="block text-sm font-medium"
+                                th:text="#{acquitionValue}">취득가액</label>
+                            <input type="number" step="0.01" id="acquitionValue" th:field="*{acquitionValue}"
+                                class="w-full border rounded px-2 py-1" />
+                        </div>
+                        <div class="col-span-3">
+                            <label for="residualValue" class="block text-sm font-medium"
+                                th:text="#{residualValue}">잔존가액</label>
+                            <input type="number" step="0.01" id="residualValue" th:field="*{residualValue}"
+                                class="w-full border rounded px-2 py-1" />
+                        </div>
                     </div>
                 </div>
-                <div class="col-span-3">
-                    <label class="block text-sm font-medium" th:text="#{plannedMaintenanceYN}">계획 점검 Y/N</label>
-                    <div class="flex items-center space-x-2 mt-1">
-                        <input type="radio" th:field="*{plannedMaintenanceYN}" id="plannedMY" value="Y"
-                            class="border-gray-300" />
-                        <label for="plannedMY">Yes</label>
-                        <input type="radio" th:field="*{plannedMaintenanceYN}" id="plannedMN" value="N"
-                            class="ml-4 border-gray-300" />
-                        <label for="plannedMN">No</label>
+
+                <!-- Manufacturer Information Section -->
+                <div class="border rounded-lg p-4 shadow">
+                    <h5 class="text-lg font-semibold mb-4" th:text="#{manufacturerInformation}">제조사 정보</h5>
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-3">
+                            <label for="manufacturer" class="block text-sm font-medium"
+                                th:text="#{manufacturer}">제조사</label>
+                            <input type="text" id="manufacturer" th:field="*{manufacturer}"
+                                class="w-full border rounded px-2 py-1" />
+                        </div>
+                        <div class="col-span-3">
+                            <label for="manufacturerModel" class="block text-sm font-medium"
+                                th:text="#{manufacturerModel}">모델</label>
+                            <input type="text" id="manufacturerModel" th:field="*{manufacturerModel}"
+                                class="w-full border rounded px-2 py-1" />
+                        </div>
+                        <div class="col-span-3">
+                            <label for="manufacturerSN" class="block text-sm font-medium"
+                                th:text="#{manufacturerSN}">시리얼 번호</label>
+                            <input type="text" id="manufacturerSN" th:field="*{manufacturerSN}"
+                                class="w-full border rounded px-2 py-1" />
+                        </div>
+                        <div class="col-span-3">
+                            <label for="manufacturerSpec" class="block text-sm font-medium"
+                                th:text="#{manufacturerSpec}">규격</label>
+                            <input type="text" id="manufacturerSpec" th:field="*{manufacturerSpec}"
+                                class="w-full border rounded px-2 py-1" />
+                        </div>
                     </div>
                 </div>
-                <div class="col-span-3">
-                    <label class="block text-sm font-medium" th:text="#{psmYN}">PSM Y/N</label>
-                    <div class="flex items-center space-x-2 mt-1">
-                        <input type="radio" th:field="*{psmYN}" id="psmY" value="Y" class="border-gray-300" />
-                        <label for="psmY">Yes</label>
-                        <input type="radio" th:field="*{psmYN}" id="psmN" value="N" class="ml-4 border-gray-300" />
-                        <label for="psmN">No</label>
+
+                <!-- Operational Flags Section -->
+                <div class="border rounded-lg p-4 shadow">
+                    <h5 class="text-lg font-semibold mb-4" th:text="#{operationalFlags}">운영 플래그</h5>
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-3">
+                            <label class="block text-sm font-medium" th:text="#{inspectionYN}">검사 Y/N</label>
+                            <div class="flex items-center space-x-2 mt-1">
+                                <input type="radio" th:field="*{inspectionYN}" id="inspectionY" value="Y" />
+                                <label for="inspectionY">Yes</label>
+                                <input type="radio" th:field="*{inspectionYN}" id="inspectionN" value="N"
+                                    class="ml-4" />
+                                <label for="inspectionN">No</label>
+                            </div>
+                        </div>
+                        <div class="col-span-3">
+                            <label class="block text-sm font-medium" th:text="#{plannedMaintenanceYN}">계획 점검 Y/N</label>
+                            <div class="flex items-center space-x-2 mt-1">
+                                <input type="radio" th:field="*{plannedMaintenanceYN}" id="plannedMY" value="Y" />
+                                <label for="plannedMY">Yes</label>
+                                <input type="radio" th:field="*{plannedMaintenanceYN}" id="plannedMN" value="N"
+                                    class="ml-4" />
+                                <label for="plannedMN">No</label>
+                            </div>
+                        </div>
+                        <div class="col-span-3">
+                            <label class="block text-sm font-medium" th:text="#{psmYN}">PSM Y/N</label>
+                            <div class="flex items-center space-x-2 mt-1">
+                                <input type="radio" th:field="*{psmYN}" id="psmY" value="Y" />
+                                <label for="psmY">Yes</label>
+                                <input type="radio" th:field="*{psmYN}" id="psmN" value="N" class="ml-4" />
+                                <label for="psmN">No</label>
+                            </div>
+                        </div>
+                        <div class="col-span-3">
+                            <label class="block text-sm font-medium" th:text="#{tagYN}">태그 Y/N</label>
+                            <div class="flex items-center space-x-2 mt-1">
+                                <input type="radio" th:field="*{tagYN}" id="tagY" value="Y" />
+                                <label for="tagY">Yes</label>
+                                <input type="radio" th:field="*{tagYN}" id="tagN" value="N" class="ml-4" />
+                                <label for="tagN">No</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-span-3">
-                    <label class="block text-sm font-medium" th:text="#{tagYN}">태그 Y/N</label>
-                    <div class="flex items-center space-x-2 mt-1">
-                        <input type="radio" th:field="*{tagYN}" id="tagY" value="Y" class="border-gray-300" />
-                        <label for="tagY">Yes</label>
-                        <input type="radio" th:field="*{tagYN}" id="tagN" value="N" class="ml-4 border-gray-300" />
-                        <label for="tagN">No</label>
+
+                <!-- Note Section -->
+                <div class="border rounded-lg p-4 shadow">
+                    <h5 class="text-lg font-semibold mb-4" th:text="#{note}">메모</h5>
+                    <div class="mb-4">
+                        <label for="note" class="block text-sm font-medium" th:text="#{note}">메모</label>
+                        <textarea id="note" th:field="*{note}" rows="3"
+                            class="w-full border rounded px-2 py-1"></textarea>
+                    </div>
+                    <div>
+                        <label for="fileGroupId" class="block text-sm font-medium" th:text="#{fileGroupId}">파일 그룹
+                            ID</label>
+                        <input type="text" id="fileGroupId" th:field="*{fileGroupId}"
+                            class="w-full border rounded px-2 py-1" />
                     </div>
                 </div>
-            </div>
+
+                <!-- Buttons -->
+                <div class="flex space-x-4 mt-6">
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        th:text="#{save}">저장</button>
+                    <a th:href="@{/plantMaster/plantMasterList}"
+                        class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" th:text="#{cancel}">취소/목록</a>
+                </div>
+            </form>
+
         </div>
-
-        <div class="border rounded-lg p-4 shadow">
-            <h5 class="text-lg font-semibold mb-4" th:text="#{note}">메모</h5>
-
-            <div class="mb-4">
-                <label for="note" class="block text-sm font-medium" th:text="#{note}">메모</label>
-                <textarea id="note" th:field="*{note}" rows="3" class="w-full border rounded px-2 py-1"></textarea>
-            </div>
-
-            <div>
-                <label for="fileGroupId" class="block text-sm font-medium" th:text="#{fileGroupId}">파일 그룹
-                    ID</label>
-                <input type="text" id="fileGroupId" th:field="*{fileGroupId}" class="w-full border rounded px-2 py-1" />
-            </div>
-        </div>
-
-        <div class="flex space-x-4 mt-6">
-            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                th:text="#{save}">저장</button>
-            <a th:href="@{/plantMaster/plantMasterList}"
-                class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" th:text="#{cancel}">취소/목록</a>
-        </div>
-        </form>
     </div>
-    </div>
-
 </body>
 
 </html>

@@ -319,12 +319,11 @@ create, read, update, delete, approve, master
 | note       | Text         | 비고             |
 
 ### 메모 관리 : 작업 현황 메모 리스트에 등록하여 공유 목적 
-## memo
+## memo : siteId를 key도 두지 않음 
 
 | 필드명      | 데이터 타입   | 설명                     |
 |:------------|:-------------|:-------------------------|
 | companyId   | CHAR(5)      | 회사 ID (PK)             |
-| siteId      | CHAR(5)      | 사이트 ID (PK)             |
 | memoId      | CHAR(10)     | 메모 ID (PK)             |
 | memoName    | VARCHAR(100) | 제목                     |
 | note        | text         | 내용                     |
