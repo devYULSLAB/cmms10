@@ -3,11 +3,13 @@ package com.cmms10.workorder.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import jakarta.persistence.LockModeType;
 import com.cmms10.workorder.entity.Workorder;
 import com.cmms10.workorder.entity.WorkorderIdClass;
 
@@ -25,6 +27,7 @@ public interface WorkorderRepository extends JpaRepository<Workorder, WorkorderI
      *         workorderItem에서 siteId는 PK가 아니므로 workorder가 unique하려면 orderId는
      *         companyId의 MAX값이어야 합니다.(companyId,siteId의 Max이면 안됩니다.)
      */
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT MAX(w.orderId) FROM Workorder w WHERE w.companyId = :companyId")
     String findMaxOrderIdByCompanyId(@Param("companyId") String companyId);
 

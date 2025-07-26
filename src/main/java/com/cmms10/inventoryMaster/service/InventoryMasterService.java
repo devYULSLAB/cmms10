@@ -43,15 +43,26 @@ public class InventoryMasterService {
     @Transactional
     public InventoryMaster saveInventoryMaster(InventoryMaster inventoryMaster, String username) {
         LocalDateTime now = LocalDateTime.now();
-        String maxInventoryId = inventoryMasterRepository.findMaxInventoryIdByCompanyId(inventoryMaster.getCompanyId());
-        long newInventoryId = (maxInventoryId == null) ? 2000000000L : Long.parseLong(maxInventoryId) + 1;
-        inventoryMaster.setInventoryId(String.valueOf(newInventoryId));
-        inventoryMaster.setCreateDate(now);
-        inventoryMaster.setCreateBy(username);
-        
+
+        boolean isNewInventoryMaster = (inventoryMaster.getInventoryId() == null
+                || inventoryMaster.getInventoryId().isEmpty());
+
+        if (isNewInventoryMaster) {
+            String maxInventoryId = inventoryMasterRepository
+                    .findMaxInventoryIdByCompanyId(inventoryMaster.getCompanyId());
+            String newInventoryId = (maxInventoryId == null) ? "2000000000"
+                    : String.valueOf(Long.parseLong(maxInventoryId) + 1);
+
+            inventoryMaster.setInventoryId(newInventoryId);
+            inventoryMaster.setCreateDate(now);
+            inventoryMaster.setCreateBy(username);
+        } else {
+            inventoryMaster.setUpdateDate(now);
+            inventoryMaster.setUpdateBy(username);
+        }
+
         return inventoryMasterRepository.save(inventoryMaster);
     }
-
 
     @Transactional
     public void deleteInventoryMaster(String companyId, String inventoryId) {
@@ -61,6 +72,5 @@ public class InventoryMasterService {
         }
         inventoryMasterRepository.deleteById(id);
     }
-
 
 }

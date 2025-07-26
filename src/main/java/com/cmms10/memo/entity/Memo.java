@@ -34,6 +34,12 @@ public class Memo {
     @Column(name = "memoName", length = 100)
     private String memoName;
 
+    @Column(name = "siteId", length = 5)
+    private String siteId;
+
+    @Column(name = "deptId", length = 5)
+    private String deptId;
+
     @Lob // For TEXT type
     @Column(name = "note", columnDefinition = "TEXT")
     private String note;
@@ -43,9 +49,6 @@ public class Memo {
 
     @Column(name = "viewCount")
     private Integer viewCount;
-
-    // @Column(name = "siteId", length = 5)
-    // private String siteId;
 
     @Column(name = "fileGroupId", length = 10)
     private String fileGroupId;

@@ -3,10 +3,12 @@ package com.cmms10.workpermit.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
+import jakarta.persistence.LockModeType;
 
 import com.cmms10.workpermit.entity.Workpermit;
 import com.cmms10.workpermit.entity.WorkpermitIdClass;
@@ -28,6 +30,7 @@ public interface WorkpermitRepository extends JpaRepository<Workpermit, Workperm
      *         workpermitItem에서 siteId는 PK가 아니므로 workpermit가 unique하려면 permitId는
      *         companyId의 MAX값이어야 합니다.(companyId,siteId의 Max이면 안됩니다.)
      */
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT MAX(w.permitId) FROM Workpermit w WHERE w.companyId = :companyId")
     String findMaxPermitIdByCompanyId(@Param("companyId") String companyId);
 

@@ -130,19 +130,21 @@ public class WorkorderController {
         return "redirect:/workorder/workorderList"; // Fix redirect path
     }
 
-    @PostMapping("/item/workorderItemDelete/{orderId}/{itemId}")
-    public String deleteItem(@PathVariable String orderId,
-            @PathVariable String itemId,
-            HttpSession session,
-            RedirectAttributes redirectAttributes) {
+    // @PostMapping("/item/workorderItemDelete/{orderId}/{itemId}")
+    // public String deleteItem(@PathVariable String orderId,
+    // @PathVariable String itemId,
+    // HttpSession session,
+    // RedirectAttributes redirectAttributes) {
 
-        String companyId = (String) session.getAttribute("companyId");
-        try {
-            workorderService.deleteWorkorderItem(companyId, orderId, itemId);
-            redirectAttributes.addFlashAttribute("successMessage", "Work order item deleted successfully");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete work order item: " + e.getMessage());
-        }
-        return "redirect:/workorder/detail/" + orderId;
-    }
+    // String companyId = (String) session.getAttribute("companyId");
+    // try {
+    // workorderService.deleteWorkorderItem(companyId, orderId, itemId);
+    // redirectAttributes.addFlashAttribute("successMessage", "Work order item
+    // deleted successfully");
+    // } catch (Exception e) {
+    // redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete work
+    // order item: " + e.getMessage());
+    // }
+    // return "redirect:/workorder/workorderDetail/" + siteId + "/" + orderId;
+    // }
 }

@@ -42,10 +42,11 @@ public class PlantMasterService {
     public PlantMaster savePlantMaster(PlantMaster plantMaster, String username) {
         LocalDateTime now = LocalDateTime.now();
         if (plantMaster.getPlantId() == null || plantMaster.getPlantId().isEmpty()) {
-            String maxPlantId = plantMasterRepository.findMaxPlantIdByCompanyIdAndSiteId(plantMaster.getCompanyId(),
-                    plantMaster.getSiteId());
-            Long newPlantId = (maxPlantId == null) ? 1000000000L : Long.parseLong(maxPlantId) + 1;
-            plantMaster.setPlantId(String.valueOf(newPlantId));
+            String maxPlantId = plantMasterRepository.findMaxPlantIdByCompanyId(plantMaster.getCompanyId());
+            String newPlantId = (maxPlantId == null) ? "1000000000"
+                    : String.valueOf(Long.parseLong(maxPlantId) + 1);
+
+            plantMaster.setPlantId(newPlantId);
             plantMaster.setCreateDate(now);
             plantMaster.setCreateBy(username);
         } else {
