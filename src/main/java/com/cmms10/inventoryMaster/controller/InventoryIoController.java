@@ -62,4 +62,32 @@ public class InventoryIoController {
                 inventoryId);
         return Map.of("inventoryName", item != null ? item.getInventoryName() : "");
     }
+
+    /**
+     * 재고 입출고 이력 조회 API
+     * 
+     * @param companyId   회사 ID
+     * @param siteId      사이트 ID
+     * @param inventoryId 재고 ID
+     * @param session     세션
+     * @return 입출고 이력 리스트
+     */
+    @GetMapping("/api/history")
+    @ResponseBody
+    public List<InventoryHistory> getInventoryIoHistory(
+            @RequestParam String companyId,
+            @RequestParam String siteId,
+            @RequestParam String inventoryId,
+            HttpSession session) {
+
+        // 세션에서 사용자 정보 가져오기
+        String sessionCompanyId = (String) session.getAttribute("companyId");
+
+        // 세션의 회사ID와 파라미터의 회사ID가 일치하는지 확인
+        if (!sessionCompanyId.equals(companyId)) {
+            throw new RuntimeException("권한이 없습니다.");
+        }
+
+        return inventoryIoService.getInventoryHistory(companyId, inventoryId);
+    }
 }

@@ -46,7 +46,9 @@ Thymeleaf, tailwind css 적용
 * commonCode : 코드 값 관리 CRUD+detail(출력용)
   (참고) codeType의 설정값: JOBTP-job type, ASSET-asset type, DEPRE-deperciation type, PERMT-permitType 
 * PlantMaster : 설비 기준정보 관리. Tag/PSM 등 관리대상 여부 체크. plamtMasterList에서 복수의 plantId를 선택 후 QR 코드 출력 기능 제공하여 스티커 프린터에서 출력 후 설비에 부착할 수 있도록 함(Inspection,workorder에 활용)
+              : site 단위로 마스터코드 관리함함
 * InventoryMaster : 재고 기준정보 관리. plantMaster대비 이동이 더 빈번하고 출력빈도가 높을 것으로 예상되어 바코드 형태로 출력 기능 제공 
+                  : 최초 재고번호 등록은 company 단위로 하며, 입출고 시에 locId를 통해 위치 정보 관리함 
 * Inspection : 예방점검. 등록 후 status 필드를 통해 상태값관리(저장-->승인). 일상점검에 해당되므로 자료를 DB화 하는데 의미가 있음. 모바일에서 QR 스캔 후 입력이 가능하도록 기능 제공 
 * Workorder : 작업 지시서. 법인에서 지시서 발행 후 외주사 결과값 입력 후 승인 요청. 승인 후 확정. 모바일에서 QR 스캔 후 입력이 가능하도록 기능 제공 
 * Workpermit : 작업안전 허가서. PlantMaster에서 안전관리 대상 설비(WorkpermitYN="Y")는 반드시 승인된 Workpermit 을 Workorder 생성시 입력해야 한다. 

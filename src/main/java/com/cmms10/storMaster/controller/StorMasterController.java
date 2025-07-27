@@ -24,7 +24,7 @@ public class StorMasterController {
         String companyId = (String) session.getAttribute("companyId");
         List<StorMaster> storList = storMasterService.findByCompanyId(companyId);
         model.addAttribute("storList", storList);
-        return "storMaster/list";
+        return "storMaster/storMasterList";
     }
 
     @GetMapping("/storMasterForm")
@@ -34,7 +34,7 @@ public class StorMasterController {
         storMaster.setCompanyId(companyId);
         model.addAttribute("storMaster", storMaster);
         model.addAttribute("mode", "new");
-        return "storMaster/form";
+        return "storMaster/storMasterForm";
     }
 
     @GetMapping("/storMasterForm/{companyId}/{siteId}/{locId}")
@@ -43,18 +43,18 @@ public class StorMasterController {
         StorMaster storMaster = storMasterService.findByCompanyIdAndSiteIdAndLocId(companyId, siteId, locId);
         model.addAttribute("storMaster", storMaster);
         model.addAttribute("mode", "edit");
-        return "storMaster/editForm";
+        return "storMaster/storMasterForm";
     }
 
     @PostMapping("/storMasterSave")
     public String save(@ModelAttribute StorMaster storMaster) {
         storMasterService.save(storMaster);
-        return "redirect:/storMaster/list";
+        return "redirect:/storMaster/storMasterList";
     }
 
     @PostMapping("/storMasterDelete")
     public String delete(@ModelAttribute StorMasterIdClass id) {
         storMasterService.deleteById(id);
-        return "redirect:/storMaster/list";
+        return "redirect:/storMaster/storMasterList";
     }
 }

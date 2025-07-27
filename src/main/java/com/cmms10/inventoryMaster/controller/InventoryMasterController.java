@@ -3,6 +3,7 @@ package com.cmms10.inventoryMaster.controller;
 import com.cmms10.inventoryMaster.entity.InventoryMaster;
 import com.cmms10.inventoryMaster.service.InventoryMasterService;
 import com.cmms10.domain.site.service.SiteService;
+import com.cmms10.storMaster.service.StorMasterService;
 import com.cmms10.domain.dept.service.DeptService;
 import com.cmms10.commonCode.service.CommonCodeService;
 
@@ -31,13 +32,16 @@ public class InventoryMasterController {
     private final InventoryMasterService inventoryMasterService;
     private final DeptService deptService;
     private final CommonCodeService commonCodeService;
+    private final StorMasterService storMasterService;
 
     public InventoryMasterController(InventoryMasterService inventoryMasterService,
             DeptService deptService,
+            StorMasterService storMasterService,
             CommonCodeService commonCodeService) {
         this.inventoryMasterService = inventoryMasterService;
         this.deptService = deptService;
         this.commonCodeService = commonCodeService;
+        this.storMasterService = storMasterService;
     }
 
     /**
@@ -54,11 +58,11 @@ public class InventoryMasterController {
         InventoryMaster inventoryMaster = new InventoryMaster();
         inventoryMaster.setCompanyId(companyId);
 
-        // Select box 데이터 추가
         model.addAttribute("inventoryMaster", inventoryMaster);
+        // Select box 데이터 추가
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
         model.addAttribute("assetTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "ASSET"));
-
+        model.addAttribute("locs", storMasterService.findByCompanyId(companyId));
         return "inventoryMaster/inventoryMasterForm";
     }
 
@@ -79,10 +83,12 @@ public class InventoryMasterController {
         InventoryMaster inventoryMaster = inventoryMasterService.getInventoryMasterByCompanyIdAndInventoryId(companyId,
                 inventoryId);
 
-        // Select box 데이터 추가
         model.addAttribute("inventoryMaster", inventoryMaster);
+
+        // Select box 데이터 추가
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
         model.addAttribute("assetTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "ASSET"));
+        model.addAttribute("locs", storMasterService.findByCompanyId(companyId));
 
         return "inventoryMaster/inventoryMasterForm";
     }
@@ -108,8 +114,6 @@ public class InventoryMasterController {
 
         return "inventoryMaster/inventoryMasterList";
     }
-
- 
 
     /**
      * 재고 마스터 저장
@@ -174,5 +178,42 @@ public class InventoryMasterController {
         }
 
         return "redirect:/inventoryMaster/inventoryMasterList";
+    }
+
+    /**
+     * 재고 입출고 이력 화면
+     * 
+     * @param companyId   회사 ID
+     * @param siteId      사이트 ID
+     * @param inventoryId 재고 ID
+     * @param model       모델
+     * @param session     세션
+     * @return 뷰 이름
+     */
+    @GetMapping("/inventoryIoHistory")
+    public String inventoryIoHistory(@RequestParam String companyId,
+            @RequestParam String siteId,
+            @RequestParam String inventoryId,
+            Model model,
+            HttpSession session) {
+
+        // 세션에서 사용자 정보 가져오기
+        String sessionCompanyId = (String) session.getAttribute("companyId");
+
+        // 세션의 회사ID와 파라미터의 회사ID가 일치하는지 확인
+        if (!sessionCompanyId.equals(companyId)) {
+            throw new RuntimeException("권한이 없습니다.");
+        }
+
+        // 재고 마스터 정보 조회
+        InventoryMaster inventoryMaster = inventoryMasterService.getInventoryMasterByCompanyIdAndInventoryId(companyId,
+                inventoryId);
+
+        model.addAttribute("companyId", companyId);
+        model.addAttribute("siteId", siteId);
+        model.addAttribute("inventoryId", inventoryId);
+        model.addAttribute("inventoryMaster", inventoryMaster);
+
+        return "inventoryMaster/inventoryIoHistory";
     }
 }
