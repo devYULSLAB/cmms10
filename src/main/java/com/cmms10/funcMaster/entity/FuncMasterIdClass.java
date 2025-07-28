@@ -10,5 +10,6 @@ import java.io.Serializable;
 public class FuncMasterIdClass implements Serializable {
 
     private String companyId;
+    private String siteId;
     private String funcId;
 }

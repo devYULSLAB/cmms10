@@ -6,7 +6,6 @@ import com.cmms10.storMaster.repository.StorMasterRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StorMasterService {
@@ -40,11 +39,12 @@ public class StorMasterService {
         return storMasterRepository.findByCompanyIdAndSiteIdAndLocNameContaining(companyId, siteId, locName);
     }
 
-    public StorMaster save(StorMaster storMaster) {
+    public StorMaster saveStorMaster(StorMaster storMaster) {
         return storMasterRepository.save(storMaster);
     }
 
-    public void deleteById(StorMasterIdClass id) {
+    public void deleteStorMaster(String companyId, String siteId, String locId) {
+        StorMasterIdClass id = new StorMasterIdClass(companyId, siteId, locId);
         storMasterRepository.deleteById(id);
     }
 }

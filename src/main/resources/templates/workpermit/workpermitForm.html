@@ -1,6 +1,6 @@
 <!-- workPermitForm.html -->
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/defaultLayout}">
 
 <head>
     <title>작업허가서 등록</title>
@@ -101,32 +101,115 @@
                 </div>
                 <!-- Permit Signatures items-->
                 <div class="border rounded-lg shadow p-4 space-y-4">
-                    <h3 class="font-semibold text-lg mb-2" th:text="#{signature}">Permit Signatures</h3>
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-semibold text-lg mb-2" th:text="#{signature}">Permit Signatures</h3>
+                        <button type="button" onclick="addSigner()"
+                            class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-sm">
+                            <i class="fas fa-plus mr-1"></i>서명자 추가
+                        </button>
+                    </div>
                     <table class="w-full">
-                        <thead>
+                        <thead class="bg-gray-100">
                             <tr>
-                                <th>Signer Name</th>
-                                <th>Signature</th>
+                                <th class="px-4 py-2 border text-left">순서</th>
+                                <th class="px-4 py-2 border text-left">서명자명</th>
+                                <th class="px-4 py-2 border text-left">서명</th>
+                                <th class="px-4 py-2 border text-left">작업</th>
                             </tr>
                         </thead>
                         <tbody id="itemTableBody">
-                            <tr th:each="item, iterStat : *{items}">
-                                <td>
-                                    <input type="text" th:field="*{items[__${iterStat.index}__].signerName}"
-                                        class="w-full border rounded px-2 py-1" required />
+                            <tr th:each="item, iterStat : *{items}" class="signer-row">
+                                <td class="px-4 py-2 border text-center">
+                                    <span class="signer-order" th:text="${iterStat.count}"></span>
                                 </td>
-                                <td>
-                                    <canvas th:attr="id='signatureCanvas' + ${iterStat.index}" width="300" height="100"
-                                        style="border:1px solid #000;"></canvas>
-                                    <input type="hidden" th:field="*{items[__${iterStat.index}__].signature}"
-                                        th:attr="id='signatureData' + ${iterStat.index}" />
-                                    <button type="button" th:attr="onclick='clearSignature(' + ${iterStat.index} + ')'"
-                                        class="ml-2">지우기</button>
+                                <td class="px-4 py-2 border">
+                                    <input type="text" th:field="*{items[__${iterStat.index}__].signerName}"
+                                        class="w-full border rounded px-2 py-1"
+                                        th:placeholder="'서명자 ' + ${iterStat.count} + '명'" required />
+                                </td>
+                                <td class="px-4 py-2 border">
+                                    <div class="flex items-center space-x-2">
+                                        <canvas th:attr="id='signatureCanvas' + ${iterStat.index}" width="250"
+                                            height="80"
+                                            style="border:1px solid #ccc; border-radius: 4px; cursor: crosshair;"
+                                            class="signature-canvas"></canvas>
+                                        <input type="hidden" th:field="*{items[__${iterStat.index}__].signature}"
+                                            th:attr="id='signatureData' + ${iterStat.index}" />
+                                    </div>
+                                </td>
+                                <td class="px-4 py-2 border">
+                                    <div class="flex space-x-1">
+                                        <button type="button"
+                                            th:attr="onclick='clearSignature(' + ${iterStat.index} + ')'"
+                                            class="px-2 py-1 text-blue-600 border border-blue-500 rounded hover:bg-blue-50 text-xs">
+                                            지우기
+                                        </button>
+                                        <button type="button"
+                                            th:attr="onclick='removeSigner(' + ${iterStat.index} + ')'"
+                                            class="px-2 py-1 text-red-600 border border-red-500 rounded hover:bg-red-50 text-xs">
+                                            삭제
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- 기본 서명자 행 (데이터가 없을 때) -->
+                            <tr th:if="${#lists.isEmpty(items)}" class="signer-row">
+                                <td class="px-4 py-2 border text-center">
+                                    <span class="signer-order">1</span>
+                                </td>
+                                <td class="px-4 py-2 border">
+                                    <input type="text" name="items[0].signerName"
+                                        class="w-full border rounded px-2 py-1" placeholder="서명자 1명" required />
+                                </td>
+                                <td class="px-4 py-2 border">
+                                    <div class="flex items-center space-x-2">
+                                        <canvas id="signatureCanvas0" width="250" height="80"
+                                            style="border:1px solid #ccc; border-radius: 4px; cursor: crosshair;"
+                                            class="signature-canvas"></canvas>
+                                        <input type="hidden" name="items[0].signature" id="signatureData0" />
+                                    </div>
+                                </td>
+                                <td class="px-4 py-2 border">
+                                    <div class="flex space-x-1">
+                                        <button type="button" onclick="clearSignature(0)"
+                                            class="px-2 py-1 text-blue-600 border border-blue-500 rounded hover:bg-blue-50 text-xs">
+                                            지우기
+                                        </button>
+                                        <button type="button" onclick="removeSigner(0)"
+                                            class="px-2 py-1 text-red-600 border border-red-500 rounded hover:bg-red-50 text-xs">
+                                            삭제
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+                    <div class="text-sm text-gray-600 mt-2">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        최소 1명의 서명자가 필요합니다. 서명자는 순서대로 진행됩니다.
+                    </div>
                 </div>
+
+                <!-- 체크시트 템플릿 선택 -->
+                <div class="border rounded-lg shadow p-4 space-y-4">
+                    <h3 class="font-semibold text-lg mb-2">🧾 안전 체크리스트</h3>
+                    <div class="mb-2">
+                        <label class="block text-sm font-medium mb-1">템플릿 선택</label>
+                        <select id="templateSelect" name="templateId" class="w-full border rounded p-2">
+                            <option value="">-- 템플릿 선택 --</option>
+                            <option th:each="tpl : ${templateList}" th:value="${tpl.templateId}"
+                                th:text="${tpl.templateName}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- formRender.js로 템플릿 표시 -->
+                    <div id="form-render" class="border rounded p-4 bg-gray-50"></div>
+
+                    <!-- 체크 결과 저장용 -->
+                    <textarea id="checkResultJson" name="checkResultJson" hidden></textarea>
+                </div>
+
                 <!-- Submit Button -->
                 <div class="flex justify-end">
                     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
@@ -137,8 +220,27 @@
     </div>
     <th:block layout:fragment="page-js">
         <script th:inline="javascript">
-            // canvas 서명 입력 기능 (여러 개 지원)
+            // DOM 로드 후 실행
             document.addEventListener('DOMContentLoaded', function () {
+                // ✅ 체크리스트 템플릿 렌더링
+                const templateJsonMap = /*[[${templateJsonMap}]]*/ {};
+                let renderInstance;
+
+                const templateSelect = document.getElementById('templateSelect');
+                const formRender = document.getElementById('form-render');
+
+                if (templateSelect) {
+                    templateSelect.addEventListener('change', function () {
+                        const tplId = this.value;
+                        const json = templateJsonMap[tplId];
+                        if (json && window.$) {
+                            $('#form-render').formRender({ formData: json });
+                            renderInstance = $('#form-render').data('formRender');
+                        }
+                    });
+                }
+
+                // ✅ canvas 서명 입력 기능 (여러 개 지원)
                 const canvases = document.querySelectorAll('canvas[id^="signatureCanvas"]');
                 canvases.forEach(function (canvas) {
                     let drawing = false;
@@ -167,7 +269,6 @@
                     });
                     canvas.addEventListener('mouseup', function () { drawing = false; });
                     canvas.addEventListener('mouseout', function () { drawing = false; });
-                    // 터치 지원
                     canvas.addEventListener('touchstart', function (e) {
                         drawing = true;
                         [lastX, lastY] = getXY(e);
@@ -184,8 +285,18 @@
                     }, { passive: false });
                     canvas.addEventListener('touchend', function () { drawing = false; });
                 });
+
+                // ✅ 폼 제출 시 서명 + 체크결과 저장
+                document.querySelector("form").addEventListener("submit", function () {
+                    saveAllSignatures();
+                    if (renderInstance) {
+                        const jsonOutput = JSON.stringify(renderInstance.userData);
+                        document.getElementById("checkResultJson").value = jsonOutput;
+                    }
+                });
             });
-            // 모든 canvas의 이미지를 hidden input에 저장
+
+            // 서명 저장
             function saveAllSignatures() {
                 const canvases = document.querySelectorAll('canvas[id^="signatureCanvas"]');
                 canvases.forEach(function (canvas) {
@@ -195,7 +306,8 @@
                     if (hidden) hidden.value = dataUrl;
                 });
             }
-            // 각 행별로 서명 지우기
+
+            // 서명 초기화
             function clearSignature(idx) {
                 const canvas = document.getElementById('signatureCanvas' + idx);
                 if (canvas) {
@@ -205,11 +317,150 @@
                 const hidden = document.getElementById('signatureData' + idx);
                 if (hidden) hidden.value = '';
             }
-            // 폼 제출 시 서명 저장
-            document.querySelector('form').addEventListener('submit', function (e) {
-                saveAllSignatures();
-            });
+
+            // 서명자 추가
+            function addSigner() {
+                const tbody = document.getElementById('itemTableBody');
+                const newIndex = tbody.rows.length;
+                const newRow = tbody.insertRow();
+                newRow.className = 'signer-row';
+
+                const orderCell = newRow.insertCell();
+                orderCell.className = 'px-4 py-2 border text-center';
+                orderCell.innerHTML = `<span class="signer-order">${newIndex + 1}</span>`;
+
+                const nameCell = newRow.insertCell();
+                nameCell.className = 'px-4 py-2 border';
+                nameCell.innerHTML = `
+                    <input type="text" name="items[${newIndex}].signerName" class="w-full border rounded px-2 py-1" 
+                        placeholder="서명자 ${newIndex + 1}명" required />
+                `;
+
+                const signatureCell = newRow.insertCell();
+                signatureCell.className = 'px-4 py-2 border';
+                signatureCell.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <canvas id="signatureCanvas${newIndex}" width="250" height="80"
+                            style="border:1px solid #ccc; border-radius: 4px; cursor: crosshair;"
+                            class="signature-canvas"></canvas>
+                        <input type="hidden" name="items[${newIndex}].signature" id="signatureData${newIndex}" />
+                    </div>
+                `;
+
+                const actionsCell = newRow.insertCell();
+                actionsCell.className = 'px-4 py-2 border';
+                actionsCell.innerHTML = `
+                    <div class="flex space-x-1">
+                        <button type="button" onclick="clearSignature(${newIndex})"
+                            class="px-2 py-1 text-blue-600 border border-blue-500 rounded hover:bg-blue-50 text-xs">
+                            지우기
+                        </button>
+                        <button type="button" onclick="removeSigner(${newIndex})"
+                            class="px-2 py-1 text-red-600 border border-red-500 rounded hover:bg-red-50 text-xs">
+                            삭제
+                        </button>
+                    </div>
+                `;
+
+                // 새로 추가된 canvas에 서명 이벤트 리스너 추가
+                initializeSignatureCanvas(newIndex);
+
+                // 모든 서명자의 순서 업데이트
+                updateSignerOrders();
+            }
+
+            // 서명자 삭제
+            function removeSigner(index) {
+                const tbody = document.getElementById('itemTableBody');
+                const rows = tbody.querySelectorAll('.signer-row');
+
+                if (rows.length > 1) { // 최소 1명은 유지
+                    const rowToRemove = rows[index];
+                    if (rowToRemove) {
+                        rowToRemove.remove();
+                        updateSignerOrders();
+                    }
+                } else {
+                    alert('최소 1명의 서명자가 필요합니다.');
+                }
+            }
+
+            // 서명자 순서 업데이트
+            function updateSignerOrders() {
+                const signerOrders = document.querySelectorAll('.signer-order');
+                signerOrders.forEach((orderSpan, index) => {
+                    orderSpan.textContent = index + 1;
+                });
+            }
+
+            // 서명 canvas 초기화
+            function initializeSignatureCanvas(index) {
+                const canvas = document.getElementById('signatureCanvas' + index);
+                if (!canvas) return;
+
+                let drawing = false;
+                let ctx = canvas.getContext('2d');
+                let lastX = 0, lastY = 0;
+
+                // 캔버스 초기화
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2;
+                ctx.lineCap = 'round';
+
+                function getXY(e) {
+                    if (e.touches) {
+                        const rect = canvas.getBoundingClientRect();
+                        return [e.touches[0].clientX - rect.left, e.touches[0].clientY - rect.top];
+                    } else {
+                        return [e.offsetX, e.offsetY];
+                    }
+                }
+
+                canvas.addEventListener('mousedown', function (e) {
+                    drawing = true;
+                    [lastX, lastY] = getXY(e);
+                });
+                canvas.addEventListener('mousemove', function (e) {
+                    if (!drawing) return;
+                    const [x, y] = getXY(e);
+                    ctx.beginPath();
+                    ctx.moveTo(lastX, lastY);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                    [lastX, lastY] = [x, y];
+                });
+                canvas.addEventListener('mouseup', function () { drawing = false; });
+                canvas.addEventListener('mouseout', function () { drawing = false; });
+                canvas.addEventListener('touchstart', function (e) {
+                    drawing = true;
+                    [lastX, lastY] = getXY(e);
+                });
+                canvas.addEventListener('touchmove', function (e) {
+                    if (!drawing) return;
+                    const [x, y] = getXY(e);
+                    ctx.beginPath();
+                    ctx.moveTo(lastX, lastY);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                    [lastX, lastY] = [x, y];
+                    e.preventDefault();
+                }, { passive: false });
+                canvas.addEventListener('touchend', function () { drawing = false; });
+            }
+
+            // 페이지 로드 시 모든 기존 canvas 초기화
+            function initializeAllSignatureCanvases() {
+                const canvases = document.querySelectorAll('canvas[id^="signatureCanvas"]');
+                canvases.forEach(function (canvas, index) {
+                    initializeSignatureCanvas(index);
+                });
+            }
+
+            // DOM 로드 완료 후 초기화
+            initializeAllSignatureCanvases();
         </script>
+        <!-- 체크시트 렌더링용 formRender.js -->
+        <script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
     </th:block>
 </body>
 

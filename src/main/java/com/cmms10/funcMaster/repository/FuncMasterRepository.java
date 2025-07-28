@@ -28,13 +28,22 @@ public interface FuncMasterRepository extends JpaRepository<FuncMaster, FuncMast
     List<FuncMaster> findByCompanyId(String companyId);
 
     /**
+     * 회사 ID로 모든 기능 마스터 조회
+     * 
+     * @param companyId 회사 ID
+     * @param siteId    사이트 ID
+     * @return 기능 마스터 목록
+     */
+    List<FuncMaster> findByCompanyIdAndSiteId(String companyId, String siteId);
+
+    /**
      * 회사 ID와 기능 ID로 기능 마스터 조회
      * 
      * @param companyId 회사 ID
      * @param funcId    기능 ID
      * @return 기능 마스터 (Optional)
      */
-    Optional<FuncMaster> findByCompanyIdAndFuncId(String companyId, String funcId);
+    Optional<FuncMaster> findByCompanyIdAndSiteIdAndFuncId(String companyId, String siteId, String funcId);
 
     /**
      * 회사 ID와 기능 타입으로 기능 마스터 조회
@@ -43,7 +52,7 @@ public interface FuncMasterRepository extends JpaRepository<FuncMaster, FuncMast
      * @param funcType  기능 타입
      * @return 기능 마스터 목록
      */
-    List<FuncMaster> findByCompanyIdAndFuncType(String companyId, String funcType);
+    List<FuncMaster> findByCompanyIdAndSiteIdAndFuncType(String companyId, String siteId, String funcType);
 
     /**
      * 회사 ID와 기능 이름으로 기능 마스터 조회
@@ -52,7 +61,7 @@ public interface FuncMasterRepository extends JpaRepository<FuncMaster, FuncMast
      * @param funcName  기능 이름
      * @return 기능 마스터 목록
      */
-    List<FuncMaster> findByCompanyIdAndFuncNameContaining(String companyId, String funcName);
+    List<FuncMaster> findByCompanyIdAndSiteIdAndFuncNameContaining(String companyId, String siteId, String funcName);
 
     /**
      * 회사 ID로 기능 마스터 개수 조회
@@ -69,5 +78,5 @@ public interface FuncMasterRepository extends JpaRepository<FuncMaster, FuncMast
      * @param funcId    기능 ID
      * @return 존재 여부
      */
-    boolean existsByCompanyIdAndFuncId(String companyId, String funcId);
+    boolean existsByCompanyIdAndSiteIdAndFuncId(String companyId, String siteId, String funcId);
 }

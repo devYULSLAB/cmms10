@@ -2,6 +2,8 @@ package com.cmms10.funcMaster.controller;
 
 import com.cmms10.funcMaster.entity.FuncMaster;
 import com.cmms10.funcMaster.service.FuncMasterService;
+import com.cmms10.domain.site.service.SiteService;
+import com.cmms10.domain.site.entity.Site;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +25,11 @@ import java.util.List;
 public class FuncMasterController {
 
     private final FuncMasterService funcMasterService;
+    private final SiteService siteService;
 
-    public FuncMasterController(FuncMasterService funcMasterService) {
+    public FuncMasterController(FuncMasterService funcMasterService, SiteService siteService) {
         this.funcMasterService = funcMasterService;
+        this.siteService = siteService;
     }
 
     /**
@@ -38,7 +42,7 @@ public class FuncMasterController {
     @GetMapping("/funcMasterList")
     public String funcMasterList(Model model, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
-        List<FuncMaster> funcMasters = funcMasterService.getAllFuncMasters(companyId);
+        List<FuncMaster> funcMasters = funcMasterService.getAllFuncMastersByCompanyId(companyId);
         model.addAttribute("funcMasters", funcMasters);
         model.addAttribute("companyId", companyId);
         return "funcMaster/funcMasterList";
@@ -54,9 +58,15 @@ public class FuncMasterController {
     @GetMapping("/funcMasterForm")
     public String funcMasterForm(Model model, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
+
+        // 사이트 목록 조회
+        List<Site> siteList = siteService.getAllSitesByCompanyId(companyId);
+
         FuncMaster funcMaster = new FuncMaster();
         funcMaster.setCompanyId(companyId);
+
         model.addAttribute("funcMaster", funcMaster);
+        model.addAttribute("siteList", siteList);
         model.addAttribute("mode", "new");
         return "funcMaster/funcMasterForm";
     }
@@ -71,8 +81,13 @@ public class FuncMasterController {
      */
     @GetMapping("/funcMasterForm/{funcId}/{companyId}")
     public String funcMasterForm(@PathVariable String funcId, @PathVariable String companyId, Model model) {
-        FuncMaster funcMaster = funcMasterService.getFuncMasterByCompanyIdAndFuncId(companyId, funcId);
+        // 사이트 목록 조회
+        List<Site> siteList = siteService.getAllSitesByCompanyId(companyId);
+
+        FuncMaster funcMaster = funcMasterService.getFuncMasterByCompanyIdAndSiteIdAndFuncId(companyId, null, funcId);
+
         model.addAttribute("funcMaster", funcMaster);
+        model.addAttribute("siteList", siteList);
         model.addAttribute("mode", "edit");
         return "funcMaster/funcMasterForm";
     }
@@ -111,7 +126,7 @@ public class FuncMasterController {
             @PathVariable String companyId,
             RedirectAttributes redirectAttributes) {
         try {
-            funcMasterService.deleteFuncMaster(companyId, funcId);
+            funcMasterService.deleteFuncMaster(companyId, null, funcId);
             redirectAttributes.addFlashAttribute("successMessage", "기능 마스터가 성공적으로 삭제되었습니다.");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "기능 마스터 삭제에 실패했습니다: " + e.getMessage());

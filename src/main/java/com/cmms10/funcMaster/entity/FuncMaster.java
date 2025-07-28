@@ -26,6 +26,10 @@ public class FuncMaster {
     private String companyId;
 
     @Id
+    @Column(name = "siteId", length = 5)
+    private String siteId;
+
+    @Id
     @Column(name = "funcId", length = 5)
     private String funcId;
 

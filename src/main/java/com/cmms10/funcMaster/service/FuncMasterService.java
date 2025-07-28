@@ -30,19 +30,32 @@ public class FuncMasterService {
      * @param companyId 회사 ID
      * @return 기능 마스터 목록
      */
-    public List<FuncMaster> getAllFuncMasters(String companyId) {
+    public List<FuncMaster> getAllFuncMastersByCompanyId(String companyId) {
         return funcMasterRepository.findByCompanyId(companyId);
+    }
+
+    /**
+     * 모든 기능 마스터 조회
+     * 
+     * @param companyId 회사 ID
+     * @param siteId    사이트 ID
+     * @return 기능 마스터 목록
+     */
+    public List<FuncMaster> getAllFuncMastersByCompanyIdAndSiteId(String companyId, String siteId) {
+        return funcMasterRepository.findByCompanyIdAndSiteId(companyId, siteId);
     }
 
     /**
      * 회사 ID와 기능 ID로 기능 마스터 조회
      * 
      * @param companyId 회사 ID
+     * @param siteId    사이트 ID
      * @param funcId    기능 ID
      * @return 기능 마스터
      */
-    public FuncMaster getFuncMasterByCompanyIdAndFuncId(String companyId, String funcId) {
-        Optional<FuncMaster> funcMaster = funcMasterRepository.findByCompanyIdAndFuncId(companyId, funcId);
+    public FuncMaster getFuncMasterByCompanyIdAndSiteIdAndFuncId(String companyId, String siteId, String funcId) {
+        Optional<FuncMaster> funcMaster = funcMasterRepository.findByCompanyIdAndSiteIdAndFuncId(companyId, siteId,
+                funcId);
         return funcMaster.orElse(null);
     }
 
@@ -60,10 +73,12 @@ public class FuncMasterService {
      * 기능 마스터 삭제
      * 
      * @param companyId 회사 ID
+     * @param siteId    사이트 ID
      * @param funcId    기능 ID
      */
-    public void deleteFuncMaster(String companyId, String funcId) {
-        Optional<FuncMaster> funcMaster = funcMasterRepository.findByCompanyIdAndFuncId(companyId, funcId);
+    public void deleteFuncMaster(String companyId, String siteId, String funcId) {
+        Optional<FuncMaster> funcMaster = funcMasterRepository.findByCompanyIdAndSiteIdAndFuncId(companyId, siteId,
+                funcId);
         funcMaster.ifPresent(funcMasterRepository::delete);
     }
 
@@ -74,8 +89,8 @@ public class FuncMasterService {
      * @param funcType  기능 타입
      * @return 기능 마스터 목록
      */
-    public List<FuncMaster> getFuncMastersByCompanyIdAndFuncType(String companyId, String funcType) {
-        return funcMasterRepository.findByCompanyIdAndFuncType(companyId, funcType);
+    public List<FuncMaster> getFuncMastersByCompanyIdAndFuncType(String companyId, String siteId, String funcType) {
+        return funcMasterRepository.findByCompanyIdAndSiteIdAndFuncType(companyId, siteId, funcType);
     }
 
     /**
@@ -85,8 +100,8 @@ public class FuncMasterService {
      * @param funcName  기능 이름
      * @return 기능 마스터 목록
      */
-    public List<FuncMaster> searchFuncMastersByFuncName(String companyId, String funcName) {
-        return funcMasterRepository.findByCompanyIdAndFuncNameContaining(companyId, funcName);
+    public List<FuncMaster> searchFuncMastersByFuncName(String companyId, String siteId, String funcName) {
+        return funcMasterRepository.findByCompanyIdAndSiteIdAndFuncNameContaining(companyId, siteId, funcName);
     }
 
     /**
@@ -106,7 +121,7 @@ public class FuncMasterService {
      * @param funcId    기능 ID
      * @return 존재 여부
      */
-    public boolean existsFuncMaster(String companyId, String funcId) {
-        return funcMasterRepository.existsByCompanyIdAndFuncId(companyId, funcId);
+    public boolean existsFuncMaster(String companyId, String siteId, String funcId) {
+        return funcMasterRepository.existsByCompanyIdAndSiteIdAndFuncId(companyId, siteId, funcId);
     }
 }

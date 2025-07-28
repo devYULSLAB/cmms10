@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/defaultLayout}">
+
+<head>
+    <title>체크시트 템플릿 목록</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="max-w-5xl mx-auto bg-white p-6 rounded shadow">
+            <h2 class="text-2xl font-bold mb-4">📋 체크시트 템플릿 목록</h2>
+
+            <div class="mb-4 flex justify-between">
+                <a th:href="@{/checksheet/checksheetTemplateForm}"
+                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    ➕ 새 템플릿 만들기
+                </a>
+            </div>
+
+            <table class="min-w-full table-auto border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="border border-gray-300 px-4 py-2 text-left">템플릿 ID</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left">템플릿 이름</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left">생성자</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left">생성일</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left">작업</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="tpl : ${templateList}" class="hover:bg-gray-50">
+                        <td class="border border-gray-300 px-4 py-2" th:text="${tpl.templateId}">TPL000001</td>
+                        <td class="border border-gray-300 px-4 py-2" th:text="${tpl.templateName}">전기작업 점검표</td>
+                        <td class="border border-gray-300 px-4 py-2" th:text="${tpl.createBy}">admin</td>
+                        <td class="border border-gray-300 px-4 py-2"
+                            th:text="${#temporals.format(tpl.createDate, 'yyyy-MM-dd HH:mm')}">2025-07-27</td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <div class="flex space-x-2">
+                                <a th:href="@{/checksheet/checksheetTemplateForm/{templateId}(templateId=${tpl.templateId})}"
+                                    class="px-2 py-1 text-blue-600 border border-blue-500 rounded hover:bg-blue-50 text-xs">
+                                    수정
+                                </a>
+                                <form
+                                    th:action="@{/checksheet/checksheetTemplateDelete/{templateId}(templateId=${tpl.templateId})}"
+                                    method="post" class="inline" th:onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                                    <button type="submit"
+                                        class="px-2 py-1 text-red-600 border border-red-500 rounded hover:bg-red-50 text-xs">
+                                        삭제
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(templateList)}">
+                        <td colspan="5" class="border border-gray-300 px-4 py-2 text-center text-gray-500">
+                            등록된 템플릿이 없습니다.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

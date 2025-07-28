@@ -61,7 +61,7 @@ public class PlantMasterController {
         model.addAttribute("plantMaster", plantMaster);
         // Select box 데이터 추가
         model.addAttribute("sites", siteService.getAllSitesByCompanyId(companyId));
-        model.addAttribute("funcMasters", funcMasterService.getAllFuncMasters(companyId));
+        model.addAttribute("funcMasters", funcMasterService.getAllFuncMastersByCompanyId(companyId));
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
         model.addAttribute("assetTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "ASSET"));
         model.addAttribute("depreMethods", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "DEPRE"));
@@ -90,7 +90,7 @@ public class PlantMasterController {
         // Select box 데이터 추가
         model.addAttribute("plantMaster", plantMaster);
         model.addAttribute("sites", siteService.getAllSitesByCompanyId(companyId));
-        model.addAttribute("funcMasters", funcMasterService.getAllFuncMasters(companyId));
+        model.addAttribute("funcMasters", funcMasterService.getAllFuncMastersByCompanyId(companyId));
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
         model.addAttribute("assetTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "ASSET"));
         model.addAttribute("depreMethods", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "DEPRE"));

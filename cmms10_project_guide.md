@@ -44,7 +44,7 @@ Thymeleaf, tailwind css 적용
 
 * Domain : 기준 정보 CRUD 
 * commonCode : 코드 값 관리 CRUD+detail(출력용)
-  (참고) codeType의 설정값: JOBTP-job type, ASSET-asset type, DEPRE-deperciation type, PERMT-permitType 
+  (참고) codeType의 설정값: JOBTP-job type, ASSET-asset type, DEPRE-deperciation type, PERMT-permitType, FUNTP - function type, LOCTP - location type
 * PlantMaster : 설비 기준정보 관리. Tag/PSM 등 관리대상 여부 체크. plamtMasterList에서 복수의 plantId를 선택 후 QR 코드 출력 기능 제공하여 스티커 프린터에서 출력 후 설비에 부착할 수 있도록 함(Inspection,workorder에 활용)
               : site 단위로 마스터코드 관리함함
 * InventoryMaster : 재고 기준정보 관리. plantMaster대비 이동이 더 빈번하고 출력빈도가 높을 것으로 예상되어 바코드 형태로 출력 기능 제공 
