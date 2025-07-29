@@ -22,7 +22,22 @@ public class ChecksheetTemplateController {
 
     // 템플릿 작성 화면
     @GetMapping("/checksheetTemplateForm")
-    public String templateForm() {
+    public String templateForm(Model model, HttpSession session) {
+        String companyId = (String) session.getAttribute("companyId");
+        ChecksheetTemplate checksheetTemplate = new ChecksheetTemplate();
+        checksheetTemplate.setCompanyId(companyId);
+        model.addAttribute("checksheetTemplate", checksheetTemplate);
+        return "checksheet/checksheetTemplateForm";
+    }
+
+    // 템블릿 수정 화면
+    @GetMapping("/checksheetTemplateForm/{templateId}")
+    public String templateForm(@PathVariable String templateId, Model model, HttpSession session) {
+        String companyId = (String) session.getAttribute("companyId");
+        ChecksheetTemplate checksheetTemplate = templateService.getTemplateByCompanyIdAndTemplateId(companyId,
+                templateId);
+
+        model.addAttribute("checksheetTemplate", checksheetTemplate);
         return "checksheet/checksheetTemplateForm";
     }
 
@@ -50,8 +65,20 @@ public class ChecksheetTemplateController {
     @GetMapping("/checksheetTemplateList")
     public String templateList(Model model, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
-        List<ChecksheetTemplate> list = templateService.getTemplatesByCompany(companyId);
-        model.addAttribute("templateList", list);
+        List<ChecksheetTemplate> list = templateService.getTemplatesByCompanyId(companyId);
+        model.addAttribute("checksheetTemplateList", list);
+        return "checksheet/checksheetTemplateList";
+    }
+
+    // 템블릿 삭제 화면
+    @GetMapping("/checksheetTemplateDelete/{templateId}")
+    public String templateDelete(@PathVariable String templateId, Model model, HttpSession session) {
+        String companyId = (String) session.getAttribute("companyId");
+        try {
+            templateService.deleteTemplate(companyId, templateId);
+        } catch (Exception e) {
+            throw new RuntimeException("템플릿 삭제 중 오류 발생: " + e.getMessage());
+        }
         return "checksheet/checksheetTemplateList";
     }
 
@@ -60,7 +87,7 @@ public class ChecksheetTemplateController {
     @ResponseBody
     public Map<String, Object> getTemplatesAsMap(HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
-        List<ChecksheetTemplate> list = templateService.getTemplatesByCompany(companyId);
+        List<ChecksheetTemplate> list = templateService.getTemplatesByCompanyId(companyId);
 
         Map<String, String> jsonMap = new LinkedHashMap<>();
         for (ChecksheetTemplate tpl : list) {

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--
+패키지: com.cmms10.checksheet
+파일: checksheetResultDetail.html
+주요기능: 체크시트 결과 상세정보 출력 및 프린트 폼
+생성자: (로그인 이름 입력)
+생성일: (생성일 입력)
+-->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/defaultLayout}">
+
+<head>
+    <title>체크시트 결과 상세</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="max-w-4xl mx-auto mt-8 space-y-6">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold">🧾 체크시트 결과 상세</h2>
+                <div class="space-x-2">
+                    <a th:if="${checksheetResult != null}"
+                        th:href="@{/workpermit/workpermitDetail/{siteId}/{permitId}(siteId=${checksheetResult.companyId},permitId=${checksheetResult.permitId})}"
+                        class="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">
+                        <i class="fas fa-arrow-left mr-2"></i>작업허가서로 돌아가기
+                    </a>
+                    <button th:if="${checksheetResult != null}" onclick="window.print()"
+                        class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                        <i class="fas fa-print mr-2"></i>프린트
+                    </button>
+                </div>
+            </div>
+
+            <!-- Basic Information -->
+            <div th:if="${checksheetResult != null}" class="border rounded-lg shadow p-4 space-y-4">
+                <h3 class="font-semibold text-lg mb-2">📋 기본 정보</h3>
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">회사 ID</label>
+                        <div class="p-2 bg-gray-50 rounded" th:text="${checksheetResult.companyId}"></div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">허가서 ID</label>
+                        <div class="p-2 bg-gray-50 rounded" th:text="${checksheetResult.permitId}"></div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">템플릿 ID</label>
+                        <div class="p-2 bg-gray-50 rounded" th:text="${checksheetResult.templateId}"></div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">생성자</label>
+                        <div class="p-2 bg-gray-50 rounded" th:text="${checksheetResult.createBy}"></div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">생성일시</label>
+                    <div class="p-2 bg-gray-50 rounded"
+                        th:text="${#temporals.format(checksheetResult.createDate, 'yyyy-MM-dd HH:mm:ss')}"></div>
+                </div>
+            </div>
+
+            <!-- Checksheet Result -->
+            <div th:if="${checksheetResult != null}" class="border rounded-lg shadow p-4 space-y-4">
+                <h3 class="font-semibold text-lg mb-2">✅ 체크시트 결과</h3>
+                <div id="checksheetView" class="p-4 bg-gray-50 rounded border min-h-[400px]"></div>
+            </div>
+
+            <!-- Summary Information -->
+            <div th:if="${checksheetResult != null and summary != null}" class="border rounded-lg shadow p-4 space-y-4">
+                <h3 class="font-semibold text-lg mb-2">📊 결과 요약</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="text-center p-4 bg-green-50 rounded">
+                        <div class="text-2xl font-bold text-green-600" th:text="${summary.totalItems}">0</div>
+                        <div class="text-sm text-gray-600">전체 항목</div>
+                    </div>
+                    <div class="text-center p-4 bg-blue-50 rounded">
+                        <div class="text-2xl font-bold text-blue-600" th:text="${summary.completedItems}">0</div>
+                        <div class="text-sm text-gray-600">완료 항목</div>
+                    </div>
+                    <div class="text-center p-4 bg-yellow-50 rounded">
+                        <div class="text-2xl font-bold text-yellow-600" th:text="${summary.completionRate}">0%</div>
+                        <div class="text-sm text-gray-600">완료율</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 체크시트 결과가 없을 때 메시지 -->
+            <div th:if="${checksheetResult == null}" class="border rounded-lg shadow p-4 space-y-4">
+                <div class="text-center py-12">
+                    <i class="fas fa-exclamation-triangle text-4xl text-yellow-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-2">체크시트 결과가 없습니다</h3>
+                    <p class="text-gray-500 mb-4">해당 작업허가서에 대한 체크시트 결과를 찾을 수 없습니다.</p>
+                    <a th:href="@{/workpermit/workpermitList}"
+                        class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                        <i class="fas fa-list mr-2"></i>작업허가서 목록으로
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block layout:fragment="page-js">
+        <!-- formRender.js 삽입 -->
+        <script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
+        <script th:inline="javascript">
+            document.addEventListener('DOMContentLoaded', function () {
+                const checksheetResult = /*[[${checksheetResult}]]*/ null;
+                const resultJson = checksheetResult != null ? checksheetResult.checkResultJson : null;
+
+                if (resultJson && resultJson !== '') {
+                    try {
+                        const formData = typeof resultJson === 'string' ? JSON.parse(resultJson) : resultJson;
+                        if (formData && Object.keys(formData).length > 0) {
+                            $('#checksheetView').formRender({
+                                formData: formData,
+                                readOnly: true
+                            });
+                        } else {
+                            document.getElementById('checksheetView').innerHTML =
+                                '<p class="text-gray-500 text-center py-8">체크시트 데이터가 없습니다.</p>';
+                        }
+                    } catch (e) {
+                        console.error('체크시트 데이터 파싱 오류:', e);
+                        document.getElementById('checksheetView').innerHTML =
+                            '<p class="text-red-500 text-center py-8">체크시트 데이터를 불러올 수 없습니다.</p>';
+                    }
+                } else {
+                    document.getElementById('checksheetView').innerHTML =
+                        '<p class="text-gray-500 text-center py-8">체크시트 결과가 없습니다.</p>';
+                }
+            });
+        </script>
+    </th:block>
+</body>
+
+</html>

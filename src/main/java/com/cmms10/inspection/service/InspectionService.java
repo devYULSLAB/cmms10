@@ -24,6 +24,7 @@ import java.util.ArrayList;
  * @since 2025-05-29
  */
 @Service
+@Transactional
 public class InspectionService {
 
     private final InspectionRepository inspectionRepository;

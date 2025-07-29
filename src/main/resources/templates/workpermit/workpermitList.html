@@ -27,6 +27,7 @@
                             <th class="px-4 py-2 border" th:text="#{startDate}">시작일</th>
                             <th class="px-4 py-2 border" th:text="#{endDate}">종료일</th>
                             <th class="px-4 py-2 border" th:text="#{status}">상태</th>
+                            <th class="px-4 py-2 border">점검표</th>
                             <th class="px-4 py-2 border" th:text="#{actions}">Actions</th>
                         </tr>
                     </thead>
@@ -42,6 +43,12 @@
                             <td class="border px-4 py-2" th:text="${wp.startDate}"></td>
                             <td class="border px-4 py-2" th:text="${wp.endDate}"></td>
                             <td class="border px-4 py-2" th:text="${wp.status}"></td>
+                            <td class="border px-4 py-2">
+                                <a th:href="@{/checksheet/checksheetResultDetail/{permitId}(permitId=${wp.permitId})}"
+                                    class="px-2 py-1 text-blue-800 border border-blue-500 rounded hover:bg-blue-50 text-xs">
+                                    <i class="fas fa-clipboard-check mr-1"></i>점검표
+                                </a>
+                            </td>
                             <td class="border px-4 py-2 space-x-2">
                                 <a th:href="@{/workpermit/workpermitForm/{siteId}/{permitId}(siteId=${wp.siteId},permitId=${wp.permitId})}"
                                     class="px-2 py-1 text-yellow-800 border border-yellow-500 rounded hover:bg-yellow-50 text-xs"

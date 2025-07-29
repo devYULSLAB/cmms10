@@ -152,36 +152,7 @@
                                     </div>
                                 </td>
                             </tr>
-                            <!-- 기본 서명자 행 (데이터가 없을 때) -->
-                            <tr th:if="${#lists.isEmpty(items)}" class="signer-row">
-                                <td class="px-4 py-2 border text-center">
-                                    <span class="signer-order">1</span>
-                                </td>
-                                <td class="px-4 py-2 border">
-                                    <input type="text" name="items[0].signerName"
-                                        class="w-full border rounded px-2 py-1" placeholder="서명자 1명" required />
-                                </td>
-                                <td class="px-4 py-2 border">
-                                    <div class="flex items-center space-x-2">
-                                        <canvas id="signatureCanvas0" width="250" height="80"
-                                            style="border:1px solid #ccc; border-radius: 4px; cursor: crosshair;"
-                                            class="signature-canvas"></canvas>
-                                        <input type="hidden" name="items[0].signature" id="signatureData0" />
-                                    </div>
-                                </td>
-                                <td class="px-4 py-2 border">
-                                    <div class="flex space-x-1">
-                                        <button type="button" onclick="clearSignature(0)"
-                                            class="px-2 py-1 text-blue-600 border border-blue-500 rounded hover:bg-blue-50 text-xs">
-                                            지우기
-                                        </button>
-                                        <button type="button" onclick="removeSigner(0)"
-                                            class="px-2 py-1 text-red-600 border border-red-500 rounded hover:bg-red-50 text-xs">
-                                            삭제
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+
                         </tbody>
                     </table>
                     <div class="text-sm text-gray-600 mt-2">
@@ -204,7 +175,12 @@
                     </div>
 
                     <!-- formRender.js로 템플릿 표시 -->
-                    <div id="form-render" class="border rounded p-4 bg-gray-50"></div>
+                    <div id="form-render" class="border rounded p-4 bg-gray-50 min-h-[200px]">
+                        <div class="text-center text-gray-500 py-8">
+                            <i class="fas fa-clipboard-list text-2xl mb-2"></i>
+                            <p>템플릿을 선택하면 체크리스트가 표시됩니다.</p>
+                        </div>
+                    </div>
 
                     <!-- 체크 결과 저장용 -->
                     <textarea id="checkResultJson" name="checkResultJson" hidden></textarea>
@@ -219,11 +195,14 @@
         </div>
     </div>
     <th:block layout:fragment="page-js">
+        <!-- 체크시트 렌더링용 formRender.js -->
+        <script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
         <script th:inline="javascript">
             // DOM 로드 후 실행
             document.addEventListener('DOMContentLoaded', function () {
                 // ✅ 체크리스트 템플릿 렌더링
                 const templateJsonMap = /*[[${templateJsonMap}]]*/ {};
+                console.log('템플릿 맵 초기화:', templateJsonMap);
                 let renderInstance;
 
                 const templateSelect = document.getElementById('templateSelect');
@@ -232,10 +211,42 @@
                 if (templateSelect) {
                     templateSelect.addEventListener('change', function () {
                         const tplId = this.value;
+                        console.log('템플릿 선택:', tplId);
+                        console.log('템플릿 맵:', templateJsonMap);
+
                         const json = templateJsonMap[tplId];
-                        if (json && window.$) {
-                            $('#form-render').formRender({ formData: json });
+                        console.log('선택된 JSON:', json);
+
+                        if (json && window.$ && window.$.fn.formRender) {
+                            console.log('formRender 사용 가능');
+                            // 기존 폼 제거
+                            $('#form-render').empty();
+                            // 새 폼 렌더링
+                            $('#form-render').formRender({
+                                formData: json,
+                                readOnly: false
+                            });
                             renderInstance = $('#form-render').data('formRender');
+                            console.log('렌더링 완료');
+                        } else if (!tplId) {
+                            // 템플릿이 선택되지 않은 경우
+                            $('#form-render').html(`
+                                <div class="text-center text-gray-500 py-8">
+                                    <i class="fas fa-clipboard-list text-2xl mb-2"></i>
+                                    <p>템플릿을 선택하면 체크리스트가 표시됩니다.</p>
+                                </div>
+                            `);
+                        } else {
+                            console.error('formRender를 사용할 수 없습니다.');
+                            $('#form-render').html(`
+                                <div class="text-center text-red-500 py-8">
+                                    <i class="fas fa-exclamation-triangle text-2xl mb-2"></i>
+                                    <p>템플릿을 로드할 수 없습니다.</p>
+                                    <p class="text-sm">JSON: ${json ? '있음' : '없음'}</p>
+                                    <p class="text-sm">jQuery: ${window.$ ? '있음' : '없음'}</p>
+                                    <p class="text-sm">formRender: ${window.$ && window.$.fn.formRender ? '있음' : '없음'}</p>
+                                </div>
+                            `);
                         }
                     });
                 }
@@ -459,8 +470,6 @@
             // DOM 로드 완료 후 초기화
             initializeAllSignatureCanvases();
         </script>
-        <!-- 체크시트 렌더링용 formRender.js -->
-        <script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
     </th:block>
 </body>
 

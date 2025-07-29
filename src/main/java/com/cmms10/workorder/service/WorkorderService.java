@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class WorkorderService {
     private final WorkorderRepository workorderRepository;
     private final WorkorderItemRepository workorderItemRepository;

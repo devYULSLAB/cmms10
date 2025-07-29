@@ -120,7 +120,13 @@
             <!-- Checksheet 결과 렌더링 -->
             <div th:if="${checkResultJson != null and checkResultJson != ''}"
                 class="border rounded-lg shadow p-4 space-y-4">
-                <h3 class="font-semibold text-lg mb-2">🧾 체크시트 결과</h3>
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-semibold text-lg">🧾 체크시트 결과</h3>
+                    <a th:href="@{/checksheet/checksheetResultDetail/{permitId}(permitId=${workpermit.permitId})}"
+                        class="inline-flex items-center px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                        <i class="fas fa-external-link-alt mr-1"></i>상세보기
+                    </a>
+                </div>
                 <div id="checksheetView" class="p-4 bg-gray-50 rounded border"></div>
             </div>
         </div>
@@ -132,21 +138,31 @@
         <script th:inline="javascript">
             document.addEventListener('DOMContentLoaded', function () {
                 const resultJson = /*[[${checkResultJson}]]*/ null;
+                console.log('체크시트 결과 JSON:', resultJson);
 
-                if (resultJson && resultJson !== '') {
+                if (resultJson && resultJson !== '' && resultJson !== '{}') {
                     try {
                         const formData = typeof resultJson === 'string' ? JSON.parse(resultJson) : resultJson;
+                        console.log('파싱된 폼 데이터:', formData);
+
                         if (formData && Object.keys(formData).length > 0) {
                             $('#checksheetView').formRender({
                                 formData: formData,
                                 readOnly: true
                             });
+                            console.log('체크시트 렌더링 완료');
+                        } else {
+                            document.getElementById('checksheetView').innerHTML =
+                                '<p class="text-gray-500 text-center py-8">체크시트 데이터가 없습니다.</p>';
                         }
                     } catch (e) {
                         console.error('체크시트 데이터 파싱 오류:', e);
                         document.getElementById('checksheetView').innerHTML =
-                            '<p class="text-red-500">체크시트 데이터를 불러올 수 없습니다.</p>';
+                            '<p class="text-red-500 text-center py-8">체크시트 데이터를 불러올 수 없습니다.</p>';
                     }
+                } else {
+                    document.getElementById('checksheetView').innerHTML =
+                        '<p class="text-gray-500 text-center py-8">체크시트 결과가 없습니다.</p>';
                 }
             });
         </script>

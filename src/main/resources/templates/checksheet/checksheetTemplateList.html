@@ -29,7 +29,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="tpl : ${templateList}" class="hover:bg-gray-50">
+                    <tr th:each="tpl : ${checksheetTemplateList}" class="hover:bg-gray-50">
                         <td class="border border-gray-300 px-4 py-2" th:text="${tpl.templateId}">TPL000001</td>
                         <td class="border border-gray-300 px-4 py-2" th:text="${tpl.templateName}">전기작업 점검표</td>
                         <td class="border border-gray-300 px-4 py-2" th:text="${tpl.createBy}">admin</td>
@@ -50,11 +50,6 @@
                                     </button>
                                 </form>
                             </div>
-                        </td>
-                    </tr>
-                    <tr th:if="${#lists.isEmpty(templateList)}">
-                        <td colspan="5" class="border border-gray-300 px-4 py-2 text-center text-gray-500">
-                            등록된 템플릿이 없습니다.
                         </td>
                     </tr>
                 </tbody>

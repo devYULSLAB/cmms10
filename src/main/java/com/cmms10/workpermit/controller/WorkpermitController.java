@@ -8,7 +8,7 @@ import com.cmms10.domain.site.service.SiteService;
 import com.cmms10.checksheet.entity.ChecksheetTemplate;
 import com.cmms10.checksheet.entity.ChecksheetResult;
 import com.cmms10.checksheet.service.ChecksheetTemplateService;
-import com.cmms10.checksheet.repository.ChecksheetResultRepository;
+import com.cmms10.checksheet.service.ChecksheetResultService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class WorkpermitController {
     private final WorkpermitService workpermitService;
     private final SiteService siteService;
     private final ChecksheetTemplateService checksheetTemplateService;
-    private final ChecksheetResultRepository checksheetResultRepository;
+    private final ChecksheetResultService checksheetResultService;
 
     // 작업허가 신규 등록
     @GetMapping("/workpermitForm")
@@ -42,7 +42,7 @@ public class WorkpermitController {
         items.add(new WorkpermitItem());
         workpermit.setItems(items);
 
-        List<ChecksheetTemplate> templateList = checksheetTemplateService.getTemplatesByCompany(companyId);
+        List<ChecksheetTemplate> templateList = checksheetTemplateService.getTemplatesByCompanyId(companyId);
         Map<String, String> templateJsonMap = new LinkedHashMap<>();
         for (ChecksheetTemplate tpl : templateList) {
             templateJsonMap.put(tpl.getTemplateId(), tpl.getTemplateJson());
@@ -67,7 +67,7 @@ public class WorkpermitController {
         List<WorkpermitItem> items = workpermitService.getWorkpermitItems(companyId, permitId);
         permit.setItems(items);
 
-        List<ChecksheetTemplate> templateList = checksheetTemplateService.getTemplatesByCompany(companyId);
+        List<ChecksheetTemplate> templateList = checksheetTemplateService.getTemplatesByCompanyId(companyId);
         Map<String, String> templateJsonMap = new LinkedHashMap<>();
         for (ChecksheetTemplate tpl : templateList) {
             templateJsonMap.put(tpl.getTemplateId(), tpl.getTemplateJson());
@@ -96,6 +96,7 @@ public class WorkpermitController {
 
         // 체크리스트 결과 저장
         if (templateId != null && checkResultJson != null && !checkResultJson.isBlank()) {
+            System.out.println("체크시트 결과 저장: " + checkResultJson);
             ChecksheetResult result = new ChecksheetResult();
             result.setCompanyId(companyId);
             result.setPermitId(workpermit.getPermitId());
@@ -103,7 +104,10 @@ public class WorkpermitController {
             result.setCheckResultJson(checkResultJson);
             result.setCreateBy(username);
             result.setCreateDate(LocalDateTime.now());
-            checksheetResultRepository.save(result);
+            checksheetResultService.saveResult(result);
+            System.out.println("체크시트 결과 저장 완료");
+        } else {
+            System.out.println("체크시트 결과 저장 건너뜀 - templateId: " + templateId + ", checkResultJson: " + checkResultJson);
         }
 
         redirectAttributes.addFlashAttribute("successMessage", "Work permit saved successfully");
@@ -140,8 +144,15 @@ public class WorkpermitController {
         model.addAttribute("workpermit", workpermit);
 
         // 체크시트 결과 포함
-        ChecksheetResult result = checksheetResultRepository.findByCompanyIdAndPermitId(companyId, permitId);
-        model.addAttribute("checkResultJson", result != null ? result.getCheckResultJson() : "{}");
+        try {
+            ChecksheetResult result = checksheetResultService.getResultByCompanyIdAndPermitId(companyId, permitId);
+            String checkResultJson = result != null ? result.getCheckResultJson() : "{}";
+            System.out.println("체크시트 결과 JSON: " + checkResultJson);
+            model.addAttribute("checkResultJson", checkResultJson);
+        } catch (RuntimeException e) {
+            System.out.println("체크시트 결과 없음: " + e.getMessage());
+            model.addAttribute("checkResultJson", "{}");
+        }
 
         return "workpermit/workpermitDetail";
     }

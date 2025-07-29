@@ -20,6 +20,7 @@ import java.util.List;
  * @since 2024-03-19
  */
 @Service
+@Transactional
 public class MemoService {
 
     private final MemoRepository memoRepository;
@@ -69,6 +70,7 @@ public class MemoService {
      * @param pageable  페이징 정보
      * @return 페이징된 메모 목록
      */
+    @Transactional(readOnly = true)
     public Page<Memo> getMemoByCompanyId(String companyId, Pageable pageable) {
         return memoRepository.findByCompanyId(companyId, pageable);
     }
@@ -81,6 +83,7 @@ public class MemoService {
      * @param pageable  페이징 정보
      * @return 페이징된 메모 목록
      */
+    @Transactional(readOnly = true)
     public Page<Memo> getMemoByCompanyIdAndMemoName(String companyId, String memoName, Pageable pageable) {
         return memoRepository.findByCompanyIdAndMemoNameContaining(companyId, memoName, pageable);
     }
@@ -93,6 +96,7 @@ public class MemoService {
      * @param pageable  페이징 정보
      * @return 페이징된 메모 목록
      */
+    @Transactional(readOnly = true)
     public Page<Memo> getMemoByCompanyIdAndCreateBy(String companyId, String createBy, Pageable pageable) {
         return memoRepository.findByCompanyIdAndCreateBy(companyId, createBy, pageable);
     }
@@ -104,6 +108,7 @@ public class MemoService {
      * @param memoId    메모 ID
      * @return 메모
      */
+    @Transactional
     public Memo getMemoByCompanyIdAndMemoId(String companyId, String memoId) {
         Memo memo = memoRepository.findByCompanyIdAndMemoId(companyId, memoId)
                 .orElseThrow(() -> new RuntimeException("Memo not found: " + memoId));
@@ -143,6 +148,7 @@ public class MemoService {
      * @param memoId    메모 ID
      * @return 댓글 목록
      */
+    @Transactional(readOnly = true)
     public List<MemoComment> getMemoCommentList(String companyId, String memoId) {
         return memoCommentRepository.findByCompanyIdAndMemoIdOrderBySortOrderAsc(companyId, memoId);
     }
