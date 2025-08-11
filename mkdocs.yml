@@ -1,0 +1,35 @@
+site_name: CMMS10 개발 문서
+site_description: CMMS10 개발 가이드와 데이터베이스 문서
+site_author: CMMS10
+
+nav:
+  - 홈: index.md
+  - 개발 가이드:
+      - CMMS10 개발 규칙 및 가이드: guides/cmms10_project_guide.md
+  - 데이터베이스:
+      - 테이블 구조: db/cmms10_테이블구조.md
+
+theme:
+  name: material
+  language: ko
+  features:
+    - navigation.expand
+    - navigation.sections
+    - toc.integrate
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.details
+
+plugins:
+  - search
