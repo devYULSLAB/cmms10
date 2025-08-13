@@ -27,6 +27,8 @@ public class InventoryMaster {
     @Column(name = "companyId", length = 5, nullable = false)
     private String companyId;
 
+    // 재고는 site에 unique하지 않음 . company에 공통됨
+
     @Id
     @Column(name = "inventoryId", length = 10, nullable = false)
     private String inventoryId;

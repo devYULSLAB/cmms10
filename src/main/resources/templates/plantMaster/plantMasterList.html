@@ -13,9 +13,6 @@
 
             <!-- 상단 제목 -->
             <h2 class="text-2xl font-bold mb-4" th:text="#{plantMasterList}">플랜트 마스터</h2>
-            <p class="mb-4 text-gray-600">
-                <span th:text="#{companyId}">회사 ID:</span> <span th:text="${companyId}" class="font-medium"></span> |
-            </p>
 
             <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
                 <span th:text="${successMessage}"></span>

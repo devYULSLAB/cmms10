@@ -1,0 +1,76 @@
+# 운영 환경 전용 설정
+spring:
+  # 데이터베이스 설정 (환경변수 또는 외부 설정으로 관리)
+  datasource:
+    url: ${DB_URL:jdbc:mariadb://localhost:3306/cmms10}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+    driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      auto-commit: true
+      minimum-idle: 10
+      maximum-pool-size: 50
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  
+  # JPA 운영 설정
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate  # 운영에서는 validate만 사용
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: false  # 운영에서는 SQL 로그 비활성화
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+        connection.isolation: 2  # READ_COMMITTED
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+
+  # Thymeleaf 운영 설정
+  thymeleaf:
+    cache: true  # 운영에서는 캐시 활성화
+    mode: HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    prefix: classpath:/templates/
+    suffix: .html
+
+# 서버 운영 설정
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+
+# 로깅 운영 설정
+logging:
+  file:
+    name: logs/application.log
+    max-size: 100MB
+    max-history: 30
+  level:
+    org.springframework.security: WARN
+    com.cmms10: INFO
+    org.springframework.web: WARN
+    org.hibernate: WARN
+    root: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# 운영 환경 커스텀 설정
+cmms10:
+  default-company-id: ${DEFAULT_COMPANY_ID:C0001}

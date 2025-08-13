@@ -14,10 +14,26 @@
 
             <div>
                 <a th:href="@{/inspection/inspectionForm}"
-                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600">
                     <span th:text="#{add}">Add Inspection</span>
                 </a>
             </div>
+
+            <!-- 검색 조건 -->
+            <form th:action="@{/inspection/inspectionList}" method="get"
+                class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                <input type="text" name="siteId" placeholder="사이트 ID" th:value="${searchSiteId}"
+                    class="border rounded px-3 py-1 text-sm">
+                <input type="text" name="plantId" placeholder="설비 ID" th:value="${searchPlantId}"
+                    class="border rounded px-3 py-1 text-sm">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600 text-sm">
+                    <i class="fas fa-search mr-1"></i><span th:text="#{search}">검색</span>
+                </button>
+                <a th:href="@{/inspection/inspectionList}"
+                    class="px-4 py-1 bg-gray-500 text-white rounded hover:bg-gray-600 text-sm">
+                    <i class="fas fa-undo mr-1"></i><span th:text="#{reset}">초기화</span>
+                </a>
+            </form>
 
             <div class="border rounded-lg shadow overflow-x-auto">
                 <table class="min-w-full text-sm text-left">

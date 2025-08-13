@@ -58,7 +58,7 @@ public interface WorkorderRepository extends JpaRepository<Workorder, WorkorderI
      * @param pageable
      * @return
      */
-    Page<Workorder> findByCompanyIdAndPlantId(String companyId, String plantId, Pageable pageable);
+    Page<Workorder> findByCompanyIdAndPlantIdOrderByOrderIdAsc(String companyId, String plantId, Pageable pageable);
 
     /**
      * CompanyId,siteId와 orderId로 workorder 엔티티를 조회합니다.
@@ -69,5 +69,26 @@ public interface WorkorderRepository extends JpaRepository<Workorder, WorkorderI
      * @return Optional<Workorder> 작업지시 엔티티
      */
     Optional<Workorder> findByCompanyIdAndSiteIdAndOrderId(String companyId, String siteId, String orderId);
+
+    /**
+     * CompanyId와 orderId로 workorder 엔티티를 조회합니다.
+     *
+     * @param companyId 회사 ID
+     * @param orderId   작업지시 ID
+     * @return Optional<Workorder> 작업지시 엔티티
+     */
+    Optional<Workorder> findByCompanyIdAndOrderId(String companyId, String orderId);
+
+    /**
+     * CompanyId, siteId, plantId로 workorder 엔티티를 페이징하여 조회합니다.
+     *
+     * @param companyId 회사 ID
+     * @param siteId    사이트 ID
+     * @param plantId   설비 ID
+     * @param pageable  페이징 정보
+     * @return Page<Workorder> 작업지시 엔티티 페이지
+     */
+    Page<Workorder> findByCompanyIdAndSiteIdAndPlantIdOrderByOrderIdAsc(String companyId, String siteId, String plantId,
+            Pageable pageable);
 
 }

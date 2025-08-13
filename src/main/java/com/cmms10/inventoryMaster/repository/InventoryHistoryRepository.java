@@ -16,4 +16,6 @@ public interface InventoryHistoryRepository extends JpaRepository<InventoryHisto
 
     List<InventoryHistory> findByCompanyIdAndInventoryIdOrderByIoDateDesc(String companyId, String inventoryId);
 
+    List<InventoryHistory> findByCompanyIdOrderByIoDateDesc(String companyId);
+
 }

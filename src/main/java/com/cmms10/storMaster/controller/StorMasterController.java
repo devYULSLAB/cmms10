@@ -72,4 +72,17 @@ public class StorMasterController {
         storMasterService.deleteStorMaster(id.getCompanyId(), id.getSiteId(), id.getLocId());
         return "redirect:/storMaster/storMasterList";
     }
+
+    /**
+     * 위치 목록 조회 API
+     * 
+     * @param companyId 회사 ID
+     * @param siteId    사이트 ID
+     * @return 위치 목록
+     */
+    @GetMapping("/api/locations")
+    @ResponseBody
+    public List<StorMaster> getLocations(@RequestParam String companyId, @RequestParam String siteId) {
+        return storMasterService.findByCompanyIdAndSiteId(companyId, siteId);
+    }
 }

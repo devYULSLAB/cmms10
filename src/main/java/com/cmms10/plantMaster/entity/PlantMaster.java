@@ -42,7 +42,7 @@ public class PlantMaster {
     @Column(name = "plantLoc", length = 100)
     private String plantLoc;
 
-    @Column(name = "funcId", length = 4)
+    @Column(name = "funcId", length = 5)
     private String funcId;
 
     @Column(name = "respDept", length = 5)
@@ -57,8 +57,8 @@ public class PlantMaster {
     @Column(name = "depreMethod", length = 5)
     private String depreMethod;
 
-    @Column(name = "acquitionValue", precision = 15, scale = 2)
-    private BigDecimal acquitionValue;
+    @Column(name = "acquisitionValue", precision = 15, scale = 2)
+    private BigDecimal acquisitionValue;
 
     @Column(name = "residualValue", precision = 15, scale = 2)
     private BigDecimal residualValue;
@@ -111,5 +111,5 @@ public class PlantMaster {
 
     @Column(name = "deleteMark")
     private String deleteMark;
-    
+
 }

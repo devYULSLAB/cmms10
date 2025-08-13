@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/defaultLayout}">
+
+<head>
+    <title th:text="#{inventoryTransaction}">재고 거래</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="max-w-7xl mx-auto p-4">
+
+            <h2 class="text-2xl font-bold mb-4" th:text="#{inventoryTransaction}">재고 거래</h2>
+
+            <!-- 메시지 표시 -->
+            <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
+                <span th:text="${successMessage}"></span>
+            </div>
+            <div th:if="${errorMessage}" class="p-3 mb-4 text-red-800 bg-red-100 rounded">
+                <span th:text="${errorMessage}"></span>
+            </div>
+
+            <!-- 공통 정보 -->
+            <div class="bg-white shadow rounded mb-6 p-4">
+                <h3 class="text-lg font-semibold mb-4" th:text="#{basicInformation}">기본 정보</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1" th:text="#{companyId}">회사 ID:</label>
+                        <p class="text-lg font-semibold text-gray-800" th:text="${companyId}"></p>
+                    </div>
+                    <div>
+                        <label for="siteId" class="block text-sm font-medium mb-1" th:text="#{siteId}">사이트 ID:</label>
+                        <select id="siteId" name="siteId" class="w-full border rounded px-2 py-1" required>
+                            <option value="" th:text="#{select}">-- 선택 --</option>
+                            <option th:each="site : ${sites}" th:value="${site.siteId}"
+                                th:text="${site.siteId + ' - ' + site.siteName}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 입력 폼 -->
+            <div class="bg-white shadow rounded mb-6 p-4">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold" th:text="#{transactionInput}">거래 입력</h3>
+                    <div class="flex gap-2">
+                        <button type="button" id="addRowBtn"
+                            class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
+                            th:text="#{add}">행 추가</button>
+                        <button type="button" id="removeRowBtn"
+                            class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-sm"
+                            th:text="#{delete}">행 삭제</button>
+                    </div>
+                </div>
+
+                <form th:action="@{/inventoryMaster/inventoryTransactionSave}" method="post" id="transactionForm">
+                    <!-- 사이트 ID를 폼에 포함 -->
+                    <input type="hidden" id="siteIdHidden" name="siteId" />
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full table-auto border-collapse border border-gray-300"
+                            id="transactionTable">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="border border-gray-300 px-2 py-2 text-center text-sm"
+                                        style="width: 50px;">
+                                        <input type="checkbox" id="selectAll" />
+                                    </th>
+                                    <th class="border border-gray-300 px-2 py-2 text-left text-sm"
+                                        th:text="#{inventoryId}">재고 ID</th>
+                                    <th class="border border-gray-300 px-2 py-2 text-left text-sm"
+                                        th:text="#{inventoryName}">재고명</th>
+                                    <th class="border border-gray-300 px-2 py-2 text-left text-sm" th:text="#{locId}">위치
+                                        ID</th>
+                                    <th class="border border-gray-300 px-2 py-2 text-left text-sm" th:text="#{locName}">
+                                        위치명</th>
+                                    <th class="border border-gray-300 px-2 py-2 text-left text-sm" th:text="#{ioType}">
+                                        입출고 유형</th>
+                                    <th class="border border-gray-300 px-2 py-2 text-right text-sm" th:text="#{qty}">수량
+                                    </th>
+                                    <th class="border border-gray-300 px-2 py-2 text-right text-sm"
+                                        th:text="#{unitPrice}">단가</th>
+                                    <th class="border border-gray-300 px-2 py-2 text-right text-sm"
+                                        th:text="#{totalValue}">총액</th>
+                                    <th class="border border-gray-300 px-2 py-2 text-left text-sm" th:text="#{note}">비고
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionTableBody">
+                                <!-- 행들이 JavaScript로 동적 생성됨 -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="flex gap-3 mt-6">
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                            th:text="#{save}">저장</button>
+                        <button type="button" id="clearBtn"
+                            class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+                            th:text="#{clear}">초기화</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 페이지별 JavaScript -->
+    <th:block layout:fragment="page-js">
+        <script th:inline="javascript">
+            document.addEventListener('DOMContentLoaded', function () {
+                const ctx = /*[[${contextPath}]]*/ '';
+                const companyId = /*[[${companyId}]]*/ '';
+                let currentRowCount = 0;
+                const initialRowCount = 10;
+
+                // 초기 행 생성
+                for (let i = 0; i < initialRowCount; i++) {
+                    addRow();
+                }
+
+                // 행 추가 함수
+                function addRow() {
+                    const tbody = document.getElementById('transactionTableBody');
+                    const row = document.createElement('tr');
+                    row.className = 'hover:bg-gray-50';
+                    row.innerHTML = `
+                        <td class="border border-gray-300 px-2 py-2 text-center">
+                            <input type="checkbox" class="row-checkbox" />
+                        </td>
+                        <td class="border border-gray-300 px-2 py-2">
+                            <input type="text" name="inventoryHistoryList[${currentRowCount}].inventoryId" 
+                                   class="w-full border rounded px-1 py-1 text-sm inventory-id" required />
+                        </td>
+                        <td class="border border-gray-300 px-2 py-2">
+                            <input type="text" class="w-full border rounded px-1 py-1 text-sm bg-gray-100 inventory-name" readonly />
+                        </td>
+                        <td class="border border-gray-300 px-2 py-2">
+                            <select name="inventoryHistoryList[${currentRowCount}].locId" 
+                                    class="w-full border rounded px-1 py-1 text-sm loc-id" required>
+                                <option value="" th:text="#{select}">-- 선택 --</option>
+                            </select>
+                        </td>
+                        <td class="border border-gray-300 px-2 py-2">
+                            <input type="text" class="w-full border rounded px-1 py-1 text-sm bg-gray-100 loc-name" readonly />
+                        </td>
+                        <td class="border border-gray-300 px-2 py-2">
+                            <select name="inventoryHistoryList[${currentRowCount}].ioType" 
+                                    class="w-full border rounded px-1 py-1 text-sm" required>
+                                <option value="" th:text="#{select}">-- 선택 --</option>
+                                <option value="I" th:text="#{in}">입고</option>
+                                <option value="O" th:text="#{out}">출고</option>
+                            </select>
+                        </td>
+                        <td class="border border-gray-300 px-2 py-2">
+                            <input type="text" name="inventoryHistoryList[${currentRowCount}].qty" 
+                                   class="w-full border rounded px-1 py-1 text-sm text-right qty" 
+                                   placeholder="0.00" required />
+                        </td>
+                        <td class="border border-gray-300 px-2 py-2">
+                            <input type="text" name="inventoryHistoryList[${currentRowCount}].unitPrice" 
+                                   class="w-full border rounded px-1 py-1 text-sm text-right unit-price" 
+                                   placeholder="0.00" required />
+                        </td>
+                        <td class="border border-gray-300 px-2 py-2">
+                            <input type="text" class="w-full border rounded px-1 py-1 text-sm text-right bg-gray-100 total-value" readonly 
+                                   style="font-weight: bold; color: #374151;" />
+                        </td>
+                        <td class="border border-gray-300 px-2 py-2">
+                            <input type="text" name="inventoryHistoryList[${currentRowCount}].note" 
+                                   class="w-full border rounded px-1 py-1 text-sm" />
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                    currentRowCount++;
+
+                    // 이벤트 리스너 추가
+                    const rowElement = tbody.lastElementChild;
+                    setupRowEventListeners(rowElement);
+                }
+
+                // 행 이벤트 리스너 설정
+                function setupRowEventListeners(row) {
+                    const inventoryIdInput = row.querySelector('.inventory-id');
+                    const qtyInput = row.querySelector('.qty');
+                    const unitPriceInput = row.querySelector('.unit-price');
+                    const locIdSelect = row.querySelector('.loc-id');
+
+                    // 재고 ID 입력 시 재고명 조회
+                    inventoryIdInput.addEventListener('blur', function () {
+                        const inventoryId = this.value;
+                        const inventoryNameInput = row.querySelector('.inventory-name');
+
+                        if (inventoryId) {
+                            fetch(`${ctx}/inventoryMaster/api/nameById?companyId=${companyId}&inventoryId=${inventoryId}`)
+                                .then(res => res.ok ? res.json() : Promise.reject(res))
+                                .then(data => {
+                                    inventoryNameInput.value = data.inventoryName || '';
+                                })
+                                .catch(() => {
+                                    inventoryNameInput.value = '재고를 찾을 수 없습니다';
+                                });
+                        }
+                    });
+
+                    // 위치 목록 로드
+                    function loadLocationOptions() {
+                        const siteId = document.getElementById('siteId').value;
+                        if (siteId) {
+                            fetch(`${ctx}/storMaster/api/locations?companyId=${companyId}&siteId=${siteId}`)
+                                .then(res => res.ok ? res.json() : Promise.reject(res))
+                                .then(data => {
+                                    locIdSelect.innerHTML = '<option value="" th:text="#{select}">-- 선택 --</option>';
+                                    data.forEach(location => {
+                                        const option = document.createElement('option');
+                                        option.value = location.locId;
+                                        option.textContent = `${location.locId} - ${location.locName}`;
+                                        locIdSelect.appendChild(option);
+                                    });
+                                })
+                                .catch(() => {
+                                    locIdSelect.innerHTML = '<option value="" th:text="#{select}">-- 선택 --</option>';
+                                });
+                        }
+                    }
+
+                    // 위치 선택 시 위치명 설정
+                    locIdSelect.addEventListener('change', function () {
+                        const selectedOption = this.options[this.selectedIndex];
+                        const locNameInput = row.querySelector('.loc-name');
+                        if (selectedOption.value) {
+                            locNameInput.value = selectedOption.textContent.split(' - ')[1] || '';
+                        } else {
+                            locNameInput.value = '';
+                        }
+                    });
+
+                    // 수량/단가 변경 시 총액 계산
+                    function calculateTotal() {
+                        const qtyStr = qtyInput.value.replace(/[^\d.]/g, '');
+                        const unitPriceStr = unitPriceInput.value.replace(/[^\d.]/g, '');
+
+                        const qty = parseFloat(qtyStr) || 0;
+                        const unitPrice = parseFloat(unitPriceStr) || 0;
+                        const totalValue = qty * unitPrice;
+
+                        const totalValueInput = row.querySelector('.total-value');
+
+                        if (totalValue > 0) {
+                            totalValueInput.value = totalValue.toFixed(2);
+                            totalValueInput.style.color = '#1f2937';
+                            totalValueInput.style.fontWeight = 'bold';
+                        } else {
+                            totalValueInput.value = '0.00';
+                            totalValueInput.style.color = '#9ca3af';
+                            totalValueInput.style.fontWeight = 'normal';
+                        }
+                    }
+
+                    // 숫자 입력 필드 포맷팅 및 유효성 검사
+                    function formatNumberInput(input) {
+                        let value = input.value.replace(/[^\d.]/g, '');
+                        const parts = value.split('.');
+                        if (parts.length > 2) {
+                            value = parts[0] + '.' + parts.slice(1).join('');
+                        }
+                        if (parts.length === 2 && parts[1].length > 2) {
+                            value = parts[0] + '.' + parts[1].substring(0, 2);
+                        }
+                        input.value = value;
+                    }
+
+                    qtyInput.addEventListener('input', function () {
+                        formatNumberInput(this);
+                        calculateTotal();
+                    });
+
+                    unitPriceInput.addEventListener('input', function () {
+                        formatNumberInput(this);
+                        calculateTotal();
+                    });
+
+                    // 사이트 변경 시 위치 목록 업데이트
+                    document.getElementById('siteId').addEventListener('change', function () {
+                        loadLocationOptions();
+                        // 사이트 ID를 폼에 포함
+                        document.getElementById('siteIdHidden').value = this.value;
+                    });
+                }
+
+                // 행 추가 버튼
+                document.getElementById('addRowBtn').addEventListener('click', addRow);
+
+                // 행 삭제 버튼
+                document.getElementById('removeRowBtn').addEventListener('click', function () {
+                    const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+                    if (checkboxes.length === 0) {
+                        alert('삭제할 행을 선택해주세요.');
+                        return;
+                    }
+
+                    checkboxes.forEach(checkbox => {
+                        checkbox.closest('tr').remove();
+                    });
+
+                    // 인덱스 재정렬
+                    reindexRows();
+                });
+
+                // 전체 선택/해제
+                document.getElementById('selectAll').addEventListener('change', function () {
+                    const checkboxes = document.querySelectorAll('.row-checkbox');
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = this.checked;
+                    });
+                });
+
+                // 인덱스 재정렬 함수
+                function reindexRows() {
+                    const rows = document.querySelectorAll('#transactionTableBody tr');
+                    rows.forEach((row, index) => {
+                        const inputs = row.querySelectorAll('input[name*="inventoryHistoryList"]');
+                        const selects = row.querySelectorAll('select[name*="inventoryHistoryList"]');
+
+                        inputs.forEach(input => {
+                            input.name = input.name.replace(/\[\d+\]/, `[${index}]`);
+                        });
+
+                        selects.forEach(select => {
+                            select.name = select.name.replace(/\[\d+\]/, `[${index}]`);
+                        });
+                    });
+                    currentRowCount = rows.length;
+                }
+
+                // 폼 제출 전 검증
+                document.getElementById('transactionForm').addEventListener('submit', function (e) {
+                    const siteId = document.getElementById('siteId').value;
+                    if (!siteId) {
+                        alert('사이트를 선택해주세요.');
+                        e.preventDefault();
+                        return;
+                    }
+
+                    // 사이트 ID를 폼에 포함
+                    document.getElementById('siteIdHidden').value = siteId;
+
+                    // 빈 행 제거
+                    const rows = document.querySelectorAll('#transactionTableBody tr');
+                    rows.forEach(row => {
+                        const inventoryId = row.querySelector('.inventory-id').value;
+                        if (!inventoryId || inventoryId.trim() === '') {
+                            row.remove();
+                        }
+                    });
+
+                    // 인덱스 재정렬
+                    reindexRows();
+                });
+
+                // 초기화 버튼
+                document.getElementById('clearBtn').addEventListener('click', function () {
+                    document.getElementById('transactionForm').reset();
+                    document.getElementById('transactionTableBody').innerHTML = '';
+                    currentRowCount = 0;
+                    for (let i = 0; i < initialRowCount; i++) {
+                        addRow();
+                    }
+                });
+            });
+        </script>
+    </th:block>
+</body>
+
+</html>

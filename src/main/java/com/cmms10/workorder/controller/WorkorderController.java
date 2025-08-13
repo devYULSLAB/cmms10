@@ -7,14 +7,18 @@ import com.cmms10.domain.site.service.SiteService;
 import com.cmms10.domain.dept.service.DeptService;
 import com.cmms10.commonCode.service.CommonCodeService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -50,7 +54,7 @@ public class WorkorderController {
 
         model.addAttribute("workorder", workorder);
         model.addAttribute("sites", siteService.getAllSitesByCompanyId(companyId));
-        model.addAttribute("jobTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
+        model.addAttribute("JOBTPpes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
 
         return "workorder/workorderForm";
@@ -68,21 +72,41 @@ public class WorkorderController {
 
         model.addAttribute("workorder", workorder);
         model.addAttribute("sites", siteService.getAllSitesByCompanyId(companyId));
-        model.addAttribute("jobTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
+        model.addAttribute("JOBTPpes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
 
         return "workorder/workorderForm";
     }
 
     @GetMapping("/workorderList")
-    public String list(Model model, HttpSession session, Pageable pageable) {
+    public String list(@RequestParam(required = false) String siteId,
+            @RequestParam(required = false) String plantId,
+            @PageableDefault(size = 10, sort = "orderId") Pageable pageable,
+            Model model, HttpSession session) {
 
         // 세션에서 사용자 정보 가져오기
         String companyId = (String) session.getAttribute("companyId");
-        // String siteId = (String) session.getAttribute("siteId");
 
-        Page<Workorder> workorders = workorderService.getAllWorkordersByCompanyId(companyId, pageable);
+        Page<Workorder> workorders;
+
+        if (plantId != null && !plantId.isEmpty() && siteId != null && !siteId.isEmpty()) {
+            // 특정 설비의 작업지시 목록
+            workorders = workorderService.getWorkordersByCompanyIdAndSiteIdAndPlantId(companyId, siteId, plantId,
+                    pageable);
+        } else if (plantId != null && !plantId.isEmpty()) {
+            // 특정 설비의 작업지시 목록
+            workorders = workorderService.getWorkordersByCompanyIdAndPlantId(companyId, plantId, pageable);
+        } else if (siteId != null && !siteId.isEmpty()) {
+            // 특정 사이트의 작업지시 목록
+            workorders = workorderService.getWorkordersByCompanyIdAndSiteId(companyId, siteId, pageable);
+        } else {
+            // 전체 작업지시 목록
+            workorders = workorderService.getAllWorkordersByCompanyId(companyId, pageable);
+        }
+
         model.addAttribute("workorders", workorders);
+        model.addAttribute("searchSiteId", siteId);
+        model.addAttribute("searchPlantId", plantId);
 
         return "workorder/workorderList";
     }
@@ -130,21 +154,4 @@ public class WorkorderController {
         return "redirect:/workorder/workorderList"; // Fix redirect path
     }
 
-    // @PostMapping("/item/workorderItemDelete/{orderId}/{itemId}")
-    // public String deleteItem(@PathVariable String orderId,
-    // @PathVariable String itemId,
-    // HttpSession session,
-    // RedirectAttributes redirectAttributes) {
-
-    // String companyId = (String) session.getAttribute("companyId");
-    // try {
-    // workorderService.deleteWorkorderItem(companyId, orderId, itemId);
-    // redirectAttributes.addFlashAttribute("successMessage", "Work order item
-    // deleted successfully");
-    // } catch (Exception e) {
-    // redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete work
-    // order item: " + e.getMessage());
-    // }
-    // return "redirect:/workorder/workorderDetail/" + siteId + "/" + orderId;
-    // }
 }

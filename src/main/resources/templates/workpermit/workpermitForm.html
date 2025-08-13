@@ -6,6 +6,7 @@
     <title>작업허가서 등록</title>
 </head>
 
+
 <body>
     <div layout:fragment="content">
         <div class="max-w-4xl mx-auto mt-8 space-y-6">
@@ -20,7 +21,7 @@
             </div>
 
             <form th:action="@{/workpermit/workpermitSave}" method="post" th:object="${workpermit}"
-                onsubmit="saveSignature()">
+                onsubmit="return saveSignature()">
                 <!-- Hidden fields -->
                 <input type="hidden" th:field="*{companyId}" />
 
@@ -39,16 +40,30 @@
                         </div>
                         <div class="col-span-2">
                             <label class="block text-sm font-medium mb-1" th:text="#{permitType}">Permit Type</label>
-                            <input type="text" th:field="*{permitType}" class="w-full border rounded px-2 py-1" />
+                            <select th:field="*{permitType}" class="w-full border rounded px-2 py-1">
+                                <option value="">-- 허가 유형 선택 --</option>
+                                <option th:each="permitType : ${permitTypes}" th:value="${permitType.codeId}"
+                                    th:text="${permitType.codeId + ' - ' + permitType.codeName}">
+                                </option>
+                            </select>
                         </div>
                         <div class="col-span-2">
                             <label class="block text-sm font-medium mb-1" th:text="#{siteId}">Site</label>
-                            <input type="text" id="siteId" th:field="*{siteId}"
-                                class="w-full border rounded px-2 py-1" />
+                            <select id="siteId" th:field="*{siteId}" class="w-full border rounded px-2 py-1">
+                                <option value="">-- Site 선택 --</option>
+                                <option th:each="site : ${sites}" th:value="${site.siteId}"
+                                    th:text="${site.siteId + ' - ' + site.siteName}">
+                                </option>
+                            </select>
                         </div>
                         <div class="col-span-2">
                             <label class="block text-sm font-medium mb-1" th:text="#{deptId}">Dept</label>
-                            <input type="text" th:field="*{deptId}" class="w-full border rounded px-2 py-1" />
+                            <select th:field="*{deptId}" class="w-full border rounded px-2 py-1">
+                                <option value="">-- 부서 선택 --</option>
+                                <option th:each="dept : ${depts}" th:value="${dept.deptId}"
+                                    th:text="${dept.deptId + ' - ' + dept.deptName}">
+                                </option>
+                            </select>
                         </div>
                     </div>
                     <div>
@@ -134,7 +149,8 @@
                                             style="border:1px solid #ccc; border-radius: 4px; cursor: crosshair;"
                                             class="signature-canvas"></canvas>
                                         <input type="hidden" th:field="*{items[__${iterStat.index}__].signature}"
-                                            th:attr="id='signatureData' + ${iterStat.index}" />
+                                            th:attr="id='signatureData' + ${iterStat.index}"
+                                            th:name="items[__${iterStat.index}__].signature" />
                                     </div>
                                 </td>
                                 <td class="px-4 py-2 border">
@@ -228,6 +244,10 @@
                             });
                             renderInstance = $('#form-render').data('formRender');
                             console.log('렌더링 완료');
+
+                            // 체크결과 필드 초기화
+                            document.getElementById("checkResultJson").value = "{}";
+                            console.log('체크결과 필드 초기화 완료');
                         } else if (!tplId) {
                             // 템플릿이 선택되지 않은 경우
                             $('#form-render').html(`
@@ -236,6 +256,9 @@
                                     <p>템플릿을 선택하면 체크리스트가 표시됩니다.</p>
                                 </div>
                             `);
+                            renderInstance = null;
+                            document.getElementById("checkResultJson").value = "{}";
+                            console.log('템플릿 선택 해제 - 체크결과 필드에 빈 객체 설정');
                         } else {
                             console.error('formRender를 사용할 수 없습니다.');
                             $('#form-render').html(`
@@ -247,6 +270,8 @@
                                     <p class="text-sm">formRender: ${window.$ && window.$.fn.formRender ? '있음' : '없음'}</p>
                                 </div>
                             `);
+                            renderInstance = null;
+                            document.getElementById("checkResultJson").value = "{}";
                         }
                     });
                 }
@@ -256,7 +281,14 @@
                 canvases.forEach(function (canvas) {
                     let drawing = false;
                     let ctx = canvas.getContext('2d');
+
+                    // 캔버스 초기화
+                    ctx.strokeStyle = '#000';
+                    ctx.lineWidth = 2;
+                    ctx.lineCap = 'round';
+
                     let lastX = 0, lastY = 0;
+
                     function getXY(e) {
                         if (e.touches) {
                             const rect = canvas.getBoundingClientRect();
@@ -265,6 +297,7 @@
                             return [e.offsetX, e.offsetY];
                         }
                     }
+
                     canvas.addEventListener('mousedown', function (e) {
                         drawing = true;
                         [lastX, lastY] = getXY(e);
@@ -297,25 +330,135 @@
                     canvas.addEventListener('touchend', function () { drawing = false; });
                 });
 
-                // ✅ 폼 제출 시 서명 + 체크결과 저장
-                document.querySelector("form").addEventListener("submit", function () {
-                    saveAllSignatures();
-                    if (renderInstance) {
-                        const jsonOutput = JSON.stringify(renderInstance.userData);
-                        document.getElementById("checkResultJson").value = jsonOutput;
-                    }
+                // ✅ 폼 제출 시 디버깅 정보 출력 (saveSignature() 함수에서 처리하므로 여기서는 로그만)
+                document.querySelector("form").addEventListener("submit", function (e) {
+                    console.log("폼 제출 이벤트 발생 - saveSignature() 함수가 처리함");
+
+                    // 모든 hidden 필드 값 확인
+                    const hiddenFields = document.querySelectorAll('input[type="hidden"]');
+                    console.log("=== Hidden 필드 확인 ===");
+                    hiddenFields.forEach(function (field) {
+                        if (field.name && field.name.includes('signature')) {
+                            console.log("서명 필드:", field.name, "값 길이:", field.value ? field.value.length : 0);
+                        }
+                    });
+
+                    // 체크결과 필드 확인
+                    const checkResultField = document.getElementById("checkResultJson");
+                    console.log("체크결과 필드 값 길이:", checkResultField ? checkResultField.value.length : 0);
+                    console.log("체크결과 필드 값:", checkResultField ? checkResultField.value : "null");
                 });
             });
 
+            // 폼 제출 시 호출되는 메인 함수
+            function saveSignature() {
+                console.log("=== saveSignature() 호출됨 ===");
+
+                // 서명 데이터 저장
+                saveAllSignatures();
+
+                // 체크시트 결과 저장
+                saveCheckResult();
+
+                console.log("=== saveSignature() 완료 ===");
+                return true; // 폼 제출 허용
+            }
+
+            // 체크시트 결과 저장
+            function saveCheckResult() {
+                console.log("=== 체크시트 결과 저장 시작 ===");
+
+                const templateSelect = document.getElementById('templateSelect');
+                const selectedTemplateId = templateSelect ? templateSelect.value : '';
+                console.log("선택된 템플릿 ID:", selectedTemplateId);
+
+                // 템플릿이 선택되지 않은 경우 빈 객체 저장
+                if (!selectedTemplateId) {
+                    console.log("템플릿이 선택되지 않음 - 빈 객체 저장");
+                    document.getElementById("checkResultJson").value = "{}";
+                    return;
+                }
+
+                // renderInstance가 없는 경우 빈 객체 저장
+                if (!renderInstance) {
+                    console.log("renderInstance가 없음 - 빈 객체 저장");
+                    document.getElementById("checkResultJson").value = "{}";
+                    return;
+                }
+
+                try {
+                    // 폼 요소에서 직접 데이터 수집 (가장 확실한 방법)
+                    const formData = collectFormData();
+                    console.log("수집된 폼 데이터:", formData);
+
+                    if (formData && Object.keys(formData).length > 0) {
+                        const jsonOutput = JSON.stringify(formData);
+                        document.getElementById("checkResultJson").value = jsonOutput;
+                        console.log("체크결과 JSON 저장 성공:", jsonOutput.substring(0, Math.min(200, jsonOutput.length)) + "...");
+                        console.log("체크결과 길이:", jsonOutput.length);
+                    } else {
+                        console.log("폼 데이터가 비어있음 - 빈 객체 저장");
+                        document.getElementById("checkResultJson").value = "{}";
+                    }
+                } catch (error) {
+                    console.error("체크결과 저장 중 오류:", error);
+                    document.getElementById("checkResultJson").value = "{}";
+                }
+
+                console.log("=== 체크시트 결과 저장 완료 ===");
+            }
+
+            // 폼 요소에서 직접 데이터 수집하는 함수
+            function collectFormData() {
+                const formData = {};
+                const formElements = document.querySelectorAll('#form-render input, #form-render select, #form-render textarea');
+
+                formElements.forEach(element => {
+                    if (element.name && element.value !== undefined) {
+                        // 체크박스의 경우 체크 여부를 확인
+                        if (element.type === 'checkbox') {
+                            formData[element.name] = element.checked;
+                        } else {
+                            formData[element.name] = element.value;
+                        }
+                    }
+                });
+
+                console.log("폼 요소에서 수집된 데이터:", formData);
+                console.log("수집된 요소 개수:", formElements.length);
+                return formData;
+            }
+
             // 서명 저장
             function saveAllSignatures() {
+                console.log("서명 저장 시작");
                 const canvases = document.querySelectorAll('canvas[id^="signatureCanvas"]');
-                canvases.forEach(function (canvas) {
+                console.log("발견된 캔버스 개수:", canvases.length);
+
+                canvases.forEach(function (canvas, index) {
                     const idx = canvas.id.replace('signatureCanvas', '');
-                    const dataUrl = canvas.toDataURL("image/png");
-                    const hidden = document.getElementById('signatureData' + idx);
-                    if (hidden) hidden.value = dataUrl;
+                    console.log("캔버스 ID:", canvas.id, "인덱스:", idx);
+
+                    // 캔버스가 비어있지 않은지 확인
+                    const ctx = canvas.getContext('2d');
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const hasData = imageData.data.some(channel => channel !== 0);
+
+                    if (hasData) {
+                        // 이미지 품질을 0.8로 설정하여 파일 크기 최적화
+                        const dataUrl = canvas.toDataURL("image/png", 0.8);
+                        const hidden = document.getElementById('signatureData' + idx);
+                        if (hidden) {
+                            hidden.value = dataUrl;
+                            console.log("서명 데이터 저장됨:", idx, "길이:", dataUrl.length);
+                        } else {
+                            console.error("hidden 필드를 찾을 수 없음:", 'signatureData' + idx);
+                        }
+                    } else {
+                        console.log("캔버스가 비어있음:", idx);
+                    }
                 });
+                console.log("서명 저장 완료");
             }
 
             // 서명 초기화
@@ -407,16 +550,20 @@
             // 서명 canvas 초기화
             function initializeSignatureCanvas(index) {
                 const canvas = document.getElementById('signatureCanvas' + index);
-                if (!canvas) return;
+                if (!canvas) {
+                    console.error('캔버스를 찾을 수 없음:', 'signatureCanvas' + index);
+                    return;
+                }
 
                 let drawing = false;
                 let ctx = canvas.getContext('2d');
-                let lastX = 0, lastY = 0;
 
                 // 캔버스 초기화
                 ctx.strokeStyle = '#000';
                 ctx.lineWidth = 2;
                 ctx.lineCap = 'round';
+
+                let lastX = 0, lastY = 0;
 
                 function getXY(e) {
                     if (e.touches) {
@@ -457,6 +604,8 @@
                     e.preventDefault();
                 }, { passive: false });
                 canvas.addEventListener('touchend', function () { drawing = false; });
+
+                console.log('서명 캔버스 초기화 완료:', index);
             }
 
             // 페이지 로드 시 모든 기존 canvas 초기화

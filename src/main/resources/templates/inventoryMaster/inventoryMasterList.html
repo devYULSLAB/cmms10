@@ -11,9 +11,6 @@
         <div class="max-w-6xl mx-auto mt-6">
 
             <h2 class="text-2xl font-bold mb-4" th:text="#{inventoryMasterList}">재고 마스터</h2>
-            <p class="mb-4 text-gray-600">
-                <span th:text="#{companyId}">회사 ID:</span> <span th:text="${companyId}" class="font-medium"></span> |
-            </p>
 
             <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
                 <span th:text="${successMessage}"></span>
@@ -35,9 +32,10 @@
                         <tr>
                             <th class="px-4 py-2 border" th:text="#{inventoryId}">재고 ID</th>
                             <th class="px-4 py-2 border" th:text="#{inventoryName}">재고 이름</th>
-                            <th class="px-4 py-2 border" th:text="#{inventoryLoc}">위치</th>
+                            <th class="px-4 py-2 border" th:text="#{respDept}">담당부서</th>
                             <th class="px-4 py-2 border" th:text="#{assetType}">자산 유형</th>
-                            <th class="px-4 py-2 border" th:text="#{siteId}">사이트 ID</th>
+                            <th class="px-4 py-2 border" th:text="#{manufacturer}">제조사</th>
+                            <th class="px-4 py-2 border" th:text="#{manufacturerModel}">모델</th>
                             <th class="px-4 py-2 border" th:text="#{action}">작업</th>
                         </tr>
                     </thead>
@@ -48,9 +46,10 @@
                                     th:text="${item.inventoryId}">재고 ID</a>
                             </td>
                             <td class="px-4 py-2 border" th:text="${item.inventoryName}"></td>
-                            <td class="px-4 py-2 border" th:text="${item.inventoryLoc}"></td>
+                            <td class="px-4 py-2 border" th:text="${item.respDept}"></td>
                             <td class="px-4 py-2 border" th:text="${item.assetType}"></td>
-                            <td class="px-4 py-2 border" th:text="${item.siteId}"></td>
+                            <td class="px-4 py-2 border" th:text="${item.manufacturer}"></td>
+                            <td class="px-4 py-2 border" th:text="${item.manufacturerModel}"></td>
                             <td class="px-4 py-2 border flex flex-wrap gap-2">
                                 <a th:href="@{/inventoryMaster/inventoryMasterForm/{inventoryId}(inventoryId=${item.inventoryId})}"
                                     class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 text-xs"
@@ -66,11 +65,6 @@
                                         삭제
                                     </button>
                                 </form>
-                                <a th:href="@{/inventoryMaster/inventoryIoHistory(companyId=${companyId}, siteId=${siteId}, inventoryId=${item.inventoryId})}"
-                                    class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-xs"
-                                    th:text="#{inventoryIoHistory}">
-                                    재고 입출고
-                                </a>
                             </td>
                         </tr>
                     </tbody>
@@ -81,14 +75,14 @@
             <div th:if="${inventories.totalPages > 0}" class="mt-6 flex justify-center">
                 <ul class="inline-flex border rounded overflow-hidden">
                     <li>
-                        <a th:href="@{/inventoryMaster/inventoryList(companyId=${companyId}, siteId=${siteId}, page=${inventories.number - 1}, size=${inventories.size})}"
+                        <a th:href="@{/inventoryMaster/inventoryMasterList(page=${inventories.number - 1}, size=${inventories.size})}"
                             th:classappend="${inventories.first ? 'pointer-events-none opacity-50' : ''}"
                             class="px-3 py-1 bg-white hover:bg-gray-100 border-r">
                             Previous
                         </a>
                     </li>
                     <li th:each="i : ${#numbers.sequence(0, inventories.totalPages - 1)}">
-                        <a th:href="@{/inventoryMaster/inventoryList(companyId=${companyId}, siteId=${siteId}, page=${i}, size=${inventories.size})}"
+                        <a th:href="@{/inventoryMaster/inventoryMasterList(page=${i}, size=${inventories.size})}"
                             th:text="${i + 1}"
                             th:classappend="${i == inventories.number ? 'bg-blue-500 text-white' : 'bg-white hover:bg-gray-100'}"
                             class="px-3 py-1 border-r">
@@ -96,7 +90,7 @@
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/inventoryMaster/inventoryList(companyId=${companyId}, siteId=${siteId}, page=${inventories.number + 1}, size=${inventories.size})}"
+                        <a th:href="@{/inventoryMaster/inventoryMasterList(page=${inventories.number + 1}, size=${inventories.size})}"
                             th:classappend="${inventories.last ? 'pointer-events-none opacity-50' : ''}"
                             class="px-3 py-1 bg-white hover:bg-gray-100">
                             Next

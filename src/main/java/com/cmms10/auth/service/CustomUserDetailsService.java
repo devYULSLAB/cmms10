@@ -6,8 +6,6 @@ import com.cmms10.domain.roleAuth.entity.RoleAuth;
 import com.cmms10.domain.roleAuth.repository.RoleAuthRepository;
 import com.cmms10.domain.company.entity.Company;
 import com.cmms10.domain.company.repository.CompanyRepository;
-import com.cmms10.domain.site.entity.Site;
-import com.cmms10.domain.site.repository.SiteRepository;
 import com.cmms10.domain.dept.entity.Dept;
 import com.cmms10.domain.dept.repository.DeptRepository;
 import com.cmms10.auth.dto.CustomUserDetails;
@@ -64,26 +62,36 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByCompanyIdAndUsernameAndDeleteMarkIsNull(defaultCompanyId, username)
                 .orElseThrow(() -> {
                     System.out.println("User not found - CompanyId: " + defaultCompanyId + ", Username: " + username);
-                    return new UsernameNotFoundException("User not found with companyId: " + defaultCompanyId + " and username: " + username);
+                    return new UsernameNotFoundException(
+                            "User not found with companyId: " + defaultCompanyId + " and username: " + username);
                 });
         System.out.println("User found: " + user.getUsername() + ", Full Name: " + user.getUserFullName());
 
         // 권한 동적 조회
         List<GrantedAuthority> authorities = new ArrayList<>();
         if (user.getRoleId() != null) {
-            // roleId로 여러 권한(복수 row) 조회
-            List<RoleAuth> roleAuthList = roleAuthRepository.findByRoleId(user.getRoleId());
-            if (roleAuthList.isEmpty()) {
-                throw new UsernameNotFoundException("권한 정보 없음: " + user.getRoleId());
-            }
-            for (RoleAuth roleAuth : roleAuthList) {
-                // authGranted에 콤마로 여러 권한이 있을 수 있음
-                for (String role : roleAuth.getAuthGranted().split(",")) {
-                    String trimmed = role.trim();
-                    if (!trimmed.isEmpty()) {
-                        authorities.add(new SimpleGrantedAuthority(trimmed));
+            try {
+                // roleId로 여러 권한(복수 row) 조회
+                List<RoleAuth> roleAuthList = roleAuthRepository.findByRoleId(user.getRoleId());
+                if (!roleAuthList.isEmpty()) {
+                    for (RoleAuth roleAuth : roleAuthList) {
+                        // authGranted에 콤마로 여러 권한이 있을 수 있음
+                        for (String role : roleAuth.getAuthGranted().split(",")) {
+                            String trimmed = role.trim();
+                            if (!trimmed.isEmpty()) {
+                                authorities.add(new SimpleGrantedAuthority(trimmed));
+                            }
+                        }
                     }
+                } else {
+                    System.out.println(
+                            "Warning: No role auth found for roleId: " + user.getRoleId() + ", using default role");
+                    authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
                 }
+            } catch (Exception e) {
+                System.out.println(
+                        "Warning: Error loading role auth for roleId: " + user.getRoleId() + ", using default role");
+                authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
             }
         } else {
             // 기본 권한
@@ -93,16 +101,20 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         // 회사 정보 조회
         Company company = companyRepository.findByCompanyIdAndDeleteMarkIsNull(user.getCompanyId())
-                .orElseThrow(() -> new UsernameNotFoundException("Company not found with ID: " + user.getCompanyId())); 
-        
-        
+                .orElseThrow(() -> new UsernameNotFoundException("Company not found with ID: " + user.getCompanyId()));
+
         // 부서 정보 조회
         Dept dept = null;
         if (user.getDeptId() != null) {
-            dept = deptRepository.findByCompanyIdAndDeptIdAndDeleteMarkIsNull(user.getCompanyId(), user.getDeptId())
-                    .orElseThrow(() -> new UsernameNotFoundException("Dept not found with ID: " + user.getDeptId()));
-        }       
-        
+            try {
+                dept = deptRepository.findByCompanyIdAndDeptIdAndDeleteMarkIsNull(user.getCompanyId(), user.getDeptId())
+                        .orElse(null);
+            } catch (Exception e) {
+                System.out.println(
+                        "Warning: Dept not found with ID: " + user.getDeptId() + ", continuing without dept info");
+                dept = null;
+            }
+        }
 
         CustomUserDetails userDetails = new CustomUserDetails(
                 user.getUsername(),
@@ -112,8 +124,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 company.getCompanyName(),
                 user.getDeptId(),
                 dept != null ? dept.getDeptName() : "",
-                user.getUserFullName()
-        );
+                user.getUserFullName());
         System.out.println("Created CustomUserDetails for: " + userDetails.getUsername());
         System.out.println("===============================================");
         return userDetails;

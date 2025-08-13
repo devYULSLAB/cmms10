@@ -107,7 +107,11 @@ public class PlantMasterController {
     public String save(@ModelAttribute PlantMaster plantMaster,
             HttpSession session,
             RedirectAttributes redirectAttributes) {
+        // 세션에서 사용자 정보 가져오기
+        String companyId = (String) session.getAttribute("companyId");
         String username = (String) session.getAttribute("username");
+
+        plantMaster.setCompanyId(companyId);
 
         plantMasterService.savePlantMaster(plantMaster, username);
 
@@ -175,9 +179,10 @@ public class PlantMasterController {
 
         // 세션에서 사용자 정보 가져오기
         String companyId = (String) session.getAttribute("companyId");
+        String username = (String) session.getAttribute("username");
 
         try {
-            plantMasterService.deletePlantMaster(companyId, siteId, plantId);
+            plantMasterService.deletePlantMaster(companyId, siteId, plantId, username);
         } catch (Exception e) {
             throw new RuntimeException("삭제 중 오류 발생: " + e.getMessage());
         }

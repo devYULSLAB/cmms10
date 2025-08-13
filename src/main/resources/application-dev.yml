@@ -1,0 +1,62 @@
+# 개발 환경 전용 설정
+spring:
+  # 데이터베이스 설정
+  datasource:
+    url: jdbc:mariadb://localhost:3306/cmms10
+    username: root
+    password: yuls88!#3
+    driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      auto-commit: true
+      minimum-idle: 5
+      maximum-pool-size: 10
+  
+  # JPA 개발 설정
+  jpa:
+    hibernate:
+      ddl-auto: update  # 개발에서는 update 사용
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true  # 개발에서는 SQL 로그 활성화
+    properties:
+      hibernate:
+        'format_sql': true  # 개발에서는 SQL 포맷팅 활성화
+        dialect: org.hibernate.dialect.MariaDBDialect
+        connection.isolation: 2  # READ_COMMITTED
+
+  # Thymeleaf 설정
+  thymeleaf:
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    prefix: classpath:/templates/
+    suffix: .html
+
+  # DevTools 설정
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/resources
+      exclude: static/**
+      log-condition-evaluation-delta: true
+      poll-interval: 500ms
+      quiet-period: 100ms
+    livereload:
+      enabled: true
+      port: 35729
+    add-properties: true
+  
+  # 개발 전용 설정 (공통 설정과 다른 부분만)
+  
+  # 로깅 개발 설정
+  logging:
+    level:
+      org.springframework.security: DEBUG
+      com.cmms10: DEBUG 
+      org.springframework.context.support: TRACE
+      org.springframework.context.i18n: TRACE
+      org.springframework.boot.devtools: DEBUG
+      org.springframework.web: DEBUG
+      org.thymeleaf: DEBUG

@@ -8,7 +8,7 @@
 
 <body>
     <div layout:fragment="content">
-        <div class="max-w-xl mx-auto mt-8 p-6 bg-white shadow rounded">
+        <div class="max-w-xl mx-auto mt-8 p-6 bg-white">
             <h2 class="text-2xl font-bold mb-4" th:text="${roleAuth.roleId == null ? '권한코드 생성' : '권한코드 수정'}"></h2>
 
             <div th:if="${successMessage}" class="mb-4 p-3 bg-green-100 text-green-800 rounded-lg">
@@ -25,26 +25,24 @@
                 <div>
                     <label for="roleIdDisplay" class="block text-sm font-medium text-gray-700"
                         th:text="#{roleId}">역할코드</label>
-                    <input type="text" id="roleIdDisplay" th:field="*{roleId}"
-                        th:value="${roleAuth != null and roleAuth.roleId != null ? roleAuth.roleId : ''}"
-                        th:readonly="${mode == 'edit'}"
-                        class="mt-1 w-full rounded-lg border-gray-300 p-2 focus:outline-none"
-                        th:class="${mode == 'edit' ? 'mt-1 w-full rounded-lg border-gray-300 bg-gray-100 p-2 focus:outline-none' : 'mt-1 w-full rounded-lg border-gray-300 p-2 focus:ring focus:ring-blue-200'}" />
+                    <input type="text" id="roleIdDisplay" th:field="*{roleId}" th:readonly="${roleAuth.roleId != null}"
+                        class="mt-1 w-32 border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+                        placeholder="5자리입니다" maxlength="5" />
                 </div>
 
                 <div>
                     <label for="roleName" class="block text-sm font-medium text-gray-700"
                         th:text="#{roleName}">역할명</label>
-                    <input type="text" id="roleName" th:field="*{roleName}" placeholder="Enter Role Name"
-                        class="mt-1 w-full rounded-lg border-gray-300 p-2 focus:ring focus:ring-blue-200" />
+                    <input type="text" id="roleName" th:field="*{roleName}"
+                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300" />
                 </div>
 
                 <div>
                     <label for="authGranted" class="block text-sm font-medium text-gray-700"
                         th:text="#{authGranted}">권한코드</label>
                     <input type="text" id="authGranted" th:field="*{authGranted}"
-                        placeholder="Enter Auth (e.g., SAVE, VIEW, DELETE)" required
-                        class="mt-1 w-full rounded-lg border-gray-300 p-2 focus:ring focus:ring-blue-200" />
+                        placeholder="Enter Auth (e.g., SAVE, UPDATE, READ, DELETE, APPROVE)" required
+                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300" />
                 </div>
 
                 <div class="flex space-x-2 mt-4">

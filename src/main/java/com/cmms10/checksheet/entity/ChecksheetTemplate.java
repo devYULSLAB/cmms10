@@ -1,3 +1,12 @@
+/*
+ * 패키지: com.cmms10.checksheet.entity
+ * 폴더 구조: src/main/java/com/cmms10/checksheet/entity/
+ * 프로그램명: ChecksheetTemplate.java
+ * 주요 기능: 체크시트 템플릿 엔티티 (데이터베이스 테이블 매핑)
+ * 생성자: admin
+ * 생성일: 2025-01-27
+ */
+
 package com.cmms10.checksheet.entity;
 
 import jakarta.persistence.*;

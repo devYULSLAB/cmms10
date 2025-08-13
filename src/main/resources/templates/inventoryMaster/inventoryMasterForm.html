@@ -28,7 +28,7 @@
 
                 <!-- Basic Information -->
                 <div class="border rounded-lg shadow p-4 bg-white">
-                    <h5 class="text-lg font-semibold mb-4 border-b pb-2" th:text="#{basicInformation}">기본 정보</h5>
+                    <h5 class="text-lg font-semibold mb-4" th:text="#{basicInformation}">기본 정보</h5>
 
                     <div class="grid grid-cols-12 gap-4">
                         <div class="col-span-3">
@@ -44,23 +44,20 @@
                                 th:field="*{inventoryName}" required />
                         </div>
                     </div>
-                    <div class="grid grid-cols-6 gap-4">
-
+                    <div class="grid grid-cols-12 gap-4 mt-4">
                         <div class="col-span-3">
-                            <label for="respDept" class="block text-sm font-medium mb-1" th:text="#{respDept}">담당
-                                부서:</label>
-                            <select id="respDept" th:field="*{respDept}"
-                                class="mt-1 block w-full border border-gray-300 rounded">
+                            <label for="respDept" class="block text-sm font-medium mb-1"
+                                th:text="#{respDept}">담당부서:</label>
+                            <select id="respDept" th:field="*{respDept}" class="w-full border rounded px-2 py-1">
                                 <option value="" th:text="#{select}">-- Select --</option>
-                                <option th:each="dept : ${depts}" th:value="${dept.deptId}"
-                                    th:text="${dept.deptId + ' - ' + dept.deptName}"></option>
+                                <option th:each="respDept : ${respDepts}" th:value="${respDept.deptId}"
+                                    th:text="${respDept.deptId + ' - ' + respDept.deptName}"></option>
                             </select>
                         </div>
                         <div class="col-span-3">
-                            <label for="assetType" class="block text-sm font-medium mb-1" th:text="#{assetType}">자산
-                                유형:</label>
-                            <select id="assetType" th:field="*{assetType}"
-                                class="mt-1 block w-full border border-gray-300 rounded">
+                            <label for="assetType" class="block text-sm font-medium mb-1"
+                                th:text="#{assetType}">자산유형:</label>
+                            <select id="assetType" th:field="*{assetType}" class="w-full border rounded px-2 py-1">
                                 <option value="" th:text="#{select}">-- Select --</option>
                                 <option th:each="asset : ${assetTypes}" th:value="${asset.codeId}"
                                     th:text="${asset.codeId + ' - ' + asset.codeName}"></option>
@@ -78,45 +75,43 @@
                             <label for="manufacturer" class="block text-sm font-medium"
                                 th:text="#{manufacturer}">제조사:</label>
                             <input type="text" id="manufacturer" th:field="*{manufacturer}"
-                                class="mt-1 block w-full border border-gray-300 rounded" />
+                                class="w-full border rounded px-2 py-1" />
                         </div>
                         <div class="col-span-3">
                             <label for="manufacturerModel" class="block text-sm font-medium"
                                 th:text="#{manufacturerModel}">모델:</label>
                             <input type="text" id="manufacturerModel" th:field="*{manufacturerModel}"
-                                class="mt-1 block w-full border border-gray-300 rounded" />
+                                class="w-full border rounded px-2 py-1" />
                         </div>
                         <div class="col-span-3">
                             <label for="manufacturerSN" class="block text-sm font-medium"
                                 th:text="#{manufacturerSN}">시리얼 번호:</label>
                             <input type="text" id="manufacturerSN" th:field="*{manufacturerSN}"
-                                class="mt-1 block w-full border border-gray-300 rounded" />
+                                class="w-full border rounded px-2 py-1" />
                         </div>
                         <div class="col-span-3">
                             <label for="manufacturerSpec" class="block text-sm font-medium"
                                 th:text="#{manufacturerSpec}">규격:</label>
                             <input type="text" id="manufacturerSpec" th:field="*{manufacturerSpec}"
-                                class="mt-1 block w-full border border-gray-300 rounded" />
+                                class="w-full border rounded px-2 py-1" />
                         </div>
                     </div>
                 </div>
 
                 <!-- Notes & Files -->
                 <div class="border rounded-lg shadow p-4 bg-white">
-                    <h5 class="text-lg font-semibold mb-4 border-b pb-2" th:text="#{note}">메모</h5>
+                    <h5 class="text-lg font-semibold mb-4" th:text="#{note}">메모</h5>
 
                     <div class="mb-4">
                         <label for="note" class="block text-sm font-medium mb-1" th:text="#{note}">메모:</label>
-                        <textarea id="note" rows="3"
-                            class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+                        <textarea id="note" rows="3" class="w-full border rounded px-2 py-1"
                             th:field="*{note}"></textarea>
                     </div>
 
                     <div>
                         <label for="fileGroupId" class="block text-sm font-medium mb-1" th:text="#{fileGroupId}">파일 그룹
                             ID:</label>
-                        <input type="text" id="fileGroupId"
-                            class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
+                        <input type="text" id="fileGroupId" class="w-full border rounded px-2 py-1"
                             th:field="*{fileGroupId}" />
                     </div>
                 </div>
@@ -125,7 +120,7 @@
                 <div class="flex gap-3 mt-6">
                     <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                         th:text="#{save}">저장</button>
-                    <a th:href="@{/inventoryMaster/inventoryList}"
+                    <a th:href="@{/inventoryMaster/inventoryMasterList}"
                         class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" th:text="#{cancel}">취소/목록</a>
                 </div>
             </form>

@@ -3,7 +3,7 @@
     layout:decorate="~{layout/defaultLayout}">
 
 <head>
-    <title>Inventory Master Detail</title>
+    <title th:text="#{inventoryMasterDetail}">재고 마스터 상세</title>
 </head>
 
 <body>
@@ -12,88 +12,159 @@
 
             <h2 class="text-2xl font-bold mb-4" th:text="#{inventoryMasterDetail}">재고 마스터 상세</h2>
 
-            <div class="border rounded-lg shadow p-6 bg-white space-y-6">
+            <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
+                <span th:text="${successMessage}"></span>
+            </div>
+            <div th:if="${errorMessage}" class="p-3 mb-4 text-red-800 bg-red-100 rounded">
+                <span th:text="${errorMessage}"></span>
+            </div>
+
+            <form class="space-y-6">
+                <!-- Hidden fields -->
+                <input type="hidden" th:value="${inventoryMaster.companyId}" />
 
                 <!-- Basic Information -->
-                <div>
-                    <h5 class="text-lg font-semibold mb-2 border-b pb-1" th:text="#{basicInformation}">기본 정보</h5>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-gray-600" th:text="#{inventoryId}">재고 ID:</label>
-                            <p class="font-medium" th:text="${inventoryMaster.inventoryId}"></p>
+                <div class="border rounded-lg shadow p-4 bg-white">
+                    <h5 class="text-lg font-semibold mb-4" th:text="#{basicInformation}">기본 정보</h5>
+
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-3">
+                            <label for="inventoryId" class="block text-sm font-medium mb-1"
+                                th:text="#{inventoryId}">재고ID:</label>
+                            <input type="text" id="inventoryId" class="w-full border rounded px-2 py-1 bg-gray-100"
+                                th:value="${inventoryMaster.inventoryId}" readonly />
                         </div>
-                        <div>
-                            <label class="block text-gray-600" th:text="#{inventoryName}">재고 이름:</label>
-                            <p class="font-medium" th:text="${inventoryMaster.inventoryName}"></p>
+                        <div class="col-span-9">
+                            <label for="inventoryName" class="block text-sm font-medium mb-1"
+                                th:text="#{inventoryName}">재고 이름:</label>
+                            <input type="text" id="inventoryName" class="w-full border rounded px-2 py-1 bg-gray-100"
+                                th:value="${inventoryMaster.inventoryName}" readonly />
                         </div>
-                        <div>
-                            <label class="block text-gray-600" th:text="#{location}">위치:</label>
-                            <p class="font-medium" th:text="${inventoryMaster.inventoryLoc}"></p>
+                    </div>
+                    <div class="grid grid-cols-12 gap-4 mt-4">
+                        <div class="col-span-3">
+                            <label for="respDept" class="block text-sm font-medium mb-1"
+                                th:text="#{respDept}">담당부서:</label>
+                            <input type="text" id="respDept" class="w-full border rounded px-2 py-1 bg-gray-100"
+                                th:value="${inventoryMaster.respDept}" readonly />
                         </div>
-                        <div>
-                            <label class="block text-gray-600" th:text="#{respDept}">담당 부서:</label>
-                            <p class="font-medium" th:text="${inventoryMaster.respDept}"></p>
+                        <div class="col-span-3">
+                            <label for="assetType" class="block text-sm font-medium mb-1"
+                                th:text="#{assetType}">자산유형:</label>
+                            <input type="text" id="assetType" class="w-full border rounded px-2 py-1 bg-gray-100"
+                                th:value="${inventoryMaster.assetType}" readonly />
                         </div>
-                        <div>
-                            <label class="block text-gray-600" th:text="#{assetType}">자산 유형:</label>
-                            <p class="font-medium" th:text="${inventoryMaster.assetType}"></p>
-                        </div>
+
                     </div>
                 </div>
 
                 <!-- Manufacturer Details -->
-                <div>
-                    <h5 class="text-lg font-semibold mb-2 border-b pb-1" th:text="#{manufacturerInformation}">제조사 상세
-                    </h5>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-gray-600" th:text="#{manufacturer}">제조사:</label>
-                            <p class="font-medium" th:text="${inventoryMaster.manufacturer}"></p>
+                <div class="border rounded-lg p-4 shadow">
+                    <h5 class="text-lg font-semibold mb-4" th:text="#{manufacturerInformation}">제조사 상세</h5>
+
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-3">
+                            <label for="manufacturer" class="block text-sm font-medium"
+                                th:text="#{manufacturer}">제조사:</label>
+                            <input type="text" id="manufacturer" class="w-full border rounded px-2 py-1 bg-gray-100"
+                                th:value="${inventoryMaster.manufacturer}" readonly />
                         </div>
-                        <div>
-                            <label class="block text-gray-600" th:text="#{manufacturerModel}">모델:</label>
-                            <p class="font-medium" th:text="${inventoryMaster.manufacturerModel}"></p>
+                        <div class="col-span-3">
+                            <label for="manufacturerModel" class="block text-sm font-medium"
+                                th:text="#{manufacturerModel}">모델:</label>
+                            <input type="text" id="manufacturerModel"
+                                class="w-full border rounded px-2 py-1 bg-gray-100"
+                                th:value="${inventoryMaster.manufacturerModel}" readonly />
                         </div>
-                        <div>
-                            <label class="block text-gray-600" th:text="#{manufacturerSN}">시리얼 번호:</label>
-                            <p class="font-medium" th:text="${inventoryMaster.manufacturerSN}"></p>
+                        <div class="col-span-3">
+                            <label for="manufacturerSN" class="block text-sm font-medium"
+                                th:text="#{manufacturerSN}">시리얼 번호:</label>
+                            <input type="text" id="manufacturerSN" class="w-full border rounded px-2 py-1 bg-gray-100"
+                                th:value="${inventoryMaster.manufacturerSN}" readonly />
                         </div>
-                        <div>
-                            <label class="block text-gray-600" th:text="#{manufacturerSpec}">규격:</label>
-                            <p class="font-medium" th:text="${inventoryMaster.manufacturerSpec}"></p>
+                        <div class="col-span-3">
+                            <label for="manufacturerSpec" class="block text-sm font-medium"
+                                th:text="#{manufacturerSpec}">규격:</label>
+                            <input type="text" id="manufacturerSpec" class="w-full border rounded px-2 py-1 bg-gray-100"
+                                th:value="${inventoryMaster.manufacturerSpec}" readonly />
                         </div>
                     </div>
                 </div>
 
                 <!-- Notes & Files -->
-                <div>
-                    <h5 class="text-lg font-semibold mb-2 border-b pb-1" th:text="#{note}">메모</h5>
-                    <div class="mb-2">
-                        <label class="block text-gray-600" th:text="#{note}">메모:</label>
-                        <p class="font-medium whitespace-pre-line" th:text="${inventoryMaster.note}"></p>
+                <div class="border rounded-lg shadow p-4 bg-white">
+                    <h5 class="text-lg font-semibold mb-4" th:text="#{note}">메모</h5>
+
+                    <div class="mb-4">
+                        <label for="note" class="block text-sm font-medium mb-1" th:text="#{note}">메모:</label>
+                        <textarea id="note" rows="3" class="w-full border rounded px-2 py-1 bg-gray-100" readonly
+                            th:text="${inventoryMaster.note}"></textarea>
                     </div>
+
                     <div>
-                        <label class="block text-gray-600" th:text="#{fileGroupId}">파일 그룹 ID:</label>
-                        <p class="font-medium" th:text="${inventoryMaster.fileGroupId}"></p>
+                        <label for="fileGroupId" class="block text-sm font-medium mb-1" th:text="#{fileGroupId}">파일 그룹
+                            ID:</label>
+                        <input type="text" id="fileGroupId" class="w-full border rounded px-2 py-1 bg-gray-100"
+                            th:value="${inventoryMaster.fileGroupId}" readonly />
                     </div>
                 </div>
 
-            </div>
+                <!-- Buttons -->
+                <div class="flex gap-3 mt-6">
+                    <a th:href="@{/inventoryMaster/inventoryMasterList}"
+                        class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" th:text="#{cancel}">목록</a>
+                    <button type="button" id="printBtn"
+                        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        th:text="#{print}">출력</button>
 
-            <!-- Action Buttons -->
-            <div class="mt-6 flex gap-3">
-                <a th:href="@{/inventoryMaster/inventoryMasterForm/{inventoryId}(inventoryId=${inventoryMaster.inventoryId})}"
-                    class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600" th:text="#{edit}">
-                    수정
-                </a>
-                <a th:href="@{/inventoryMaster/inventoryMasterList}"
-                    class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" th:text="#{cancel}">
-                    목록으로
-                </a>
-            </div>
-
+                </div>
+            </form>
         </div>
     </div>
+
+    <!-- 페이지별 JavaScript -->
+    <th:block layout:fragment="page-js">
+        <script th:inline="javascript">
+            document.addEventListener('DOMContentLoaded', function () {
+                // 출력 버튼 클릭 이벤트
+                document.getElementById('printBtn').addEventListener('click', function () {
+                    // 현재 페이지의 content 영역만 출력
+                    const content = document.querySelector('[layout\\:fragment="content"]');
+                    if (content) {
+                        const printWindow = window.open('', '_blank');
+                        printWindow.document.write(`
+                            <!DOCTYPE html>
+                            <html>
+                            <head>
+                                <title th:text="#{inventoryMasterDetail}">재고 마스터 상세</title>
+                                <style>
+                                    body { font-family: Arial, sans-serif; margin: 20px; }
+                                    .section { margin-bottom: 20px; }
+                                    .section h5 { font-size: 16px; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+                                    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
+                                    .field { margin-bottom: 10px; }
+                                    .field label { display: block; font-weight: bold; margin-bottom: 5px; color: #666; }
+                                    .field input, .field textarea { width: 100%; padding: 5px; border: 1px solid #ddd; background-color: #f9f9f9; }
+                                    .field textarea { min-height: 60px; }
+                                    @media print {
+                                        body { margin: 0; }
+                                        .no-print { display: none; }
+                                    }
+                                </style>
+                            </head>
+                            <body>
+                                <h2 style="text-align: center; margin-bottom: 30px;" th:text="#{inventoryMasterDetail}">재고 마스터 상세</h2>
+                                ${content.innerHTML}
+                            </body>
+                            </html>
+                        `);
+                        printWindow.document.close();
+                        printWindow.print();
+                    }
+                });
+            });
+        </script>
+    </th:block>
 </body>
 
 </html>

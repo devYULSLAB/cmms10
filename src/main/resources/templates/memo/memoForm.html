@@ -15,15 +15,16 @@
         <div class="px-6 py-4">
 
             <!-- 카드 -->
-            <div class="bg-white shadow rounded">
+            <div class="bg-white">
                 <div class="border-b px-6 py-4">
-                    <h2 class="text-lg font-semibold" th:text="${memo != null ? '메모 수정' : '메모 등록'}"></h2>
+                    <h2 class="text-lg font-semibold" th:text="${memo.memoId == null ? '메모 등록' : '메모 수정'}"></h2>
                 </div>
                 <div class="p-6">
                     <form th:action="@{/memo/memoSave}" method="post" th:object="${memo}">
                         <!-- hidden fields -->
                         <input type="hidden" name="memoId" th:value="${memo?.memoId}">
                         <input type="hidden" name="companyId" th:value="${memo?.companyId}">
+                        <input type="hidden" name="deptId" th:value="${memo?.deptId}">
                         <input type="hidden" name="createBy" th:value="${memo?.createBy}">
                         <input type="hidden" name="createDate" th:value="${memo?.createDate}">
                         <input type="hidden" name="updateBy" th:value="${memo?.updateBy}">

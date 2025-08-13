@@ -48,30 +48,28 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(authorize -> {
-                authorize
-                    .requestMatchers("/login", "/css/**", "/js/**", "/error", "/favicon.ico").permitAll()
-                    .requestMatchers("/").permitAll()
-                    .anyRequest().authenticated();
-            })
-            .formLogin(formLogin -> {
-                formLogin
-                    .loginPage("/login")
-                    .loginProcessingUrl("/login")
-                    .successHandler(authenticationSuccessHandler())
-                    .failureUrl("/login?error")
-                    .permitAll();
-            })
-            .logout(logout -> {
-                logout
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/login?logout")
-                    .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID")
-                    .permitAll();
-            })
-            .authenticationProvider(authenticationProvider());
-            
+                .authorizeHttpRequests(authorize -> {
+                    authorize
+                            .requestMatchers("/login", "/js/**", "/error", "/favicon.ico").permitAll()
+                            .requestMatchers("/").permitAll()
+                            .anyRequest().authenticated();
+                })
+                .formLogin(formLogin -> {
+                    formLogin
+                            .loginPage("/login")
+                            .loginProcessingUrl("/login")
+                            .successHandler(authenticationSuccessHandler())
+                            .failureUrl("/login?error");
+                })
+                .logout(logout -> {
+                    logout
+                            .logoutUrl("/logout")
+                            .logoutSuccessUrl("/login?logout")
+                            .invalidateHttpSession(true)
+                            .deleteCookies("JSESSIONID");
+                })
+                .authenticationProvider(authenticationProvider());
+
         return http.build();
     }
 
@@ -81,7 +79,7 @@ public class SecurityConfig {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
             HttpSession session = request.getSession();
 
-            session.setAttribute("username", userDetails.getUsername()); 
+            session.setAttribute("username", userDetails.getUsername());
             session.setAttribute("userFullName", userDetails.getUserFullName());
             session.setAttribute("companyId", userDetails.getCompanyId());
             session.setAttribute("companyName", userDetails.getCompanyName());

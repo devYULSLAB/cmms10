@@ -3,7 +3,6 @@ package com.cmms10.memo.controller;
 import com.cmms10.memo.entity.Memo;
 import com.cmms10.memo.entity.MemoComment;
 import com.cmms10.memo.service.MemoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Sort;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Collections;
 
 /**
@@ -44,9 +42,11 @@ public class MemoController {
     @GetMapping("/memoForm")
     public String form(Model model, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
+        String deptId = (String) session.getAttribute("deptId");
 
         Memo memo = new Memo();
         memo.setCompanyId(companyId);
+        memo.setDeptId(deptId);
         model.addAttribute("memo", memo);
 
         return "memo/memoForm";
@@ -197,10 +197,6 @@ public class MemoController {
             // Get session info
             String companyId = (String) session.getAttribute("companyId");
             comment.setCompanyId(companyId);
-
-            System.out.println("companyId: " + comment.getCompanyId());
-            System.out.println("memoId: " + comment.getMemoId());
-            System.out.println("note: " + comment.getNote());
 
             MemoComment savedComment = memoService.saveMemoComment(comment);
             redirectAttributes.addFlashAttribute("successMessage", "Comment saved successfully");

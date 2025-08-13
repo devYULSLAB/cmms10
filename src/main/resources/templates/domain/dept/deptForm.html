@@ -1,66 +1,70 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/defaultLayout}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/defaultLayout}">
+
 <head>
     <title>Dept Form</title>
 </head>
+
 <body>
-<div layout:fragment="content">
-    <div class="max-w-xl mx-auto mt-8 p-6 bg-white shadow rounded">
-        <h2 class="text-2xl font-bold mb-6" th:text="${dept.deptId == null ? '부서코드 생성' : '부서코드 수정'}">부서코드</h2>
+    <div layout:fragment="content">
+        <div class="max-w-xl mx-auto mt-8 p-6 bg-white">
+            <h2 class="text-2xl font-bold mb-6" th:text="${dept.deptId == null ? '부서코드 생성' : '부서코드 수정'}">부서코드</h2>
 
-        <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
-            <span th:text="${successMessage}"></span>
+            <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
+                <span th:text="${successMessage}"></span>
+            </div>
+            <div th:if="${errorMessage}" class="p-3 mb-4 text-red-800 bg-red-100 rounded">
+                <span th:text="${errorMessage}"></span>
+            </div>
+
+            <form th:action="@{/dept/deptSave}" th:object="${dept}" method="post" class="space-y-4">
+                <!-- Hidden fields -->
+                <input type="hidden" th:field="*{companyId}" />
+                <input type="hidden" th:field="*{createBy}" />
+                <input type="hidden" th:field="*{createDate}" />
+                <input type="hidden" th:field="*{updateBy}" />
+                <input type="hidden" th:field="*{updateDate}" />
+
+                <input type="hidden" name="mode" th:value="${mode}" />
+
+                <div>
+                    <label for="deptId" class="block text-sm font-medium text-gray-700" th:text="#{deptId}">부서코드</label>
+                    <input type="text" id="deptId" th:field="*{deptId}" th:readonly="${dept.deptId != null}" required
+                        class="mt-1 w-32 border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+                        placeholder="5자리입니다" maxlength="5" />
+                </div>
+
+                <div>
+                    <label for="deptName" class="block text-sm font-medium text-gray-700"
+                        th:text="#{deptName}">부서명</label>
+                    <input type="text" id="deptName" th:field="*{deptName}"
+                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+                        required>
+                </div>
+
+                <div>
+                    <label for="parentDeptId" class="block text-sm font-medium text-gray-700"
+                        th:text="#{deptParentId}">상위부서</label>
+                    <input type="text" id="parentDeptId" th:field="*{parentDeptId}"
+                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300">
+                </div>
+
+                <div>
+                    <label for="note" class="block text-sm font-medium text-gray-700" th:text="#{note}">비고</label>
+                    <textarea id="note" th:field="*{note}" rows="2"
+                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"></textarea>
+                </div>
+
+                <div class="flex space-x-2 mt-4">
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                        th:text="#{save}">저장</button>
+                    <a th:href="@{/dept/deptList}" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                        th:text="#{cancel}">취소/목록</a>
+                </div>
+            </form>
         </div>
-        <div th:if="${errorMessage}" class="p-3 mb-4 text-red-800 bg-red-100 rounded">
-            <span th:text="${errorMessage}"></span>
-        </div>
-        
-        <form th:action="@{/dept/deptSave}" th:object="${dept}" method="post" class="space-y-4">
-            <!-- Hidden fields -->
-            <input type="hidden" th:field="*{companyId}" />
-            <input type="hidden" th:field="*{createBy}" />
-            <input type="hidden" th:field="*{createDate}" />
-            <input type="hidden" th:field="*{updateBy}" />
-            <input type="hidden" th:field="*{updateDate}" />
-            
-            <input type="hidden" name="mode" th:value="${mode}" />
-
-            <div>
-                <label for="deptId" class="block text-sm font-medium text-gray-700" th:text="#{deptId}">부서코드</label>
-                <input type="text" id="deptId" th:field="*{deptId}"
-                       class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-                       th:readonly="${dept.deptId != null}" required>
-            </div>
-
-            <div>
-                <label for="deptName" class="block text-sm font-medium text-gray-700" th:text="#{deptName}">부서명</label>
-                <input type="text" id="deptName" th:field="*{deptName}"
-                       class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-                       required>
-            </div>
-
-            <div>
-                <label for="parentDeptId" class="block text-sm font-medium text-gray-700" th:text="#{deptParentId}">상위부서</label>
-                <input type="text" id="parentDeptId" th:field="*{parentDeptId}"
-                       class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300">
-            </div>
-
-            <div>
-                <label for="note" class="block text-sm font-medium text-gray-700" th:text="#{note}">비고</label>
-                <textarea id="note" th:field="*{note}" rows="2"
-                          class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"></textarea>
-            </div>
-
-            <div class="flex space-x-2 mt-4">
-                <button type="submit"
-                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" th:text="#{save}">저장</button>
-                <a th:href="@{/dept/deptList}"
-                   class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400" th:text="#{cancel}">취소/목록</a>
-            </div>
-        </form>
     </div>
-</div>
 </body>
+
 </html>

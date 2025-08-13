@@ -8,7 +8,7 @@
 
 <body>
     <div layout:fragment="content">
-        <div class="max-w-xl mx-auto mt-8 p-6 bg-white shadow-lg rounded-2xl">
+        <div class="max-w-xl mx-auto mt-8 p-6 bg-white">
             <h2 class="text-2xl font-bold mb-6" th:text="${user.username == null ? '사용자코드 생성' : '사용자코드 수정'}">사용자코드</h2>
 
             <div th:if="${successMessage}" class="p-3 mb-4 text-green-800 bg-green-100 rounded">
@@ -31,9 +31,10 @@
                 <div>
                     <label for="username" class="block text-sm font-medium text-gray-700"
                         th:text="#{username}">사용자코드</label>
-                    <input type="text" id="username" th:field="*{username}"
-                        class="mt-1 w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-                        th:readonly="${user.username != null}" required>
+                    <input type="text" id="username" th:field="*{username}" th:readonly="${user.username != null}"
+                        required
+                        class="mt-1 w-32 border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+                        placeholder="5자리입니다" maxlength="5" />
                 </div>
 
                 <div>

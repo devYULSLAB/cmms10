@@ -64,7 +64,7 @@ public class WorkpermitService {
     @Transactional(readOnly = true)
     public Workpermit getWorkpermitByCompanyIdAndPermitId(String companyId, String siteId, String permitId) {
         return workpermitRepository.findByCompanyIdAndPermitId(companyId, permitId)
-                .orElseThrow(() -> new IllegalArgumentException("작업허가를 찾을 수 없습니다: " + permitId));
+                .orElseThrow(() -> new IllegalArgumentException("Workpermit not found with ID: " + permitId));
     }
 
     /**
@@ -106,7 +106,40 @@ public class WorkpermitService {
         // WorkpermitItem 처리
         processWorkpermitItems(workpermit);
 
-        return workpermitRepository.save(workpermit);
+        // Workpermit 저장
+        Workpermit savedWorkpermit = workpermitRepository.save(workpermit);
+
+        // WorkpermitItem들을 개별적으로 저장
+        if (workpermit.getItems() != null && !workpermit.getItems().isEmpty()) {
+            for (WorkpermitItem item : workpermit.getItems()) {
+                try {
+                    // 명시적으로 모든 필드 설정
+                    item.setCompanyId(workpermit.getCompanyId());
+                    item.setPermitId(workpermit.getPermitId());
+
+                    // null 값 처리
+                    if (item.getSignature() == null) {
+                        item.setSignature("");
+                    }
+                    if (item.getSignerName() == null) {
+                        item.setSignerName("");
+                    }
+                    if (item.getRole() == null) {
+                        item.setRole("");
+                    }
+                    if (item.getNote() == null) {
+                        item.setNote("");
+                    }
+
+                    workpermitItemRepository.save(item);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+            }
+        }
+
+        return savedWorkpermit;
     }
 
     /**
@@ -185,9 +218,16 @@ public class WorkpermitService {
                 if (item.getSignerName() != null && !item.getSignerName().isEmpty()) {
                     item.setCompanyId(workpermit.getCompanyId());
                     item.setPermitId(workpermit.getPermitId());
-                    item.setItemId(String.format("%02d", itemIndex++));
+                    item.setItemId(String.format("%02d", itemIndex));
                     item.setWorkpermit(workpermit);
+
+                    // 서명 데이터가 있으면 signedAt 설정
+                    if (item.getSignature() != null && !item.getSignature().trim().isEmpty()) {
+                        item.setSignedAt(LocalDateTime.now());
+                    }
+
                     validItems.add(item);
+                    itemIndex++;
                 }
             }
 

@@ -56,13 +56,13 @@ public class InspectionItem {
     private BigDecimal itemResult;
 
     @Lob // For TEXT type
-    @Column(name = "note")
+    @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
-        @JoinColumn(name = "companyId", referencedColumnName = "companyId", insertable = false, updatable = false),
-        @JoinColumn(name = "inspectionId", referencedColumnName = "inspectionId", insertable = false, updatable = false)
+            @JoinColumn(name = "companyId", referencedColumnName = "companyId", insertable = false, updatable = false),
+            @JoinColumn(name = "inspectionId", referencedColumnName = "inspectionId", insertable = false, updatable = false)
     })
     private Inspection inspection; // This will need Inspection in the same package or imported
 }

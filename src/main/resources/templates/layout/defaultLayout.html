@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title th:text="#{page.title.default}">CMMS Application</title>
+  <title th:text="#{page.title}">CMMS</title>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -131,7 +131,7 @@
             </li>
             <li><a th:href="@{/inventoryMaster/inventoryMasterList}" class="block py-1 hover:text-yellow-300">목록</a>
             </li>
-            <li><a th:href="@{/inventoryMaster/inventoryIoHistory}" class="block py-1 hover:text-yellow-300">입출고</a>
+            <li><a th:href="@{/inventoryMaster/inventoryTransaction}" class="block py-1 hover:text-yellow-300">입출고</a>
             </li>
           </ul>
         </li>
@@ -206,11 +206,11 @@
             <i class="fas fa-chevron-down"></i>
           </button>
           <ul class="submenu hidden pl-7 mt-1 space-y-1">
-            <li><a th:href="@{/company/companyForm}" class="block py-1 hover:text-yellow-300">회사코드</a></li>
-            <li><a th:href="@{/site/siteForm}" class="block py-1 hover:text-yellow-300">사이트코드</a></li>
-            <li><a th:href="@{/dept/deptForm}" class="block py-1 hover:text-yellow-300">부서코드</a></li>
-            <li><a th:href="@{/user/userForm}" class="block py-1 hover:text-yellow-300">사용자</a></li>
-            <li><a th:href="@{/roleAuth/roleAuthForm}" class="block py-1 hover:text-yellow-300">권한</a></li>
+            <li><a th:href="@{/company/companyList}" class="block py-1 hover:text-yellow-300">회사코드</a></li>
+            <li><a th:href="@{/site/siteList}" class="block py-1 hover:text-yellow-300">사이트코드</a></li>
+            <li><a th:href="@{/dept/deptList}" class="block py-1 hover:text-yellow-300">부서코드</a></li>
+            <li><a th:href="@{/user/userList}" class="block py-1 hover:text-yellow-300">사용자</a></li>
+            <li><a th:href="@{/roleAuth/roleAuthList}" class="block py-1 hover:text-yellow-300">권한</a></li>
           </ul>
         </li>
 

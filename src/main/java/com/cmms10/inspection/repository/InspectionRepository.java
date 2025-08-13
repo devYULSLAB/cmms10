@@ -84,7 +84,7 @@ public interface InspectionRepository extends JpaRepository<Inspection, Inspecti
                         String inspectionName, Pageable pageable);
 
         /**
-         * 회사 ID와 플랜트 ID로 점검을 조회합니다.
+         * 회사 ID, 사이트 ID, 플랜트 ID로 점검을 조회합니다.
          *
          * @param companyId 회사 ID
          * @param siteId    사이트 ID
@@ -93,6 +93,16 @@ public interface InspectionRepository extends JpaRepository<Inspection, Inspecti
          */
         Page<Inspection> findByCompanyIdAndSiteIdAndPlantIdOrderByInspectionIdAsc(String companyId, String siteId,
                         String plantId, Pageable pageable);
+
+        /**
+         * 회사 ID와 플랜트 ID로 점검을 조회합니다.
+         *
+         * @param companyId 회사 ID
+         * @param plantId   플랜트 ID
+         * @return 점검 엔티티 목록
+         */
+        Page<Inspection> findByCompanyIdAndPlantIdOrderByInspectionIdAsc(String companyId, String plantId,
+                        Pageable pageable);
 
         /**
          * 회사 ID와 점검 ID로 점검을 삭제합니다.

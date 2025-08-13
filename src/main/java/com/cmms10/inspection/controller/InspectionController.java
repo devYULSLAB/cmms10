@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.List; // Added import
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -60,7 +61,7 @@ public class InspectionController {
         // Select box 데이터 추가
         model.addAttribute("inspection", inspection);
         model.addAttribute("sites", siteService.getAllSitesByCompanyId(companyId));
-        model.addAttribute("jobTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
+        model.addAttribute("jobtps", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
 
         return "inspection/inspectionForm";
@@ -116,16 +117,40 @@ public class InspectionController {
         return "redirect:/inspection/inspectionList";
     }
 
-    /** 목록 조회 */
+    /** 목록 조회 : 검색 조건별 */
     @GetMapping("/inspectionList")
-    public String list(Model model,
+    public String list(@RequestParam(required = false) String plantId,
+            @RequestParam(required = false) String siteId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            Model model,
             HttpSession session,
             @PageableDefault(size = 10, sort = "inspectionId") Pageable pageable) {
         String companyId = (String) session.getAttribute("companyId");
+        // 검색 조건 system.out
+        System.out.println("inspectionList search");
+        System.out.println("plantId: " + plantId);
+        System.out.println("siteId: " + siteId);
 
-        Page<Inspection> inspections = inspectionService.getAllInspectionsByCompanyId(companyId, pageable);
+        Page<Inspection> inspections;
+        if (plantId != null && !plantId.isEmpty() && siteId != null && !siteId.isEmpty()) {
+            // 특정 설비의 점검 목록
+            inspections = inspectionService.getInspectionByCompanyIdAndSiteIdAndPlantId(companyId, siteId, plantId,
+                    pageable);
+        } else if (plantId != null && !plantId.isEmpty()) {
+            // 특정 설비의 점검 목록
+            inspections = inspectionService.getInspectionByCompanyIdAndPlantId(companyId, plantId, pageable);
+        } else if (siteId != null && !siteId.isEmpty()) {
+            // 특정 사이트의 점검 목록
+            inspections = inspectionService.getAllInspectionsByCompanyIdAndSiteId(companyId, siteId, pageable);
+        } else {
+            // 전체 점검 목록
+            inspections = inspectionService.getAllInspectionsByCompanyId(companyId, pageable);
+        }
+
         model.addAttribute("inspections", inspections);
-
+        model.addAttribute("searchPlantId", plantId);
+        model.addAttribute("searchSiteId", siteId);
         return "inspection/inspectionList";
     }
 

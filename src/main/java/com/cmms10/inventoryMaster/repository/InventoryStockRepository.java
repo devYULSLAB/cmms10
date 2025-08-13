@@ -24,4 +24,7 @@ public interface InventoryStockRepository extends JpaRepository<InventoryStock, 
             @Param("siteId") String siteId,
             @Param("locId") String locId,
             @Param("inventoryId") String inventoryId);
+
+    Optional<InventoryStock> findByCompanyIdAndSiteIdAndLocIdAndInventoryId(String companyId, String siteId,
+            String locId, String inventoryId);
 }

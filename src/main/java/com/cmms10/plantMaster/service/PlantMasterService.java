@@ -59,11 +59,15 @@ public class PlantMasterService {
     }
 
     @Transactional
-    public void deletePlantMaster(String companyId, String siteId, String plantId) {
-        PlantMasterIdClass id = new PlantMasterIdClass(companyId, siteId, plantId);
-        if (!plantMasterRepository.existsById(id)) {
-            throw new RuntimeException("PlantMaster not found with id: " + id);
-        }
-        plantMasterRepository.deleteById(id);
+    public void deletePlantMaster(String companyId, String siteId, String plantId, String username) {
+        PlantMaster plantMaster = plantMasterRepository
+                .findByCompanyIdAndSiteIdAndPlantIdAndDeleteMarkIsNull(companyId, siteId, plantId)
+                .orElseThrow(() -> new RuntimeException("PlantMaster not found: " + plantId));
+
+        plantMaster.setDeleteMark("Y");
+        plantMaster.setUpdateDate(LocalDateTime.now());
+        plantMaster.setUpdateBy(username);
+
+        plantMasterRepository.save(plantMaster);
     }
 }

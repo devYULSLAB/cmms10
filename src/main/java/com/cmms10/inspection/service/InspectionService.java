@@ -78,7 +78,7 @@ public class InspectionService {
     }
 
     /**
-     * plantId로 점검 정보 조회
+     * siteId, plantId로 점검 정보 조회
      * 
      * @param companyId 회사 ID
      * @param siteId    사이트 ID
@@ -89,6 +89,20 @@ public class InspectionService {
     public Page<Inspection> getInspectionByCompanyIdAndSiteIdAndPlantId(String companyId, String siteId, String plantId,
             Pageable pageable) {
         return inspectionRepository.findByCompanyIdAndSiteIdAndPlantIdOrderByInspectionIdAsc(companyId, siteId, plantId,
+                pageable);
+    }
+
+    /**
+     * plantId로 점검 정보 조회
+     * 
+     * @param companyId 회사 ID
+     * @param plantId   설비 ID
+     * @return 점검 정보 Optional
+     */
+    @Transactional(readOnly = true)
+    public Page<Inspection> getInspectionByCompanyIdAndPlantId(String companyId, String plantId,
+            Pageable pageable) {
+        return inspectionRepository.findByCompanyIdAndPlantIdOrderByInspectionIdAsc(companyId, plantId,
                 pageable);
     }
 

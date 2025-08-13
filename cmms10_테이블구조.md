@@ -201,7 +201,7 @@ create, read, update, delete, approve, master
 | inspectionId   | CHAR(10)     | 점검계획 ID (PK) |
 | inspectionName | Varchar(100) | 예방점검 이름    |
 | plantId        | CHAR(10)      | 설비 ID          |
-| jobType        | CHAR(5)      | 작업 유형        |
+| JOBTP          | CHAR(5)      | 작업 유형        |
 | performDept    | CHAR(5)      | 수행부서         |
 | note           | text         | 비고             |
 | fileGroupId    | CHAR(10)     | 첨부파일 그룹    |
@@ -288,7 +288,7 @@ create, read, update, delete, approve, master
 | orderName    | Varchar(100) | 작업오더 이름        |
 | plantId      | CHAR(10)     | 설비 마스터 ID       |
 | memoId       | CHAR(10)     | 메모 ID 레퍼런스             |
-| jobType      | Char(5)      | 작업유형             |
+| JOBTPpe      | Char(5)      | 작업유형             |
 | dept         | Char(5)      | 수행부서             |
 | permitId     | Char(10)     | 작업허가가             |
 | scheduleDate | Date         | 계획일               |
@@ -348,7 +348,7 @@ create, read, update, delete, approve, master
 | sortOrder | INT          | 정렬 순서 (UI에서 표시 순서를 위한 필드) |
 
 
-### 공통코드 관리 : AssetType(플랜트,재고마스터터), JobType(작업유형)
+### 공통코드 관리 : AssetType(플랜트,재고마스터터), JOBTPpe(작업유형)
 ## commonCode
 
 | 필드명      | 데이터 타입   | 설명                                           |

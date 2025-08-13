@@ -42,13 +42,13 @@ public class WorkorderItem {
     private String itemResult;
 
     @Lob
-    @Column(name = "note")
+    @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
-        @JoinColumn(name = "companyId", referencedColumnName = "companyId", insertable = false, updatable = false),
-        @JoinColumn(name = "orderId", referencedColumnName = "orderId", insertable = false, updatable = false)
+            @JoinColumn(name = "companyId", referencedColumnName = "companyId", insertable = false, updatable = false),
+            @JoinColumn(name = "orderId", referencedColumnName = "orderId", insertable = false, updatable = false)
     })
     private Workorder workorder;
 }
