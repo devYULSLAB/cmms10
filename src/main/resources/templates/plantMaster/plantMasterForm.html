@@ -16,6 +16,10 @@
             <form th:action="@{/plantMaster/plantMasterSave}" th:object="${plantMaster}" method="post"
                 class="space-y-6">
                 <input type="hidden" th:field="*{companyId}" />
+                <input type="hidden" th:field="*{createBy}" />
+                <input type="hidden" th:field="*{createDate}" />
+                <input type="hidden" th:field="*{updateBy}" />
+                <input type="hidden" th:field="*{updateDate}" />
 
                 <!-- Basic Information Section -->
                 <div class="form-section border rounded-lg p-4 shadow">
@@ -97,9 +101,9 @@
                             </select>
                         </div>
                         <div class="col-span-3">
-                            <label for="acquitionValue" class="block text-sm font-medium"
-                                th:text="#{acquitionValue}">취득가액</label>
-                            <input type="number" step="0.01" id="acquitionValue" th:field="*{acquitionValue}"
+                            <label for="acquisitionValue" class="block text-sm font-medium"
+                                th:text="#{acquisitionValue}">취득가액</label>
+                            <input type="number" step="0.01" id="acquisitionValue" th:field="*{acquisitionValue}"
                                 class="w-full border rounded px-2 py-1" />
                         </div>
                         <div class="col-span-3">

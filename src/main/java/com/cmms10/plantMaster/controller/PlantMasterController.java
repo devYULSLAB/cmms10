@@ -78,7 +78,7 @@ public class PlantMasterController {
      * @return
      */
     @GetMapping("/plantMasterForm/{siteId}/{plantId}")
-    public String form(@PathVariable String siteId, @PathVariable String plantId,
+    public String editForm(@PathVariable String siteId, @PathVariable String plantId,
             Model model,
             HttpSession session) {
         // 세션에서 사용자 정보 가져오기

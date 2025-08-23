@@ -61,7 +61,7 @@ public class InspectionController {
         // Select box 데이터 추가
         model.addAttribute("inspection", inspection);
         model.addAttribute("sites", siteService.getAllSitesByCompanyId(companyId));
-        model.addAttribute("jobtps", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
+        model.addAttribute("jobTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
 
         return "inspection/inspectionForm";
@@ -69,7 +69,7 @@ public class InspectionController {
 
     /** 수정 폼 */
     @GetMapping("/inspectionForm/{siteId}/{inspectionId}")
-    public String edit(@PathVariable String siteId,
+    public String editForm(@PathVariable String siteId,
             @PathVariable String inspectionId,
             Model model,
             HttpSession session) {

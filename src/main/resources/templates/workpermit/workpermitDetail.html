@@ -52,12 +52,12 @@
             <!-- Permit Period -->
             <div class="border rounded-lg shadow p-4 space-y-4">
                 <h3 class="font-semibold text-lg mb-2" th:text="#{permitPeriod}">Permit Period</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-3">
                         <label class="block text-sm font-medium mb-1" th:text="#{startDate}">Start Date</label>
                         <div class="p-2 bg-gray-50 rounded" th:text="${workpermit.startDate}"></div>
                     </div>
-                    <div>
+                    <div class="col-span-3">
                         <label class="block text-sm font-medium mb-1" th:text="#{endDate}">End Date</label>
                         <div class="p-2 bg-gray-50 rounded" th:text="${workpermit.endDate}"></div>
                     </div>
@@ -129,6 +129,128 @@
                 </div>
                 <div id="checksheetView" class="p-4 bg-gray-50 rounded border"></div>
             </div>
+            <!-- Buttons -->
+            <div class="flex space-x-4 mt-6 non-print-section">
+                <a th:href="@{/workpermit/workpermitList}"
+                    class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" th:text="#{cancel}">취소</a>
+                <button onclick="printContent()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                    <i class="fas fa-print mr-1"></i><span>출력</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Print Container (체크시트 제외, 서명까지 포함) -->
+    <div id="printContainer" style="display: none;">
+        <div class="max-w-4xl mx-auto p-6">
+            <h2 class="text-2xl font-bold mb-6 text-center">작업허가서</h2>
+
+            <!-- Basic Info -->
+            <div class="border rounded-lg p-4 space-y-4 mb-6">
+                <h3 class="font-semibold text-lg mb-2">기본 정보</h3>
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">허가 ID</label>
+                        <div th:text="${workpermit.permitId}">-</div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">설비</label>
+                        <div th:text="${workpermit.plantId}">-</div>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium mb-1">허가 유형</label>
+                        <div th:text="${workpermit.permitType}">-</div>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium mb-1">사이트</label>
+                        <div th:text="${workpermit.siteId}">-</div>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium mb-1">부서</label>
+                        <div th:text="${workpermit.deptId}">-</div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1 mt-4">허가명</label>
+                    <div th:text="${workpermit.permitName}">-</div>
+                </div>
+            </div>
+
+            <!-- Permit Period -->
+            <div class="border rounded-lg p-4 space-y-4 mb-6">
+                <h3 class="font-semibold text-lg mb-2">허가 기간</h3>
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">시작일</label>
+                        <div th:text="${workpermit.startDate}">-</div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">종료일</label>
+                        <div th:text="${workpermit.endDate}">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Permit Description -->
+            <div class="border rounded-lg p-4 space-y-4 mb-6">
+                <h3 class="font-semibold text-lg mb-2">허가 설명</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">작업 설명</label>
+                        <div th:text="${workpermit.workDesc}">-</div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">위험 요소</label>
+                        <div th:text="${workpermit.hazardNote}">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Permit Safety Measures -->
+            <div class="border rounded-lg p-4 space-y-4 mb-6">
+                <h3 class="font-semibold text-lg mb-2">안전 조치사항</h3>
+                <div>
+                    <label class="block text-sm font-medium mb-1">안전 조치</label>
+                    <div th:text="${workpermit.safetyMeasure}">-</div>
+                </div>
+            </div>
+
+            <!-- Permit Signatures -->
+            <div class="border rounded-lg p-4 space-y-4 mb-6">
+                <h3 class="font-semibold text-lg mb-2">서명</h3>
+                <table class="w-full">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-2 border text-left">순서</th>
+                            <th class="px-4 py-2 border text-left">서명자명</th>
+                            <th class="px-4 py-2 border text-left">서명</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item, iterStat : ${workpermit.items}" class="signer-row">
+                            <td class="px-4 py-2 border text-center" th:text="${iterStat.count}"></td>
+                            <td class="px-4 py-2 border" th:text="${item.signerName}"></td>
+                            <td class="px-4 py-2 border">
+                                <div class="flex items-center space-x-2">
+                                    <img th:if="${item.signature && item.signature.trim() != ''}"
+                                        th:src="${item.signature}" alt="서명"
+                                        style="max-width: 200px; max-height: 60px; object-fit: contain;" />
+                                    <span th:if="${!item.signature || item.signature.trim() == ''}"
+                                        class="text-gray-400">서명 없음</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(workpermit.items)}">
+                            <td class="border px-4 py-2 text-center" colspan="3">서명자가 없습니다.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer -->
+            <div class="text-center text-sm text-gray-600 mt-8">
+                <p>출력일시: <span th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm')}">-</span></p>
+            </div>
         </div>
     </div>
 
@@ -138,7 +260,9 @@
         <script th:inline="javascript">
             document.addEventListener('DOMContentLoaded', function () {
                 const resultJson = /*[[${checkResultJson}]]*/ null;
+                const templateJson = /*[[${templateJson}]]*/ null;
                 console.log('체크시트 결과 JSON:', resultJson);
+                console.log('템플릿 JSON:', templateJson);
 
                 if (resultJson && resultJson !== '' && resultJson !== '{}') {
                     try {
@@ -146,10 +270,18 @@
                         console.log('파싱된 폼 데이터:', formData);
 
                         if (formData && Object.keys(formData).length > 0) {
+                            // formRender로 체크시트 렌더링
                             $('#checksheetView').formRender({
-                                formData: formData,
-                                readOnly: true
+                                formData: templateJson || formData, // 템플릿이 있으면 템플릿 사용, 없으면 결과 데이터 사용
+                                readOnly: true,
+                                i18n: false
                             });
+
+                            // 렌더링 완료 후 데이터 복원
+                            setTimeout(() => {
+                                restoreCheckResultData(formData);
+                            }, 100);
+
                             console.log('체크시트 렌더링 완료');
                         } else {
                             document.getElementById('checksheetView').innerHTML =
@@ -165,6 +297,71 @@
                         '<p class="text-gray-500 text-center py-8">체크시트 결과가 없습니다.</p>';
                 }
             });
+
+            // 체크시트 데이터 복원 함수
+            function restoreCheckResultData(savedData) {
+                if (!savedData || Object.keys(savedData).length === 0) {
+                    return;
+                }
+
+                try {
+                    console.log('복원할 체크시트 데이터:', savedData);
+
+                    // formRender 인스턴스 가져오기
+                    const formRenderInstance = $('#checksheetView').data('formRender');
+
+                    if (formRenderInstance && typeof formRenderInstance.setData === 'function') {
+                        // formRender의 setData 메서드로 데이터 복원
+                        formRenderInstance.setData(savedData);
+                        console.log('formRender setData로 데이터 복원 완료');
+                    } else {
+                        // setData가 없으면 직접 폼 요소에 값 설정
+                        restoreFormDataDirectly(savedData);
+                        console.log('직접 복원으로 데이터 복원 완료');
+                    }
+                } catch (error) {
+                    console.error('체크시트 데이터 복원 실패:', error);
+                    // fallback: 직접 복원
+                    restoreFormDataDirectly(savedData);
+                }
+            }
+
+            // 폼 요소에 직접 데이터 복원 (fallback용)
+            function restoreFormDataDirectly(savedData) {
+                const formElements = document.querySelectorAll('#checksheetView input, #checksheetView select, #checksheetView textarea');
+
+                formElements.forEach((element) => {
+                    if (element.name && savedData[element.name] !== undefined) {
+                        if (element.type === 'checkbox') {
+                            element.checked = savedData[element.name];
+                        } else {
+                            element.value = savedData[element.name];
+                        }
+                    }
+                });
+            }
+
+            // 인쇄 기능
+            function printContent() {
+                const printContainer = document.getElementById('printContainer');
+                const originalDisplay = printContainer.style.display;
+
+                // Print container를 보이게 설정
+                printContainer.style.display = 'block';
+
+                // 현재 페이지의 스타일을 저장
+                const originalBodyStyle = document.body.style.cssText;
+
+                // Print container만 보이도록 body 스타일 변경
+                document.body.innerHTML = printContainer.innerHTML;
+                document.body.style.cssText = 'margin: 0; padding: 20px; font-family: Arial, sans-serif;';
+
+                // 인쇄 실행
+                window.print();
+
+                // 원래 페이지로 복원
+                window.location.reload();
+            }
         </script>
     </th:block>
 </body>

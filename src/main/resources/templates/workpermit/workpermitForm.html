@@ -20,10 +20,14 @@
                 <span th:text="${errorMessage}"></span>
             </div>
 
-            <form th:action="@{/workpermit/workpermitSave}" method="post" th:object="${workpermit}"
+            <form th:action="@{/workpermit/workpermitSave}" method="post" th:object="${workpermit}" class="space-y-6"
                 onsubmit="return saveSignature()">
                 <!-- Hidden fields -->
                 <input type="hidden" th:field="*{companyId}" />
+                <input type="hidden" th:field="*{createBy}" />
+                <input type="hidden" th:field="*{createDate}" />
+                <input type="hidden" th:field="*{updateBy}" />
+                <input type="hidden" th:field="*{updateDate}" />
 
                 <!-- Basic Info -->
                 <div class="border rounded-lg shadow p-4 space-y-4">
@@ -74,12 +78,12 @@
                 <!-- Permit Period -->
                 <div class="border rounded-lg shadow p-4 space-y-4">
                     <h3 class="font-semibold text-lg mb-2" th:text="#{permitPeriod}">Permit Period</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-3">
                             <label class="block text-sm font-medium mb-1" th:text="#{startDate}">Start Date</label>
                             <input type="date" th:field="*{startDate}" class="w-full border rounded px-2 py-1" />
                         </div>
-                        <div>
+                        <div class="col-span-3">
                             <label class="block text-sm font-medium mb-1" th:text="#{endDate}">End Date</label>
                             <input type="date" th:field="*{endDate}" class="w-full border rounded px-2 py-1" />
                         </div>
@@ -182,12 +186,14 @@
                     <h3 class="font-semibold text-lg mb-2">🧾 안전 체크리스트</h3>
                     <div class="mb-2">
                         <label class="block text-sm font-medium mb-1">템플릿 선택</label>
-                        <select id="templateSelect" name="templateId" class="w-full border rounded p-2">
+                        <select id="templateSelect" class="w-full border rounded p-2">
                             <option value="">-- 템플릿 선택 --</option>
                             <option th:each="tpl : ${templateList}" th:value="${tpl.templateId}"
                                 th:text="${tpl.templateName}">
                             </option>
                         </select>
+                        <!-- templateId를 서버로 전송하기 위한 hidden 필드 추가 -->
+                        <input type="hidden" id="templateIdHidden" name="templateId" />
                     </div>
 
                     <!-- formRender.js로 템플릿 표시 -->
@@ -199,11 +205,12 @@
                     </div>
 
                     <!-- 체크 결과 저장용 -->
+                    <!-- <input type="hidden" id="checkResultJson" name="checkResultJson" /> -->
                     <textarea id="checkResultJson" name="checkResultJson" hidden></textarea>
                 </div>
 
                 <!-- Submit Button -->
-                <div class="flex justify-end">
+                <div class="flex gap-3 justify-end">
                     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                         th:text="#{save}">저장 </button>
                 </div>
@@ -218,8 +225,7 @@
             document.addEventListener('DOMContentLoaded', function () {
                 // ✅ 체크리스트 템플릿 렌더링
                 const templateJsonMap = /*[[${templateJsonMap}]]*/ {};
-                console.log('템플릿 맵 초기화:', templateJsonMap);
-                let renderInstance;
+                window.renderInstance = null; // Global variable
 
                 const templateSelect = document.getElementById('templateSelect');
                 const formRender = document.getElementById('form-render');
@@ -227,58 +233,57 @@
                 if (templateSelect) {
                     templateSelect.addEventListener('change', function () {
                         const tplId = this.value;
-                        console.log('템플릿 선택:', tplId);
-                        console.log('템플릿 맵:', templateJsonMap);
-
                         const json = templateJsonMap[tplId];
-                        console.log('선택된 JSON:', json);
 
                         if (json && window.$ && window.$.fn.formRender) {
-                            console.log('formRender 사용 가능');
-                            // 기존 폼 제거
+                            // Remove existing form
                             $('#form-render').empty();
-                            // 새 폼 렌더링
+                            // Render new form
                             $('#form-render').formRender({
                                 formData: json,
-                                readOnly: false
+                                readOnly: false,
+                                i18n: false
                             });
-                            renderInstance = $('#form-render').data('formRender');
-                            console.log('렌더링 완료');
+                            window.renderInstance = $('#form-render').data('formRender');
 
-                            // 체크결과 필드 초기화
+                            // templateId hidden 필드에 값 설정
+                            document.getElementById("templateIdHidden").value = tplId;
+
+                            // Initialize check result field
                             document.getElementById("checkResultJson").value = "{}";
-                            console.log('체크결과 필드 초기화 완료');
+
+                            // 기존 체크시트 데이터 복원
+                            setTimeout(() => {
+                                restoreCheckResultData();
+                            }, 100);
                         } else if (!tplId) {
-                            // 템플릿이 선택되지 않은 경우
+                            // Template not selected
                             $('#form-render').html(`
                                 <div class="text-center text-gray-500 py-8">
                                     <i class="fas fa-clipboard-list text-2xl mb-2"></i>
-                                    <p>템플릿을 선택하면 체크리스트가 표시됩니다.</p>
+                                    <p>Select a template to display checklist.</p>
                                 </div>
                             `);
-                            renderInstance = null;
+                            window.renderInstance = null;
+                            // templateId hidden 필드 초기화
+                            document.getElementById("templateIdHidden").value = "";
                             document.getElementById("checkResultJson").value = "{}";
-                            console.log('템플릿 선택 해제 - 체크결과 필드에 빈 객체 설정');
                         } else {
-                            console.error('formRender를 사용할 수 없습니다.');
                             $('#form-render').html(`
                                 <div class="text-center text-red-500 py-8">
                                     <i class="fas fa-exclamation-triangle text-2xl mb-2"></i>
-                                    <p>템플릿을 로드할 수 없습니다.</p>
-                                    <p class="text-sm">JSON: ${json ? '있음' : '없음'}</p>
-                                    <p class="text-sm">jQuery: ${window.$ ? '있음' : '없음'}</p>
-                                    <p class="text-sm">formRender: ${window.$ && window.$.fn.formRender ? '있음' : '없음'}</p>
+                                    <p>Cannot load template.</p>
                                 </div>
                             `);
-                            renderInstance = null;
+                            window.renderInstance = null;
                             document.getElementById("checkResultJson").value = "{}";
                         }
                     });
                 }
 
-                // ✅ canvas 서명 입력 기능 (여러 개 지원)
+                // ✅ canvas 서명 입력 기능 (여러 개 지원) 및 기존 서명 이미지 로드
                 const canvases = document.querySelectorAll('canvas[id^="signatureCanvas"]');
-                canvases.forEach(function (canvas) {
+                canvases.forEach(function (canvas, index) {
                     let drawing = false;
                     let ctx = canvas.getContext('2d');
 
@@ -288,6 +293,17 @@
                     ctx.lineCap = 'round';
 
                     let lastX = 0, lastY = 0;
+
+                    // 기존 서명 이미지가 있으면 캔버스에 그리기
+                    const signatureData = document.getElementById('signatureData' + index);
+                    if (signatureData && signatureData.value && signatureData.value.trim() !== '') {
+                        const img = new Image();
+                        img.onload = function () {
+                            // 캔버스 크기에 맞게 이미지 그리기
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        };
+                        img.src = signatureData.value;
+                    }
 
                     function getXY(e) {
                         if (e.touches) {
@@ -330,92 +346,111 @@
                     canvas.addEventListener('touchend', function () { drawing = false; });
                 });
 
-                // ✅ 폼 제출 시 디버깅 정보 출력 (saveSignature() 함수에서 처리하므로 여기서는 로그만)
-                document.querySelector("form").addEventListener("submit", function (e) {
-                    console.log("폼 제출 이벤트 발생 - saveSignature() 함수가 처리함");
+                // ✅ 폼 제출 시 saveSignature() 함수에서 처리
+                // document.querySelector("form").addEventListener("submit", function (e) {
+                //     // 폼 제출 이벤트 발생
+                // });
 
-                    // 모든 hidden 필드 값 확인
-                    const hiddenFields = document.querySelectorAll('input[type="hidden"]');
-                    console.log("=== Hidden 필드 확인 ===");
-                    hiddenFields.forEach(function (field) {
-                        if (field.name && field.name.includes('signature')) {
-                            console.log("서명 필드:", field.name, "값 길이:", field.value ? field.value.length : 0);
-                        }
-                    });
-
-                    // 체크결과 필드 확인
-                    const checkResultField = document.getElementById("checkResultJson");
-                    console.log("체크결과 필드 값 길이:", checkResultField ? checkResultField.value.length : 0);
-                    console.log("체크결과 필드 값:", checkResultField ? checkResultField.value : "null");
-                });
+                // 페이지 로드 시 기존 체크시트 데이터 복원 (수정 모드인 경우)
+                setTimeout(() => {
+                    restoreCheckResultData();
+                }, 500);
             });
 
             // 폼 제출 시 호출되는 메인 함수
             function saveSignature() {
-                console.log("=== saveSignature() 호출됨 ===");
+                // templateId 설정 (템플릿 선택 상태에 따라)
+                const templateSelect = document.getElementById('templateSelect');
+                const templateIdHidden = document.getElementById('templateIdHidden');
+                if (templateSelect && templateIdHidden) {
+                    templateIdHidden.value = templateSelect.value;
+                }
 
-                // 서명 데이터 저장
+                // 1. 먼저 모든 데이터 수집 (renderInstance가 있을 때)
+                collectAndSaveFormData();
+
+                // 2. 서명 데이터 저장
                 saveAllSignatures();
 
-                // 체크시트 결과 저장
-                saveCheckResult();
-
-                console.log("=== saveSignature() 완료 ===");
-                return true; // 폼 제출 허용
+                // 3. 폼 제출 허용
+                return true;
             }
 
-            // 체크시트 결과 저장
-            function saveCheckResult() {
-                console.log("=== 체크시트 결과 저장 시작 ===");
-
-                const templateSelect = document.getElementById('templateSelect');
-                const selectedTemplateId = templateSelect ? templateSelect.value : '';
-                console.log("선택된 템플릿 ID:", selectedTemplateId);
-
-                // 템플릿이 선택되지 않은 경우 빈 객체 저장
-                if (!selectedTemplateId) {
-                    console.log("템플릿이 선택되지 않음 - 빈 객체 저장");
-                    document.getElementById("checkResultJson").value = "{}";
-                    return;
-                }
-
-                // renderInstance가 없는 경우 빈 객체 저장
-                if (!renderInstance) {
-                    console.log("renderInstance가 없음 - 빈 객체 저장");
-                    document.getElementById("checkResultJson").value = "{}";
-                    return;
-                }
-
-                try {
-                    // 폼 요소에서 직접 데이터 수집 (가장 확실한 방법)
-                    const formData = collectFormData();
-                    console.log("수집된 폼 데이터:", formData);
-
-                    if (formData && Object.keys(formData).length > 0) {
-                        const jsonOutput = JSON.stringify(formData);
-                        document.getElementById("checkResultJson").value = jsonOutput;
-                        console.log("체크결과 JSON 저장 성공:", jsonOutput.substring(0, Math.min(200, jsonOutput.length)) + "...");
-                        console.log("체크결과 길이:", jsonOutput.length);
-                    } else {
-                        console.log("폼 데이터가 비어있음 - 빈 객체 저장");
-                        document.getElementById("checkResultJson").value = "{}";
+            // 폼 제출 전 데이터 수집 및 저장
+            function collectAndSaveFormData() {
+                // renderInstance가 있는지 확인
+                if (window.renderInstance && typeof window.renderInstance.getData === 'function') {
+                    try {
+                        // formRender의 getData 메서드로 데이터 수집
+                        const formData = window.renderInstance.getData();
+                        if (formData && Object.keys(formData).length > 0) {
+                            const jsonOutput = JSON.stringify(formData);
+                            document.getElementById("checkResultJson").value = jsonOutput;
+                            return;
+                        }
+                    } catch (error) {
+                        // getData 메서드 실패 시 fallback
                     }
-                } catch (error) {
-                    console.error("체크결과 저장 중 오류:", error);
-                    document.getElementById("checkResultJson").value = "{}";
                 }
 
-                console.log("=== 체크시트 결과 저장 완료 ===");
+                // fallback: 직접 수집
+                const formData = collectFormDataDirectly();
+                if (formData && Object.keys(formData).length > 0) {
+                    const jsonOutput = JSON.stringify(formData);
+                    document.getElementById("checkResultJson").value = jsonOutput;
+                } else {
+                    // 데이터가 없으면 빈 객체 저장
+                    document.getElementById("checkResultJson").value = "{}";
+                }
             }
 
-            // 폼 요소에서 직접 데이터 수집하는 함수
-            function collectFormData() {
-                const formData = {};
+            // 기존 체크시트 데이터 복원
+            function restoreCheckResultData() {
+                const checkResultJson = document.getElementById("checkResultJson").value;
+                if (checkResultJson && checkResultJson !== "{}" && checkResultJson !== "{no template selected}") {
+                    try {
+                        const savedData = JSON.parse(checkResultJson);
+                        console.log('복원할 체크시트 데이터:', savedData);
+
+                        // formRender에 데이터 복원
+                        if (window.renderInstance && typeof window.renderInstance.setData === 'function') {
+                            window.renderInstance.setData(savedData);
+                            console.log('formRender setData로 데이터 복원 완료');
+                        } else {
+                            // setData가 없으면 직접 폼 요소에 값 설정
+                            restoreFormDataDirectly(savedData);
+                            console.log('직접 복원으로 데이터 복원 완료');
+                        }
+                    } catch (error) {
+                        console.error('체크시트 데이터 복원 실패:', error);
+                    }
+                }
+            }
+
+            // 폼 요소에 직접 데이터 복원 (fallback용)
+            function restoreFormDataDirectly(savedData) {
                 const formElements = document.querySelectorAll('#form-render input, #form-render select, #form-render textarea');
 
-                formElements.forEach(element => {
+                formElements.forEach((element) => {
+                    if (element.name && savedData[element.name] !== undefined) {
+                        if (element.type === 'checkbox') {
+                            element.checked = savedData[element.name];
+                        } else {
+                            element.value = savedData[element.name];
+                        }
+                    }
+                });
+            }
+
+            // 폼 요소에서 직접 데이터 수집하는 함수 (fallback용)
+            function collectFormDataDirectly() {
+                const formData = {};
+
+                // form-render 내부의 모든 폼 요소 수집
+                const formElements = document.querySelectorAll('#form-render input, #form-render select, #form-render textarea');
+
+                formElements.forEach((element) => {
                     if (element.name && element.value !== undefined) {
-                        // 체크박스의 경우 체크 여부를 확인
                         if (element.type === 'checkbox') {
                             formData[element.name] = element.checked;
                         } else {
@@ -424,20 +459,24 @@
                     }
                 });
 
-                console.log("폼 요소에서 수집된 데이터:", formData);
-                console.log("수집된 요소 개수:", formElements.length);
+                // 템플릿이 선택되어 있지 않거나 데이터가 없는 경우
+                if (Object.keys(formData).length === 0) {
+                    const templateSelect = document.getElementById('templateSelect');
+                    if (templateSelect && templateSelect.value) {
+                        // 템플릿이 선택되어 있지만 아직 폼이 렌더링되지 않은 경우
+                        return {};
+                    }
+                }
+
                 return formData;
             }
 
             // 서명 저장
             function saveAllSignatures() {
-                console.log("서명 저장 시작");
                 const canvases = document.querySelectorAll('canvas[id^="signatureCanvas"]');
-                console.log("발견된 캔버스 개수:", canvases.length);
 
                 canvases.forEach(function (canvas, index) {
                     const idx = canvas.id.replace('signatureCanvas', '');
-                    console.log("캔버스 ID:", canvas.id, "인덱스:", idx);
 
                     // 캔버스가 비어있지 않은지 확인
                     const ctx = canvas.getContext('2d');
@@ -447,18 +486,13 @@
                     if (hasData) {
                         // 이미지 품질을 0.8로 설정하여 파일 크기 최적화
                         const dataUrl = canvas.toDataURL("image/png", 0.8);
+                        // const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
                         const hidden = document.getElementById('signatureData' + idx);
                         if (hidden) {
                             hidden.value = dataUrl;
-                            console.log("서명 데이터 저장됨:", idx, "길이:", dataUrl.length);
-                        } else {
-                            console.error("hidden 필드를 찾을 수 없음:", 'signatureData' + idx);
                         }
-                    } else {
-                        console.log("캔버스가 비어있음:", idx);
                     }
                 });
-                console.log("서명 저장 완료");
             }
 
             // 서명 초기화
@@ -551,7 +585,7 @@
             function initializeSignatureCanvas(index) {
                 const canvas = document.getElementById('signatureCanvas' + index);
                 if (!canvas) {
-                    console.error('캔버스를 찾을 수 없음:', 'signatureCanvas' + index);
+                    console.error('Canvas not found:', 'signatureCanvas' + index);
                     return;
                 }
 
@@ -564,6 +598,17 @@
                 ctx.lineCap = 'round';
 
                 let lastX = 0, lastY = 0;
+
+                // 기존 서명 이미지가 있으면 캔버스에 그리기
+                const signatureData = document.getElementById('signatureData' + index);
+                if (signatureData && signatureData.value && signatureData.value.trim() !== '') {
+                    const img = new Image();
+                    img.onload = function () {
+                        // 캔버스 크기에 맞게 이미지 그리기
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    };
+                    img.src = signatureData.value;
+                }
 
                 function getXY(e) {
                     if (e.touches) {
@@ -605,7 +650,7 @@
                 }, { passive: false });
                 canvas.addEventListener('touchend', function () { drawing = false; });
 
-                console.log('서명 캔버스 초기화 완료:', index);
+
             }
 
             // 페이지 로드 시 모든 기존 canvas 초기화

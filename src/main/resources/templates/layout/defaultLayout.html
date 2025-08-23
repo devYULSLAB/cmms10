@@ -73,20 +73,6 @@
           </ul>
         </li>
 
-        <!-- Workpermit 메뉴  -->
-        <li>
-          <button class="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-700 rounded menu-toggle">
-            <div class="flex items-center gap-2">
-              <i class="fas fa-clipboard-check w-5 text-center"></i>
-              <span class="menu-text">Workpermit</span>
-            </div>
-            <i class="fas fa-chevron-down"></i>
-          </button>
-          <ul class="submenu hidden pl-7 mt-1 space-y-1">
-            <li><a th:href="@{/workpermit/workpermitForm}" class="block py-1 hover:text-yellow-300">입력</a></li>
-            <li><a th:href="@{/workpermit/workpermitList}" class="block py-1 hover:text-yellow-300">목록</a></li>
-          </ul>
-        </li>
         <!-- Workorder 메뉴  -->
         <li>
           <button class="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-700 rounded menu-toggle">
@@ -99,6 +85,21 @@
           <ul class="submenu hidden pl-7 mt-1 space-y-1">
             <li><a th:href="@{/workorder/workorderForm}" class="block py-1 hover:text-yellow-300">입력</a></li>
             <li><a th:href="@{/workorder/workorderList}" class="block py-1 hover:text-yellow-300">목록</a></li>
+          </ul>
+        </li>
+
+        <!-- Workpermit 메뉴  -->
+        <li>
+          <button class="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-700 rounded menu-toggle">
+            <div class="flex items-center gap-2">
+              <i class="fas fa-clipboard-check w-5 text-center"></i>
+              <span class="menu-text">Workpermit</span>
+            </div>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <ul class="submenu hidden pl-7 mt-1 space-y-1">
+            <li><a th:href="@{/workpermit/workpermitForm}" class="block py-1 hover:text-yellow-300">입력</a></li>
+            <li><a th:href="@{/workpermit/workpermitList}" class="block py-1 hover:text-yellow-300">목록</a></li>
           </ul>
         </li>
 

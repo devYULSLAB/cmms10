@@ -1,53 +1,68 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.5.3'
-	id 'io.spring.dependency-management' version '1.1.7'
+    id 'java'
+    id 'org.springframework.boot' version '3.5.3'
+    id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com.cmms10'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(24)
+    }
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.2.1'
-	
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.2.1'
 
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:3.3.3'	
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:3.3.3'
 
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // // ===== Google APIs =====
+    // // Google 인증 라이브러리 (최신 버전 사용)
+    // implementation 'com.google.auth:google-auth-library-oauth2-http:1.23.0'
+    
+    // // Google API 클라이언트
+    // implementation 'com.google.api-client:google-api-client:2.6.0'
+
+    // // Google Http Client의 Jackson2 종속성
+    // implementation 'com.google.http-client:google-http-client-jackson2:1.44.1'
+
+    // // Sheets / Drive (버전 충돌을 해결하기 위해 최신 버전으로 교체)
+    // implementation "com.google.apis:google-api-services-sheets:v4-rev20250616-2.0.0"
+    // implementation "com.google.apis:google-api-services-drive:v3-rev20250723-2.0.0"
+
+    //developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 bootJar {
-    mainClass = 'com.cmms10.Cmms10Application'  // ← 실제 메인 클래스 FQCN(Fully Qualified Class Name)
+    // Spring Boot 3.x: Property 형태이므로 set(...) 사용
+    mainClass.set('com.cmms10.Cmms10Application')
 }

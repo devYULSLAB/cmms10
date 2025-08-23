@@ -44,6 +44,8 @@ public class WorkpermitController {
         Workpermit workpermit = new Workpermit();
         List<WorkpermitItem> items = new ArrayList<>();
         items.add(new WorkpermitItem());
+        // 회사 ID 설정
+        workpermit.setCompanyId(companyId);
         workpermit.setItems(items);
 
         List<ChecksheetTemplate> templateList = checksheetTemplateService.getTemplatesByCompanyId(companyId);
@@ -92,97 +94,26 @@ public class WorkpermitController {
 
     // 저장 처리
     @PostMapping("/workpermitSave")
-    public String save(@ModelAttribute Workpermit workpermit,
-            @RequestParam(required = false) String templateId,
-            @RequestParam(required = false) String checkResultJson,
-            HttpSession session,
-            RedirectAttributes redirectAttributes) {
-
+    public String save(
+            @ModelAttribute("workpermit") Workpermit workpermit,
+            @RequestParam(value = "templateId", required = false) String templateId,
+            @RequestParam(value = "checkResultJson", required = false) String checkResultJson,
+            RedirectAttributes ra,
+            HttpSession session) {
+        // 1) 작업허가 저장 (신규면 permitId 생성)
         String companyId = (String) session.getAttribute("companyId");
         String username = (String) session.getAttribute("username");
-
         workpermit.setCompanyId(companyId);
-        workpermitService.saveWorkpermit(workpermit, username);
+        Workpermit saved = workpermitService.saveWorkpermit(workpermit, username);
 
-        // 체크리스트 결과 저장
-        System.out.println("=== 체크시트 결과 저장 시작 ===");
+        // 2) 체크시트 결과 upsert (템플릿 선택 + 결과가 있을 때만)
         System.out.println("templateId: " + templateId);
-        System.out.println("checkResultJson 길이: " + (checkResultJson != null ? checkResultJson.length() : 0));
-        System.out.println("checkResultJson 값: " + checkResultJson);
+        System.out.println("checkResultJson: " + checkResultJson);
 
-        // templateId가 있으면 체크시트 결과 저장
-        if (templateId != null && !templateId.trim().isEmpty()) {
-            try {
-                System.out.println("체크시트 결과 저장 시작");
+        checksheetResultService.upsert(companyId, saved.getPermitId(), templateId, checkResultJson, username);
 
-                // checkResultJson이 null이거나 빈 문자열이면 빈 객체로 설정
-                String finalCheckResultJson = checkResultJson;
-                if (finalCheckResultJson == null || finalCheckResultJson.trim().isEmpty()) {
-                    finalCheckResultJson = "{}";
-                    System.out.println("체크시트 결과가 비어있어 빈 객체로 설정");
-                }
-
-                System.out.println("체크시트 결과 샘플: "
-                        + finalCheckResultJson.substring(0, Math.min(200, finalCheckResultJson.length())) + "...");
-
-                // 기존 결과가 있는지 확인
-                ChecksheetResult result;
-                try {
-                    result = checksheetResultService.getResultByCompanyIdAndPermitId(companyId,
-                            workpermit.getPermitId());
-                    System.out.println("기존 체크시트 결과 발견 - 업데이트");
-                } catch (RuntimeException e) {
-                    result = new ChecksheetResult();
-                    result.setCompanyId(companyId);
-                    result.setPermitId(workpermit.getPermitId());
-                    result.setCreateBy(username);
-                    result.setCreateDate(LocalDateTime.now());
-                    System.out.println("새 체크시트 결과 생성");
-                }
-
-                result.setTemplateId(templateId);
-                result.setCheckResultJson(finalCheckResultJson);
-
-                checksheetResultService.saveResult(result);
-                System.out.println("체크시트 결과 저장 완료 - permitId: " + workpermit.getPermitId());
-
-            } catch (Exception e) {
-                System.err.println("체크시트 결과 저장 중 오류 발생: " + e.getMessage());
-                e.printStackTrace();
-            }
-        } else {
-            // templateId가 없어도 빈 객체로 저장 (기록 유지)
-            try {
-                System.out.println("템플릿이 선택되지 않음 - 빈 체크시트 결과 저장");
-
-                ChecksheetResult result;
-                try {
-                    result = checksheetResultService.getResultByCompanyIdAndPermitId(companyId,
-                            workpermit.getPermitId());
-                    System.out.println("기존 체크시트 결과 발견 - 빈 객체로 업데이트");
-                } catch (RuntimeException e) {
-                    result = new ChecksheetResult();
-                    result.setCompanyId(companyId);
-                    result.setPermitId(workpermit.getPermitId());
-                    result.setCreateBy(username);
-                    result.setCreateDate(LocalDateTime.now());
-                    System.out.println("새 체크시트 결과 생성 (빈 객체)");
-                }
-
-                result.setTemplateId(""); // 빈 템플릿 ID
-                result.setCheckResultJson("{}"); // 빈 JSON 객체
-
-                checksheetResultService.saveResult(result);
-                System.out.println("빈 체크시트 결과 저장 완료 - permitId: " + workpermit.getPermitId());
-
-            } catch (Exception e) {
-                System.err.println("빈 체크시트 결과 저장 중 오류 발생: " + e.getMessage());
-                e.printStackTrace();
-            }
-        }
-
-        redirectAttributes.addFlashAttribute("successMessage", "Work permit saved successfully");
-        return "redirect:/workpermit/workpermitList";
+        ra.addFlashAttribute("successMessage", "저장되었습니다.");
+        return "redirect:/workpermit/workpermitForm?permitId=" + saved.getPermitId();
     }
 
     // 삭제
@@ -214,15 +145,31 @@ public class WorkpermitController {
         workpermit.setItems(items);
         model.addAttribute("workpermit", workpermit);
 
-        // 체크시트 결과 포함
+        // 체크시트 결과 및 템플릿 정보 포함
         try {
             ChecksheetResult result = checksheetResultService.getResultByCompanyIdAndPermitId(companyId, permitId);
-            String checkResultJson = result != null ? result.getCheckResultJson() : "{}";
-            System.out.println("체크시트 결과 JSON: " + checkResultJson);
-            model.addAttribute("checkResultJson", checkResultJson);
+            if (result != null) {
+                String checkResultJson = result.getCheckResultJson();
+                model.addAttribute("checkResultJson", checkResultJson);
+
+                // 템플릿 정보도 조회하여 추가
+                if (result.getTemplateId() != null) {
+                    try {
+                        ChecksheetTemplate template = checksheetTemplateService
+                                .getTemplateByCompanyIdAndTemplateId(companyId, result.getTemplateId());
+                        if (template != null) {
+                            String templateJson = template.getTemplateJson();
+                            model.addAttribute("templateJson", templateJson);
+                        }
+                    } catch (Exception e) {
+                        throw new IllegalArgumentException("템플릿 조회 실패: " + e.getMessage());
+                    }
+                }
+            } else {
+                model.addAttribute("checkResultJson", "{}");
+            }
         } catch (RuntimeException e) {
-            System.out.println("체크시트 결과 없음: " + e.getMessage());
-            model.addAttribute("checkResultJson", "{}");
+            throw new IllegalArgumentException("체크시트 결과 없음: " + e.getMessage());
         }
 
         return "workpermit/workpermitDetail";

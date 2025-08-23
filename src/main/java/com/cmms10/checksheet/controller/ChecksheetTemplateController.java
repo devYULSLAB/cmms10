@@ -38,7 +38,7 @@ public class ChecksheetTemplateController {
      * 반환값: 템플릿 작성 폼 뷰 페이지
      */
     @GetMapping("/checksheetTemplateForm")
-    public String templateForm(Model model, HttpSession session) {
+    public String form(Model model, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
         ChecksheetTemplate checksheetTemplate = new ChecksheetTemplate();
         checksheetTemplate.setCompanyId(companyId);
@@ -56,7 +56,7 @@ public class ChecksheetTemplateController {
      * 반환값: 템플릿 수정 폼 뷰 페이지
      */
     @GetMapping("/checksheetTemplateForm/{templateId}")
-    public String templateForm(@PathVariable String templateId, Model model, HttpSession session) {
+    public String editForm(@PathVariable String templateId, Model model, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
         ChecksheetTemplate checksheetTemplate = templateService.getTemplateByCompanyIdAndTemplateId(companyId,
                 templateId);
@@ -74,7 +74,7 @@ public class ChecksheetTemplateController {
      * 반환값: 템플릿 목록 페이지로 리다이렉트
      */
     @PostMapping("/checksheetTemplateSave")
-    public String saveTemplate(@ModelAttribute ChecksheetTemplate template,
+    public String save(@ModelAttribute ChecksheetTemplate template,
             HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
         String username = (String) session.getAttribute("username");
@@ -83,6 +83,12 @@ public class ChecksheetTemplateController {
         if (template.getTemplateId() == null || template.getTemplateId().trim().isEmpty()) {
             template.setCreateBy(username);
             template.setCreateDate(LocalDateTime.now());
+        }
+
+        // 수정인 경우 updateBy, updateDate 설정
+        if (template.getTemplateId() != null && !template.getTemplateId().trim().isEmpty()) {
+            template.setUpdateBy(username);
+            template.setUpdateDate(LocalDateTime.now());
         }
 
         template.setCompanyId(companyId);
@@ -100,7 +106,7 @@ public class ChecksheetTemplateController {
      * 반환값: 템플릿 목록 뷰 페이지
      */
     @GetMapping("/checksheetTemplateList")
-    public String templateList(Model model, HttpSession session) {
+    public String list(Model model, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
         List<ChecksheetTemplate> list = templateService.getTemplatesByCompanyId(companyId);
         model.addAttribute("checksheetTemplateList", list);
@@ -116,7 +122,7 @@ public class ChecksheetTemplateController {
      * 반환값: 템플릿 목록 페이지로 리다이렉트
      */
     @PostMapping("/checksheetTemplateDelete/{templateId}")
-    public String templateDelete(@PathVariable String templateId, HttpSession session) {
+    public String delete(@PathVariable String templateId, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
         try {
             templateService.deleteTemplate(companyId, templateId);

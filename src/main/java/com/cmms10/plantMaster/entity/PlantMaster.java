@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
-import java.util.Objects;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * cmms10 - PlantMaster
@@ -49,6 +49,7 @@ public class PlantMaster {
     private String respDept;
 
     @Column(name = "installDate")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate installDate;
 
     @Column(name = "assetType", length = 5)

@@ -8,9 +8,13 @@
 
 <body>
     <div layout:fragment="content">
-        <div class="max-w-3xl mx-auto mt-8 bg-white shadow rounded p-8">
+        <div class="max-w-4xl mx-auto mt-8 space-y-6">
+
             <h2 class="text-2xl font-bold mb-6" th:text="#{workorderDetail}">작업지시서 상세</h2>
-            <div class="grid grid-cols-12 gap-4">
+
+            <!-- Basic Information -->
+            <div class="border rounded-lg shadow p-4 space-y-4">
+                <h3 class="font-semibold text-lg mb-2" th:text="#{basicInformation}">기본 정보</h3>
                 <div class="grid grid-cols-12 gap-4">
                     <div class="col-span-3">
                         <label class="block text-sm font-medium mb-1" th:text="#{orderId}">ID</label>
@@ -34,8 +38,8 @@
                     </div>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium mb-1 mt-4" th:text="#{workorderName}">작업명</label>
-                    <div th:text="${workorder.workorderName}">-</div>
+                    <label class="block text-sm font-medium mb-1 mt-4" th:text="#{orderName}">작업명</label>
+                    <div th:text="${workorder.orderName}">-</div>
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-1 mt-4" th:text="#{note}">비고</label>
@@ -43,36 +47,200 @@
                 </div>
             </div>
 
-            <!-- 작업지시 항목 목록 출력 -->
-            <h3 class="text-xl font-semibold mb-2 mt-8" th:text="#{workOrderItems}">작업지시 항목</h3>
-            <table class="min-w-full text-sm mb-6 border">
-                <thead class="bg-gray-100">
-                    <tr>
-                        <th class="px-3 py-2 border" th:text="#{itemName}">항목명</th>
-                        <th class="px-3 py-2 border" th:text="#{itemMethod}">방법</th>
-                        <th class="px-3 py-2 border" th:text="#{itemResult}">결과</th>
-                        <th class="px-3 py-2 border" th:text="#{note}">비고</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="item, iterStat : ${workorder.items}">
-                        <td class="border px-2 py-1" th:text="${item.itemName}"></td>
-                        <td class="border px-2 py-1" th:text="${item.itemMethod}"></td>
-                        <td class="border px-2 py-1" th:text="${item.itemResult}"></td>
-                        <td class="border px-2 py-1" th:text="${item.note}"></td>
-                    </tr>
-                    <tr th:if="${#lists.isEmpty(workorder.items)}">
-                        <td class="border px-2 py-1 text-center" colspan="5">항목이 없습니다.</td>
-                    </tr>
-                </tbody>
-            </table>
+            <!-- 계획 Date, MM, Cost / 실적 Date, MM, Cost -->
+            <div class="border rounded-lg shadow p-4 space-y-4">
+                <h3 class="font-semibold text-lg mb-2" th:text="#{scheduleInformation}">계획 정보</h3>
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1" th:text="#{scheduleDate}">Schedule
+                            Date</label>
+                        <div th:text="${workorder.scheduleDate}">-</div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1" th:text="#{scheduleMM}">Schedule MM</label>
+                        <div th:text="${workorder.scheduleMM}">-</div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1" th:text="#{scheduleCost}">Schedule
+                            Cost</label>
+                        <div th:text="${workorder.scheduleCost}">-</div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1" th:text="#{executeDate}">Execute Date</label>
+                        <div th:text="${workorder.executeDate}">-</div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1" th:text="#{executeMM}">Execute MM</label>
+                        <div th:text="${workorder.executeMM}">-</div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1" th:text="#{executeCost}">Execute Cost</label>
+                        <div th:text="${workorder.executeCost}">-</div>
+                    </div>
+                </div>
+            </div>
 
-            <div class="flex justify-end">
+            <!-- 작업지시 항목 목록 출력 -->
+            <div class="border rounded-lg shadow p-4 space-y-4">
+                <h3 class="text-xl font-semibold mb-2 mt-8" th:text="#{workOrderItems}">작업지시 항목</h3>
+                <table class="min-w-full text-sm mb-6 border">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-3 py-2 border" th:text="#{itemName}">항목명</th>
+                            <th class="px-3 py-2 border" th:text="#{itemMethod}">방법</th>
+                            <th class="px-3 py-2 border" th:text="#{itemResult}">결과</th>
+                            <th class="px-3 py-2 border" th:text="#{note}">비고</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item, iterStat : ${workorder.items}">
+                            <td class="border px-2 py-1" th:text="${item.itemName}"></td>
+                            <td class="border px-2 py-1" th:text="${item.itemMethod}"></td>
+                            <td class="border px-2 py-1" th:text="${item.itemResult}"></td>
+                            <td class="border px-2 py-1" th:text="${item.note}"></td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(workorder.items)}">
+                            <td class="border px-2 py-1 text-center" colspan="5">항목이 없습니다.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Buttons -->
+            <div class="flex space-x-4 mt-6 non-print-section">
                 <a th:href="@{/workorder/workorderList}"
-                    class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" th:text="#{list}">목록으로</a>
-                </a>
+                    class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" th:text="#{cancel}">취소</a>
+                <button onclick="printContent()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                    <i class="fas fa-print mr-1"></i><span>출력</span>
+                </button>
             </div>
         </div>
+
+        <!-- Print Container -->
+        <div id="printContainer" style="display: none;">
+            <h2 class="text-2xl font-bold mb-6">작업지시서 상세</h2>
+
+            <!-- Basic Information -->
+            <div class="border rounded-lg shadow p-4 space-y-4 mb-6">
+                <h3 class="font-semibold text-lg mb-2">기본 정보</h3>
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">ID</label>
+                        <div th:text="${workorder.orderId}">-</div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">설비</label>
+                        <div th:text="${workorder.plantId}">-</div>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium mb-1">작업유형</label>
+                        <div th:text="${workorder.jobType}">-</div>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium mb-1">사이트</label>
+                        <div th:text="${workorder.siteId}">-</div>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium mb-1">부서</label>
+                        <div th:text="${workorder.deptId}">-</div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1 mt-4">작업명</label>
+                    <div th:text="${workorder.orderName}">-</div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1 mt-4">비고</label>
+                    <div th:text="${workorder.note}">-</div>
+                </div>
+            </div>
+
+            <!-- 계획 Date, MM, Cost / 실적 Date, MM, Cost -->
+            <div class="border rounded-lg shadow p-4 space-y-4 mb-6">
+                <h3 class="font-semibold text-lg mb-2">계획 정보</h3>
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">Schedule Date</label>
+                        <div th:text="${workorder.scheduleDate}">-</div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">Schedule MM</label>
+                        <div th:text="${workorder.scheduleMM}">-</div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">Schedule Cost</label>
+                        <div th:text="${workorder.scheduleCost}">-</div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">Execute Date</label>
+                        <div th:text="${workorder.executeDate}">-</div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">Execute MM</label>
+                        <div th:text="${workorder.executeMM}">-</div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">Execute Cost</label>
+                        <div th:text="${workorder.executeCost}">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 작업지시 항목 목록 출력 -->
+            <div class="border rounded-lg shadow p-4 space-y-4">
+                <h3 class="text-xl font-semibold mb-2">작업지시 항목</h3>
+                <table class="min-w-full text-sm mb-6 border">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-3 py-2 border">항목명</th>
+                            <th class="px-3 py-2 border">방법</th>
+                            <th class="px-3 py-2 border">결과</th>
+                            <th class="px-3 py-2 border">비고</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item, iterStat : ${workorder.items}">
+                            <td class="border px-2 py-1" th:text="${item.itemName}"></td>
+                            <td class="border px-2 py-1" th:text="${item.itemMethod}"></td>
+                            <td class="border px-2 py-1" th:text="${item.itemResult}"></td>
+                            <td class="border px-2 py-1" th:text="${item.note}"></td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(workorder.items)}">
+                            <td class="border px-2 py-1 text-center" colspan="4">항목이 없습니다.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <th:block layout:fragment="page-js">
+        <script>
+            function printContent() {
+                const printContainer = document.getElementById('printContainer');
+                const originalDisplay = printContainer.style.display;
+
+                // Print container를 보이게 설정
+                printContainer.style.display = 'block';
+
+                // 현재 페이지의 스타일을 저장
+                const originalBodyStyle = document.body.style.cssText;
+
+                // Print container만 보이도록 body 스타일 변경
+                document.body.innerHTML = printContainer.innerHTML;
+                document.body.style.cssText = 'margin: 0; padding: 20px; font-family: Arial, sans-serif;';
+
+                // 인쇄 실행
+                window.print();
+
+                // 원래 페이지로 복원
+                window.location.reload();
+            }
+        </script>
+    </th:block>
     </div>
 </body>
 

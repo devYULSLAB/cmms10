@@ -35,4 +35,9 @@ public class ChecksheetTemplate {
     private String createBy;
 
     private LocalDateTime createDate;
+
+    @Column(length = 5)
+    private String updateBy;
+
+    private LocalDateTime updateDate;
 }

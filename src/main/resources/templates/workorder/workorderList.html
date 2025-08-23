@@ -50,7 +50,7 @@
                     <tbody>
                         <tr th:each="wo : ${workorders.content}" class="hover:bg-gray-50">
                             <td class="border px-4 py-2">
-                                <a th:href="@{/workorder/workorderDetail/{orderId}(orderId=${wo.orderId})}"
+                                <a th:href="@{/workorder/workorderDetail/{siteId}/{orderId}(siteId=${wo.siteId}, orderId=${wo.orderId})}"
                                     class="text-blue-700 hover:underline" th:text="${wo.orderId}"></a>
                             </td>
                             <td class="border px-4 py-2" th:text="${wo.orderName}"></td>
@@ -89,7 +89,7 @@
                     th:classappend="${i == workorders.number ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}"
                     class="px-3 py-1 border rounded text-sm"></a>
 
-                <a th:href="@{/workorder/workorderList(companyId=${companyId}, siteId=${siteId}, page=${workorderPage.number + 1}, size=${workorderPage.size})}"
+                <a th:href="@{/workorder/workorderList(companyId=${companyId}, siteId=${siteId}, page=${workorders.number + 1}, size=${workorders.size})}"
                     th:classappend="${workorders.last ? 'pointer-events-none opacity-50' : ''}"
                     class="px-3 py-1 border rounded hover:bg-gray-100 text-sm">Next</a>
             </div>

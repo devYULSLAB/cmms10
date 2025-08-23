@@ -8,8 +8,7 @@
 
 <body>
     <div layout:fragment="content">
-        <div class="max-w-7xl mx-auto p-4">
-
+        <div class="container mx-auto px-4 py-8">
             <h2 class="text-2xl font-bold mb-4" th:text="#{inventoryTransaction}">재고 거래</h2>
 
             <!-- 메시지 표시 -->
@@ -20,84 +19,218 @@
                 <span th:text="${errorMessage}"></span>
             </div>
 
-            <!-- 공통 정보 -->
-            <div class="bg-white shadow rounded mb-6 p-4">
-                <h3 class="text-lg font-semibold mb-4" th:text="#{basicInformation}">기본 정보</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-1" th:text="#{companyId}">회사 ID:</label>
-                        <p class="text-lg font-semibold text-gray-800" th:text="${companyId}"></p>
-                    </div>
-                    <div>
-                        <label for="siteId" class="block text-sm font-medium mb-1" th:text="#{siteId}">사이트 ID:</label>
-                        <select id="siteId" name="siteId" class="w-full border rounded px-2 py-1" required>
-                            <option value="" th:text="#{select}">-- 선택 --</option>
-                            <option th:each="site : ${sites}" th:value="${site.siteId}"
-                                th:text="${site.siteId + ' - ' + site.siteName}">
-                            </option>
-                        </select>
-                    </div>
-                </div>
+            <!-- 탭 네비게이션 -->
+            <div class="mb-6">
+                <nav class="flex space-x-1 bg-white p-1 rounded-lg">
+                    <button
+                        class="tab-button px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 active"
+                        data-tab="inbound">입고</button>
+                    <button class="tab-button px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                        data-tab="outbound">출고</button>
+                    <button class="tab-button px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                        data-tab="movement">이동</button>
+                    <button class="tab-button px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                        data-tab="adjustment">조정</button>
+                </nav>
             </div>
 
-            <!-- 입력 폼 -->
-            <div class="bg-white shadow rounded mb-6 p-4">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold" th:text="#{transactionInput}">거래 입력</h3>
-                    <div class="flex gap-2">
-                        <button type="button" id="addRowBtn"
-                            class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm"
-                            th:text="#{add}">행 추가</button>
-                        <button type="button" id="removeRowBtn"
-                            class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700 text-sm"
-                            th:text="#{delete}">행 삭제</button>
-                    </div>
-                </div>
+            <!-- 사이트 선택 -->
+            <div class="mb-6">
+                <label for="siteId" class="block text-sm font-medium text-gray-700 mb-2">사이트</label>
+                <select id="siteId" name="siteId"
+                    class="w-full max-w-xs border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="" th:text="#{select}">-- 선택 --</option>
+                    <option th:each="site : ${sites}" th:value="${site.siteId}" th:text="${site.siteName}">사이트명</option>
+                </select>
+            </div>
 
-                <form th:action="@{/inventoryMaster/inventoryTransactionSave}" method="post" id="transactionForm">
-                    <!-- 사이트 ID를 폼에 포함 -->
-                    <input type="hidden" id="siteIdHidden" name="siteId" />
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full table-auto border-collapse border border-gray-300"
-                            id="transactionTable">
-                            <thead class="bg-gray-100">
-                                <tr>
-                                    <th class="border border-gray-300 px-2 py-2 text-center text-sm"
-                                        style="width: 50px;">
-                                        <input type="checkbox" id="selectAll" />
-                                    </th>
-                                    <th class="border border-gray-300 px-2 py-2 text-left text-sm"
-                                        th:text="#{inventoryId}">재고 ID</th>
-                                    <th class="border border-gray-300 px-2 py-2 text-left text-sm"
-                                        th:text="#{inventoryName}">재고명</th>
-                                    <th class="border border-gray-300 px-2 py-2 text-left text-sm" th:text="#{locId}">위치
-                                        ID</th>
-                                    <th class="border border-gray-300 px-2 py-2 text-left text-sm" th:text="#{locName}">
-                                        위치명</th>
-                                    <th class="border border-gray-300 px-2 py-2 text-left text-sm" th:text="#{ioType}">
-                                        입출고 유형</th>
-                                    <th class="border border-gray-300 px-2 py-2 text-right text-sm" th:text="#{qty}">수량
-                                    </th>
-                                    <th class="border border-gray-300 px-2 py-2 text-right text-sm"
-                                        th:text="#{unitPrice}">단가</th>
-                                    <th class="border border-gray-300 px-2 py-2 text-right text-sm"
-                                        th:text="#{totalValue}">총액</th>
-                                    <th class="border border-gray-300 px-2 py-2 text-left text-sm" th:text="#{note}">비고
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody id="transactionTableBody">
-                                <!-- 행들이 JavaScript로 동적 생성됨 -->
-                            </tbody>
-                        </table>
+            <!-- 입고 탭 -->
+            <div id="inbound-tab" class="tab-content">
+                <form th:action="@{/inventoryMaster/inventoryInboundSave}" method="post" class="space-y-6">
+                    <input type="hidden" name="siteId" th:value="${sites[0]?.siteId}" />
+                    <div class="bg-white shadow rounded-lg p-6">
+                        <h3 class="text-lg font-semibold mb-4">재고 입고</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full border border-gray-300">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-12">
+                                            <input type="checkbox" id="selectAllInbound" class="select-all-checkbox" />
+                                        </th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-32">재고ID</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-48">재고명</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-32">입고위치</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-48">위치명</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-24">수량</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-32">단가</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-32">총액</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-48">비고</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="inboundTableBody">
+                                    <!-- 동적으로 생성됨 -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 아이템 추가 삭제제-->
+                        <div class="flex justify-between mt-3">
+                            <button type="button" onclick="addRow('inbound')"
+                                class="px-3 py-1 border rounded text-blue-600 hover:bg-blue-50">행 추가</button>
+                            <button type="button" onclick="deleteSelectedRows('inbound')"
+                                class="px-3 py-1 border rounded text-red-600 hover:bg-red-50">선택 삭제</button>
+                        </div>
                     </div>
+                    <!-- 저장, 취소/목록 -->
+                    <div class="flex gap-3 justify-end">
+                        <button type="submit"
+                            class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">저장</button>
+                        <a th:href="@{/inventoryMaster/inventoryMasterList}"
+                            class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                            th:text="#{cancel}">취소</a>
+                    </div>
+                </form>
+            </div>
 
-                    <div class="flex gap-3 mt-6">
-                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                            th:text="#{save}">저장</button>
-                        <button type="button" id="clearBtn"
-                            class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
-                            th:text="#{clear}">초기화</button>
+            <!-- 출고 탭 -->
+            <div id="outbound-tab" class="tab-content hidden">
+                <form th:action="@{/inventoryMaster/inventoryOutboundSave}" method="post" class="space-y-6">
+                    <input type="hidden" name="siteId" th:value="${sites[0]?.siteId}" />
+                    <div class="bg-white shadow rounded-lg p-6">
+                        <h3 class="text-lg font-semibold mb-4">재고 출고</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full border border-gray-300">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-12">
+                                            <input type="checkbox" id="selectAllOutbound" class="select-all-checkbox" />
+                                        </th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-32">재고ID</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-48">재고명</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-32">출고위치</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-48">위치명</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-24">수량</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-32">단가</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-32">총액</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-48">비고</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="outboundTableBody">
+                                    <!-- 동적으로 생성됨 -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 아이템 추가 삭제제-->
+                        <div class="flex justify-between mt-3">
+                            <button type="button" onclick="addRow('outbound')"
+                                class="px-3 py-1 border rounded text-blue-600 hover:bg-blue-50">행 추가</button>
+                            <button type="button" onclick="deleteSelectedRows('outbound')"
+                                class="px-3 py-1 border rounded text-red-600 hover:bg-red-50">선택 삭제</button>
+                        </div>
+                    </div>
+                    <!-- 저장, 취소/목록 -->
+                    <div class="flex gap-3 justify-end">
+                        <button type="submit"
+                            class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">저장</button>
+                        <a th:href="@{/inventoryMaster/inventoryMasterList}"
+                            class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                            th:text="#{cancel}">취소</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 이동 탭 -->
+            <div id="movement-tab" class="tab-content hidden">
+                <form th:action="@{/inventoryMaster/inventoryMovementSave}" method="post" class="space-y-6">
+                    <input type="hidden" name="siteId" th:value="${sites[0]?.siteId}" />
+                    <div class="bg-white shadow rounded-lg p-6">
+                        <h3 class="text-lg font-semibold mb-4">재고 이동</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full border border-gray-300">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-12">
+                                            <input type="checkbox" id="selectAllMovement" class="select-all-checkbox" />
+                                        </th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-32">재고ID</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-48">재고명</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-32">출발위치</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-48">출발위치명</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-32">도착위치</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-48">도착위치명</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-24">수량</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-32">단가</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-32">총액</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-48">비고</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="movementTableBody">
+                                    <!-- 동적으로 생성됨 -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 아이템 추가 삭제제-->
+                        <div class="flex justify-between mt-3">
+                            <button type="button" onclick="addRow('movement')"
+                                class="px-3 py-1 border rounded text-blue-600 hover:bg-blue-50">행 추가</button>
+                            <button type="button" onclick="deleteSelectedRows('movement')"
+                                class="px-3 py-1 border rounded text-red-600 hover:bg-red-50">선택 삭제</button>
+                        </div>
+                    </div>
+                    <!-- 저장, 취소/목록 -->
+                    <div class="flex gap-3 justify-end">
+                        <button type="submit"
+                            class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">저장</button>
+                        <a th:href="@{/inventoryMaster/inventoryMasterList}"
+                            class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                            th:text="#{cancel}">취소</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 조정 탭 -->
+            <div id="adjustment-tab" class="tab-content hidden">
+                <form th:action="@{/inventoryMaster/inventoryAdjustmentSave}" method="post" class="space-y-6">
+                    <input type="hidden" name="siteId" th:value="${sites[0]?.siteId}" />
+                    <div class="bg-white shadow rounded-lg p-6">
+                        <h3 class="text-lg font-semibold mb-4">재고 조정</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full border border-gray-300">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-12">
+                                            <input type="checkbox" id="selectAllAdjustment"
+                                                class="select-all-checkbox" />
+                                        </th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-32">재고ID</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-48">재고명</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-32">위치</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-48">위치명</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-24">수량</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-32">단가</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-32">총액</th>
+                                        <th class="border border-gray-300 px-2 py-2 text-center w-48">비고</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adjustmentTableBody">
+                                    <!-- 동적으로 생성됨 -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- 아이템 추가 삭제제-->
+                        <div class="flex justify-between mt-3">
+                            <button type="button" onclick="addRow('adjustment')"
+                                class="px-3 py-1 border rounded text-blue-600 hover:bg-blue-50">행 추가</button>
+                            <button type="button" onclick="deleteSelectedRows('adjustment')"
+                                class="px-3 py-1 border rounded text-red-600 hover:bg-red-50">선택 삭제</button>
+                        </div>
+                    </div>
+                    <!-- 저장, 취소/목록 -->
+                    <div class="flex gap-3 justify-end">
+                        <button type="submit"
+                            class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">저장</button>
+                        <a th:href="@{/inventoryMaster/inventoryMasterList}"
+                            class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                            th:text="#{cancel}">취소</a>
                     </div>
                 </form>
             </div>
@@ -107,266 +240,560 @@
     <!-- 페이지별 JavaScript -->
     <th:block layout:fragment="page-js">
         <script th:inline="javascript">
+            // 전역 변수로 선언
+            const ctx = /*[[${contextPath}]]*/ '';
+            const companyId = /*[[${companyId}]]*/ '';
+
             document.addEventListener('DOMContentLoaded', function () {
-                const ctx = /*[[${contextPath}]]*/ '';
-                const companyId = /*[[${companyId}]]*/ '';
-                let currentRowCount = 0;
-                const initialRowCount = 10;
-
-                // 초기 행 생성
-                for (let i = 0; i < initialRowCount; i++) {
-                    addRow();
-                }
-
-                // 행 추가 함수
-                function addRow() {
-                    const tbody = document.getElementById('transactionTableBody');
-                    const row = document.createElement('tr');
-                    row.className = 'hover:bg-gray-50';
-                    row.innerHTML = `
-                        <td class="border border-gray-300 px-2 py-2 text-center">
-                            <input type="checkbox" class="row-checkbox" />
-                        </td>
-                        <td class="border border-gray-300 px-2 py-2">
-                            <input type="text" name="inventoryHistoryList[${currentRowCount}].inventoryId" 
-                                   class="w-full border rounded px-1 py-1 text-sm inventory-id" required />
-                        </td>
-                        <td class="border border-gray-300 px-2 py-2">
-                            <input type="text" class="w-full border rounded px-1 py-1 text-sm bg-gray-100 inventory-name" readonly />
-                        </td>
-                        <td class="border border-gray-300 px-2 py-2">
-                            <select name="inventoryHistoryList[${currentRowCount}].locId" 
-                                    class="w-full border rounded px-1 py-1 text-sm loc-id" required>
-                                <option value="" th:text="#{select}">-- 선택 --</option>
-                            </select>
-                        </td>
-                        <td class="border border-gray-300 px-2 py-2">
-                            <input type="text" class="w-full border rounded px-1 py-1 text-sm bg-gray-100 loc-name" readonly />
-                        </td>
-                        <td class="border border-gray-300 px-2 py-2">
-                            <select name="inventoryHistoryList[${currentRowCount}].ioType" 
-                                    class="w-full border rounded px-1 py-1 text-sm" required>
-                                <option value="" th:text="#{select}">-- 선택 --</option>
-                                <option value="I" th:text="#{in}">입고</option>
-                                <option value="O" th:text="#{out}">출고</option>
-                            </select>
-                        </td>
-                        <td class="border border-gray-300 px-2 py-2">
-                            <input type="text" name="inventoryHistoryList[${currentRowCount}].qty" 
-                                   class="w-full border rounded px-1 py-1 text-sm text-right qty" 
-                                   placeholder="0.00" required />
-                        </td>
-                        <td class="border border-gray-300 px-2 py-2">
-                            <input type="text" name="inventoryHistoryList[${currentRowCount}].unitPrice" 
-                                   class="w-full border rounded px-1 py-1 text-sm text-right unit-price" 
-                                   placeholder="0.00" required />
-                        </td>
-                        <td class="border border-gray-300 px-2 py-2">
-                            <input type="text" class="w-full border rounded px-1 py-1 text-sm text-right bg-gray-100 total-value" readonly 
-                                   style="font-weight: bold; color: #374151;" />
-                        </td>
-                        <td class="border border-gray-300 px-2 py-2">
-                            <input type="text" name="inventoryHistoryList[${currentRowCount}].note" 
-                                   class="w-full border rounded px-1 py-1 text-sm" />
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                    currentRowCount++;
-
-                    // 이벤트 리스너 추가
-                    const rowElement = tbody.lastElementChild;
-                    setupRowEventListeners(rowElement);
-                }
-
-                // 행 이벤트 리스너 설정
-                function setupRowEventListeners(row) {
-                    const inventoryIdInput = row.querySelector('.inventory-id');
-                    const qtyInput = row.querySelector('.qty');
-                    const unitPriceInput = row.querySelector('.unit-price');
-                    const locIdSelect = row.querySelector('.loc-id');
-
-                    // 재고 ID 입력 시 재고명 조회
-                    inventoryIdInput.addEventListener('blur', function () {
-                        const inventoryId = this.value;
-                        const inventoryNameInput = row.querySelector('.inventory-name');
-
-                        if (inventoryId) {
-                            fetch(`${ctx}/inventoryMaster/api/nameById?companyId=${companyId}&inventoryId=${inventoryId}`)
-                                .then(res => res.ok ? res.json() : Promise.reject(res))
-                                .then(data => {
-                                    inventoryNameInput.value = data.inventoryName || '';
-                                })
-                                .catch(() => {
-                                    inventoryNameInput.value = '재고를 찾을 수 없습니다';
-                                });
-                        }
+                // 탭 전환 이벤트
+                document.querySelectorAll('.tab-button').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const tabName = this.getAttribute('data-tab');
+                        switchTab(tabName);
                     });
+                });
 
-                    // 위치 목록 로드
-                    function loadLocationOptions() {
-                        const siteId = document.getElementById('siteId').value;
-                        if (siteId) {
-                            fetch(`${ctx}/storMaster/api/locations?companyId=${companyId}&siteId=${siteId}`)
-                                .then(res => res.ok ? res.json() : Promise.reject(res))
-                                .then(data => {
-                                    locIdSelect.innerHTML = '<option value="" th:text="#{select}">-- 선택 --</option>';
-                                    data.forEach(location => {
-                                        const option = document.createElement('option');
-                                        option.value = location.locId;
-                                        option.textContent = `${location.locId} - ${location.locName}`;
-                                        locIdSelect.appendChild(option);
+                // 초기 탭 설정
+                switchTab('inbound');
+
+                // 사이트 변경 시 위치 목록 업데이트
+                document.getElementById('siteId').addEventListener('change', function () {
+                    updateLocationOptions();
+                    updateFormSiteId();
+                });
+
+                // 초기 위치 목록 로드
+                updateLocationOptions();
+
+                // 각 폼의 submit 이벤트에 빈 행 제거 로직 연결
+                const forms = document.querySelectorAll('form');
+                forms.forEach(form => {
+                    form.addEventListener('submit', function (e) {
+                        const tabName = this.action.includes('Inbound') ? 'inbound' :
+                            this.action.includes('Outbound') ? 'outbound' :
+                                this.action.includes('Movement') ? 'movement' : 'adjustment';
+
+                        // 폼 제출 전 유효성 검사
+                        if (!validateForm(tabName)) {
+                            e.preventDefault();
+                            return false;
+                        }
+
+                        // 빈 행 제거 (최소 1행은 유지)
+                        removeEmptyRows(tabName);
+                    });
+                });
+            });
+
+            // 탭 전환 함수
+            function switchTab(tabName) {
+                // 모든 탭 버튼 비활성화
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('active', 'bg-blue-500', 'text-white');
+                    btn.classList.add('bg-white', 'text-gray-700', 'border', 'border-gray-300');
+                });
+
+                // 모든 탭 내용 숨김
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                // 선택된 탭 활성화
+                const activeButton = document.querySelector(`[data-tab="${tabName}"]`);
+                activeButton.classList.add('active', 'bg-blue-500', 'text-white');
+                activeButton.classList.remove('bg-white', 'text-gray-700', 'border', 'border-gray-300');
+
+                // 선택된 탭 내용 표시
+                document.getElementById(`${tabName}-tab`).classList.remove('hidden');
+
+                // 해당 탭의 테이블 초기화
+                initializeTable(tabName);
+            }
+
+            // 테이블 초기화
+            function initializeTable(tabName) {
+                const tbody = document.getElementById(`${tabName}TableBody`);
+                if (tbody.children.length === 0) {
+                    // 초기 10행 생성
+                    // for (let i = 0; i < 10; i++) {
+                    //     addRow(tabName);
+                    // }
+                    addRow(tabName);
+                }
+            }
+
+            // 행 추가 함수
+            function addRow(tabName) {
+                const tbody = document.getElementById(`${tabName}TableBody`);
+                const rowCount = tbody.children.length;
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+
+                if (tabName === 'inbound') {
+                    row.innerHTML = createInboundRow(rowCount);
+                } else if (tabName === 'outbound') {
+                    row.innerHTML = createOutboundRow(rowCount);
+                } else if (tabName === 'movement') {
+                    row.innerHTML = createMovementRow(rowCount);
+                } else if (tabName === 'adjustment') {
+                    row.innerHTML = createAdjustmentRow(rowCount);
+                }
+
+                tbody.appendChild(row);
+                setupRowEventListeners(row, tabName);
+            }
+
+            // 입고 행 생성
+            function createInboundRow(rowCount) {
+                return `
+                    <td class="border border-gray-300 px-2 py-2 text-center">
+                        <input type="checkbox" class="row-checkbox" />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" name="inventoryHistoryList[${rowCount}].inventoryId" 
+                               class="w-full border rounded px-1 py-1 text-sm inventory-id" 
+                               placeholder="재고ID를 입력하세요" required />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" class="w-full border rounded px-1 py-1 text-sm bg-gray-100 inventory-name" 
+                               placeholder="재고ID 입력 시 자동 조회됩니다" readonly />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <select name="inventoryHistoryList[${rowCount}].toLocation" 
+                                class="w-full border rounded px-1 py-1 text-sm location-select" required>
+                            <option value="">위치를 선택하세요</option>
+                        </select>
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" class="w-full border rounded px-1 py-1 text-sm bg-gray-100 location-name" 
+                               placeholder="위치 선택 시 자동 조회됩니다" readonly />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" name="inventoryHistoryList[${rowCount}].qty" 
+                               class="w-full border rounded px-1 py-1 text-sm text-right qty" 
+                               placeholder="수량을 입력하세요 (예: 10.00)" required />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" name="inventoryHistoryList[${rowCount}].unitPrice" 
+                               class="w-full border rounded px-1 py-1 text-sm text-right unit-price" 
+                               placeholder="단가를 입력하세요 (예: 1000.00)" required />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" class="w-full border rounded px-1 py-1 text-sm text-right bg-gray-100 total-value" 
+                               placeholder="수량 × 단가로 자동 계산됩니다" readonly />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" name="inventoryHistoryList[${rowCount}].note" 
+                               class="w-full border rounded px-1 py-1 text-sm" 
+                               placeholder="비고사항을 입력하세요 (선택사항)" />
+                    </td>
+                `;
+            }
+
+            // 출고 행 생성
+            function createOutboundRow(rowCount) {
+                return `
+                    <td class="border border-gray-300 px-2 py-2 text-center">
+                        <input type="checkbox" class="row-checkbox" />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" name="inventoryHistoryList[${rowCount}].inventoryId" 
+                               class="w-full border rounded px-1 py-1 text-sm inventory-id" 
+                               placeholder="재고ID를 입력하세요" required />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" class="w-full border rounded px-1 py-1 text-sm bg-gray-100 inventory-name" 
+                               placeholder="재고ID 입력 시 자동 조회됩니다" readonly />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <select name="inventoryHistoryList[${rowCount}].fromLocation" 
+                                class="w-full border rounded px-1 py-1 text-sm location-select" required>
+                            <option value="">출고 위치를 선택하세요</option>
+                        </select>
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" class="w-full border rounded px-1 py-1 text-sm bg-gray-100 location-name" 
+                               placeholder="위치 선택 시 자동 조회됩니다" readonly />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" name="inventoryHistoryList[${rowCount}].qty" 
+                               class="w-full border rounded px-1 py-1 text-sm text-right qty" 
+                               placeholder="출고 수량을 입력하세요 (예: 5.00)" required />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" name="inventoryHistoryList[${rowCount}].unitPrice" 
+                               class="w-full border rounded px-1 py-1 text-sm text-right unit-price" 
+                               placeholder="단가를 입력하세요 (예: 1000.00)" required />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" class="w-full border rounded px-1 py-1 text-sm text-right bg-gray-100 total-value" 
+                               placeholder="수량 × 단가로 자동 계산됩니다" readonly />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" name="inventoryHistoryList[${rowCount}].note" 
+                               class="w-full border rounded px-1 py-1 text-sm" 
+                               placeholder="출고 사유 등을 입력하세요 (선택사항)" />
+                    </td>
+                `;
+            }
+
+            // 이동 행 생성
+            function createMovementRow(rowCount) {
+                return `
+                    <td class="border border-gray-300 px-2 py-2 text-center">
+                        <input type="checkbox" class="row-checkbox" />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" name="inventoryHistoryList[${rowCount}].inventoryId" 
+                               class="w-full border rounded px-1 py-1 text-sm inventory-id" 
+                               placeholder="재고ID를 입력하세요" required />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" class="w-full border rounded px-1 py-1 text-sm bg-gray-100 inventory-name" 
+                               placeholder="재고ID 입력 시 자동 조회됩니다" readonly />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <select name="inventoryHistoryList[${rowCount}].fromLocation" 
+                                class="w-full border rounded px-1 py-1 text-sm location-select" required>
+                            <option value="" th:text="#{select}">-- 선택 --</option>
+                        </select>
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" class="w-full border rounded px-1 py-1 text-sm bg-gray-100 from-location-name" 
+                               placeholder="출발 위치 선택 시 자동 조회됩니다" readonly />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <select name="inventoryHistoryList[${rowCount}].toLocation" 
+                                class="w-full border rounded px-1 py-1 text-sm location-select" required>
+                            <option value="" th:text="#{select}">-- 선택 --</option>
+                        </select>
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" class="w-full border rounded px-1 py-1 text-sm bg-gray-100 to-location-name" 
+                               placeholder="도착 위치 선택 시 자동 조회됩니다" readonly />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" name="inventoryHistoryList[${rowCount}].qty" 
+                               class="w-full border rounded px-1 py-1 text-sm text-right qty" 
+                               placeholder="이동 수량을 입력하세요 (예: 3.00)" required />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" name="inventoryHistoryList[${rowCount}].unitPrice" 
+                               class="w-full border rounded px-1 py-1 text-sm text-right unit-price" 
+                               placeholder="단가를 입력하세요 (예: 1000.00)" required />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" class="w-full border rounded px-1 py-1 text-sm text-right bg-gray-100 total-value" 
+                               placeholder="수량 × 단가로 자동 계산됩니다" readonly />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" name="inventoryHistoryList[${rowCount}].note" 
+                               class="w-full border rounded px-1 py-1 text-sm" 
+                               placeholder="이동 사유 등을 입력하세요 (선택사항)" />
+                    </td>
+                `;
+            }
+
+            // 조정 행 생성
+            function createAdjustmentRow(rowCount) {
+                return `
+                    <td class="border border-gray-300 px-2 py-2 text-center">
+                        <input type="checkbox" class="row-checkbox" />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" name="inventoryHistoryList[${rowCount}].inventoryId" 
+                               class="w-full border rounded px-1 py-1 text-sm inventory-id" 
+                               placeholder="재고ID를 입력하세요" required />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" class="w-full border rounded px-1 py-1 text-sm bg-gray-100 inventory-name" 
+                               placeholder="재고ID 입력 시 자동 조회됩니다" readonly />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <select name="inventoryHistoryList[${rowCount}].toLocation" 
+                                class="w-full border rounded px-1 py-1 text-sm location-select" required>
+                            <option value="" th:text="#{select}">-- 선택 --</option>
+                        </select>
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" class="w-full border rounded px-1 py-1 text-sm bg-gray-100 location-name" 
+                               placeholder="위치 선택 시 자동 조회됩니다" readonly />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" name="inventoryHistoryList[${rowCount}].qty" 
+                               class="w-full border rounded px-1 py-1 text-sm text-right qty" 
+                               placeholder="조정 수량을 입력하세요 (예: 2.00)" required />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" name="inventoryHistoryList[${rowCount}].unitPrice" 
+                               class="w-full border rounded px-1 py-1 text-sm text-right unit-price" 
+                               placeholder="단가를 입력하세요 (예: 1000.00)" required />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" class="w-full border rounded px-1 py-1 text-sm text-right bg-gray-100 total-value" 
+                               placeholder="수량 × 단가로 자동 계산됩니다" readonly />
+                    </td>
+                    <td class="border border-gray-300 px-2 py-2">
+                        <input type="text" name="inventoryHistoryList[${rowCount}].note" 
+                               class="w-full border rounded px-1 py-1 text-sm" 
+                               placeholder="조정 사유 등을 입력하세요 (선택사항)" />
+                    </td>
+                `;
+            }
+
+            // 행 이벤트 리스너 설정
+            function setupRowEventListeners(row, tabName) {
+                const inventoryIdInput = row.querySelector('.inventory-id');
+                const qtyInput = row.querySelector('.qty');
+                const unitPriceInput = row.querySelector('.unit-price');
+                const locationSelects = row.querySelectorAll('.location-select');
+
+                // 재고 ID 입력 시 재고명 조회 및 단가 조회 (통합)
+                inventoryIdInput.addEventListener('blur', function () {
+                    const inventoryId = this.value;
+                    const inventoryNameInput = row.querySelector('.inventory-name');
+
+                    if (inventoryId) {
+                        // 1. 재고명 조회
+                        fetch(`${ctx}/inventoryMaster/api/nameById?companyId=${companyId}&inventoryId=${inventoryId}`)
+                            .then(res => res.ok ? res.json() : Promise.reject(res))
+                            .then(data => {
+                                inventoryNameInput.value = data.inventoryName || '';
+                            })
+                            .catch(() => {
+                                inventoryNameInput.value = '재고를 찾을 수 없습니다';
+                            });
+
+                        // 2. 출고/이동/조정 시 단가 조회
+                        if (tabName !== 'inbound') {
+                            const locationSelect = row.querySelector('.location-select');
+                            const locationId = locationSelect.value;
+
+                            if (locationId) {
+                                const siteId = document.getElementById('siteId').value;
+                                if (siteId) {
+                                    fetchUnitPrice(companyId, siteId, locationId, inventoryId, unitPriceInput, row);
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // 위치 select에 옵션 추가 및 단가 조회
+                locationSelects.forEach(select => {
+                    populateLocationOptions(select);
+
+                    // 위치 선택 시 위치명 조회 및 단가 조회
+                    select.addEventListener('change', function () {
+                        const locationId = this.value;
+                        const locationNameInput = this.closest('td').nextElementSibling.querySelector('input');
+
+                        if (locationId) {
+                            // 위치명 조회
+                            const siteId = document.getElementById('siteId').value;
+                            if (siteId) {
+                                fetch(`${ctx}/storMaster/api/locations?companyId=${companyId}&siteId=${siteId}`)
+                                    .then(res => res.ok ? res.json() : Promise.reject(res))
+                                    .then(data => {
+                                        const location = data.find(loc => loc.locId === locationId);
+                                        locationNameInput.value = location ? location.locName : '';
+                                    })
+                                    .catch(() => {
+                                        locationNameInput.value = '';
                                     });
-                                })
-                                .catch(() => {
-                                    locIdSelect.innerHTML = '<option value="" th:text="#{select}">-- 선택 --</option>';
-                                });
-                        }
-                    }
+                            }
 
-                    // 위치 선택 시 위치명 설정
-                    locIdSelect.addEventListener('change', function () {
-                        const selectedOption = this.options[this.selectedIndex];
-                        const locNameInput = row.querySelector('.loc-name');
-                        if (selectedOption.value) {
-                            locNameInput.value = selectedOption.textContent.split(' - ')[1] || '';
+                            // 출고/이동/조정 시 단가 자동 조회
+                            if (tabName !== 'inbound') {
+                                const inventoryId = row.querySelector('.inventory-id').value;
+                                if (inventoryId && locationId) {
+                                    const siteId = document.getElementById('siteId').value;
+                                    if (siteId) {
+                                        fetchUnitPrice(companyId, siteId, locationId, inventoryId, unitPriceInput, row);
+                                    }
+                                }
+                            }
                         } else {
-                            locNameInput.value = '';
+                            locationNameInput.value = '';
                         }
-                    });
-
-                    // 수량/단가 변경 시 총액 계산
-                    function calculateTotal() {
-                        const qtyStr = qtyInput.value.replace(/[^\d.]/g, '');
-                        const unitPriceStr = unitPriceInput.value.replace(/[^\d.]/g, '');
-
-                        const qty = parseFloat(qtyStr) || 0;
-                        const unitPrice = parseFloat(unitPriceStr) || 0;
-                        const totalValue = qty * unitPrice;
-
-                        const totalValueInput = row.querySelector('.total-value');
-
-                        if (totalValue > 0) {
-                            totalValueInput.value = totalValue.toFixed(2);
-                            totalValueInput.style.color = '#1f2937';
-                            totalValueInput.style.fontWeight = 'bold';
-                        } else {
-                            totalValueInput.value = '0.00';
-                            totalValueInput.style.color = '#9ca3af';
-                            totalValueInput.style.fontWeight = 'normal';
-                        }
-                    }
-
-                    // 숫자 입력 필드 포맷팅 및 유효성 검사
-                    function formatNumberInput(input) {
-                        let value = input.value.replace(/[^\d.]/g, '');
-                        const parts = value.split('.');
-                        if (parts.length > 2) {
-                            value = parts[0] + '.' + parts.slice(1).join('');
-                        }
-                        if (parts.length === 2 && parts[1].length > 2) {
-                            value = parts[0] + '.' + parts[1].substring(0, 2);
-                        }
-                        input.value = value;
-                    }
-
-                    qtyInput.addEventListener('input', function () {
-                        formatNumberInput(this);
-                        calculateTotal();
-                    });
-
-                    unitPriceInput.addEventListener('input', function () {
-                        formatNumberInput(this);
-                        calculateTotal();
-                    });
-
-                    // 사이트 변경 시 위치 목록 업데이트
-                    document.getElementById('siteId').addEventListener('change', function () {
-                        loadLocationOptions();
-                        // 사이트 ID를 폼에 포함
-                        document.getElementById('siteIdHidden').value = this.value;
-                    });
-                }
-
-                // 행 추가 버튼
-                document.getElementById('addRowBtn').addEventListener('click', addRow);
-
-                // 행 삭제 버튼
-                document.getElementById('removeRowBtn').addEventListener('click', function () {
-                    const checkboxes = document.querySelectorAll('.row-checkbox:checked');
-                    if (checkboxes.length === 0) {
-                        alert('삭제할 행을 선택해주세요.');
-                        return;
-                    }
-
-                    checkboxes.forEach(checkbox => {
-                        checkbox.closest('tr').remove();
-                    });
-
-                    // 인덱스 재정렬
-                    reindexRows();
-                });
-
-                // 전체 선택/해제
-                document.getElementById('selectAll').addEventListener('change', function () {
-                    const checkboxes = document.querySelectorAll('.row-checkbox');
-                    checkboxes.forEach(checkbox => {
-                        checkbox.checked = this.checked;
                     });
                 });
 
-                // 인덱스 재정렬 함수
-                function reindexRows() {
-                    const rows = document.querySelectorAll('#transactionTableBody tr');
-                    rows.forEach((row, index) => {
-                        const inputs = row.querySelectorAll('input[name*="inventoryHistoryList"]');
-                        const selects = row.querySelectorAll('select[name*="inventoryHistoryList"]');
-
-                        inputs.forEach(input => {
-                            input.name = input.name.replace(/\[\d+\]/, `[${index}]`);
-                        });
-
-                        selects.forEach(select => {
-                            select.name = select.name.replace(/\[\d+\]/, `[${index}]`);
-                        });
+                // 수량과 단가 입력 시 총액 계산
+                [qtyInput, unitPriceInput].forEach(input => {
+                    input.addEventListener('input', function () {
+                        calculateTotal(row);
                     });
-                    currentRowCount = rows.length;
+                });
+            }
+
+            // 단가 조회 함수
+            function fetchUnitPrice(companyId, siteId, locationId, inventoryId, unitPriceInput, row) {
+                console.log('fetchUnitPrice 호출:', { companyId, siteId, locationId, inventoryId });
+
+                fetch(`${ctx}/inventoryMaster/api/unitPrice?companyId=${companyId}&siteId=${siteId}&locId=${locationId}&inventoryId=${inventoryId}`)
+                    .then(res => res.ok ? res.json() : Promise.reject(res))
+                    .then(unitPrice => {
+                        if (unitPrice && unitPrice > 0) {
+                            unitPriceInput.value = unitPrice.toFixed(2);
+                            calculateTotal(row); // 총액 자동 계산
+                        } else {
+                            unitPriceInput.value = '';
+                        }
+                    })
+                    .catch(() => {
+                        console.log('현재 재고 단가를 조회할 수 없습니다.');
+                        unitPriceInput.value = '';
+                    });
+            }
+
+            // 총액 계산
+            function calculateTotal(row) {
+                const qtyInput = row.querySelector('.qty');
+                const unitPriceInput = row.querySelector('.unit-price');
+                const totalValueInput = row.querySelector('.total-value');
+
+                const qty = parseFloat(qtyInput.value) || 0;
+                const unitPrice = parseFloat(unitPriceInput.value) || 0;
+                const total = qty * unitPrice;
+
+                totalValueInput.value = total.toFixed(2);
+            }
+
+            // 선택된 행 삭제
+            function deleteSelectedRows(tabName) {
+                const tbody = document.getElementById(`${tabName}TableBody`);
+                const selectedRows = tbody.querySelectorAll('.row-checkbox:checked');
+
+                selectedRows.forEach(checkbox => {
+                    checkbox.closest('tr').remove();
+                });
+            }
+
+            // 전체 선택/해제
+            document.addEventListener('change', function (e) {
+                if (e.target.classList.contains('select-all-checkbox')) {
+                    const tbody = e.target.closest('table').querySelector('tbody');
+                    const checkboxes = tbody.querySelectorAll('.row-checkbox');
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = e.target.checked;
+                    });
                 }
+            });
 
-                // 폼 제출 전 검증
-                document.getElementById('transactionForm').addEventListener('submit', function (e) {
-                    const siteId = document.getElementById('siteId').value;
-                    if (!siteId) {
-                        alert('사이트를 선택해주세요.');
-                        e.preventDefault();
-                        return;
+            // 위치 목록 업데이트
+            function updateLocationOptions() {
+                const siteId = document.getElementById('siteId').value;
+                if (!siteId) return;
+
+                fetch(`${ctx}/storMaster/api/locations?companyId=${companyId}&siteId=${siteId}`)
+                    .then(res => res.ok ? res.json() : Promise.reject(res))
+                    .then(data => {
+                        const locationSelects = document.querySelectorAll('.location-select');
+                        locationSelects.forEach(select => {
+                            const currentValue = select.value;
+                            select.innerHTML = '<option value="">-- 선택 --</option>';
+                            data.forEach(location => {
+                                const option = document.createElement('option');
+                                option.value = location.locId;
+                                option.textContent = `${location.locId} - ${location.locName}`;
+                                select.appendChild(option);
+                            });
+                            select.value = currentValue;
+                        });
+                    })
+                    .catch(() => {
+                        console.error('위치 목록을 불러올 수 없습니다.');
+                    });
+            }
+
+            // 새로 생성된 행에 위치 옵션 추가
+            function populateLocationOptions(select) {
+                const siteId = document.getElementById('siteId').value;
+                if (!siteId) return;
+
+                fetch(`${ctx}/storMaster/api/locations?companyId=${companyId}&siteId=${siteId}`)
+                    .then(res => res.ok ? res.json() : Promise.reject(res))
+                    .then(data => {
+                        select.innerHTML = '<option value="">-- 선택 --</option>';
+                        data.forEach(location => {
+                            const option = document.createElement('option');
+                            option.value = location.locId;
+                            option.textContent = `${location.locId} - ${location.locName}`;
+                            select.appendChild(option);
+                        });
+                    })
+                    .catch(() => {
+                        console.error('위치 목록을 불러올 수 없습니다.');
+                    });
+            }
+
+            // 폼의 사이트 ID 업데이트
+            function updateFormSiteId() {
+                const siteId = document.getElementById('siteId').value;
+                const siteIdInputs = document.querySelectorAll('input[name="siteId"]');
+                siteIdInputs.forEach(input => {
+                    input.value = siteId;
+                });
+            }
+
+            // 저장 전 빈 행 제거 (최소 1행은 유지)
+            function removeEmptyRows(tabName) {
+                const tbody = document.getElementById(`${tabName}TableBody`);
+                const rows = tbody.querySelectorAll('tr');
+                let validRowCount = 0;
+
+                // 유효한 행 개수 확인
+                rows.forEach(row => {
+                    const inventoryId = row.querySelector('.inventory-id').value.trim();
+                    const qty = row.querySelector('.qty').value.trim();
+                    const unitPrice = row.querySelector('.unit-price').value.trim();
+
+                    if (inventoryId && qty && unitPrice) {
+                        validRowCount++;
                     }
+                });
 
-                    // 사이트 ID를 폼에 포함
-                    document.getElementById('siteIdHidden').value = siteId;
-
-                    // 빈 행 제거
-                    const rows = document.querySelectorAll('#transactionTableBody tr');
+                // 유효한 행이 있으면 빈 행만 제거
+                if (validRowCount > 0) {
                     rows.forEach(row => {
-                        const inventoryId = row.querySelector('.inventory-id').value;
-                        if (!inventoryId || inventoryId.trim() === '') {
+                        const inventoryId = row.querySelector('.inventory-id').value.trim();
+                        const qty = row.querySelector('.qty').value.trim();
+                        const unitPrice = row.querySelector('.unit-price').value.trim();
+
+                        // 재고ID, 수량, 단가가 모두 입력되지 않은 행만 제거
+                        if (!inventoryId && !qty && !unitPrice) {
                             row.remove();
                         }
                     });
+                }
 
-                    // 인덱스 재정렬
-                    reindexRows();
-                });
+                console.log(`removeEmptyRows: ${tabName}, valid rows: ${validRowCount}`);
+            }
 
-                // 초기화 버튼
-                document.getElementById('clearBtn').addEventListener('click', function () {
-                    document.getElementById('transactionForm').reset();
-                    document.getElementById('transactionTableBody').innerHTML = '';
-                    currentRowCount = 0;
-                    for (let i = 0; i < initialRowCount; i++) {
-                        addRow();
+            // 폼 유효성 검사
+            function validateForm(tabName) {
+                const tbody = document.getElementById(`${tabName}TableBody`);
+                const rows = tbody.querySelectorAll('tr');
+                let hasValidData = false;
+
+                rows.forEach(row => {
+                    const inventoryId = row.querySelector('.inventory-id').value.trim();
+                    const qty = row.querySelector('.qty').value.trim();
+                    const unitPrice = row.querySelector('.unit-price').value.trim();
+
+                    if (inventoryId && qty && unitPrice) {
+                        hasValidData = true;
                     }
                 });
-            });
+
+                if (!hasValidData) {
+                    alert('최소 하나의 행에 재고ID, 수량, 단가를 모두 입력해주세요.');
+                    return false;
+                }
+
+                return true;
+            }
         </script>
     </th:block>
 </body>

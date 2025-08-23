@@ -7,7 +7,6 @@ import com.cmms10.domain.site.service.SiteService;
 import com.cmms10.domain.dept.service.DeptService;
 import com.cmms10.commonCode.service.CommonCodeService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -16,9 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -50,11 +47,12 @@ public class WorkorderController {
         // 최소 1개 항목 생성 (초기화용)
         List<WorkorderItem> items = new ArrayList<>();
         items.add(new WorkorderItem());
+        workorder.setCompanyId(companyId);
         workorder.setItems(items);
 
         model.addAttribute("workorder", workorder);
         model.addAttribute("sites", siteService.getAllSitesByCompanyId(companyId));
-        model.addAttribute("JOBTPpes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
+        model.addAttribute("jobTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
 
         return "workorder/workorderForm";
@@ -72,7 +70,7 @@ public class WorkorderController {
 
         model.addAttribute("workorder", workorder);
         model.addAttribute("sites", siteService.getAllSitesByCompanyId(companyId));
-        model.addAttribute("JOBTPpes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
+        model.addAttribute("jobTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "JOBTP"));
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
 
         return "workorder/workorderForm";
@@ -131,8 +129,10 @@ public class WorkorderController {
             HttpSession session,
             RedirectAttributes redirectAttributes) {
         // 세션에서 사용자 정보 가져오기
+        String companyId = (String) session.getAttribute("companyId");
         String username = (String) session.getAttribute("username");
 
+        workorder.setCompanyId(companyId);
         workorderService.saveWorkorder(workorder, username);
 
         redirectAttributes.addFlashAttribute("successMessage", "Work order saved successfully");

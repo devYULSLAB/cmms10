@@ -24,7 +24,7 @@
                         class="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 text-sm">
                         <i class="fas fa-arrow-left mr-2"></i>작업허가서로 돌아가기
                     </a>
-                    <button th:if="${checksheetResult != null}" onclick="window.print()"
+                    <button th:if="${checksheetResult != null}" onclick="printContent()"
                         class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
                         <i class="fas fa-print mr-2"></i>프린트
                     </button>
@@ -65,24 +65,7 @@
                 <div id="checksheetView" class="p-4 bg-gray-50 rounded border min-h-[400px]"></div>
             </div>
 
-            <!-- Summary Information -->
-            <div th:if="${checksheetResult != null and summary != null}" class="border rounded-lg shadow p-4 space-y-4">
-                <h3 class="font-semibold text-lg mb-2">📊 결과 요약</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="text-center p-4 bg-green-50 rounded">
-                        <div class="text-2xl font-bold text-green-600" th:text="${summary.totalItems}">0</div>
-                        <div class="text-sm text-gray-600">전체 항목</div>
-                    </div>
-                    <div class="text-center p-4 bg-blue-50 rounded">
-                        <div class="text-2xl font-bold text-blue-600" th:text="${summary.completedItems}">0</div>
-                        <div class="text-sm text-gray-600">완료 항목</div>
-                    </div>
-                    <div class="text-center p-4 bg-yellow-50 rounded">
-                        <div class="text-2xl font-bold text-yellow-600" th:text="${summary.completionRate}">0%</div>
-                        <div class="text-sm text-gray-600">완료율</div>
-                    </div>
-                </div>
-            </div>
+
 
             <!-- 체크시트 결과가 없을 때 메시지 -->
             <div th:if="${checksheetResult == null}" class="border rounded-lg shadow p-4 space-y-4">
@@ -99,6 +82,54 @@
         </div>
     </div>
 
+    <!-- Print Container (메뉴 제외, content만 출력) -->
+    <div id="printContainer" style="display: none;">
+        <div class="max-w-4xl mx-auto p-6">
+            <h2 class="text-2xl font-bold mb-6 text-center">🧾 체크시트 결과</h2>
+
+            <!-- Basic Information -->
+            <div th:if="${checksheetResult != null}" class="border rounded-lg p-4 space-y-4 mb-6">
+                <h3 class="font-semibold text-lg mb-2">📋 기본 정보</h3>
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">회사 ID</label>
+                        <div class="p-2 bg-gray-50 rounded" th:text="${checksheetResult.companyId}"></div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">허가서 ID</label>
+                        <div class="p-2 bg-gray-50 rounded" th:text="${checksheetResult.permitId}"></div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">템플릿 ID</label>
+                        <div class="p-2 bg-gray-50 rounded" th:text="${checksheetResult.templateId}"></div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">생성자</label>
+                        <div class="p-2 bg-gray-50 rounded" th:text="${checksheetResult.createBy}"></div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">생성일시</label>
+                    <div class="p-2 bg-gray-50 rounded"
+                        th:text="${#temporals.format(checksheetResult.createDate, 'yyyy-MM-dd HH:mm:ss')}"></div>
+                </div>
+            </div>
+
+            <!-- Checksheet Result -->
+            <div th:if="${checksheetResult != null}" class="border rounded-lg p-4 space-y-4 mb-6">
+                <h3 class="font-semibold text-lg mb-2">✅ 체크시트 결과</h3>
+                <div id="printChecksheetView" class="p-4 bg-gray-50 rounded border min-h-[400px]"></div>
+            </div>
+
+
+
+            <!-- Footer -->
+            <div class="text-center text-sm text-gray-600 mt-8">
+                <p>출력일시: <span th:text="${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm')}">-</span></p>
+            </div>
+        </div>
+    </div>
+
     <th:block layout:fragment="page-js">
         <!-- formRender.js 삽입 -->
         <script src="https://formbuilder.online/assets/js/form-render.min.js"></script>
@@ -106,21 +137,33 @@
             document.addEventListener('DOMContentLoaded', function () {
                 const checksheetResult = /*[[${checksheetResult}]]*/ null;
                 const resultJson = checksheetResult != null ? checksheetResult.checkResultJson : null;
+                const templateJson = /*[[${templateJson}]]*/ null; // 템플릿 JSON 추가
 
-                if (resultJson && resultJson !== '') {
+                if (resultJson && resultJson !== '' && resultJson !== '{}' && !resultJson.includes('no renderInstance')) {
                     try {
                         const formData = typeof resultJson === 'string' ? JSON.parse(resultJson) : resultJson;
+
                         if (formData && Object.keys(formData).length > 0) {
-                            $('#checksheetView').formRender({
-                                formData: formData,
-                                readOnly: true
-                            });
+                            if (templateJson) {
+                                // 템플릿 JSON이 있으면 formRender로 렌더링
+                                $('#checksheetView').formRender({
+                                    formData: templateJson, // 템플릿 구조 사용
+                                    readOnly: true,
+                                    i18n: false
+                                });
+                                // 렌더링 완료 후 데이터 복원
+                                setTimeout(() => {
+                                    restoreCheckResultData(formData);
+                                }, 100);
+                            } else {
+                                // 템플릿 JSON이 없으면 간단한 폼 생성
+                                createSimpleForm(formData);
+                            }
                         } else {
                             document.getElementById('checksheetView').innerHTML =
                                 '<p class="text-gray-500 text-center py-8">체크시트 데이터가 없습니다.</p>';
                         }
                     } catch (e) {
-                        console.error('체크시트 데이터 파싱 오류:', e);
                         document.getElementById('checksheetView').innerHTML =
                             '<p class="text-red-500 text-center py-8">체크시트 데이터를 불러올 수 없습니다.</p>';
                     }
@@ -129,6 +172,94 @@
                         '<p class="text-gray-500 text-center py-8">체크시트 결과가 없습니다.</p>';
                 }
             });
+
+            // 체크시트 데이터 복원 함수
+            function restoreCheckResultData(savedData) {
+                if (!savedData || Object.keys(savedData).length === 0) {
+                    return;
+                }
+
+                try {
+                    // formRender 인스턴스 가져오기
+                    const formRenderInstance = $('#checksheetView').data('formRender');
+
+                    if (formRenderInstance && typeof formRenderInstance.setData === 'function') {
+                        // formRender의 setData 메서드로 데이터 복원
+                        formRenderInstance.setData(savedData);
+                    } else {
+                        // setData가 없으면 직접 폼 요소에 값 설정
+                        restoreFormDataDirectly(savedData);
+                    }
+                } catch (error) {
+                    // fallback: 직접 복원
+                    restoreFormDataDirectly(savedData);
+                }
+            }
+
+            // 폼 요소에 직접 데이터 복원 (fallback용)
+            function restoreFormDataDirectly(savedData) {
+                const formElements = document.querySelectorAll('#checksheetView input, #checksheetView select, #checksheetView textarea');
+
+                formElements.forEach((element) => {
+                    if (element.name && savedData[element.name] !== undefined) {
+                        if (element.type === 'checkbox') {
+                            element.checked = savedData[element.name];
+                        } else {
+                            element.value = savedData[element.name];
+                        }
+                    }
+                });
+            }
+
+            // 간단한 폼 생성 함수 (템플릿 JSON이 없을 때)
+            function createSimpleForm(formData) {
+                let html = '<div class="space-y-4">';
+                html += '<h4 class="font-medium text-lg mb-4">체크시트 결과</h4>';
+                Object.entries(formData).forEach(([fieldName, fieldValue]) => {
+                    html += '<div class="border rounded p-3 bg-white">';
+                    if (typeof fieldValue === 'boolean') {
+                        html += `<label class="flex items-center space-x-2">`;
+                        html += `<input type="checkbox" ${fieldValue ? 'checked' : ''} disabled class="rounded">`;
+                        html += `<span class="text-sm font-medium">${fieldName}</span>`;
+                        html += `</label>`;
+                    } else {
+                        html += `<label class="block text-sm font-medium mb-1">${fieldName}</label>`;
+                        html += `<input type="text" value="${fieldValue}" readonly class="w-full p-2 bg-gray-50 border rounded">`;
+                    }
+                    html += '</div>';
+                });
+                html += '</div>';
+                document.getElementById('checksheetView').innerHTML = html;
+            }
+
+            // 인쇄 기능
+            function printContent() {
+                const printContainer = document.getElementById('printContainer');
+                const originalDisplay = printContainer.style.display;
+
+                // Print container를 보이게 설정
+                printContainer.style.display = 'block';
+
+                // 체크시트 데이터를 print container에도 복사
+                const checksheetView = document.getElementById('checksheetView');
+                const printChecksheetView = document.getElementById('printChecksheetView');
+                if (checksheetView && printChecksheetView) {
+                    printChecksheetView.innerHTML = checksheetView.innerHTML;
+                }
+
+                // 현재 페이지의 스타일을 저장
+                const originalBodyStyle = document.body.style.cssText;
+
+                // Print container만 보이도록 body 스타일 변경
+                document.body.innerHTML = printContainer.innerHTML;
+                document.body.style.cssText = 'margin: 0; padding: 20px; font-family: Arial, sans-serif;';
+
+                // 인쇄 실행
+                window.print();
+
+                // 원래 페이지로 복원
+                window.location.reload();
+            }
         </script>
     </th:block>
 </body>

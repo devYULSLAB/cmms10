@@ -48,8 +48,6 @@ spring:
       port: 35729
     add-properties: true
   
-  # 개발 전용 설정 (공통 설정과 다른 부분만)
-  
   # 로깅 개발 설정
   logging:
     level:
@@ -60,3 +58,9 @@ spring:
       org.springframework.boot.devtools: DEBUG
       org.springframework.web: DEBUG
       org.thymeleaf: DEBUG
+
+# 커스텀 설정
+cmms:
+  googlesheet:
+    # 기본값은 /opt/cmms/secrets/service-account.json
+    credentials-path: "classpath:credentials/dev/service-account.json"

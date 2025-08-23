@@ -248,6 +248,17 @@ INSERT INTO `commonCode` (
 	'소모품 창고'
 );
 
+-- ChecksheetResult 테이블 생성
+CREATE TABLE IF NOT EXISTS `checksheetresult` (
+    `companyId` VARCHAR(5) NOT NULL,
+    `permitId` VARCHAR(10) NOT NULL,
+    `templateId` VARCHAR(10),
+    `checkResultJson` LONGTEXT,
+    `createBy` VARCHAR(5),
+    `createDate` DATETIME,
+    PRIMARY KEY (`companyId`, `permitId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 
 	

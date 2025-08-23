@@ -52,6 +52,9 @@ public class SecurityConfig {
                     authorize
                             .requestMatchers("/login", "/js/**", "/error", "/favicon.ico").permitAll()
                             .requestMatchers("/").permitAll()
+                            .requestMatchers("/site/getSitesForSelection", "/site/selectSite",
+                                    "/site/clearSelectedSite")
+                            .authenticated()
                             .anyRequest().authenticated();
                 })
                 .formLogin(formLogin -> {

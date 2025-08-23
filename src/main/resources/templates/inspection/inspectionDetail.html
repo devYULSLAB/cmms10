@@ -82,13 +82,116 @@
             </div>
 
             <!-- Buttons -->
-            <div class="flex gap-3 justify-end">
+            <div class="flex space-x-4 mt-6 non-print-section">
                 <a th:href="@{/inspection/inspectionList(companyId=${inspection.companyId},siteId=${inspection.siteId})}"
-                    class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400" th:text="#{cancel}">목록으로</a>
-                </a>
+                    class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600" th:text="#{cancel}">취소</a>
+                <button onclick="printContent()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                    <i class="fas fa-print mr-1"></i><span>출력</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Print Container -->
+        <div id="printContainer" style="display: none;">
+            <h2 class="text-2xl font-bold mb-6">예방점검 상세</h2>
+
+            <!-- Basic Information -->
+            <div class="border rounded-lg shadow p-4 space-y-4 mb-6">
+                <h3 class="font-semibold text-lg mb-2">기본 정보</h3>
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">ID</label>
+                        <div th:text="${inspection.inspectionId}">-</div>
+                    </div>
+                    <div class="col-span-3">
+                        <label class="block text-sm font-medium mb-1">설비</label>
+                        <div th:text="${inspection.plantId}">-</div>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium mb-1">작업유형</label>
+                        <div th:text="${inspection.jobType}">-</div>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium mb-1">사이트</label>
+                        <div th:text="${inspection.siteId}">-</div>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-sm font-medium mb-1">부서</label>
+                        <div th:text="${inspection.deptId}">-</div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1 mt-4">점검명</label>
+                    <div th:text="${inspection.inspectionName}">-</div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1 mt-4">비고</label>
+                    <div th:text="${inspection.note}">-</div>
+                </div>
             </div>
 
+            <!-- Inspection Items -->
+            <div class="border rounded-lg shadow p-4 space-y-4">
+                <h3 class="font-semibold text-lg mb-2">점검 항목</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm border">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="border px-2 py-1">항목명</th>
+                                <th class="border px-2 py-1">방법</th>
+                                <th class="border px-2 py-1">단위</th>
+                                <th class="border px-2 py-1">하한</th>
+                                <th class="border px-2 py-1">상한</th>
+                                <th class="border px-2 py-1">기준값</th>
+                                <th class="border px-2 py-1">측정값</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item : ${inspection.items}">
+                                <td class="border px-2 py-1" th:text="${item.itemName}">-</td>
+                                <td class="border px-2 py-1" th:text="${item.itemMethod}">-</td>
+                                <td class="border px-2 py-1" th:text="${item.itemUnit}">-</td>
+                                <td class="border px-2 py-1" th:text="${item.itemLower}">-</td>
+                                <td class="border px-2 py-1" th:text="${item.itemUpper}">-</td>
+                                <td class="border px-2 py-1" th:text="${item.itemStandard}">-</td>
+                                <td class="border px-2 py-1" th:text="${item.itemResult}">-</td>
+                            </tr>
+                            <tr th:if="${inspection.items == null or #lists.isEmpty(inspection.items)}">
+                                <td class="border px-2 py-1 text-center" colspan="7">등록된 항목이 없습니다.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
+    </div>
+
+    <th:block layout:fragment="page-js">
+        <script>
+            function printContent() {
+                const printContainer = document.getElementById('printContainer');
+                const originalDisplay = printContainer.style.display;
+
+                // Print container를 보이게 설정
+                printContainer.style.display = 'block';
+
+                // 현재 페이지의 스타일을 저장
+                const originalBodyStyle = document.body.style.cssText;
+
+                // Print container만 보이도록 body 스타일 변경
+                document.body.innerHTML = printContainer.innerHTML;
+                document.body.style.cssText = 'margin: 0; padding: 20px; font-family: Arial, sans-serif;';
+
+                // 인쇄 실행
+                window.print();
+
+                // 원래 페이지로 복원
+                window.location.reload();
+            }
+        </script>
+    </th:block>
+
+    </div>
     </div>
 </body>
 

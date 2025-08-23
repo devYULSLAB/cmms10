@@ -14,8 +14,9 @@ public interface InventoryHistoryRepository extends JpaRepository<InventoryHisto
     @Query("SELECT MAX(h.historyId) FROM InventoryHistory h WHERE h.companyId = :companyId")
     String findMaxHistoryIdByCompanyId(@Param("companyId") String companyId);
 
-    List<InventoryHistory> findByCompanyIdAndInventoryIdOrderByIoDateDesc(String companyId, String inventoryId);
+    List<InventoryHistory> findByCompanyIdAndInventoryIdOrderByTransactionDateDesc(String companyId,
+            String inventoryId);
 
-    List<InventoryHistory> findByCompanyIdOrderByIoDateDesc(String companyId);
+    List<InventoryHistory> findByCompanyIdOrderByTransactionDateDesc(String companyId);
 
 }

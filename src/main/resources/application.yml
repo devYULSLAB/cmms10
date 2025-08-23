@@ -31,6 +31,8 @@ server:
       charset: UTF-8
       enabled: true
       force: true
+  tomcat:
+    max-http-form-post-size: 20MB
 
 # 로깅 공통 설정
 logging:

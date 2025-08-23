@@ -14,6 +14,9 @@ import com.cmms10.checksheet.repository.ChecksheetResultRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 @Service
 @Transactional
 public class ChecksheetResultService {
@@ -33,13 +36,6 @@ public class ChecksheetResultService {
      */
     @Transactional
     public void saveResult(ChecksheetResult result) {
-        System.out.println("=== ChecksheetResult 저장 시작 ===");
-        System.out.println("companyId: " + result.getCompanyId());
-        System.out.println("permitId: " + result.getPermitId());
-        System.out.println("templateId: " + result.getTemplateId());
-        System.out.println("checkResultJson 길이: "
-                + (result.getCheckResultJson() != null ? result.getCheckResultJson().length() : 0));
-
         // 데이터 검증
         if (result.getCompanyId() == null || result.getCompanyId().trim().isEmpty()) {
             throw new IllegalArgumentException("companyId는 필수입니다.");
@@ -47,19 +43,17 @@ public class ChecksheetResultService {
         if (result.getPermitId() == null || result.getPermitId().trim().isEmpty()) {
             throw new IllegalArgumentException("permitId는 필수입니다.");
         }
-        if (result.getTemplateId() == null || result.getTemplateId().trim().isEmpty()) {
-            throw new IllegalArgumentException("templateId는 필수입니다.");
+        // templateId가 비어있으면 빈 문자열로 설정 (필수가 아님)
+        if (result.getTemplateId() == null) {
+            result.setTemplateId("");
         }
         if (result.getCheckResultJson() == null) {
             result.setCheckResultJson("{}");
-            System.out.println("checkResultJson이 null이어서 빈 객체로 설정");
         }
 
         try {
             repository.save(result);
-            System.out.println("체크시트 결과 저장 성공");
         } catch (Exception e) {
-            System.err.println("체크시트 결과 저장 실패: " + e.getMessage());
             throw e;
         }
     }
@@ -68,5 +62,51 @@ public class ChecksheetResultService {
     public ChecksheetResult getResultByCompanyIdAndPermitId(String companyId, String permitId) {
         return repository.findByCompanyIdAndPermitId(companyId, permitId)
                 .orElseThrow(() -> new RuntimeException("ChecksheetResult not found"));
+    }
+
+    /**
+     * 체크시트 결과를 upsert합니다.
+     * 기능: 기존 결과가 있으면 업데이트, 없으면 새로 생성합니다.
+     * 파라미터:
+     * - companyId: 회사 ID
+     * - permitId: 허가서 ID
+     * - templateId: 템플릿 ID
+     * - resultJson: 결과 JSON 문자열
+     * - userId: 사용자 ID
+     * 반환값: 없음
+     */
+    @Transactional
+    public void upsert(String companyId, String permitId, String templateId, String resultJson, String userId) {
+        System.out.println("ChecksheetResult upsert 시작 - companyId: " + companyId + ", permitId: " + permitId
+                + ", templateId: " + templateId);
+        System.out.println("resultJson 길이: " + (resultJson != null ? resultJson.length() : "null"));
+
+        Optional<ChecksheetResult> opt = repository.findByCompanyIdAndPermitId(companyId, permitId);
+        ChecksheetResult entity = opt.orElseGet(() -> {
+            System.out.println("새로운 ChecksheetResult 생성");
+            ChecksheetResult r = new ChecksheetResult();
+            r.setCompanyId(companyId);
+            r.setPermitId(permitId);
+            r.setTemplateId(templateId);
+            r.setCreateBy(userId);
+            r.setCreateDate(LocalDateTime.now());
+            return r;
+        });
+
+        if (opt.isPresent()) {
+            System.out.println("기존 ChecksheetResult 업데이트");
+        }
+
+        entity.setTemplateId(templateId); // 템플릿 교체 가능
+        entity.setCheckResultJson(resultJson); // TEXT/CLOB
+
+        try {
+            ChecksheetResult saved = repository.save(entity);
+            System.out.println("ChecksheetResult 저장 완료 - ID: " + saved.getCompanyId() + "-" + saved.getPermitId());
+        } catch (Exception e) {
+            System.err.println("ChecksheetResult 저장 실패: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
 }

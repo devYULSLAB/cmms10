@@ -25,7 +25,10 @@
 
                 <!-- Hidden fields -->
                 <input type="hidden" th:field="*{companyId}" />
-                <input type="hidden" th:field="*{siteId}" />
+                <input type="hidden" th:field="*{createBy}" />
+                <input type="hidden" th:field="*{createDate}" />
+                <input type="hidden" th:field="*{updateBy}" />
+                <input type="hidden" th:field="*{updateDate}" />
 
                 <!-- Basic Info -->
                 <div class="border rounded-lg shadow p-4 space-y-4">
@@ -74,7 +77,40 @@
                         <textarea th:field="*{note}" class="w-full border rounded px-2 py-1" rows="3"></textarea>
                     </div>
                 </div>
-
+                <!-- 계획 Date, MM, Cost / 실적 Date, MM, Cost -->
+                <div class="border rounded-lg shadow p-4 space-y-4">
+                    <h3 class="font-semibold text-lg mb-2" th:text="#{scheduleInformation}">Schedule Information</h3>
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-3">
+                            <label class="block text-sm font-medium mb-1" th:text="#{scheduleDate}">Schedule
+                                Date</label>
+                            <input type="date" th:field="*{scheduleDate}" class="w-full border rounded px-2 py-1" />
+                        </div>
+                        <div class="col-span-3">
+                            <label class="block text-sm font-medium mb-1" th:text="#{scheduleMM}">Schedule MM</label>
+                            <input type="number" th:field="*{scheduleMM}" class="w-full border rounded px-2 py-1" />
+                        </div>
+                        <div class="col-span-3">
+                            <label class="block text-sm font-medium mb-1" th:text="#{scheduleCost}">Schedule
+                                Cost</label>
+                            <input type="number" th:field="*{scheduleCost}" class="w-full border rounded px-2 py-1" />
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-12 gap-4">
+                        <div class="col-span-3">
+                            <label class="block text-sm font-medium mb-1" th:text="#{executeDate}">Execute Date</label>
+                            <input type="date" th:field="*{executeDate}" class="w-full border rounded px-2 py-1" />
+                        </div>
+                        <div class="col-span-3">
+                            <label class="block text-sm font-medium mb-1" th:text="#{executeMM}">Execute MM</label>
+                            <input type="number" th:field="*{executeMM}" class="w-full border rounded px-2 py-1" />
+                        </div>
+                        <div class="col-span-3">
+                            <label class="block text-sm font-medium mb-1" th:text="#{executeCost}">Execute Cost</label>
+                            <input type="number" th:field="*{executeCost}" class="w-full border rounded px-2 py-1" />
+                        </div>
+                    </div>
+                </div>
                 <!-- Workorder Items -->
                 <div class="border rounded-lg shadow p-4 space-y-4">
                     <h3 class="font-semibold text-lg mb-2" th:text="#{workOrderItems}">Work Order Items</h3>

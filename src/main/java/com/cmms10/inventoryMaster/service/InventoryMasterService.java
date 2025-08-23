@@ -101,7 +101,7 @@ public class InventoryMasterService {
     private boolean hasRelatedData(String companyId, String inventoryId) {
         // 재고 이력 확인
         List<InventoryHistory> historyList = inventoryHistoryRepository
-                .findByCompanyIdAndInventoryIdOrderByIoDateDesc(companyId, inventoryId);
+                .findByCompanyIdAndInventoryIdOrderByTransactionDateDesc(companyId, inventoryId);
         boolean hasHistory = !historyList.isEmpty();
 
         // 재고 수량 확인 (모든 사이트/위치에서 검색)

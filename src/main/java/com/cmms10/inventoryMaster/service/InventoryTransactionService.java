@@ -1,179 +1,290 @@
 package com.cmms10.inventoryMaster.service;
 
 import com.cmms10.inventoryMaster.entity.InventoryHistory;
-import com.cmms10.inventoryMaster.entity.InventoryMaster;
 import com.cmms10.inventoryMaster.entity.InventoryStock;
+import com.cmms10.inventoryMaster.entity.InventoryStockId;
 import com.cmms10.inventoryMaster.repository.InventoryHistoryRepository;
-import com.cmms10.inventoryMaster.repository.InventoryMasterRepository;
 import com.cmms10.inventoryMaster.repository.InventoryStockRepository;
 
-import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.math.BigDecimal;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * cmms10 - InventoryTransactionService
- * 재고 거래 처리 서비스
- * 
- * @author cmms10
- * @since 2024-08-04
+ * 재고 트랜잭션 서비스 (avg/평균단가 관련 처리 없음)
+ * - 입고: 도착 위치 재고 수량 증가
+ * - 출고: 출발 위치 재고 수량 감소(부족하면 예외)
+ * - 이동: 출발 위치 수량 감소 + 도착 위치 수량 증가(부족하면 예외)
+ * - 조정: toLocation 기준으로 qty 증감(음수 가능 정책)
+ *
+ * 주의:
+ * - 컨트롤러에서 companyId/siteId/transactionType/transactionDate를 세팅해 넘긴다고 가정합니다.
+ * - unitPrice/totalValue는 히스토리 기록용으로만 사용하고, 재고수량만 업데이트합니다.
  */
-
 @Service
 public class InventoryTransactionService {
 
-    private final InventoryHistoryRepository inventoryHistoryRepository;
-    private final InventoryMasterRepository inventoryMasterRepository;
-    private final InventoryStockRepository inventoryStockRepository;
+    private final InventoryHistoryRepository historyRepo;
+    private final InventoryStockRepository stockRepo;
 
-    public InventoryTransactionService(InventoryHistoryRepository inventoryHistoryRepository,
-            InventoryMasterRepository inventoryMasterRepository,
-            InventoryStockRepository inventoryStockRepository) {
-        this.inventoryHistoryRepository = inventoryHistoryRepository;
-        this.inventoryMasterRepository = inventoryMasterRepository;
-        this.inventoryStockRepository = inventoryStockRepository;
+    // 회사별 시퀀스 번호 (동시성 안전)
+    private final java.util.concurrent.ConcurrentHashMap<String, AtomicInteger> companySequences = new java.util.concurrent.ConcurrentHashMap<>();
+
+    public InventoryTransactionService(InventoryHistoryRepository historyRepo,
+            InventoryStockRepository stockRepo) {
+        this.historyRepo = historyRepo;
+        this.stockRepo = stockRepo;
     }
 
     /**
-     * 재고 입출고 처리
-     * 
-     * @param inventoryHistoryList 재고 거래 리스트
-     * @param username             사용자명
+     * 고유한 historyId 생성 (15자 이내)
+     * - 회사ID(5자) + 날짜(6자) + 시퀀스(4자)
+     * - 연도별로 시퀀스 관리
+     * - 연도별 최대 9,999개
+     * - 연도별 시퀀스 초기화
+     * - 연도별 시퀀스 증가
+     * - 연도별 시퀀스 초기화
+     * 초기화되면 번호 생성이 중복되는 문제가 있으니 초기화 되지 않도록 처리
+     */
+    private String generateHistoryId(String companyId) {
+        LocalDateTime now = LocalDateTime.now();
+
+        // 연도(2자리) + 월(2자리) + 일(2자리) + 시퀀스(4자리)
+        String year = String.format("%02d", now.getYear() % 100); // 25, 26, 27...
+        String month = String.format("%02d", now.getMonthValue());
+        String day = String.format("%02d", now.getDayOfMonth());
+
+        // 밀리초 기반 고유 번호 (4자리)
+        // 현재 밀리초를 4자리로 압축 (0-9999)
+        long currentMillis = System.currentTimeMillis();
+        String millisStr = String.format("%04d", (currentMillis % 10000));
+
+        // companyId(5자) + year(2자) + month(2자) + day(2자) + millis(4자) = 15자
+        return companyId + year + month + day + millisStr;
+    }
+
+    // -------------------- 입고 --------------------
+    @Transactional
+    public void processInbound(List<InventoryHistory> rows, String username) {
+        LocalDateTime now = LocalDateTime.now();
+
+        for (InventoryHistory row : rows) {
+            // 이력 공통 메타 업데이트
+            row.setCreateBy(username);
+            row.setCreateDate(now);
+            // historyId 자동 생성
+            row.setHistoryId(generateHistoryId(row.getCompanyId()));
+            // totalValue 계산 (unitPrice × qty)
+            row.setTotalValue(row.getQty().multiply(row.getUnitPrice()));
+
+            // 재고 증가 (toLocation)
+            InventoryStock stock = loadOrCreateStock(row.getCompanyId(), row.getSiteId(), row.getToLocation(),
+                    row.getInventoryId());
+            BigDecimal newQty = nz(stock.getQty()).add(nz(row.getQty()));
+            stock.setQty(newQty);
+
+            // totalValue 누적 (기존 + 신규)
+            BigDecimal newTotalValue = nz(stock.getTotalValue()).add(row.getTotalValue());
+            stock.setTotalValue(newTotalValue);
+
+            // UnitPrice 업데이트
+            stock.setUnitPrice(newTotalValue.divide(newQty, 2, RoundingMode.HALF_UP));
+
+            stockRepo.save(stock);
+            historyRepo.save(row);
+        }
+    }
+
+    // -------------------- 출고 --------------------
+    @Transactional
+    public void processOutbound(List<InventoryHistory> rows, String username) {
+        LocalDateTime now = LocalDateTime.now();
+
+        for (InventoryHistory row : rows) {
+            row.setCreateBy(username);
+            row.setCreateDate(now);
+            // historyId 자동 생성
+            row.setHistoryId(generateHistoryId(row.getCompanyId()));
+            // totalValue 계산 (unitPrice × qty)
+            row.setTotalValue(row.getQty().multiply(row.getUnitPrice()));
+
+            // 출발 위치 재고 차감
+            InventoryStock stock = stockRepo.findById(new InventoryStockId(
+                    row.getCompanyId(), row.getSiteId(), row.getFromLocation(), row.getInventoryId()))
+                    .orElseThrow(() -> new IllegalStateException(
+                            "출고 위치에 재고가 없습니다. inv=" + row.getInventoryId() +
+                                    ", loc=" + row.getFromLocation()));
+
+            BigDecimal curQty = nz(stock.getQty());
+            BigDecimal outQty = nz(row.getQty());
+            BigDecimal newQty = nz(stock.getQty()).subtract(nz(row.getQty()));
+            if (newQty.compareTo(BigDecimal.ZERO) < 0) {
+                throw new IllegalStateException(
+                        "출고 수량이 재고 수량을 초과합니다. inv=" + row.getInventoryId() +
+                                ", loc=" + row.getFromLocation() + ", stock=" + curQty + ", out=" + outQty);
+            }
+
+            stock.setQty(newQty);
+
+            // 출고 시에는 기존 unitprice 기준으로 totalValue 계산
+            // 재고가 0이 되면 totalValue도 0으로 설정
+            if (newQty.compareTo(BigDecimal.ZERO) == 0) {
+                stock.setTotalValue(BigDecimal.ZERO);
+            } else {
+                stock.setTotalValue(newQty.multiply(stock.getUnitPrice()));
+            }
+
+            stockRepo.save(stock);
+            historyRepo.save(row);
+        }
+    }
+
+    // -------------------- 이동 --------------------
+    @Transactional
+    public void processMovement(List<InventoryHistory> rows, String username) {
+        LocalDateTime now = LocalDateTime.now();
+
+        for (InventoryHistory row : rows) {
+            row.setCreateBy(username);
+            row.setCreateDate(now);
+            // historyId 자동 생성
+            row.setHistoryId(generateHistoryId(row.getCompanyId()));
+            // totalValue 계산 (unitPrice × qty)
+            row.setTotalValue(row.getQty().multiply(row.getUnitPrice()));
+
+            BigDecimal mvQty = nz(row.getQty());
+
+            // 1) 출발 위치 차감
+            InventoryStock from = stockRepo.findById(new InventoryStockId(
+                    row.getCompanyId(), row.getSiteId(), row.getFromLocation(), row.getInventoryId()))
+                    .orElseThrow(() -> new IllegalStateException(
+                            "이동 출발 위치에 재고가 없습니다. inv=" + row.getInventoryId() +
+                                    ", from=" + row.getFromLocation()));
+
+            BigDecimal fromQty = nz(from.getQty());
+            if (fromQty.compareTo(mvQty) < 0) {
+                throw new IllegalStateException(
+                        "이동 수량이 출발지 재고를 초과합니다. inv=" + row.getInventoryId() +
+                                ", from=" + row.getFromLocation() + ", stock=" + fromQty + ", move=" + mvQty);
+            }
+
+            BigDecimal newFromQty = fromQty.subtract(mvQty);
+            from.setQty(newFromQty);
+
+            // 출발 위치는 기존 unitPrice 유지, totalValue만 재계산
+            if (newFromQty.compareTo(BigDecimal.ZERO) == 0) {
+                from.setTotalValue(BigDecimal.ZERO);
+            } else {
+                from.setTotalValue(newFromQty.multiply(from.getUnitPrice()));
+            }
+
+            stockRepo.save(from);
+
+            // 2) 도착 위치 가산
+            InventoryStock to = loadOrCreateStock(row.getCompanyId(), row.getSiteId(), row.getToLocation(),
+                    row.getInventoryId());
+
+            BigDecimal newToQty = nz(to.getQty()).add(mvQty);
+            to.setQty(newToQty);
+
+            // 도착 위치는 기존 totalValue + 이동 totalValue로 누적
+            BigDecimal newToTotalValue = nz(to.getTotalValue()).add(row.getTotalValue());
+            to.setTotalValue(newToTotalValue);
+
+            // 도착 위치의 unitPrice는 평균 계산 (총액 ÷ 총수량)
+            if (newToQty.compareTo(BigDecimal.ZERO) > 0) {
+                to.setUnitPrice(newToTotalValue.divide(newToQty, 2, RoundingMode.HALF_UP));
+            }
+
+            stockRepo.save(to);
+
+            // 이력
+            historyRepo.save(row);
+        }
+    }
+
+    // -------------------- 조정 --------------------
+    /**
+     * 조정 정책:
+     * - toLocation 기준으로 qty 만큼 증감 (qty가 음수면 감소로 취급)
+     * - 감소 시 0 미만으로 내려가면 예외
      */
     @Transactional
-    public void processInventoryIo(List<InventoryHistory> inventoryHistoryList, String username) {
-        for (InventoryHistory history : inventoryHistoryList) {
-            // 재고 마스터 조회
-            InventoryMaster inventoryMaster = inventoryMasterRepository
-                    .findByCompanyIdAndInventoryIdAndDeleteMarkIsNull(history.getCompanyId(), history.getInventoryId())
-                    .orElseThrow(() -> new RuntimeException("재고 마스터를 찾을 수 없습니다: " + history.getInventoryId()));
+    public void processAdjustment(List<InventoryHistory> rows, String username) {
+        LocalDateTime now = LocalDateTime.now();
 
-            // historyId 생성
-            String maxHistoryId = inventoryHistoryRepository.findMaxHistoryIdByCompanyId(history.getCompanyId());
-            String newHistoryId = generateNextId(maxHistoryId, "H");
-            history.setHistoryId(newHistoryId);
+        for (InventoryHistory row : rows) {
+            row.setCreateBy(username);
+            row.setCreateDate(now);
+            // historyId 자동 생성
+            row.setHistoryId(generateHistoryId(row.getCompanyId()));
+            // totalValue 계산 (unitPrice × qty)
+            row.setTotalValue(row.getQty().multiply(row.getUnitPrice()));
 
-            // 입출고일자 설정 (없으면 오늘 날짜)
-            if (history.getIoDate() == null) {
-                history.setIoDate(LocalDateTime.now());
+            BigDecimal adjustQty = nz(row.getQty());
+            InventoryStock stock = loadOrCreateStock(row.getCompanyId(), row.getSiteId(), row.getToLocation(),
+                    row.getInventoryId());
+
+            BigDecimal newQty = nz(stock.getQty()).add(adjustQty);
+            if (newQty.compareTo(BigDecimal.ZERO) < 0) {
+                throw new IllegalStateException(
+                        "조정 후 재고가 음수가 됩니다. inv=" + row.getInventoryId() +
+                                ", loc=" + row.getToLocation() + ", current=" + stock.getQty() +
+                                ", adjust=" + adjustQty + ", result=" + newQty);
             }
 
-            // 총액 계산
-            if (history.getQty() != null && history.getUnitPrice() != null) {
-                history.setTotalValue(history.getQty().multiply(history.getUnitPrice()));
-            }
+            stock.setQty(newQty);
 
-            // 생성자 설정
-            history.setCreateBy(username);
+            // totalValue 누적 (기존 + 신규)
+            BigDecimal newTotalValue = nz(stock.getTotalValue()).add(row.getTotalValue());
+            stock.setTotalValue(newTotalValue);
 
-            // 재고 이력 저장
-            inventoryHistoryRepository.save(history);
-
-            // 재고 수량 업데이트
-            updateInventoryStock(history);
+            stockRepo.save(stock);
+            historyRepo.save(row);
         }
     }
 
-    /**
-     * 재고 수량 업데이트
-     * 
-     * @param history 재고 거래 이력
-     */
-    private void updateInventoryStock(InventoryHistory history) {
-        // 재고 수량 조회 (locId도 포함)
-        InventoryStock stock = inventoryStockRepository
-                .findByCompanyIdAndSiteIdAndLocIdAndInventoryId(history.getCompanyId(), history.getSiteId(),
-                        history.getLocId(), history.getInventoryId())
-                .orElse(null);
+    // -------------------- helpers --------------------
+    private InventoryStock loadOrCreateStock(String companyId, String siteId, String locId, String inventoryId) {
+        try {
+            // Pessimistic Lock으로 동시 접근 차단
+            Optional<InventoryStock> existingStock = stockRepo.findWithLock(companyId, siteId, locId, inventoryId);
 
-        if (stock == null) {
-            // 새로운 재고 수량 레코드 생성
-            stock = new InventoryStock();
-            stock.setCompanyId(history.getCompanyId());
-            stock.setSiteId(history.getSiteId());
-            stock.setLocId(history.getLocId());
-            stock.setInventoryId(history.getInventoryId());
-            stock.setQty(BigDecimal.ZERO);
-        }
-
-        // 입출고에 따른 수량 조정
-        if ("I".equals(history.getIoType())) {
-            // 입고
-            stock.setQty(stock.getQty().add(history.getQty()));
-            // 입고 시 단가 정보 업데이트 (최신 단가로 갱신)
-            if (history.getUnitPrice() != null) {
-                stock.setUnitPrice(history.getUnitPrice());
-                stock.setTotalValue(stock.getQty().multiply(history.getUnitPrice()));
+            if (existingStock.isPresent()) {
+                return existingStock.get();
             }
-        } else if ("O".equals(history.getIoType())) {
-            // 출고
-            if (stock.getQty().compareTo(history.getQty()) < 0) {
-                throw new RuntimeException("재고가 부족합니다. 현재 수량: " + stock.getQty() + ", 요청 수량: " + history.getQty());
-            }
-            stock.setQty(stock.getQty().subtract(history.getQty()));
-            // 출고 후 총액 재계산
-            if (stock.getUnitPrice() != null) {
-                stock.setTotalValue(stock.getQty().multiply(stock.getUnitPrice()));
-            }
-        }
 
-        // 재고 수량 저장
-        inventoryStockRepository.save(stock);
-    }
+            // Lock을 유지한 상태에서 새로 생성
+            InventoryStock s = new InventoryStock();
+            s.setCompanyId(companyId);
+            s.setSiteId(siteId);
+            s.setInventoryId(inventoryId);
+            s.setLocId(locId);
+            s.setQty(BigDecimal.ZERO);
+            s.setUnitPrice(BigDecimal.ZERO);
+            s.setTotalValue(BigDecimal.ZERO);
 
-    /**
-     * 재고 이력 조회
-     * 
-     * @param companyId   회사 ID
-     * @param inventoryId 재고 ID (null이면 전체 조회)
-     * @return 재고 이력 리스트
-     */
-    public List<InventoryHistory> getInventoryHistory(String companyId, String inventoryId) {
-        if (inventoryId != null && !inventoryId.trim().isEmpty()) {
-            return inventoryHistoryRepository.findByCompanyIdAndInventoryIdOrderByIoDateDesc(companyId, inventoryId);
-        } else {
-            return inventoryHistoryRepository.findByCompanyIdOrderByIoDateDesc(companyId);
+            return s;
+
+        } catch (Exception e) {
+            // Lock 획득 실패 시 재시도 로직
+            throw new IllegalStateException("Lock 획득 실패, 재시도: " + e.getMessage());
         }
     }
 
-    /**
-     * 재고 수량 조회
-     * 
-     * @param companyId   회사 ID
-     * @param siteId      사이트 ID
-     * @param inventoryId 재고 ID
-     * @return 재고 수량
-     */
-    public BigDecimal getInventoryStock(String companyId, String siteId, String locId, String inventoryId) {
-        return inventoryStockRepository
-                .findByCompanyIdAndSiteIdAndLocIdAndInventoryId(companyId, siteId, locId, inventoryId)
-                .map(InventoryStock::getQty)
+    public BigDecimal getUnitPrice(String companyId, String siteId, String locId, String inventoryId) {
+        return stockRepo.findByCompanyIdAndSiteIdAndLocIdAndInventoryId(companyId, siteId, locId, inventoryId)
+                .map(InventoryStock::getUnitPrice)
                 .orElse(BigDecimal.ZERO);
     }
 
-    /**
-     * 다음 ID 생성
-     * 
-     * @param maxId  현재 최대 ID
-     * @param prefix ID 접두사
-     * @return 다음 ID
-     */
-    private String generateNextId(String maxId, String prefix) {
-        if (maxId == null || maxId.isEmpty()) {
-            return prefix + "00001";
-        }
-
-        try {
-            String numericPart = maxId.substring(prefix.length());
-            int nextNumber = Integer.parseInt(numericPart) + 1;
-            return prefix + String.format("%05d", nextNumber);
-        } catch (Exception e) {
-            return prefix + "00001";
-        }
+    private BigDecimal nz(BigDecimal v) {
+        return v == null ? BigDecimal.ZERO : v;
     }
 }

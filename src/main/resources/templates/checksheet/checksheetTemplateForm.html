@@ -1,76 +1,283 @@
+<!-- 
+    파일명: src/main/resources/templates/checksheet/checksheetTemplateForm.html
+    프로그램명: CMMS10 - 체크시트 템플릿 생성/수정 폼
+    주요 기능:
+    - 체크시트 템플릿 신규 생성 및 기존 템플릿 수정
+    - formBuilder.js를 통한 동적 폼 구성
+    - 템플릿 JSON 데이터 저장 및 로딩
+    - jQuery UI 기반 폼 빌더 인터페이스
+    생성자: system
+    생성일: 2025-01-08
+-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  layout:decorate="~{layout/defaultLayout}">
+    layout:decorate="~{layout/defaultLayout}">
 
 <head>
-  <title>체크시트 템플릿 생성</title>
+    <title>체크시트 템플릿 생성</title>
 
-  <!-- ✅ jQuery UI: formBuilder에 필요 -->
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
-  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <!-- ✅ jQuery UI: formBuilder에 필요 -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
-  <!-- formBuilder -->
-  <link rel="stylesheet" href="https://formbuilder.online/assets/css/form-builder.min.css">
-  <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
+    <!-- formBuilder -->
+    <link rel="stylesheet" href="https://formbuilder.online/assets/css/form-builder.min.css">
+    <script src="https://formbuilder.online/assets/js/form-builder.min.js"></script>
 </head>
 
 <body>
-  <div layout:fragment="content">
-    <div class="max-w-5xl mx-auto bg-white p-6 rounded shadow">
-      <h2 class="text-2xl font-bold mb-4">🧩 체크시트 템플릿 작성</h2>
+    <div layout:fragment="content">
+        <div class="max-w-5xl mx-auto bg-white p-6 rounded shadow">
+            <h2 class="text-2xl font-bold mb-4">🧩 체크시트 템플릿 작성</h2>
 
-      <!-- 템플릿 저장 Form -->
-      <form th:action="@{/checksheet/checksheetTemplateSave}" method="post">
-        <!-- Hidden 필드 -->
-        <input type="hidden" name="companyId" th:value="${checksheetTemplate.companyId}" />
-        <input type="hidden" name="templateId" th:value="${checksheetTemplate.templateId}" />
+            <!-- 템플릿 저장 Form -->
+            <form id="template-form" th:action="@{/checksheet/checksheetTemplateSave}" method="post">
+                <!-- Hidden 필드 -->
+                <input type="hidden" name="companyId" th:value="${checksheetTemplate.companyId}" />
+                <input type="hidden" name="templateId" th:value="${checksheetTemplate.templateId}" />
+                <input type="hidden" name="createBy" th:value="${checksheetTemplate.createBy}" />
+                <input type="hidden" name="createDate" th:value="${checksheetTemplate.createDate}" />
+                <input type="hidden" name="updateBy" th:value="${checksheetTemplate.updateBy}" />
+                <input type="hidden" name="updateDate" th:value="${checksheetTemplate.updateDate}" />
 
-        <div class="mb-4">
-          <label class="block font-medium text-gray-700 mb-1">템플릿 이름</label>
-          <input type="text" name="templateName" required class="w-full border border-gray-300 rounded px-3 py-2"
-            th:value="${checksheetTemplate.templateName}" />
+                <div class="mb-4">
+                    <label class="block font-medium text-gray-700 mb-1">템플릿 이름</label>
+                    <input type="text" name="templateName" required
+                        class="w-full border border-gray-300 rounded px-3 py-2"
+                        th:value="${checksheetTemplate.templateName}" />
+                </div>
+
+                <!-- JSON 저장용 textarea (기존 템플릿 내용 포함) -->
+                <textarea id="form-template" name="templateJson" hidden
+                    th:text="${checksheetTemplate.templateJson}"></textarea>
+
+                <div class="mt-6 flex justify-end">
+                    <button type="submit" onclick="return saveTemplate()"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded">
+                        💾 저장
+                    </button>
+                </div>
+            </form>
+
+            <!-- FormBuilder 영역 (form 태그 밖에 배치) -->
+            <div class="mt-6">
+                <!-- 그리드 레이아웃 도구 모음 -->
+                <div class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded">
+                    <h4 class="font-medium text-blue-800 mb-2">🎨 그리드 레이아웃 도구</h4>
+                    <p class="text-sm text-blue-600 mb-3">
+                        <strong>📋 그리드 배치 방식:</strong><br />
+                        • <strong>3열 그리드 = 가로로 나란히 3개 배치</strong> (옆으로 쌓임)<br />
+                        • 사용법: 1) 필드들을 먼저 추가 → 2) 그리드로 묶을 필드들을 Ctrl+클릭으로 선택 → 3) 그리드 버튼 클릭
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button" onclick="applyGridToSelected(2)"
+                            class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700">
+                            📊 선택한 필드를 2열로 배치 (가로 2개)
+                        </button>
+                        <button type="button" onclick="applyGridToSelected(3)"
+                            class="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700">
+                            📊 선택한 필드를 3열로 배치 (가로 3개)
+                        </button>
+                        <button type="button" onclick="applyGridToSelected(4)"
+                            class="px-3 py-1 bg-purple-600 text-white text-sm rounded hover:bg-purple-700">
+                            📊 선택한 필드를 4열로 배치 (가로 4개)
+                        </button>
+                        <button type="button" onclick="clearAllGrids()"
+                            class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700">
+                            🗑️ 모든 그리드 제거
+                        </button>
+                    </div>
+                </div>
+
+                <!-- formBuilder 표시 영역 -->
+                <div id="form-builder"
+                    class="border border-dashed border-gray-400 p-4 bg-gray-50 rounded min-h-[600px] overflow-auto">
+                </div>
+
+                <!-- 하단 버튼 -->
+                <div class="mt-6 flex justify-between">
+                    <a th:href="@{/checksheet/checksheetTemplateList}"
+                        class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">목록으로 돌아가기</a>
+                </div>
+            </div>
         </div>
-
-        <!-- JSON 저장용 textarea (기존 템플릿 내용 포함) -->
-        <textarea id="form-template" name="templateJson" hidden th:text="${checksheetTemplate.templateJson}"></textarea>
-
-        <!-- formBuilder 표시 영역 -->
-        <div id="form-builder"
-          class="border border-dashed border-gray-400 p-4 bg-gray-50 rounded min-h-[600px] overflow-auto">
-        </div>
-
-        <div class="mt-6 flex justify-end">
-          <button type="submit" onclick="return saveTemplate()"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded">
-            💾 저장
-          </button>
-        </div>
-      </form>
     </div>
-  </div>
 
-  <!-- 🧠 페이지 전용 JS 영역 -->
-  <th:block layout:fragment="page-js">
-    <script>
-      window.addEventListener('DOMContentLoaded', () => {
-        const formBuilder = $('#form-builder').formBuilder();
+    <!-- 🧠 페이지 전용 JS 영역 -->
+    <th:block layout:fragment="page-js">
+        <script>
+            window.addEventListener('DOMContentLoaded', () => {
+                // 기본 formBuilder 설정 (모든 기본 기능 유지)
+                const formBuilder = $('#form-builder').formBuilder({
+                    // 언어 파일 경로 수정 (실제 존재하는 파일 사용)
+                    i18n: {
+                        locale: 'en-US',
+                        location: '/assets/lang/'
+                    }
+                });
 
-        // 기존 JSON 값 있으면 로딩
-        const existingJson = document.getElementById("form-template").value;
-        if (existingJson) {
-          formBuilder.promise.then(fb => {
-            fb.actions.setData(existingJson);
-          });
-        }
+                // 기존 JSON 값 있으면 로딩
+                const existingJson = document.getElementById("form-template").value;
+                if (existingJson) {
+                    formBuilder.promise.then(fb => {
+                        fb.actions.setData(existingJson);
+                    });
+                }
 
-        window.saveTemplate = function () {
-          const json = formBuilder.actions.getData('json');
-          document.getElementById("form-template").value = json;
-          return true;
-        };
-      });
-    </script>
-  </th:block>
+                window.saveTemplate = function () {
+                    // FormBuilder에서 JSON 데이터 가져오기
+                    const json = formBuilder.actions.getData('json');
+                    document.getElementById("form-template").value = json;
+
+                    // Form 수동 제출
+                    document.getElementById("template-form").submit();
+                    return false; // 기본 이벤트 방지
+                };
+
+                // 간단한 그리드 레이아웃 도구 함수들
+                window.applyGridToSelected = function (columns) {
+                    // 현재 선택된 필드들 찾기 (selected 클래스만 사용)
+                    const selectedFields = $('#form-builder .fld-wrap.selected');
+
+                    if (selectedFields.length === 0) {
+                        showNotification('❌ 그리드로 묶을 필드들을 먼저 선택해주세요!');
+                        alert('그리드로 묶을 필드들을 먼저 선택해주세요.\n\n사용법:\n1) 첫 번째 필드 클릭\n2) Ctrl+클릭으로 추가 필드 선택 (파란색 테두리 표시)\n3) 그리드 버튼 클릭');
+                        return;
+                    }
+
+                    // 선택된 필드들을 그리드 컨테이너로 감싸기
+                    if (selectedFields.length > 1) {
+                        const wrapper = $(`<div class="grid-${columns}-columns grid-container"></div>`);
+                        selectedFields.first().before(wrapper);
+                        selectedFields.appendTo(wrapper);
+
+                        // 선택 상태 해제
+                        selectedFields.removeClass('selected');
+
+                        showNotification(`✅ ${selectedFields.length}개 필드가 ${columns}열 그리드로 배치되었습니다!`);
+                    } else {
+                        showNotification('❌ 그리드로 묶으려면 최소 2개 이상의 필드를 선택해주세요!');
+                        alert('그리드로 묶으려면 최소 2개 이상의 필드를 선택해주세요.');
+                    }
+                };
+
+                window.clearAllGrids = function () {
+                    if (confirm('모든 그리드 레이아웃을 제거하시겠습니까?')) {
+                        // 그리드 컨테이너 해제
+                        $('#form-builder .grid-container').each(function () {
+                            $(this).children().unwrap();
+                        });
+                        showNotification('✅ 모든 그리드 레이아웃이 제거되었습니다!');
+                    }
+                };
+
+                window.showNotification = function (message) {
+                    // 간단한 알림 표시
+                    const notification = document.createElement('div');
+                    notification.className = 'fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-lg z-50';
+                    notification.textContent = message;
+                    document.body.appendChild(notification);
+
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 3000);
+                };
+
+                // 필드 선택을 위한 이벤트 리스너 (formBuilder 로딩 후 적용)
+                formBuilder.promise.then(fb => {
+                    // 필드 클릭 시 선택 상태 토글
+                    $(document).on('click', '#form-builder .fld-wrap', function (e) {
+                        if (e.ctrlKey || e.metaKey) { // Ctrl 또는 Cmd(Mac) 키
+                            $(this).toggleClass('selected');
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            // 선택된 필드 수 표시
+                            const selectedCount = $('#form-builder .fld-wrap.selected').length;
+                            showNotification(`${selectedCount}개 필드가 선택되었습니다.`);
+                        } else {
+                            // 단일 선택
+                            $('#form-builder .fld-wrap').removeClass('selected');
+                            $(this).addClass('selected');
+                        }
+                    });
+
+                    // 선택 해제를 위한 배경 클릭
+                    $(document).on('click', '#form-builder', function (e) {
+                        if ($(e.target).closest('.fld-wrap').length === 0) {
+                            $('#form-builder .fld-wrap').removeClass('selected');
+                        }
+                    });
+                });
+            });
+        </script>
+
+        <!-- 그리드 레이아웃을 위한 CSS -->
+        <style>
+            /* 필드 선택 표시 */
+            #form-builder .fld-wrap.selected {
+                background-color: #e3f2fd !important;
+                border: 2px solid #2196f3 !important;
+                box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
+            }
+
+            /* 그리드 컨테이너 */
+            .grid-container {
+                margin: 10px 0;
+                padding: 10px;
+                border: 2px dashed #007bff;
+                border-radius: 8px;
+                background-color: #f8f9ff;
+            }
+
+            /* 2열 그리드 */
+            .grid-2-columns {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+
+            /* 3열 그리드 */
+            .grid-3-columns {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 15px;
+            }
+
+            /* 4열 그리드 */
+            .grid-4-columns {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 15px;
+            }
+
+            /* 그리드 내부 필드 스타일 */
+            .grid-container .fld-wrap {
+                background: white;
+                border-radius: 5px;
+                padding: 10px;
+                border: 1px solid #ddd;
+            }
+
+            /* 행 컴포넌트 */
+            .form-render .form-grid-row {
+                width: 100%;
+                border-bottom: 2px solid #007bff;
+                margin: 20px 0 10px 0;
+                padding-bottom: 5px;
+            }
+
+            /* 반응형 그리드 */
+            @media (max-width: 768px) {
+
+                .grid-2-columns,
+                .grid-3-columns,
+                .grid-4-columns {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    </th:block>
 </body>
 
 </html>

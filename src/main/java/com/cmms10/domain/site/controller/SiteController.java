@@ -29,7 +29,7 @@ public class SiteController {
     @GetMapping("/siteList")
     public String list(Model model, HttpSession session) {
         String companyId = (String) session.getAttribute("companyId");
-        List <Site> siteList = siteService.getAllSitesByCompanyId(companyId);
+        List<Site> siteList = siteService.getAllSitesByCompanyId(companyId);
         model.addAttribute("siteList", siteList);
         return "domain/site/siteList";
     }
@@ -38,9 +38,9 @@ public class SiteController {
      * 사이트 상세 화면
      */
     @GetMapping("/siteDetail/{companyId}/{siteId}")
-    public String detail(@PathVariable String companyId, 
-                        @PathVariable String siteId, 
-                        Model model) {
+    public String detail(@PathVariable String companyId,
+            @PathVariable String siteId,
+            Model model) {
         Site site = siteService.getSiteByCompanyIdAndSiteId(companyId, siteId);
         model.addAttribute("site", site);
         return "domain/site/siteDetail";
@@ -65,8 +65,8 @@ public class SiteController {
      */
     @GetMapping("/siteForm/{companyId}/{siteId}")
     public String editForm(@PathVariable String companyId,
-                       @PathVariable String siteId,
-                       Model model) {
+            @PathVariable String siteId,
+            Model model) {
         Site site = siteService.getSiteByCompanyIdAndSiteId(companyId, siteId);
         model.addAttribute("site", site);
         model.addAttribute("mode", "edit");
@@ -94,8 +94,8 @@ public class SiteController {
      */
     @PostMapping("/siteDelete/{companyId}/{siteId}")
     public String delete(@PathVariable String companyId,
-                        @PathVariable String siteId,
-                        HttpSession session) {
+            @PathVariable String siteId,
+            HttpSession session) {
         String username = (String) session.getAttribute("username");
         siteService.delete(companyId, siteId, username);
         return "redirect:/site/siteList";
