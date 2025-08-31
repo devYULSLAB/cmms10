@@ -43,6 +43,9 @@ public class PlantMasterController {
     @Value("${file.upload.max-file-size:10MB}")
     private String maxFileSize;
 
+    @Value("${file.upload.accept:*/*}")
+    private String fileAccept;
+
     /**
      * 설비 등록 화면
      * 
@@ -72,6 +75,7 @@ public class PlantMasterController {
         // 파일 업로드 설정 추가
         model.addAttribute("maxFileCount", maxFileCount);
         model.addAttribute("maxFileSize", maxFileSize);
+        model.addAttribute("fileAccept", fileAccept);
 
         return "plantMaster/plantMasterForm";
     }
@@ -105,6 +109,7 @@ public class PlantMasterController {
         // 파일 업로드 설정 추가
         model.addAttribute("maxFileCount", maxFileCount);
         model.addAttribute("maxFileSize", maxFileSize);
+        model.addAttribute("fileAccept", fileAccept);
 
         return "plantMaster/plantMasterForm";
     }

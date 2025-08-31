@@ -207,7 +207,7 @@
                     <input type="hidden" id="fileGroupId" th:field="*{fileGroupId}" />
                     <!-- 파일 업로드 프래그먼트 포함 -->
                     <div
-                        th:replace="~{common/file/uploadFragment :: fileUploadFragment(${plantMaster.companyId}, 'plantmaster', ${plantMaster.fileGroupId}, ${maxFileCount}, ${maxFileSize})}">
+                        th:replace="~{common/file/uploadFragment :: fileUploadFragment(${plantMaster.companyId}, 'plantmaster', ${plantMaster.fileGroupId}, ${maxFileCount}, ${maxFileSize}, ${fileAccept})}">
                     </div>
                 </div>
 
