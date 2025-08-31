@@ -1,17 +1,19 @@
 <!-- 파일 업로드 프래그먼트 -->
-<div th:fragment="fileUploadFragment(companyId, moduleName, fileGroupId, maxFileCount, maxFileSize)"
-    class="file-upload-component">
+<div th:fragment="fileUploadFragment(companyId, moduleName, fileGroupId, maxFileCount, maxTotalMb, accept)"
+    th:id="'fileUploadComponent_' + ${fileGroupId}"
+    class="file-upload-component"
+    th:data-max-files="${maxFileCount}"
+    th:data-max-total-mb="${maxTotalMb}"
+    th:data-accept="${accept}">
 
     <!-- Hidden Fields -->
     <input type="hidden" th:id="'companyId_' + ${fileGroupId}" th:value="${companyId}" />
     <input type="hidden" th:id="'moduleName_' + ${fileGroupId}" th:value="${moduleName}" />
     <input type="hidden" th:id="'fileGroupId_' + ${fileGroupId}" th:value="${fileGroupId != null ? fileGroupId : ''}" />
-    <input type="hidden" th:id="'maxFileCount_' + ${fileGroupId}" th:value="${maxFileCount}" />
-    <input type="hidden" th:id="'maxFileSize_' + ${fileGroupId}" th:value="${maxFileSize}" />
 
     <!-- File Upload Button -->
     <div style="margin-bottom: 15px;">
-        <input type="file" th:id="'fileInput_' + ${fileGroupId}" multiple style="display: none;" />
+        <input type="file" th:id="'fileInput_' + ${fileGroupId}" multiple style="display: none;" th:attr="accept=${accept}" />
         <button type="button"
             style="background-color: #007bff; color: white; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.8em; border: none;"
             th:data-file-group-id="${fileGroupId}" th:disabled="${fileGroupId == null || fileGroupId == ''}"
@@ -19,7 +21,7 @@
             파일 첨부
         </button>
         <span style="font-size: 0.8em; color: #666; margin-left: 10px;"
-            th:text="'최대 ' + ${maxFileCount} + '개 파일, 개별 파일 크기 ' + ${maxFileSize} + ' 이하'">
+            th:text="'최대 ' + ${maxFileCount} + '개 파일, 총 용량 ' + ${maxTotalMb} + 'MB 이하'">
             최대 파일 개수 및 크기 제한</span>
     </div>
 
@@ -64,6 +66,27 @@
 
             const moduleName = document.getElementById('moduleName_' + fileGroupId).value;
             const companyId = document.getElementById('companyId_' + fileGroupId).value;
+            const component = document.getElementById('fileUploadComponent_' + fileGroupId);
+            const maxFiles = parseInt(component.dataset.maxFiles || '0', 10);
+            const maxTotalMb = parseFloat(component.dataset.maxTotalMb || '0');
+
+            const fileList = document.getElementById('fileList_' + fileGroupId);
+            const existingFiles = fileList.querySelectorAll('[data-file-id]');
+
+            if (existingFiles.length + files.length > maxFiles) {
+                alert(`최대 ${maxFiles}개의 파일만 첨부할 수 있습니다.`);
+                return;
+            }
+
+            let currentSize = 0;
+            existingFiles.forEach(item => {
+                currentSize += parseInt(item.getAttribute('data-file-size') || '0', 10);
+            });
+            let newSize = Array.from(files).reduce((sum, f) => sum + f.size, 0);
+            if ((currentSize + newSize) > maxTotalMb * 1024 * 1024) {
+                alert(`총 파일 용량은 ${maxTotalMb}MB를 초과할 수 없습니다.`);
+                return;
+            }
 
             console.log('Uploading files:', {
                 fileGroupId: fileGroupId,
@@ -119,6 +142,7 @@
 
             const fileItem = document.createElement('div');
             fileItem.setAttribute('data-file-id', fileData.id);
+            fileItem.setAttribute('data-file-size', fileData.fileSize);
             fileItem.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin: 5px 0; background-color: white;';
 
             const fileSize = formatFileSize(fileData.fileSize);
@@ -216,9 +240,14 @@
         // 파일 입력 이벤트 설정
         function setupFileInput(fileGroupId) {
             const fileInput = document.getElementById('fileInput_' + fileGroupId);
+            const component = document.getElementById('fileUploadComponent_' + fileGroupId);
 
             if (!fileGroupId || fileGroupId.trim() === '') {
                 return;
+            }
+
+            if (component && component.dataset.accept) {
+                fileInput.setAttribute('accept', component.dataset.accept);
             }
 
             fileInput.addEventListener('change', function () {
