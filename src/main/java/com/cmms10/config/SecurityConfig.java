@@ -71,7 +71,10 @@ public class SecurityConfig {
                             .invalidateHttpSession(true)
                             .deleteCookies("JSESSIONID");
                 })
-                .authenticationProvider(authenticationProvider());
+                .authenticationProvider(authenticationProvider())
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/file/upload", "/file/delete/**", "/file/delete-group/**")
+                );
 
         return http.build();
     }

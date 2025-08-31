@@ -1,6 +1,9 @@
 package com.cmms10.common.file.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
@@ -9,146 +12,44 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "fileattachment")
+@IdClass(FileAttachmentId.class)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class FileAttachment {
 
     @Id
-    @Column(name = "id", length = 10)
-    private String id;
+    @Column(name = "companyid", length = 10, nullable = false)
+    private String companyId; // 회사 ID (복합 PK)
+
+    @Id
+    @Column(name = "fileid", length = 10, nullable = false)
+    private String fileId; // 파일 ID (복합 PK)
 
     @Column(name = "filegroupid", length = 10, nullable = false)
-    private String fileGroupId;
+    private String fileGroupId; // 파일 그룹 ID
 
     @Column(name = "originalfilename", length = 255, nullable = false)
-    private String originalFileName;
+    private String originalFileName; // 원본 파일명
 
     @Column(name = "storedfilename", length = 255, nullable = false)
-    private String storedFileName;
+    private String storedFileName; // 저장된 파일명 (UUID + 확장자)
 
     @Column(name = "filepath", length = 500, nullable = false)
-    private String filePath;
+    private String filePath; // 파일 저장 경로
 
     @Column(name = "filesize")
-    private Long fileSize;
+    private Long fileSize; // 파일 크기 (바이트)
 
     @Column(name = "contenttype", length = 100)
-    private String contentType;
+    private String contentType; // 파일 MIME 타입
 
-    @Column(name = "companyid", length = 10, nullable = false)
-    private String companyId;
-
-    @Column(name = "moduletype", length = 50, nullable = false)
-    private String moduleType;
+    @Column(name = "modulename", length = 50, nullable = false)
+    private String moduleName; // 모듈명 (어떤 기능에서 업로드된 파일인지)
 
     @Column(name = "createdat")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt; // 생성일시
 
     @Column(name = "createdby", length = 50)
-    private String createdBy;
-
-    // Constructors
-    public FileAttachment() {}
-
-    public FileAttachment(String id, String fileGroupId, String originalFileName, 
-                         String storedFileName, String filePath, Long fileSize, 
-                         String contentType, String companyId, String moduleType) {
-        this.id = id;
-        this.fileGroupId = fileGroupId;
-        this.originalFileName = originalFileName;
-        this.storedFileName = storedFileName;
-        this.filePath = filePath;
-        this.fileSize = fileSize;
-        this.contentType = contentType;
-        this.companyId = companyId;
-        this.moduleType = moduleType;
-        this.createdAt = LocalDateTime.now();
-    }
-
-    // Getters and Setters
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getFileGroupId() {
-        return fileGroupId;
-    }
-
-    public void setFileGroupId(String fileGroupId) {
-        this.fileGroupId = fileGroupId;
-    }
-
-    public String getOriginalFileName() {
-        return originalFileName;
-    }
-
-    public void setOriginalFileName(String originalFileName) {
-        this.originalFileName = originalFileName;
-    }
-
-    public String getStoredFileName() {
-        return storedFileName;
-    }
-
-    public void setStoredFileName(String storedFileName) {
-        this.storedFileName = storedFileName;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public Long getFileSize() {
-        return fileSize;
-    }
-
-    public void setFileSize(Long fileSize) {
-        this.fileSize = fileSize;
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
-
-    public String getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
-    }
-
-    public String getModuleType() {
-        return moduleType;
-    }
-
-    public void setModuleType(String moduleType) {
-        this.moduleType = moduleType;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
+    private String createdBy; // 생성자
 }

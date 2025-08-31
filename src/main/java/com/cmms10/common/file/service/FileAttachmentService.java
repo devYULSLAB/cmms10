@@ -39,13 +39,13 @@ public class FileAttachmentService {
     /**
      * 파일 업로드 및 저장
      */
-    public FileAttachment uploadFile(MultipartFile file, String fileGroupId, String companyId, String moduleType)
+    public FileAttachment uploadFile(String companyId, String moduleName, MultipartFile file, String fileGroupId)
             throws IOException {
         // 파일 크기 검증
         validateFileSize(file);
 
         // 파일 개수 검증
-        validateFileCount(fileGroupId);
+        validateFileCount(companyId, fileGroupId);
 
         // 파일 ID 생성 (10자리, 밀리초 기반)
         String fileId = generateFileId();
@@ -57,29 +57,43 @@ public class FileAttachmentService {
         String fileExtension = getFileExtension(originalFileName);
         String storedFileName = UUID.randomUUID().toString() + fileExtension;
 
-        // 파일 경로 생성
-        String relativePath = String.format("%s/%s/%s", companyId, moduleType, fileGroupId);
-        Path uploadPath = Paths.get(uploadRootPath, relativePath);
+        // 파일 경로 생성 - 절대 경로로 처리
+        String relativePath = String.format("%s/%s/%s", companyId, moduleName, fileGroupId);
+        Path uploadPath = getAbsoluteUploadPath(relativePath);
 
-        // 디렉토리 생성
-        Files.createDirectories(uploadPath);
+        // 디렉토리 생성 (부모 디렉토리까지 모두 생성)
+        try {
+            Files.createDirectories(uploadPath);
+            System.out.println("Created directory: " + uploadPath.toAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Failed to create directory: " + uploadPath.toAbsolutePath());
+            throw new RuntimeException("Failed to create upload directory: " + e.getMessage(), e);
+        }
 
         // 파일 저장
         Path filePath = uploadPath.resolve(storedFileName);
-        file.transferTo(filePath.toFile());
+        try {
+            file.transferTo(filePath.toFile());
+            System.out.println("File saved: " + filePath.toAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Failed to save file: " + filePath.toAbsolutePath());
+            throw new RuntimeException("Failed to save file: " + e.getMessage(), e);
+        }
 
         // 데이터베이스에 파일 정보 저장
-        FileAttachment fileAttachment = new FileAttachment();
-        fileAttachment.setId(fileId);
-        fileAttachment.setFileGroupId(fileGroupId);
-        fileAttachment.setOriginalFileName(originalFileName);
-        fileAttachment.setStoredFileName(storedFileName);
-        fileAttachment.setFilePath(relativePath + "/" + storedFileName);
-        fileAttachment.setFileSize(file.getSize());
-        fileAttachment.setContentType(file.getContentType());
-        fileAttachment.setCompanyId(companyId);
-        fileAttachment.setModuleType(moduleType);
-        fileAttachment.setCreatedAt(LocalDateTime.now());
+        FileAttachment fileAttachment = new FileAttachment(
+                companyId,
+                fileId,
+                fileGroupId,
+                originalFileName,
+                storedFileName,
+                relativePath + "/" + storedFileName,
+                file.getSize(),
+                file.getContentType(),
+                moduleName,
+                LocalDateTime.now(),
+                null // createdBy는 null로 설정
+        );
 
         return fileAttachmentRepository.save(fileAttachment);
     }
@@ -87,47 +101,51 @@ public class FileAttachmentService {
     /**
      * 파일 그룹 ID로 파일 목록 조회
      */
-    public List<FileAttachment> getFilesByFileGroupId(String fileGroupId) {
-        return fileAttachmentRepository.findByFileGroupId(fileGroupId);
+    public List<FileAttachment> getFilesByCompanyIdAndFileGroupId(String companyId, String fileGroupId) {
+        return fileAttachmentRepository.findByCompanyIdAndFileGroupId(companyId, fileGroupId);
     }
 
     /**
-     * 회사 ID와 모듈 타입으로 파일 목록 조회
+     * 회사 ID와 모듈명으로 파일 목록 조회
      */
-    public List<FileAttachment> getFilesByCompanyIdAndModuleType(String companyId, String moduleType) {
-        return fileAttachmentRepository.findByCompanyIdAndModuleType(companyId, moduleType);
+    public List<FileAttachment> getFilesByCompanyIdAndModuleName(String companyId, String moduleName) {
+        return fileAttachmentRepository.findByCompanyIdAndModuleName(companyId, moduleName);
     }
 
     /**
      * 파일 삭제
      */
-    public void deleteFile(String fileId) {
-        FileAttachment fileAttachment = fileAttachmentRepository.findById(fileId)
+    public void deleteByCompanyIdAndFileId(String companyId, String fileId) {
+        FileAttachment fileAttachment = fileAttachmentRepository.findByCompanyIdAndFileId(companyId, fileId)
                 .orElseThrow(() -> new RuntimeException("File not found"));
 
-        // 물리적 파일 삭제
-        Path filePath = Paths.get(uploadRootPath, fileAttachment.getFilePath());
+        // 물리적 파일 삭제 - 절대 경로 사용
+        String userDir = System.getProperty("user.dir");
+        Path filePath = Paths.get(userDir, uploadRootPath, fileAttachment.getFilePath());
         try {
             Files.deleteIfExists(filePath);
+            System.out.println("Deleted file: " + filePath.toAbsolutePath());
         } catch (IOException e) {
             throw new RuntimeException("Failed to delete file", e);
         }
 
         // 데이터베이스에서 삭제
-        fileAttachmentRepository.deleteById(fileId);
+        fileAttachmentRepository.deleteByCompanyIdAndFileId(companyId, fileId);
     }
 
     /**
      * 파일 그룹 ID로 모든 파일 삭제
      */
-    public void deleteFilesByFileGroupId(String fileGroupId) {
-        List<FileAttachment> files = fileAttachmentRepository.findByFileGroupId(fileGroupId);
+    public void deleteFilesByCompanyIdAndFileGroupId(String companyId, String fileGroupId) {
+        List<FileAttachment> files = fileAttachmentRepository.findByCompanyIdAndFileGroupId(companyId, fileGroupId);
 
         for (FileAttachment file : files) {
-            // 물리적 파일 삭제
-            Path filePath = Paths.get(uploadRootPath, file.getFilePath());
+            // 물리적 파일 삭제 - 절대 경로 사용
+            String userDir = System.getProperty("user.dir");
+            Path filePath = Paths.get(userDir, uploadRootPath, file.getFilePath());
             try {
                 Files.deleteIfExists(filePath);
+                System.out.println("Deleted file: " + filePath.toAbsolutePath());
             } catch (IOException e) {
                 // 로그만 남기고 계속 진행
                 System.err.println("Failed to delete file: " + filePath);
@@ -135,15 +153,7 @@ public class FileAttachmentService {
         }
 
         // 데이터베이스에서 삭제
-        fileAttachmentRepository.deleteByFileGroupId(fileGroupId);
-    }
-
-    /**
-     * 파일 ID 생성 (10자리, 밀리초 기반)
-     */
-    private String generateFileId() {
-        long currentTimeMillis = System.currentTimeMillis();
-        return String.format("%010d", currentTimeMillis % 10000000000L);
+        fileAttachmentRepository.deleteByCompanyIdAndFileGroupId(companyId, fileGroupId);
     }
 
     /**
@@ -159,8 +169,8 @@ public class FileAttachmentService {
     /**
      * 파일 다운로드 경로 생성
      */
-    public String getDownloadPath(String fileId) {
-        FileAttachment fileAttachment = fileAttachmentRepository.findById(fileId)
+    public String getDownloadPath(String companyId, String fileId) {
+        FileAttachment fileAttachment = fileAttachmentRepository.findByCompanyIdAndFileId(companyId, fileId)
                 .orElseThrow(() -> new RuntimeException("File not found"));
         return "/file/download/" + fileId;
     }
@@ -169,7 +179,16 @@ public class FileAttachmentService {
      * 파일 ID로 파일 조회
      */
     public FileAttachment getFileById(String fileId) {
-        return fileAttachmentRepository.findById(fileId)
+        // 복합 PK를 사용하므로 companyId가 필요하지만, 기존 호환성을 위해 임시로 처리
+        // 실제로는 companyId도 함께 전달받아야 함
+        throw new RuntimeException("getFileById method requires companyId. Use getFileByCompanyIdAndFileId instead.");
+    }
+
+    /**
+     * 회사 ID와 파일 ID로 파일 조회
+     */
+    public FileAttachment getFileByCompanyIdAndFileId(String companyId, String fileId) {
+        return fileAttachmentRepository.findByCompanyIdAndFileId(companyId, fileId)
                 .orElseThrow(() -> new RuntimeException("File not found"));
     }
 
@@ -186,8 +205,9 @@ public class FileAttachmentService {
     /**
      * 파일 개수 검증
      */
-    private void validateFileCount(String fileGroupId) {
-        List<FileAttachment> existingFiles = fileAttachmentRepository.findByFileGroupId(fileGroupId);
+    private void validateFileCount(String companyId, String fileGroupId) {
+        List<FileAttachment> existingFiles = fileAttachmentRepository.findByCompanyIdAndFileGroupId(companyId,
+                fileGroupId);
         if (existingFiles.size() >= maxFileCount) {
             throw new RuntimeException("Maximum file count exceeded: " + maxFileCount);
         }
@@ -216,5 +236,29 @@ public class FileAttachmentService {
     public String generateFileGroupId() {
         long currentTimeMillis = System.currentTimeMillis();
         return String.format("%010d", currentTimeMillis % 10000000000L);
+    }
+
+    /**
+     * 파일 ID 생성 (10자리, 밀리초 기반)
+     */
+    private String generateFileId() {
+        long currentTimeMillis = System.currentTimeMillis();
+        return String.format("%010d", currentTimeMillis % 10000000000L);
+    }
+
+    /**
+     * 절대 업로드 경로 생성
+     */
+    private Path getAbsoluteUploadPath(String relativePath) {
+        // 애플리케이션 루트 디렉토리를 기준으로 절대 경로 생성
+        String userDir = System.getProperty("user.dir");
+        Path rootPath = Paths.get(userDir, uploadRootPath);
+        Path fullPath = rootPath.resolve(relativePath);
+
+        System.out.println("User directory: " + userDir);
+        System.out.println("Root upload path: " + rootPath.toAbsolutePath());
+        System.out.println("Full upload path: " + fullPath.toAbsolutePath());
+
+        return fullPath;
     }
 }

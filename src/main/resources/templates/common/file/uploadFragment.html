@@ -1,334 +1,253 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!-- 파일 업로드 프래그먼트 -->
+<div th:fragment="fileUploadFragment(companyId, moduleName, fileGroupId, maxFileCount, maxFileSize)"
+    class="file-upload-component">
 
-<head>
-    <meta charset="UTF-8">
-    <title>File Upload Fragment</title>
-    <style>
-        .file-upload-container {
-            border: 2px dashed #ccc;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            margin: 10px 0;
-            background-color: #f9f9f9;
-        }
+    <!-- Hidden Fields -->
+    <input type="hidden" th:id="'companyId_' + ${fileGroupId}" th:value="${companyId}" />
+    <input type="hidden" th:id="'moduleName_' + ${fileGroupId}" th:value="${moduleName}" />
+    <input type="hidden" th:id="'fileGroupId_' + ${fileGroupId}" th:value="${fileGroupId != null ? fileGroupId : ''}" />
+    <input type="hidden" th:id="'maxFileCount_' + ${fileGroupId}" th:value="${maxFileCount}" />
+    <input type="hidden" th:id="'maxFileSize_' + ${fileGroupId}" th:value="${maxFileSize}" />
 
-        .file-upload-container.dragover {
-            border-color: #007bff;
-            background-color: #e3f2fd;
-        }
-
-        .file-list {
-            margin-top: 15px;
-        }
-
-        .file-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            margin: 5px 0;
-            background-color: white;
-        }
-
-        .file-name {
-            flex: 1;
-            margin-right: 10px;
-        }
-
-        .file-size {
-            color: #666;
-            font-size: 0.9em;
-            margin-right: 10px;
-        }
-
-        .file-actions {
-            display: flex;
-            gap: 5px;
-        }
-
-        .btn {
-            padding: 4px 8px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8em;
-        }
-
-        .btn-download {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .btn-delete {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .upload-progress {
-            width: 100%;
-            height: 20px;
-            background-color: #f0f0f0;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background-color: #007bff;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-    </style>
-</head>
-
-<body>
-    <div th:fragment="fileUploadFragment(companyId, moduleName, fileGroupId, maxFileCount, maxFileSize)"
-        class="file-upload-component">
-        <input type="hidden" th:id="'companyId_' + ${fileGroupId}" th:value="${companyId}" />
-        <input type="hidden" th:id="'moduleName_' + ${fileGroupId}" th:value="${moduleName}" />
-        <input type="hidden" th:id="'fileGroupId_' + ${fileGroupId}"
-            th:value="${fileGroupId != null ? fileGroupId : ''}" />
-        <input type="hidden" th:id="'maxFileCount_' + ${fileGroupId}" th:value="${maxFileCount}" />
-        <input type="hidden" th:id="'maxFileSize_' + ${fileGroupId}" th:value="${maxFileSize}" />
-
-        <div class="file-upload-container" th:id="'uploadArea_' + ${fileGroupId}"
-            th:style="${fileGroupId == null || fileGroupId == ''} ? 'opacity: 0.5; pointer-events: none; background-color: #f5f5f5; border-color: #ccc;' : ''">
-            <div class="upload-instructions">
-                <div style="font-size: 2em; color: #666; margin-bottom: 10px;">📁</div>
-                <p
-                    th:text="${fileGroupId == null || fileGroupId == ''} ? '먼저 저장 후 파일을 첨부하세요' : '파일을 드래그하여 업로드하거나 클릭하여 선택하세요'">
-                    파일을 드래그하여 업로드하거나 클릭하여 선택하세요</p>
-                <p style="font-size: 0.8em; color: #666; margin-top: 5px;"
-                    th:text="'최대 ' + ${maxFileCount} + '개 파일, 개별 파일 크기 ' + ${maxFileSize} + ' 이하'">
-                    최대 파일 개수 및 크기 제한</p>
-                <input type="file" th:id="'fileInput_' + ${fileGroupId}" multiple style="display: none;" />
-                <button type="button" class="btn"
-                    style="background-color: #007bff; color: white; padding: 8px 16px; border-radius: 4px; cursor: pointer;"
-                    th:onclick="'selectFiles(\'' + ${fileGroupId} + '\')'">
-                    파일 선택
-                </button>
-            </div>
-            <div class="upload-progress" th:id="'progressBar_' + ${fileGroupId}" style="display: none;">
-                <div class="progress-bar" th:id="'progress_' + ${fileGroupId}"></div>
-            </div>
-        </div>
-
-        <div class="file-list" th:id="'fileList_' + ${fileGroupId}">
-            <!-- 파일 목록이 여기에 동적으로 추가됩니다 -->
-        </div>
-
-
+    <!-- File Upload Button -->
+    <div style="margin-bottom: 15px;">
+        <input type="file" th:id="'fileInput_' + ${fileGroupId}" multiple style="display: none;" />
+        <button type="button"
+            style="background-color: #007bff; color: white; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.8em; border: none;"
+            th:data-file-group-id="${fileGroupId}" th:disabled="${fileGroupId == null || fileGroupId == ''}"
+            th:style="${fileGroupId == null || fileGroupId == ''} ? 'background-color: #ccc; color: #666; padding: 8px 16px; border-radius: 4px; cursor: not-allowed; font-size: 0.8em; border: none;' : 'background-color: #007bff; color: white; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.8em; border: none;'">
+            파일 첨부
+        </button>
+        <span style="font-size: 0.8em; color: #666; margin-left: 10px;"
+            th:text="'최대 ' + ${maxFileCount} + '개 파일, 개별 파일 크기 ' + ${maxFileSize} + ' 이하'">
+            최대 파일 개수 및 크기 제한</span>
     </div>
 
-    <th:block layout:fragment="page-js">
-        <script th:inline="javascript">
-            // 파일 업로드 관련 JavaScript 함수들
-            function selectFiles(fileGroupId) {
-                if (!fileGroupId || fileGroupId.trim() === '') {
-                    alert('먼저 저장 후 파일을 첨부하세요.');
-                    return;
-                }
-                document.getElementById('fileInput_' + fileGroupId).click();
+    <!-- File List -->
+    <div th:id="'fileList_' + ${fileGroupId}" style="margin-top: 15px;">
+        <div th:id="'noFiles_' + ${fileGroupId}"
+            style="text-align: center; color: #666; padding: 20px; border: 1px dashed #ccc; border-radius: 4px; background-color: #f9f9f9;">
+            첨부된 파일이 없습니다.
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script th:inline="javascript">
+        // 파일 업로드 관련 JavaScript 함수들
+        function selectFiles(fileGroupId) {
+            if (!fileGroupId || fileGroupId.trim() === '') {
+                alert('먼저 저장 후 파일을 첨부하세요.');
+                return;
+            }
+            document.getElementById('fileInput_' + fileGroupId).click();
+        }
+
+        function handleFileSelect(fileGroupId) {
+            if (!fileGroupId || fileGroupId.trim() === '') {
+                alert('먼저 저장 후 파일을 첨부하세요.');
+                return;
             }
 
-            function handleFileSelect(fileGroupId) {
-                if (!fileGroupId || fileGroupId.trim() === '') {
-                    alert('먼저 저장 후 파일을 첨부하세요.');
-                    return;
-                }
+            const fileInput = document.getElementById('fileInput_' + fileGroupId);
+            const files = fileInput.files;
 
-                const fileInput = document.getElementById('fileInput_' + fileGroupId);
-                const files = fileInput.files;
+            if (files.length > 0) {
+                uploadFiles(fileGroupId, files);
+            }
+        }
 
-                if (files.length > 0) {
-                    uploadFiles(fileGroupId, files);
-                }
+        function uploadFiles(fileGroupId, files) {
+            if (!fileGroupId || fileGroupId.trim() === '') {
+                alert('먼저 저장 후 파일을 첨부하세요.');
+                return;
             }
 
-            function uploadFiles(fileGroupId, files) {
-                if (!fileGroupId || fileGroupId.trim() === '') {
-                    alert('먼저 저장 후 파일을 첨부하세요.');
-                    return;
-                }
+            const moduleName = document.getElementById('moduleName_' + fileGroupId).value;
+            const companyId = document.getElementById('companyId_' + fileGroupId).value;
 
-                const moduleName = document.getElementById('moduleName_' + fileGroupId).value;
-                const progressBar = document.getElementById('progressBar_' + fileGroupId);
-                const progress = document.getElementById('progress_' + fileGroupId);
+            console.log('Uploading files:', {
+                fileGroupId: fileGroupId,
+                moduleName: moduleName,
+                companyId: companyId,
+                fileCount: files.length
+            });
 
-                progressBar.style.display = 'block';
+            Array.from(files).forEach((file) => {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('fileGroupId', fileGroupId);
+                formData.append('moduleName', moduleName);
 
-                Array.from(files).forEach((file, index) => {
-                    const formData = new FormData();
-                    formData.append('file', file);
-                    formData.append('fileGroupId', fileGroupId);
-                    formData.append('moduleName', moduleName);
+                console.log('Sending file:', file.name, 'size:', file.size);
 
-                    const xhr = new XMLHttpRequest();
-
-                    xhr.upload.addEventListener('progress', function (e) {
-                        if (e.lengthComputable) {
-                            const percentComplete = (e.loaded / e.total) * 100;
-                            progress.style.width = percentComplete + '%';
+                fetch('/file/upload', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => {
+                        console.log('Response status:', response.status);
+                        if (!response.ok) {
+                            return response.text().then(text => {
+                                throw new Error('HTTP ' + response.status + ': ' + text);
+                            });
                         }
-                    });
-
-                    xhr.addEventListener('load', function () {
-                        if (xhr.status === 200) {
-                            const response = JSON.parse(xhr.responseText);
-                            addFileToList(fileGroupId, response);
-                            progressBar.style.display = 'none';
-                            progress.style.width = '0%';
-                        } else {
-                            alert('파일 업로드 실패: ' + xhr.responseText);
-                            progressBar.style.display = 'none';
-                            progress.style.width = '0%';
-                        }
-                    });
-
-                    xhr.addEventListener('error', function () {
-                        alert('파일 업로드 중 오류가 발생했습니다.');
-                        progressBar.style.display = 'none';
-                        progress.style.width = '0%';
-                    });
-
-                    xhr.open('POST', '/file/upload');
-                    xhr.send(formData);
-                });
-            }
-
-            function addFileToList(fileGroupId, fileData) {
-                const fileList = document.getElementById('fileList_' + fileGroupId);
-                const fileItem = document.createElement('div');
-                fileItem.className = 'file-item';
-                fileItem.setAttribute('data-file-id', fileData.id);
-
-                const fileSize = formatFileSize(fileData.fileSize);
-
-                fileItem.innerHTML = `
-                    <div class="file-name">${fileData.originalFileName}</div>
-                    <div class="file-size">${fileSize}</div>
-                    <div class="file-actions">
-                        <button type="button" class="btn btn-download" onclick="downloadFile('${fileData.id}')">
-                            다운로드
-                        </button>
-                        <button type="button" class="btn btn-delete" onclick="deleteFile('${fileData.id}', '${fileGroupId}')">
-                            삭제
-                        </button>
-                    </div>
-                `;
-
-                fileList.appendChild(fileItem);
-            }
-
-            function downloadFile(fileId) {
-                window.open('/file/download/' + fileId, '_blank');
-            }
-
-            function deleteFile(fileId, fileGroupId) {
-                if (confirm('파일을 삭제하시겠습니까?')) {
-                    fetch('/file/delete/' + fileId, {
-                        method: 'DELETE'
+                        return response.json();
                     })
-                        .then(response => {
-                            if (response.ok) {
-                                const fileItem = document.querySelector(`[data-file-id="${fileId}"]`);
-                                if (fileItem) {
-                                    fileItem.remove();
+                    .then(data => {
+                        console.log('Upload success:', data);
+                        if (data.success) {
+                            addFileToList(fileGroupId, data.fileData);
+                        } else {
+                            alert('파일 업로드 실패: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Upload error:', error);
+                        alert('파일 업로드 중 오류가 발생했습니다: ' + error.message);
+                    });
+            });
+        }
+
+        function addFileToList(fileGroupId, fileData) {
+            const fileList = document.getElementById('fileList_' + fileGroupId);
+            const noFilesDiv = document.getElementById('noFiles_' + fileGroupId);
+
+            // "파일이 없습니다" 메시지 숨기기
+            if (noFilesDiv) {
+                noFilesDiv.style.display = 'none';
+            }
+
+            const fileItem = document.createElement('div');
+            fileItem.setAttribute('data-file-id', fileData.id);
+            fileItem.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin: 5px 0; background-color: white;';
+
+            const fileSize = formatFileSize(fileData.fileSize);
+
+            fileItem.innerHTML = `
+                <div style="flex: 1; margin-right: 10px;">${fileData.originalFileName}</div>
+                <div style="color: #666; font-size: 0.9em; margin-right: 10px;">${fileSize}</div>
+                <div style="display: flex; gap: 5px;">
+                    <button type="button" style="background-color: #28a745; color: white; padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8em;" onclick="downloadFile('${fileData.id}')">
+                        다운로드
+                    </button>
+                    <button type="button" style="background-color: #dc3545; color: white; padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8em;" onclick="deleteFile('${fileData.id}', '${fileGroupId}')">
+                        삭제
+                    </button>
+                </div>
+            `;
+
+            fileList.appendChild(fileItem);
+        }
+
+        function downloadFile(fileId) {
+            window.open('/file/download/' + fileId, '_blank');
+        }
+
+        function deleteFile(fileId, fileGroupId) {
+            if (confirm('파일을 삭제하시겠습니까?')) {
+                fetch('/file/delete/' + fileId, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            const fileItem = document.querySelector(`[data-file-id="${fileId}"]`);
+                            if (fileItem) {
+                                fileItem.remove();
+
+                                // 파일 목록이 비어있으면 "파일이 없습니다" 메시지 표시
+                                const fileList = document.getElementById('fileList_' + fileGroupId);
+                                const remainingFiles = fileList.querySelectorAll('[data-file-id]');
+                                if (remainingFiles.length === 0) {
+                                    const noFilesDiv = document.getElementById('noFiles_' + fileGroupId);
+                                    if (noFilesDiv) {
+                                        noFilesDiv.style.display = 'block';
+                                    }
                                 }
-                            } else {
-                                alert('파일 삭제 실패');
                             }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('파일 삭제 중 오류가 발생했습니다.');
-                        });
-                }
+                        } else {
+                            alert('파일 삭제 실패');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('파일 삭제 중 오류가 발생했습니다.');
+                    });
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function loadExistingFiles(fileGroupId) {
+            if (!fileGroupId || fileGroupId.trim() === '') {
+                return;
             }
 
-            function formatFileSize(bytes) {
-                if (bytes === 0) return '0 Bytes';
-                const k = 1024;
-                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-                const i = Math.floor(Math.log(bytes) / Math.log(k));
-                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-            }
-
-            function loadExistingFiles(fileGroupId) {
-                if (!fileGroupId || fileGroupId.trim() === '') {
-                    return;
-                }
-
-                fetch('/file/list/' + fileGroupId)
-                    .then(response => response.json())
-                    .then(files => {
+            fetch('/file/list/' + fileGroupId)
+                .then(response => response.json())
+                .then(files => {
+                    if (files && files.length > 0) {
                         files.forEach(file => {
                             addFileToList(fileGroupId, file);
                         });
-                    })
-                    .catch(error => {
-                        console.error('Error loading files:', error);
-                    });
-            }
-
-            // 드래그 앤 드롭 기능
-            function setupDragAndDrop(fileGroupId) {
-                const uploadArea = document.getElementById('uploadArea_' + fileGroupId);
-                const fileInput = document.getElementById('fileInput_' + fileGroupId);
-
-                if (!fileGroupId || fileGroupId.trim() === '') {
-                    return;
-                }
-
-                fileInput.addEventListener('change', function () {
-                    handleFileSelect(fileGroupId);
-                });
-
-                uploadArea.addEventListener('dragover', function (e) {
-                    e.preventDefault();
-                    if (fileGroupId && fileGroupId.trim() !== '') {
-                        uploadArea.classList.add('dragover');
-                    }
-                });
-
-                uploadArea.addEventListener('dragleave', function (e) {
-                    e.preventDefault();
-                    uploadArea.classList.remove('dragover');
-                });
-
-                uploadArea.addEventListener('drop', function (e) {
-                    e.preventDefault();
-                    uploadArea.classList.remove('dragover');
-                    if (fileGroupId && fileGroupId.trim() !== '') {
-                        const files = e.dataTransfer.files;
-                        if (files.length > 0) {
-                            uploadFiles(fileGroupId, files);
+                    } else {
+                        // 파일이 없으면 "파일이 없습니다" 메시지 표시
+                        const noFilesDiv = document.getElementById('noFiles_' + fileGroupId);
+                        if (noFilesDiv) {
+                            noFilesDiv.style.display = 'block';
                         }
                     }
-                });
-            }
-
-            // 페이지 로드 시 드래그 앤 드롭 설정 및 기존 파일 로드
-            document.addEventListener('DOMContentLoaded', function () {
-                // 모든 파일 업로드 컴포넌트에 대해 드래그 앤 드롭 설정
-                const fileGroupIds = document.querySelectorAll('[id^="fileGroupId_"]');
-                fileGroupIds.forEach(element => {
-                    const fileGroupId = element.value;
-                    setupDragAndDrop(fileGroupId);
-
-                    // 기존 파일 목록 로드
-                    if (fileGroupId && fileGroupId.trim() !== '') {
-                        loadExistingFiles(fileGroupId);
+                })
+                .catch(error => {
+                    console.error('Error loading files:', error);
+                    // 에러 발생 시에도 "파일이 없습니다" 메시지 표시
+                    const noFilesDiv = document.getElementById('noFiles_' + fileGroupId);
+                    if (noFilesDiv) {
+                        noFilesDiv.style.display = 'block';
                     }
                 });
-            });
-        </script>
-    </th:block>
-</body>
+        }
 
-</html>
+        // 파일 입력 이벤트 설정
+        function setupFileInput(fileGroupId) {
+            const fileInput = document.getElementById('fileInput_' + fileGroupId);
+
+            if (!fileGroupId || fileGroupId.trim() === '') {
+                return;
+            }
+
+            fileInput.addEventListener('change', function () {
+                handleFileSelect(fileGroupId);
+            });
+        }
+
+        // 페이지 로드 시 파일 입력 설정 및 기존 파일 로드
+        document.addEventListener('DOMContentLoaded', function () {
+            // 모든 파일 업로드 컴포넌트에 대해 파일 입력 설정
+            const fileGroupIds = document.querySelectorAll('[id^="fileGroupId_"]');
+            fileGroupIds.forEach(element => {
+                const fileGroupId = element.value;
+                setupFileInput(fileGroupId);
+
+                // 기존 파일 목록 로드
+                if (fileGroupId && fileGroupId.trim() !== '') {
+                    loadExistingFiles(fileGroupId);
+                }
+            });
+
+            // 파일 첨부 버튼 이벤트 리스너 설정
+            const uploadButtons = document.querySelectorAll('[data-file-group-id]');
+            uploadButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const fileGroupId = this.getAttribute('data-file-group-id');
+                    selectFiles(fileGroupId);
+                });
+            });
+        });
+    </script>
+</div>
