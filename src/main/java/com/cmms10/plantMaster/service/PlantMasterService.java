@@ -50,7 +50,7 @@ public class PlantMasterService {
             plantMaster.setCreateDate(now);
             plantMaster.setCreateBy(username);
         } else {
-            // 수정정
+            // 수정
             plantMaster.setUpdateDate(now);
             plantMaster.setUpdateBy(username);
         }

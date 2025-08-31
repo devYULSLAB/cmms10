@@ -1,7 +1,7 @@
-package com.cmms10.commonCode.controller;
+package com.cmms10.common.code.controller;
 
-import com.cmms10.commonCode.entity.CommonCode;
-import com.cmms10.commonCode.service.CommonCodeService;
+import com.cmms10.common.code.entity.CommonCode;
+import com.cmms10.common.code.service.CommonCodeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +27,7 @@ public class CommonCodeController {
         List<CommonCode> commonCodes = commonCodeService.getAllCommonCodesByCompanyId(companyId);
         model.addAttribute("commonCodes", commonCodes);
         model.addAttribute("companyId", companyId);
-        return "commonCode/commonCodeList";
+        return "common/code/commonCodeList";
     }
 
     /** 공통코드 등록 폼 */
@@ -38,7 +38,7 @@ public class CommonCodeController {
         commonCode.setCompanyId(companyId);
         model.addAttribute("commonCode", commonCode);
         model.addAttribute("mode", "new");
-        return "commonCode/commonCodeForm";
+        return "common/code/commonCodeForm";
     }
 
     /** 공통코드 수정 폼 */
@@ -47,7 +47,7 @@ public class CommonCodeController {
         CommonCode commonCode = commonCodeService.getCommonCodeByCompanyIdAndCodeId(companyId, codeId);
         model.addAttribute("commonCode", commonCode);
         model.addAttribute("mode", "edit");
-        return "commonCode/commonCodeForm";
+        return "common/code/commonCodeForm";
     }
 
     /** 공통코드 저장 */

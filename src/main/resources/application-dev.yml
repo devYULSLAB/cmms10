@@ -64,3 +64,11 @@ cmms:
   googlesheet:
     # 기본값은 /opt/cmms/secrets/service-account.json
     credentials-path: "classpath:credentials/dev/service-account.json"
+
+# 파일 업로드 설정
+file:
+  upload:
+    root-path: uploads
+    max-file-size: 10MB
+    allowed-file-types: jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,txt
+    max-file-count: 10

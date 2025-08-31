@@ -5,7 +5,7 @@ import com.cmms10.inspection.entity.InspectionItem;
 import com.cmms10.inspection.service.InspectionService;
 import com.cmms10.domain.site.service.SiteService;
 import com.cmms10.domain.dept.service.DeptService;
-import com.cmms10.commonCode.service.CommonCodeService;
+import com.cmms10.common.code.service.CommonCodeService;
 import jakarta.servlet.http.HttpSession;
 
 import java.util.List; // Added import

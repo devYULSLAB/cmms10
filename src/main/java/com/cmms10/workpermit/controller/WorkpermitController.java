@@ -5,12 +5,7 @@ import com.cmms10.workpermit.entity.WorkpermitItem;
 import com.cmms10.workpermit.service.WorkpermitService;
 import com.cmms10.domain.site.service.SiteService;
 import com.cmms10.domain.dept.service.DeptService;
-import com.cmms10.commonCode.service.CommonCodeService;
-
-import com.cmms10.checksheet.entity.ChecksheetTemplate;
-import com.cmms10.checksheet.entity.ChecksheetResult;
-import com.cmms10.checksheet.service.ChecksheetTemplateService;
-import com.cmms10.checksheet.service.ChecksheetResultService;
+import com.cmms10.common.code.service.CommonCodeService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +28,6 @@ public class WorkpermitController {
     private final SiteService siteService;
     private final CommonCodeService commonCodeService;
     private final DeptService deptService;
-    private final ChecksheetTemplateService checksheetTemplateService;
-    private final ChecksheetResultService checksheetResultService;
 
     // 작업허가 신규 등록
     @GetMapping("/workpermitForm")
@@ -48,19 +41,11 @@ public class WorkpermitController {
         workpermit.setCompanyId(companyId);
         workpermit.setItems(items);
 
-        List<ChecksheetTemplate> templateList = checksheetTemplateService.getTemplatesByCompanyId(companyId);
-        Map<String, String> templateJsonMap = new LinkedHashMap<>();
-        for (ChecksheetTemplate tpl : templateList) {
-            templateJsonMap.put(tpl.getTemplateId(), tpl.getTemplateJson());
-        }
-
         model.addAttribute("workpermit", workpermit);
         model.addAttribute("sites", siteService.getAllSitesByCompanyId(companyId));
         model.addAttribute("permitTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "PERMT")); // 허가서
                                                                                                                        // 유형
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId)); // 부서
-        model.addAttribute("templateList", templateList);
-        model.addAttribute("templateJsonMap", templateJsonMap);
 
         return "workpermit/workpermitForm";
     }
@@ -76,18 +61,10 @@ public class WorkpermitController {
         List<WorkpermitItem> items = workpermitService.getWorkpermitItems(companyId, permitId);
         permit.setItems(items);
 
-        List<ChecksheetTemplate> templateList = checksheetTemplateService.getTemplatesByCompanyId(companyId);
-        Map<String, String> templateJsonMap = new LinkedHashMap<>();
-        for (ChecksheetTemplate tpl : templateList) {
-            templateJsonMap.put(tpl.getTemplateId(), tpl.getTemplateJson());
-        }
-
         model.addAttribute("workpermit", permit);
         model.addAttribute("sites", siteService.getAllSitesByCompanyId(companyId));
         model.addAttribute("permitTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "PERMT"));
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
-        model.addAttribute("templateList", templateList);
-        model.addAttribute("templateJsonMap", templateJsonMap);
 
         return "workpermit/workpermitForm";
     }
@@ -105,12 +82,6 @@ public class WorkpermitController {
         String username = (String) session.getAttribute("username");
         workpermit.setCompanyId(companyId);
         Workpermit saved = workpermitService.saveWorkpermit(workpermit, username);
-
-        // 2) 체크시트 결과 upsert (템플릿 선택 + 결과가 있을 때만)
-        System.out.println("templateId: " + templateId);
-        System.out.println("checkResultJson: " + checkResultJson);
-
-        checksheetResultService.upsert(companyId, saved.getPermitId(), templateId, checkResultJson, username);
 
         ra.addFlashAttribute("successMessage", "저장되었습니다.");
         return "redirect:/workpermit/workpermitForm?permitId=" + saved.getPermitId();
@@ -144,33 +115,6 @@ public class WorkpermitController {
         List<WorkpermitItem> items = workpermitService.getWorkpermitItems(companyId, permitId);
         workpermit.setItems(items);
         model.addAttribute("workpermit", workpermit);
-
-        // 체크시트 결과 및 템플릿 정보 포함
-        try {
-            ChecksheetResult result = checksheetResultService.getResultByCompanyIdAndPermitId(companyId, permitId);
-            if (result != null) {
-                String checkResultJson = result.getCheckResultJson();
-                model.addAttribute("checkResultJson", checkResultJson);
-
-                // 템플릿 정보도 조회하여 추가
-                if (result.getTemplateId() != null) {
-                    try {
-                        ChecksheetTemplate template = checksheetTemplateService
-                                .getTemplateByCompanyIdAndTemplateId(companyId, result.getTemplateId());
-                        if (template != null) {
-                            String templateJson = template.getTemplateJson();
-                            model.addAttribute("templateJson", templateJson);
-                        }
-                    } catch (Exception e) {
-                        throw new IllegalArgumentException("템플릿 조회 실패: " + e.getMessage());
-                    }
-                }
-            } else {
-                model.addAttribute("checkResultJson", "{}");
-            }
-        } catch (RuntimeException e) {
-            throw new IllegalArgumentException("체크시트 결과 없음: " + e.getMessage());
-        }
 
         return "workpermit/workpermitDetail";
     }

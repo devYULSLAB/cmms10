@@ -1,7 +1,7 @@
-package com.cmms10.commonCode.service;
+package com.cmms10.common.code.service;
 
-import com.cmms10.commonCode.entity.CommonCode;
-import com.cmms10.commonCode.repository.CommonCodeRepository;
+import com.cmms10.common.code.entity.CommonCode;
+import com.cmms10.common.code.repository.CommonCodeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,4 +1,4 @@
-package com.cmms10.commonCode.entity;
+package com.cmms10.common.code.entity;
 
 import java.io.Serializable;
 import lombok.Data;

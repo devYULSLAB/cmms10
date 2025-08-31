@@ -5,7 +5,7 @@ import com.cmms10.workorder.entity.WorkorderItem;
 import com.cmms10.workorder.service.WorkorderService;
 import com.cmms10.domain.site.service.SiteService;
 import com.cmms10.domain.dept.service.DeptService;
-import com.cmms10.commonCode.service.CommonCodeService;
+import com.cmms10.common.code.service.CommonCodeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;

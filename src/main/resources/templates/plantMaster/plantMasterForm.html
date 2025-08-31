@@ -199,11 +199,15 @@
                         <textarea id="note" th:field="*{note}" rows="3"
                             class="w-full border rounded px-2 py-1"></textarea>
                     </div>
-                    <div>
-                        <label for="fileGroupId" class="block text-sm font-medium" th:text="#{fileGroupId}">파일 그룹
-                            ID</label>
-                        <input type="text" id="fileGroupId" th:field="*{fileGroupId}"
-                            class="w-full border rounded px-2 py-1" />
+                </div>
+
+                <!-- File Attachment Section -->
+                <div class="border rounded-lg p-4 shadow">
+                    <h5 class="text-lg font-semibold mb-4">파일 첨부</h5>
+                    <input type="hidden" id="fileGroupId" th:field="*{fileGroupId}" />
+                    <!-- 파일 업로드 프래그먼트 포함 -->
+                    <div
+                        th:replace="~{common/file/uploadFragment :: fileUploadFragment(${plantMaster.companyId}, 'plantmaster', ${plantMaster.fileGroupId}, ${maxFileCount}, ${maxFileSize})}">
                     </div>
                 </div>
 

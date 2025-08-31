@@ -9,7 +9,7 @@ import com.cmms10.inventoryMaster.service.InventoryMasterService;
 import com.cmms10.inventoryMaster.service.InventoryTransactionService;
 import com.cmms10.domain.dept.service.DeptService;
 import com.cmms10.domain.site.service.SiteService;
-import com.cmms10.commonCode.service.CommonCodeService;
+import com.cmms10.common.code.service.CommonCodeService;
 import com.cmms10.storMaster.service.StorMasterService;
 
 import jakarta.servlet.http.HttpServletRequest;

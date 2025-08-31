@@ -5,8 +5,11 @@ import com.cmms10.plantMaster.service.PlantMasterService;
 import com.cmms10.domain.site.service.SiteService;
 import com.cmms10.funcMaster.service.FuncMasterService;
 import com.cmms10.domain.dept.service.DeptService;
-import com.cmms10.commonCode.service.CommonCodeService;
+import com.cmms10.common.code.service.CommonCodeService;
+import com.cmms10.common.file.service.FileAttachmentService;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 @RequestMapping("/plantMaster") // Base path is correct
+@RequiredArgsConstructor
 public class PlantMasterController {
 
     private final PlantMasterService plantMasterService;
@@ -31,18 +35,13 @@ public class PlantMasterController {
     private final FuncMasterService funcMasterService;
     private final DeptService deptService;
     private final CommonCodeService commonCodeService;
+    private final FileAttachmentService fileAttachmentService;
 
-    public PlantMasterController(PlantMasterService plantMasterService,
-            SiteService siteService,
-            FuncMasterService funcMasterService,
-            DeptService deptService,
-            CommonCodeService commonCodeService) {
-        this.plantMasterService = plantMasterService;
-        this.siteService = siteService;
-        this.funcMasterService = funcMasterService;
-        this.deptService = deptService;
-        this.commonCodeService = commonCodeService;
-    }
+    @Value("${file.upload.max-file-count:10}")
+    private int maxFileCount;
+
+    @Value("${file.upload.max-file-size:10MB}")
+    private String maxFileSize;
 
     /**
      * 설비 등록 화면
@@ -58,6 +57,10 @@ public class PlantMasterController {
         PlantMaster plantMaster = new PlantMaster();
         plantMaster.setCompanyId(companyId);
 
+        // fileGroupId 자동 생성 (10자리, 밀리초 기반)
+        String fileGroupId = fileAttachmentService.generateFileGroupId();
+        plantMaster.setFileGroupId(fileGroupId);
+
         model.addAttribute("plantMaster", plantMaster);
         // Select box 데이터 추가
         model.addAttribute("sites", siteService.getAllSitesByCompanyId(companyId));
@@ -65,6 +68,10 @@ public class PlantMasterController {
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
         model.addAttribute("assetTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "ASSET"));
         model.addAttribute("depreMethods", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "DEPRE"));
+
+        // 파일 업로드 설정 추가
+        model.addAttribute("maxFileCount", maxFileCount);
+        model.addAttribute("maxFileSize", maxFileSize);
 
         return "plantMaster/plantMasterForm";
     }
@@ -94,6 +101,10 @@ public class PlantMasterController {
         model.addAttribute("depts", deptService.getAllDeptsByCompanyId(companyId));
         model.addAttribute("assetTypes", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "ASSET"));
         model.addAttribute("depreMethods", commonCodeService.getCommonCodesByCompanyIdAndCodeType(companyId, "DEPRE"));
+
+        // 파일 업로드 설정 추가
+        model.addAttribute("maxFileCount", maxFileCount);
+        model.addAttribute("maxFileSize", maxFileSize);
 
         return "plantMaster/plantMasterForm";
     }

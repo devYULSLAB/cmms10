@@ -1,10 +1,10 @@
-package com.cmms10.commonCode.repository;
+package com.cmms10.common.code.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.cmms10.commonCode.entity.CommonCode;
-import com.cmms10.commonCode.entity.CommonCodeIdClass;
+import com.cmms10.common.code.entity.CommonCode;
+import com.cmms10.common.code.entity.CommonCodeIdClass;
 
 import java.util.List;
 import java.util.Optional;

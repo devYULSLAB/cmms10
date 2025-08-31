@@ -74,3 +74,11 @@ logging:
 # 운영 환경 커스텀 설정
 cmms10:
   default-company-id: ${DEFAULT_COMPANY_ID:C0001}
+
+# 파일 업로드 설정
+file:
+  upload:
+    root-path: ${FILE_UPLOAD_PATH:/opt/cmms/uploads}
+    max-file-size: ${FILE_MAX_SIZE:50MB}
+    allowed-file-types: ${FILE_ALLOWED_TYPES:jpg,jpeg,png,gif,pdf,doc,docx,xls,xlsx,txt}
+    max-file-count: ${FILE_MAX_COUNT:20}
