@@ -1,10 +1,7 @@
 <!-- 파일 업로드 프래그먼트 -->
 <div th:fragment="fileUploadFragment(companyId, moduleName, fileGroupId, maxFileCount, maxTotalMb, accept)"
-    th:id="'fileUploadComponent_' + ${fileGroupId}"
-    class="file-upload-component"
-    th:data-max-files="${maxFileCount}"
-    th:data-max-total-mb="${maxTotalMb}"
-    th:data-accept="${accept}">
+    th:id="'fileUploadComponent_' + ${fileGroupId}" class="file-upload-component" th:data-max-files="${maxFileCount}"
+    th:data-max-total-mb="${maxTotalMb}" th:data-accept="${accept}">
 
     <!-- Hidden Fields -->
     <input type="hidden" th:id="'companyId_' + ${fileGroupId}" th:value="${companyId}" />
@@ -13,7 +10,8 @@
 
     <!-- File Upload Button -->
     <div style="margin-bottom: 15px;">
-        <input type="file" th:id="'fileInput_' + ${fileGroupId}" multiple style="display: none;" th:attr="accept=${accept}" />
+        <input type="file" th:id="'fileInput_' + ${fileGroupId}" multiple style="display: none;"
+            th:attr="accept=${accept}" />
         <button type="button"
             style="background-color: #007bff; color: white; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.8em; border: none;"
             th:data-file-group-id="${fileGroupId}" th:disabled="${fileGroupId == null || fileGroupId == ''}"
@@ -21,7 +19,7 @@
             파일 첨부
         </button>
         <span style="font-size: 0.8em; color: #666; margin-left: 10px;"
-            th:text="'최대 ' + ${maxFileCount} + '개 파일, 총 용량 ' + ${maxTotalMb} + 'MB 이하'">
+            th:text="'최대 ' + ${maxFileCount} + '개 파일, 총 용량 ' + ${maxTotalMb} + ' 이하'">
             최대 파일 개수 및 크기 제한</span>
     </div>
 
@@ -141,7 +139,7 @@
             }
 
             const fileItem = document.createElement('div');
-            fileItem.setAttribute('data-file-id', fileData.id);
+            fileItem.setAttribute('data-file-id', fileData.fileId);
             fileItem.setAttribute('data-file-size', fileData.fileSize);
             fileItem.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin: 5px 0; background-color: white;';
 
@@ -151,10 +149,10 @@
                 <div style="flex: 1; margin-right: 10px;">${fileData.originalFileName}</div>
                 <div style="color: #666; font-size: 0.9em; margin-right: 10px;">${fileSize}</div>
                 <div style="display: flex; gap: 5px;">
-                    <button type="button" style="background-color: #28a745; color: white; padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8em;" onclick="downloadFile('${fileData.id}')">
+                    <button type="button" style="background-color: #28a745; color: white; padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8em;" onclick="downloadFile('${fileData.fileId}')">
                         다운로드
                     </button>
-                    <button type="button" style="background-color: #dc3545; color: white; padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8em;" onclick="deleteFile('${fileData.id}', '${fileGroupId}')">
+                    <button type="button" style="background-color: #dc3545; color: white; padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8em;" onclick="deleteFile('${fileData.fileId}', '${fileGroupId}')">
                         삭제
                     </button>
                 </div>

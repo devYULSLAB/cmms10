@@ -1,54 +1,54 @@
 <!-- Drag & Drop File Upload Fragment (Vanilla JS) -->
 <div th:fragment="vanillaFileUploadFragment(companyId, moduleName, fileGroupId, maxFileCount, maxTotalMb, accept)"
-     th:id="'vanillaUploadComponent_' + ${fileGroupId}"
-     class="vanilla-file-upload"
-     th:data-max-files="${maxFileCount}"
-     th:data-max-total-mb="${maxTotalMb}"
-     th:data-accept="${accept}">
+    th:id="'vanillaUploadComponent_' + ${fileGroupId}" class="vanilla-file-upload" th:data-max-files="${maxFileCount}"
+    th:data-max-total-mb="${maxTotalMb}" th:data-accept="${accept}">
     <input type="hidden" th:id="'vanilla_companyId_' + ${fileGroupId}" th:value="${companyId}" />
     <input type="hidden" th:id="'vanilla_moduleName_' + ${fileGroupId}" th:value="${moduleName}" />
-    <input type="hidden" th:id="'vanilla_fileGroupId_' + ${fileGroupId}" th:value="${fileGroupId != null ? fileGroupId : ''}" />
+    <input type="hidden" th:id="'vanilla_fileGroupId_' + ${fileGroupId}"
+        th:value="${fileGroupId != null ? fileGroupId : ''}" />
 
     <div th:id="'vanilla_dropZone_' + ${fileGroupId}"
-         style="border:2px dashed #aaa; padding:20px; text-align:center; cursor:pointer;">
+        style="border:2px dashed #aaa; padding:20px; text-align:center; cursor:pointer;">
         파일을 여기로 드래그하거나 클릭하여 업로드하세요.
     </div>
-    <input type="file" th:id="'vanilla_fileInput_' + ${fileGroupId}" multiple style="display:none;" th:attr="accept=${accept}" />
+    <input type="file" th:id="'vanilla_fileInput_' + ${fileGroupId}" multiple style="display:none;"
+        th:attr="accept=${accept}" />
 
     <ul th:id="'vanilla_fileList_' + ${fileGroupId}" style="margin-top:10px; list-style:none; padding:0;"></ul>
     <div th:id="'vanilla_noFiles_' + ${fileGroupId}"
-         style="text-align:center; color:#666; padding:20px; border:1px dashed #ccc; border-radius:4px; background-color:#f9f9f9; margin-top:10px;">
+        style="text-align:center; color:#666; padding:20px; border:1px dashed #ccc; border-radius:4px; background-color:#f9f9f9; margin-top:10px;">
         첨부된 파일이 없습니다.
     </div>
 
     <script th:inline="javascript">
-        (function(){
-            const component = document.getElementById('vanillaUploadComponent_' + [[${fileGroupId}]]);
-            const dropZone = document.getElementById('vanilla_dropZone_' + [[${fileGroupId}]]);
-            const fileInput = document.getElementById('vanilla_fileInput_' + [[${fileGroupId}]]);
-            const fileList = document.getElementById('vanilla_fileList_' + [[${fileGroupId}]]);
-            const noFiles = document.getElementById('vanilla_noFiles_' + [[${fileGroupId}]]);
-            const moduleName = [[${moduleName}]];
-            const companyId = [[${companyId}]];
-            const fileGroupId = [[${fileGroupId}]];
+        (function () {
+            const fileGroupId = /*[[${fileGroupId}]]*/ '';
+            const moduleName = /*[[${moduleName}]]*/ '';
+            const companyId = /*[[${companyId}]]*/ '';
 
-            function formatFileSize(bytes){
-                if(bytes === 0) return '0 Bytes';
+            const component = document.getElementById('vanillaUploadComponent_' + fileGroupId);
+            const dropZone = document.getElementById('vanilla_dropZone_' + fileGroupId);
+            const fileInput = document.getElementById('vanilla_fileInput_' + fileGroupId);
+            const fileList = document.getElementById('vanilla_fileList_' + fileGroupId);
+            const noFiles = document.getElementById('vanilla_noFiles_' + fileGroupId);
+
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
                 const k = 1024;
-                const sizes = ['Bytes','KB','MB','GB'];
-                const i = Math.floor(Math.log(bytes)/Math.log(k));
-                return (bytes/Math.pow(k,i)).toFixed(2) + ' ' + sizes[i];
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return (bytes / Math.pow(k, i)).toFixed(2) + ' ' + sizes[i];
             }
 
-            function updateNoFiles(){
-                if(fileList.querySelectorAll('li[data-file-id]').length === 0){
+            function updateNoFiles() {
+                if (fileList.querySelectorAll('li[data-file-id]').length === 0) {
                     noFiles.style.display = 'block';
-                }else{
+                } else {
                     noFiles.style.display = 'none';
                 }
             }
 
-            function handleFiles(files){
+            function handleFiles(files) {
                 if (!fileGroupId || fileGroupId.trim() === '') {
                     alert('먼저 저장 후 파일을 첨부하세요.');
                     return;
@@ -57,17 +57,17 @@
                 fileInput.value = '';
             }
 
-            function uploadFiles(files){
-                const maxFiles = parseInt(component.dataset.maxFiles || '0',10);
+            function uploadFiles(files) {
+                const maxFiles = parseInt(component.dataset.maxFiles || '0', 10);
                 const maxTotalMb = parseFloat(component.dataset.maxTotalMb || '0');
                 const existingItems = fileList.querySelectorAll('li[data-file-id]');
-                if(existingItems.length + files.length > maxFiles){
+                if (existingItems.length + files.length > maxFiles) {
                     alert(`최대 ${maxFiles}개의 파일만 첨부할 수 있습니다.`);
                     return;
                 }
-                let currentSize = Array.from(existingItems).reduce((sum,li)=>sum + parseInt(li.dataset.fileSize || '0',10),0);
-                let newSize = files.reduce((sum,f)=>sum + f.size,0);
-                if((currentSize + newSize) > maxTotalMb * 1024 * 1024){
+                let currentSize = Array.from(existingItems).reduce((sum, li) => sum + parseInt(li.dataset.fileSize || '0', 10), 0);
+                let newSize = files.reduce((sum, f) => sum + f.size, 0);
+                if ((currentSize + newSize) > maxTotalMb * 1024 * 1024) {
                     alert(`총 파일 용량은 ${maxTotalMb}MB를 초과할 수 없습니다.`);
                     return;
                 }
@@ -77,12 +77,12 @@
                     formData.append('file', file);
                     formData.append('fileGroupId', fileGroupId);
                     formData.append('moduleName', moduleName);
-                    fetch('/file/upload', {method:'POST', body: formData})
+                    fetch('/file/upload', { method: 'POST', body: formData })
                         .then(res => res.json())
                         .then(data => {
-                            if(data.success){
+                            if (data.success) {
                                 addItem(data.fileData);
-                            }else{
+                            } else {
                                 alert('파일 업로드 실패: ' + data.message);
                             }
                         })
@@ -90,9 +90,9 @@
                 });
             }
 
-            function addItem(fileData){
+            function addItem(fileData) {
                 const li = document.createElement('li');
-                li.dataset.fileId = fileData.id;
+                li.dataset.fileId = fileData.fileId;
                 li.dataset.fileSize = fileData.fileSize;
                 li.style.margin = '5px 0';
                 li.style.display = 'flex';
@@ -110,29 +110,29 @@
                 delBtn.style.borderRadius = '4px';
                 delBtn.style.cursor = 'pointer';
                 delBtn.style.padding = '4px 8px';
-                delBtn.addEventListener('click', () => deleteFile(fileData.id));
+                delBtn.addEventListener('click', () => deleteFile(fileData.fileId));
                 li.appendChild(delBtn);
                 fileList.appendChild(li);
                 updateNoFiles();
             }
 
-            function deleteFile(fileId){
-                fetch('/file/delete/' + fileId, {method:'DELETE'})
+            function deleteFile(fileId) {
+                fetch('/file/delete/' + fileId, { method: 'DELETE' })
                     .then(res => {
-                        if(res.ok){
-                            const li = fileList.querySelector('li[data-file-id="'+fileId+'"]');
-                            if(li) li.remove();
+                        if (res.ok) {
+                            const li = fileList.querySelector('li[data-file-id="' + fileId + '"]');
+                            if (li) li.remove();
                             updateNoFiles();
-                        }else{
+                        } else {
                             alert('파일 삭제 실패');
                         }
                     })
-                    .catch(()=>alert('파일 삭제 중 오류가 발생했습니다.'));
+                    .catch(() => alert('파일 삭제 중 오류가 발생했습니다.'));
             }
 
             dropZone.addEventListener('click', () => fileInput.click());
-            dropZone.addEventListener('dragover', e => {e.preventDefault(); dropZone.style.backgroundColor = '#eef';});
-            dropZone.addEventListener('dragleave', () => {dropZone.style.backgroundColor = '';});
+            dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.style.backgroundColor = '#eef'; });
+            dropZone.addEventListener('dragleave', () => { dropZone.style.backgroundColor = ''; });
             dropZone.addEventListener('drop', e => {
                 e.preventDefault();
                 dropZone.style.backgroundColor = '';
@@ -140,20 +140,19 @@
             });
             fileInput.addEventListener('change', () => handleFiles(fileInput.files));
 
-            if(fileGroupId && fileGroupId.trim() !== ''){
+            if (fileGroupId && fileGroupId.trim() !== '') {
                 fetch('/file/list/' + fileGroupId)
                     .then(res => res.json())
                     .then(files => {
-                        if(files && files.length > 0){
+                        if (files && files.length > 0) {
                             files.forEach(addItem);
                         }
                         updateNoFiles();
                     })
                     .catch(() => updateNoFiles());
-            }else{
+            } else {
                 updateNoFiles();
             }
         })();
     </script>
 </div>
-

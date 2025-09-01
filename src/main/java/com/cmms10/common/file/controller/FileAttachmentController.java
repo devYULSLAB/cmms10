@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.RequiredArgsConstructor;
+
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/file")
 public class FileAttachmentController {
 
@@ -29,10 +32,6 @@ public class FileAttachmentController {
 
     @Value("${file.upload.root-path:uploads}")
     private String uploadRootPath;
-
-    public FileAttachmentController(FileAttachmentService fileAttachmentService) {
-        this.fileAttachmentService = fileAttachmentService;
-    }
 
     /**
      * 파일 업로드
@@ -45,10 +44,12 @@ public class FileAttachmentController {
             HttpSession session) {
         try {
             String companyId = (String) session.getAttribute("companyId");
+            String username = (String) session.getAttribute("username");
 
             // 상세 로깅 추가
             System.out.println("=== File Upload Request ===");
             System.out.println("Company ID: " + companyId);
+            System.out.println("Username: " + username);
             System.out.println("File Group ID: " + fileGroupId);
             System.out.println("Module Name: " + moduleName);
             System.out.println("File Name: " + (file != null ? file.getOriginalFilename() : "null"));
@@ -86,7 +87,8 @@ public class FileAttachmentController {
                     ", moduleName: " + moduleName +
                     ", fileGroupId: " + fileGroupId);
 
-            FileAttachment fileAttachment = fileAttachmentService.uploadFile(companyId, moduleName, file, fileGroupId);
+            FileAttachment fileAttachment = fileAttachmentService.uploadFile(companyId, username, moduleName, file,
+                    fileGroupId);
 
             Map<String, Object> successResponse = new HashMap<>();
             successResponse.put("success", true);

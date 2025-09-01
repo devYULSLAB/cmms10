@@ -58,6 +58,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- 재무 정보 섹션 -->
             <div class="border rounded-lg p-4 shadow mb-6">
                 <h5 class="text-lg font-semibold mb-4" th:text="#{financialInformation}">재무 정보</h5>
@@ -82,6 +83,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- 제조 및 자산 정보 섹션 -->
             <div class="border rounded-lg p-4 shadow mb-6">
                 <h5 class="text-lg font-semibold mb-4" th:text="#{manufacturerInformation}">제조 및 자산 정보</h5>
@@ -104,6 +106,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- 운영 플래그 섹션 -->
             <div class="border rounded-lg p-4 shadow mb-6">
                 <h5 class="text-lg font-semibold mb-4" th:text="#{operationalFlags}">운영 플래그</h5>
@@ -135,12 +138,15 @@
                         <label class="block text-sm font-medium" th:text="#{note}">메모:</label>
                         <span class="block text-sm" th:text="${plantMaster.note}"></span>
                     </div>
-                </div>
-                <div class="grid grid-cols-12 gap-4 mt-4">
-                    <div class="col-span-6">
-                        <label class="block text-sm font-medium" th:text="#{fileGroupId}">파일 그룹 ID:</label>
-                        <span class="block text-sm" th:text="${plantMaster.fileGroupId}"></span>
+
+                    <!-- ▼▼▼ 변경: 인쇄 시 숨김을 위해 no-print 클래스 추가 ▼▼▼ -->
+                    <div class="col-span-12 no-print">
+                        <label class="block text-sm font-medium" th:text="#{fileAttachment}">파일 첨부:</label>
+                        <div
+                            th:replace="~{common/file/listFragment :: fileListFragment(${plantMaster.companyId}, ${plantMaster.fileGroupId})}">
+                        </div>
                     </div>
+                    <!-- ▲▲▲ 변경 끝 ▲▲▲ -->
                 </div>
             </div>
 
@@ -172,6 +178,13 @@
                         display: none !important;
                     }
 
+                    /* ▼▼▼ 변경: 인쇄 시 화면 본문 통째로 숨김 ▼▼▼ */
+                    .content-area {
+                        display: none !important;
+                    }
+
+                    /* ▲▲▲ 변경 끝 ▲▲▲ */
+
                     /* 인쇄용 레이아웃 */
                     body {
                         margin: 0 !important;
@@ -180,13 +193,7 @@
                         background: white !important;
                     }
 
-                    /* content 영역만 표시 */
-                    .content-area {
-                        margin: 0 !important;
-                        padding: 0 !important;
-                        max-width: none !important;
-                        width: 100% !important;
-                    }
+                    /* content 영역만 표시 (삭제/무의미) */
 
                     .print-container {
                         max-width: none !important;
@@ -239,30 +246,29 @@
                         grid-column: span 12;
                     }
 
-                    /* 인쇄용 라벨과 값 */
-                    .print-label {
-                        font-weight: bold;
-                        margin-bottom: 2px;
-                    }
-
-                    .print-value {
-                        margin-bottom: 8px;
-                    }
-
                     /* 인쇄 시 관련정보 섹션 숨김 */
                     .non-print-section {
                         display: none !important;
                     }
+
+                    /* ▼▼▼ 변경: 인쇄에선 #printContainer만 보이도록 강제 표시 ▼▼▼ */
+                    #printContainer {
+                        display: block !important;
+                    }
+
+                    /* ▲▲▲ 변경 끝 ▲▲▲ */
                 }
             </style>
 
             <!-- 인쇄용 컨테이너 (숨김) -->
-            <div id="printContainer" class="no-print print-container" style="display: none;">
+            <!-- 화면에서는 숨기고, 인쇄에서만 보이도록 CSS로 제어 -->
+            <div id="printContainer" class="print-container" style="display: none;">
                 <!-- 인쇄용 헤더 추가 -->
                 <div class="print-header">
                     <h1>설비 상세 정보</h1>
                     <p>출력일시: <span id="printDateTime"></span></p>
                 </div>
+
                 <!-- 기본정보 섹션 -->
                 <div class="print-grid">
                     <div class="print-col-3">
@@ -379,15 +385,21 @@
                             <div class="print-value" th:text="${plantMaster.note}"></div>
                         </div>
                     </div>
-                    <div class="print-grid">
-                        <div class="print-col-6">
-                            <div class="print-label">파일 그룹 ID:</div>
-                            <div class="print-value" th:text="${plantMaster.fileGroupId}"></div>
+
+                    <!-- (선택) 인쇄물에 파일명만 노출하고 싶다면, 컨트롤러에서 attachFiles를 내려주세요.
+                    <div class="print-grid" th:if="${attachFiles != null and #lists.size(attachFiles) > 0}">
+                        <div class="print-col-12">
+                            <div class="print-label">첨부 파일:</div>
+                            <ul>
+                                <li th:each="f : ${attachFiles}" th:text="${f.originalName}">파일명.pdf</li>
+                            </ul>
                         </div>
                     </div>
+                    -->
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- 페이지별 JavaScript -->
@@ -416,7 +428,7 @@
                     // 인쇄 실행
                     window.print();
 
-                    // 인쇄 후 인쇄용 컨테이너 숨김
+                    // 인쇄 후 인쇄용 컨테이너 숨김 (화면 복귀)
                     setTimeout(() => {
                         printContainer.style.display = 'none';
                     }, 100);

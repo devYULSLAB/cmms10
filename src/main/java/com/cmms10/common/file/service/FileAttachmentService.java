@@ -6,18 +6,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import lombok.RequiredArgsConstructor;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 @Transactional
 public class FileAttachmentService {
 
@@ -32,14 +32,14 @@ public class FileAttachmentService {
     @Value("${file.upload.max-file-count:10}")
     private int maxFileCount;
 
-    public FileAttachmentService(FileAttachmentRepository fileAttachmentRepository) {
-        this.fileAttachmentRepository = fileAttachmentRepository;
-    }
-
     /**
      * 파일 업로드 및 저장
      */
-    public FileAttachment uploadFile(String companyId, String moduleName, MultipartFile file, String fileGroupId)
+    public FileAttachment uploadFile(String companyId,
+            String username,
+            String moduleName,
+            MultipartFile file,
+            String fileGroupId)
             throws IOException {
         // 파일 크기 검증
         validateFileSize(file);
@@ -81,19 +81,18 @@ public class FileAttachmentService {
         }
 
         // 데이터베이스에 파일 정보 저장
-        FileAttachment fileAttachment = new FileAttachment(
-                companyId,
-                fileId,
-                fileGroupId,
-                originalFileName,
-                storedFileName,
-                relativePath + "/" + storedFileName,
-                file.getSize(),
-                file.getContentType(),
-                moduleName,
-                LocalDateTime.now(),
-                null // createdBy는 null로 설정
-        );
+        FileAttachment fileAttachment = new FileAttachment();
+        fileAttachment.setCompanyId(companyId);
+        fileAttachment.setFileId(fileId);
+        fileAttachment.setFileGroupId(fileGroupId);
+        fileAttachment.setOriginalFileName(originalFileName);
+        fileAttachment.setStoredFileName(storedFileName);
+        fileAttachment.setFilePath(relativePath + "/" + storedFileName);
+        fileAttachment.setFileSize(file.getSize());
+        fileAttachment.setContentType(file.getContentType());
+        fileAttachment.setModuleName(moduleName);
+        fileAttachment.setCreateDate(LocalDateTime.now());
+        fileAttachment.setCreatedBy(username);
 
         return fileAttachmentRepository.save(fileAttachment);
     }
@@ -230,20 +229,21 @@ public class FileAttachmentService {
     }
 
     /**
-     * 파일 그룹 ID 생성 (10자리, 밀리초 기반)
+     * 파일 그룹 ID 생성 (FG + 8자리, 밀리초 기반)
      * 다른 모듈에서도 사용할 수 있도록 public으로 제공
      */
     public String generateFileGroupId() {
         long currentTimeMillis = System.currentTimeMillis();
-        return String.format("%010d", currentTimeMillis % 10000000000L);
+        return "FG" + String.format("%08d", currentTimeMillis % 100000000L);
     }
 
     /**
-     * 파일 ID 생성 (10자리, 밀리초 기반)
+     * 파일 ID 생성 (FI + 8자리, 밀리초 기반 + 랜덤)
      */
     private String generateFileId() {
         long currentTimeMillis = System.currentTimeMillis();
-        return String.format("%010d", currentTimeMillis % 10000000000L);
+        int random = (int) (Math.random() * 1000);
+        return "FI" + String.format("%05d", currentTimeMillis % 100000L) + String.format("%03d", random);
     }
 
     /**
@@ -261,4 +261,5 @@ public class FileAttachmentService {
 
         return fullPath;
     }
+
 }
